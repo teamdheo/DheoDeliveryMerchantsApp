@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClientDashboardActivity">
+    tools:context=".ClientDashboardBillingActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -138,13 +138,13 @@
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/bank_info"
             app:layout_constraintStart_toStartOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_account_activity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:scrollbars="vertical"
             android:background="#ffffff"
+            android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_bar" />

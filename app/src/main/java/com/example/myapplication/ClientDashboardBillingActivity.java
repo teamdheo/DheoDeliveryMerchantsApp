@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -28,6 +29,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private TextView client_name_billing, total_balance_billing,payment_pref, valued_date;
     private ImageView profile_photo_billing;
     private RecyclerView latest_activity;
+    private RecyclerView.LayoutManager layoutManager;
     private List<M> latest_payment_activity;
     private RecyclerView.Adapter adapter;
     Helper helper = new Helper(this);
@@ -41,6 +43,10 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         payment_pref = (TextView) findViewById(R.id.payment_pref);
         valued_date = (TextView) findViewById(R.id.valued_from);
         latest_activity = (RecyclerView) findViewById(R.id.recycler_account_activity);
+
+        layoutManager = new LinearLayoutManager(this);
+        latest_activity.setLayoutManager(layoutManager);
+
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
                 profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
@@ -165,7 +171,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 try {
                     LatestAccountActivity latestAccountActivity = response.body();
                     latest_payment_activity = latestAccountActivity.getM();
-                    Toasty.success(getApplicationContext(), latest_payment_activity.get(4).getAmount()+"", Toast.LENGTH_LONG, true).show();
+                    Toasty.success(getApplicationContext(), latestAccountActivity.getM().size()+"", Toast.LENGTH_LONG, true).show();
                 }catch (NullPointerException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
