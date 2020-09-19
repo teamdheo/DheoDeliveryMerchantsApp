@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -27,6 +28,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private int balance_client, client_id;
     private TextView client_name_billing, total_balance_billing,payment_pref, valued_date;
     private ImageView profile_photo_billing;
+    private RecyclerView.LayoutManager layoutManager;
     private RecyclerView latest_activity;
     private List<M> latest_payment_activity;
     private RecyclerView.Adapter adapter;
@@ -41,6 +43,10 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         payment_pref = (TextView) findViewById(R.id.payment_pref);
         valued_date = (TextView) findViewById(R.id.valued_from);
         latest_activity = (RecyclerView) findViewById(R.id.recycler_account_activity);
+
+        layoutManager = new LinearLayoutManager(this);
+        latest_activity.setLayoutManager(layoutManager);
+
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
                 profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
