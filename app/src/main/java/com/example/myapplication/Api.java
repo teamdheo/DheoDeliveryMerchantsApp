@@ -1,9 +1,12 @@
 package com.example.myapplication;
 
+import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
+import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
+import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
 import com.example.myapplication.modelClassAvaiablePickupSlot.AvailablePickupSlot;
+import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.example.myapplication.modelClassClientInfo.ClientInfo;
 import com.example.myapplication.modelClassPassResetRequest.PassResetRequest;
-import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.example.myapplication.modelClassResetDoneClientInfo.ResetDoneClientInfo;
 import com.example.myapplication.modelClassSignupClientInfo.SignupClientInfo;
 
@@ -66,5 +69,26 @@ public interface Api {
             @Field("client_id") Integer client_id,
             @Field("address_id") String address_id,
             @Field("slot_id") String slot_id
+    );
+    @FormUrlEncoded
+    @POST("cancel_pickup")
+    Call<ResponseBody> cancel_pickup(
+            @Field("client_id") Integer client_id,
+            @Field("slot_id") String slot_id
+    );
+    @FormUrlEncoded
+    @POST("assigned_agent_info_dashboard")
+    Call<AssingedCourierInfoDashboard> assigned_agent_info_dashboard(
+            @Field("client_id") Integer client_id
+    );
+    @FormUrlEncoded
+    @POST("client_payment_perf_info")
+    Call<ClientPaymentPerfInfo> client_payment_perf_info(
+            @Field("client_id") Integer client_id
+    );
+    @FormUrlEncoded
+    @POST("latest_account_activity")
+    Call<LatestAccountActivity> latest_account_activity(
+            @Field("client_id") Integer client_id
     );
 }
