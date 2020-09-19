@@ -2,7 +2,6 @@ package com.example.myapplication.modelClassPassResetRequest;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 public class M {
     @SerializedName("sms_token")
     @Expose
