@@ -11,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.modelClassAvaiablePickupSlot.M;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +38,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
     private String address_id;
     private  String slot_id;
     private int client_id;
+    private String  v;
 
     public AdapterSingleAddressSlotList(List<M> pick_up_slots,Context context, String address_id){
         this.pick_up_slots = pick_up_slots;
@@ -59,7 +62,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         try{
             if(pick_up_slots.get(position).getNextDay()){
                 holder.delivery_day.setText("Delivery: Next day");
-                holder.book.setText(pick_up_slots.get(position).getId());
+                holder.book.setText("Book");
                 holder.booked.setVisibility(View.INVISIBLE);
             }
         }catch (NullPointerException e){
@@ -69,10 +72,8 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
             if(pick_up_slots.get(position).getNextDay() && pick_up_slots.get(position).getAlreadyBooked()){
                 holder.delivery_day.setText("Delivery: Next Day");
                 holder.booked.setVisibility(View.VISIBLE);
-                //holder.booked.setText("Booked! ❎");
-                holder.booked.setText(pick_up_slots.get(position).getId());
+                holder.booked.setText("Booked! ❎");
                 holder.book.setVisibility(View.INVISIBLE);
-
 
             }
         }catch (NullPointerException e){
@@ -81,40 +82,34 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         try{
             if(pick_up_slots.get(position).getUnbookable() && pick_up_slots.get(position).getAlreadyBooked()){
                 holder.booked.setVisibility(View.VISIBLE);
-                //holder.booked.setText("Booked! ❎");
-                holder.booked.setText(pick_up_slots.get(position).getId());
+                holder.booked.setText("Booked! ❎");
                 holder.delivery_day.setVisibility(View.INVISIBLE);
-                //holder.book.setVisibility(View.INVISIBLE);;
+                holder.book.setVisibility(View.INVISIBLE);
 
             }
         }catch (NullPointerException e) {
 
         }
-
-        slot_id = pick_up_slots.get(position).getId();
         client_id = helper.getClientId();
 
         holder.book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toasty.success(context, slot_id+"", Toast.LENGTH_LONG, true).show();
-                //Intent intent = new Intent(context, ListActivityMultiplePickupAddressSlots.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //context.startActivity(intent);
+                //Toasty.success(context, holder.id.getText()+"", Toast.LENGTH_LONG, true).show();
+                Toasty.success(context, "done", Toast.LENGTH_LONG, true).show();
+//                Intent intent = new Intent(context, ListActivityMultiplePickupAddressSlots.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
                 Call<ResponseBody> call = RetrofitClient
                         .getInstance()
                         .getApi()
-                        .book_address_pickup(client_id,address_id,slot_id);
+                        .book_address_pickup(client_id,address_id, holder.id.getText().toString());
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
                             String body = response.body().toString();
                             if(body.equals("{\"e\":0}")){
-                                Toasty.success(context, "done", Toast.LENGTH_LONG, true).show();
-                                Intent intent = new Intent(context, ListActivityMultiplePickupAddressSlots.class);
-                                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
 
                             }
                         }catch (NullPointerException e){
@@ -133,7 +128,29 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         holder.booked.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Toasty.success(context, slot_id+"", Toast.LENGTH_LONG, true).show();
+                 Toasty.success(context, "Cancel done", Toast.LENGTH_LONG, true).show();
+                 Call<ResponseBody> call = RetrofitClient
+                         .getInstance()
+                         .getApi()
+                         .cancel_pickup(client_id, holder.id.getText().toString());
+                 call.enqueue(new Callback<ResponseBody>() {
+                     @Override
+                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                         try {
+                             String body = response.body().toString();
+                             if(body.equals("{\"e\":0}")){
+
+                             }
+                         }catch (NullPointerException e){
+                             Toasty.success(context, "Try again", Toast.LENGTH_LONG, true).show();
+                         }
+                     }
+
+                     @Override
+                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                         Toasty.success(context, "server not connected", Toast.LENGTH_LONG, true).show();
+                     }
+                 });
              }
          });
 
@@ -230,6 +247,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView id, day,date,time, delivery_day;
         Button book,booked;
+        CardView cardView;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             this.id = itemView.findViewById(R.id.slot_id);
@@ -239,6 +257,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
             this.time = itemView.findViewById(R.id.time_slap);
             this.book = itemView.findViewById(R.id.book);
             this.booked = itemView.findViewById(R.id.booked);
+            this.cardView = itemView.findViewById(R.id.recycler_red);
         }
     }
 }
