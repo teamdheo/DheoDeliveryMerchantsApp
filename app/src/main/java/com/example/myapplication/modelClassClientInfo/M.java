@@ -1,7 +1,6 @@
 package com.example.myapplication.modelClassClientInfo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 public class M {
     @SerializedName("photo_url")
     @Expose
