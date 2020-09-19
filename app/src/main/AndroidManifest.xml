@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListActivityMultiplePickupAddressSlots"></activity>
+        <activity android:name=".ClientDashboardBillingActivity" />
         <activity android:name=".SingleAddressPickupSlotActivity" />
         <activity android:name=".ListActivityPickupAddress" />
         <activity android:name=".PassResetDoneActivity" />
