@@ -1,12 +1,13 @@
 package com.example.myapplication;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.modelClassAvaiablePickupSlot.AvailablePickupSlot;
 import com.example.myapplication.modelClassAvaiablePickupSlot.M;
@@ -73,7 +74,5 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
             }
         });
     }
-    public String get_address_id(){
-        return address_id_get;
-    }
+
 }
