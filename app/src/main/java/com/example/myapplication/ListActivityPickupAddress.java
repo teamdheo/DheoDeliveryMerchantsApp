@@ -1,16 +1,19 @@
 package com.example.myapplication;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.myapplication.modelClassPickupAddresses.M;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
