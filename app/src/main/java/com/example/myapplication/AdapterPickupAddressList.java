@@ -68,7 +68,6 @@ public class AdapterPickupAddressList extends RecyclerView.Adapter<AdapterPickup
             this.number = itemView.findViewById(R.id.add_phone);
             this.address_id = itemView.findViewById(R.id.address_id);
             this.cardView = itemView.findViewById(R.id.recycler_address);
-
         }
     }
 }
