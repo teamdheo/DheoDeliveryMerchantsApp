@@ -34,29 +34,47 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
 
     @Override
     public void onBindViewHolder(@NonNull final AdapterClassLatestPaymentActivity.MyviewHolder holder, final int position) {
-//        holder.date_month.setText(latest_account_activity.get(position).getCreatedAt());
+        try {
+            holder.date_month.setText(latest_account_activity.get(position).getCreatedAt());
+        }catch (NullPointerException e) {
+            holder.date_month.setVisibility(View.GONE);
+        }
         try {
             holder.customer_name.setText(latest_account_activity.get(position).getCustomerName());
+
         } catch (NullPointerException e) {
             holder.customer_name.setVisibility(View.GONE);
         }
         try {
             if (latest_account_activity.get(position).getHasTaggedEntry()) {
-                holder.paid_on.setText(latest_account_activity.get(position).getTaggedAccountingEntry());
+                holder.paid_on.setText("paid on " + latest_account_activity.get(position).getTaggedAccountingEntry());
             }
         } catch (NullPointerException e) {
             holder.paid_on.setVisibility(View.GONE);
         }
         try {
-            if (latest_account_activity.get(position).getIsNegative()) {
-                holder.lebel.setText(latest_account_activity.get(position).getLebel());
-            } else {
-                holder.lebel.setText("+" + latest_account_activity.get(position).getLebel());
+            if(latest_account_activity.get(position).getAmount() < 0){
+                holder.activity_amount.setText(latest_account_activity.get(position).getAmount().toString());
             }
+            else  if(latest_account_activity.get(position).getAmount() > 0){
+                holder.activity_amount.setText("+" + latest_account_activity.get(position).getAmount().toString());
+            }
+
+        } catch (NullPointerException e) {
+
+        }
+//        try {
+//            if (!latest_account_activity.get(position).getIsNegative()) {
+//                holder.activity_amount.setText("+" +latest_account_activity.get(position).getAmount().toString());
+//            }
+//        } catch (NullPointerException e) {
+
+//        }
+        try {
+            holder.lebel.setText(latest_account_activity.get(position).getLebel());
         } catch (NullPointerException e) {
             holder.lebel.setVisibility(View.GONE);
         }
-//        holder.activity_amount.setText(latest_account_activity.get(position).getAmount());
         try {
             holder.payload_id.setText(latest_account_activity.get(position).getPayloadId());
         } catch (NullPointerException e) {
