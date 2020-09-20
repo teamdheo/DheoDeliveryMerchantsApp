@@ -132,7 +132,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                             }
                         }catch (NullPointerException e){}
                         try {
-                             if (s.getM().getNegativeBalance()){
+                            if (s.getM().getNegativeBalance()){
 
                             }
                         }catch (NullPointerException e){}
