@@ -23,7 +23,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginLeft="4dp"
             android:text="sep 17"
-            android:textSize="15sp"
+            android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
         <TextView
@@ -34,6 +34,8 @@
             android:layout_marginLeft="4dp"
             android:text="sep 17"
             android:textSize="15sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/month_year"/>
         <TextView
@@ -44,7 +46,13 @@
             android:layout_marginLeft="4dp"
             android:text="sep 17"
             android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#FFF"
+            android:padding="5dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/paid_on"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/customer_name"/>
         <TextView
             android:id="@+id/lebel"
@@ -52,8 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="sep 17"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/customer_name"
+            android:textColor="#000000"
+            app:layout_constraintStart_toEndOf="@+id/month_year"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/activity_amount"/>
         <TextView
@@ -64,7 +72,7 @@
             android:layout_marginRight="4dp"
             android:padding="4dp"
             android:text="sep 17"
-            android:textSize="15sp"
+            android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
         <TextView
@@ -72,10 +80,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:textColor="#CC3533"
             android:layout_marginRight="4dp"
             android:padding="4dp"
             android:text="sep 17"
-            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_amount"/>
 
