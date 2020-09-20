@@ -3,6 +3,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +28,9 @@ public class LogInActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Boolean saveLogin;
+    private String name;
+    private  int balance;
+    SQLiteDatabase sqLiteDatabase;
     Helper helper = new Helper(this);
 
     @Override
@@ -78,6 +83,29 @@ public class LogInActivity extends AppCompatActivity {
                                     intent.putExtra("SESSION", session);
                                     intent.putExtra("name", s.getM().getName());
                                     intent.putExtra("balance", s.getM().getBalance());
+                                    sqLiteDatabase = getBaseContext().openOrCreateDatabase("SQLite", MODE_PRIVATE, null);
+                                    String sql = "CREATE TABLE IF NOT EXISTS ClientBasicInfo (_id Integer Primary Key, name TEXT,balance Integer);";
+                                    sqLiteDatabase.execSQL(sql);
+                                    if (session == 1) {
+                                        sql = "INSERT or REPLACE INTO ClientBasicInfo VALUES ( 1,'" + s.getM().getName()+ "','" + s.getM().getBalance() + "');";
+                                        sqLiteDatabase.execSQL(sql);
+                                    }
+//
+                                    Cursor query = sqLiteDatabase.rawQuery("SELECT * FROM ClientBasicInfo", null);
+                                    if (query.moveToFirst()) {
+                                        try {
+                                            name = query.getString(1);
+                                            balance = query.getInt(2);
+
+                                        } catch (IllegalStateException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                                        startActivity(i);
+                                    }
+                                    query.close();
+
                                     if(checkBox.isChecked()){
                                         editor.putString("number",number.getText().toString());
                                         editor.putString("password",password.getText().toString());
