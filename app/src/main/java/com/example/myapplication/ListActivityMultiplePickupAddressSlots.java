@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
     private String address_id_get;
     private RecyclerView pickup_slot_view;
     private RecyclerView.Adapter adapter;
+    private Button back_to_dashboard;
     Helper helper = new Helper(this);
     private int client_id;
 
@@ -33,6 +36,7 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_multiple_pickup_address_slots);
         pickup_slot_view = (RecyclerView) findViewById(R.id.multiple_address_slot) ;
+        back_to_dashboard = (Button) findViewById(R.id.back_to_dashboard);
         pickup_slot_view.setHasFixedSize(true);
         pickup_slot_view.setLayoutManager(new LinearLayoutManager(this));
         Bundle extras = getIntent().getExtras();
@@ -71,6 +75,14 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
 
+            }
+        });
+
+        back_to_dashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ListActivityMultiplePickupAddressSlots.this,ClientDashboardActivity.class);
+                startActivity(i);
             }
         });
     }
