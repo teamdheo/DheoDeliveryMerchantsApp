@@ -54,10 +54,10 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
         }
         try {
             if(latest_account_activity.get(position).getAmount() < 0){
-                holder.activity_amount.setText(latest_account_activity.get(position).getAmount().toString());
+                holder.activity_amount.setText(latest_account_activity.get(position).getAmount().toString() + "TK");
             }
             else  if(latest_account_activity.get(position).getAmount() > 0){
-                holder.activity_amount.setText("+" + latest_account_activity.get(position).getAmount().toString());
+                holder.activity_amount.setText("+" + latest_account_activity.get(position).getAmount().toString() +"TK");
             }
 
         } catch (NullPointerException e) {
