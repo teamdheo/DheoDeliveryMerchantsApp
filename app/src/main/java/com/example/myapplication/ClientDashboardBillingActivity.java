@@ -80,6 +80,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         valued_date.setText("Valued client since " + s.getM().getStatDate());
                         try {
                             if(s.getM().getPositiveBalance()) {
+                                Toasty.success(getApplicationContext(), s.getM().getTimeLeft()+"", Toast.LENGTH_LONG, true).show();
                                 try {
                                     if(s.getM().getTimeLeft() > 0){
                                         try {
@@ -131,11 +132,6 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                                 }catch (NullPointerException e){}
                             }
                         }catch (NullPointerException e){}
-                        try {
-                            if (s.getM().getNegativeBalance()){
-
-                            }
-                        }catch (NullPointerException e){}
                         try{
                             if(s.getM().getNegativeBalance()){
                                 payment_pref.setText("Please pay your balance through bKash. Our bkash number is 01734440871 (merchant account). Please use the 'payment option' and put " +helper.getPhone_number()+ " as the reference number. ");
@@ -144,7 +140,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
                         }
                         try {
-                            if(!s.getM().getNegativeBalance() && !s.getM().getPositiveBalance()){
+                            if(balance_client == 0){
                                 payment_pref.setText("If some entries are not here, it means they are being processed by our finance team (usually within 1 working day).");
                             }
                         }catch (NullPointerException e){}
@@ -171,7 +167,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 try {
                     LatestAccountActivity latestAccountActivity = response.body();
                     latest_payment_activity = latestAccountActivity.getM();
-                    Toasty.success(getApplicationContext(), latest_payment_activity.get(4).getAmount()+"", Toast.LENGTH_LONG, true).show();
+                    //Toasty.success(getApplicationContext(), latest_payment_activity.get(4).getAmount()+"", Toast.LENGTH_LONG, true).show();
                 }catch (NullPointerException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
