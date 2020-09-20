@@ -91,8 +91,8 @@ public class ClientDashboardActivity extends AppCompatActivity {
             name = extras.getString("name");
             balance = extras.getInt("balance");
         }
-        client_name.setText(name);
-        total_balance.setText(balance + "TK");
+        client_name.setText(helper.getName());
+        total_balance.setText(helper.getBalance() + "TK");
 
         sqLiteDatabase = getBaseContext().openOrCreateDatabase("SQLite", MODE_PRIVATE, null);
         String sql = "CREATE TABLE IF NOT EXISTS ClientProfileInfo (_id Integer Primary Key,phone TEXT,image TEXT,clientId Integer,password TEXT);";
