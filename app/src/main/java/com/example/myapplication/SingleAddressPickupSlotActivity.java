@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
     List<M> client_pickup_slots;
     private RecyclerView pickup_slot_view;
     private RecyclerView.Adapter adapter;
-    private TextView list;
+    private Button back_to_dashboard1;
     Helper helper = new Helper(this);
     private int clientId;
     private String address_id_get;
@@ -35,6 +36,7 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_address_pickup_slot);
         pickup_slot_view =(RecyclerView) findViewById(R.id.recycler_pickup_slot);
+        back_to_dashboard1 = (Button) findViewById(R.id.back_to_dashboard1);
         pickup_slot_view.setHasFixedSize(true);
         pickup_slot_view.setLayoutManager(new LinearLayoutManager(this));
         Bundle extras = getIntent().getExtras();
@@ -70,6 +72,13 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
 
+            }
+        });
+        back_to_dashboard1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SingleAddressPickupSlotActivity.this,ClientDashboardActivity.class);
+                startActivity(i);
             }
         });
     }
