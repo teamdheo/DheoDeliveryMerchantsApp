@@ -97,6 +97,9 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
             public void onClick(View view) {
                 //Toasty.success(context, holder.id.getText()+"", Toast.LENGTH_LONG, true).show();
                 Toasty.success(context, "done", Toast.LENGTH_LONG, true).show();
+                holder.book.setVisibility(View.INVISIBLE);
+                holder.booked.setVisibility(View.VISIBLE);
+                holder.booked.setText("Booked! ❎");
 //                Intent intent = new Intent(context, ListActivityMultiplePickupAddressSlots.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                context.startActivity(intent);
@@ -129,6 +132,9 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
              @Override
              public void onClick(View view) {
                  Toasty.success(context, "Cancel done", Toast.LENGTH_LONG, true).show();
+                 holder.booked.setVisibility(View.INVISIBLE);
+                 holder.book.setVisibility(View.VISIBLE);
+                 holder.book.setText("Book");
                  Call<ResponseBody> call = RetrofitClient
                          .getInstance()
                          .getApi()
