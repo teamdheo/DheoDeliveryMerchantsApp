@@ -62,8 +62,8 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             name_client = extras.getString("name_c");
             balance_client = extras.getInt("balance_c");
         }
-        client_name_billing.setText(name_client);
-        total_balance_billing.setText(balance_client + "TK");
+        client_name_billing.setText(helper.getName());
+        total_balance_billing.setText(helper.getBalance() + "TK");
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Billing Dashboard");
         client_id = helper.getClientId();
@@ -140,7 +140,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
                         }
                         try {
-                            if(balance_client == 0){
+                            if(helper.getBalance() == 0){
                                 payment_pref.setText("If some entries are not here, it means they are being processed by our finance team (usually within 1 working day).");
                             }
                         }catch (NullPointerException e){}
