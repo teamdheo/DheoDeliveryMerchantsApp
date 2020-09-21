@@ -56,7 +56,6 @@ public class AdapterClassPaymentReceiptPdf extends RecyclerView.Adapter<AdapterC
                 mm_1 = Integer.parseInt(mm.toString());
                 mm_2 = mm_1 -1;
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-
                 intent.setDataAndType(Uri.parse( "https://rocket.dheo.com/client/billing/print_daily_statement?date=" + payment_receipt_date_list.get(position).getIdTime()+"&month="+mm_2+"&year=="+yy), "application/pdf");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
