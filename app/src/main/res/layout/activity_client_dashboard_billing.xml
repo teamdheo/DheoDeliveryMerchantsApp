@@ -143,7 +143,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_account_activity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="#ffffff"
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -183,7 +183,27 @@
             android:textColor="#000000"
             app:layout_constraintTop_toBottomOf="@id/activity_bar1"
             app:layout_constraintStart_toStartOf="parent"/>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_payment_receipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_bar2" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_older"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="4dp"
+            android:padding="2dp"
+            android:background="@drawable/rounded_signup"
+            android:text="nothig"
+            android:textColor="#FFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_payment_receipt"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
