@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
+import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
 import com.example.myapplication.ModelClassLatestAccountActivity.M;
 import com.squareup.picasso.Picasso;
@@ -28,10 +30,12 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private int balance_client, client_id;
     private TextView client_name_billing, total_balance_billing,payment_pref, valued_date;
     private ImageView profile_photo_billing;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView latest_activity;
+    private RecyclerView.LayoutManager layoutManager, layoutManager1;
+    private RecyclerView latest_activity, payment_receipt_pdf;
     private List<M> latest_payment_activity;
+    private List<com.example.myapplication.ModelClassClientPaymentReceiptPDF.M> pdf_receipt;
     private RecyclerView.Adapter adapter;
+    private Button see_older;
     Helper helper = new Helper(this);
 
     @Override
@@ -43,9 +47,13 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         payment_pref = (TextView) findViewById(R.id.payment_pref);
         valued_date = (TextView) findViewById(R.id.valued_from);
         latest_activity = (RecyclerView) findViewById(R.id.recycler_account_activity);
+        payment_receipt_pdf = (RecyclerView) findViewById(R.id.recycler_payment_receipt);
+        see_older =(Button) findViewById(R.id.show_older);
 
         layoutManager = new LinearLayoutManager(this);
         latest_activity.setLayoutManager(layoutManager);
+        layoutManager1 = new LinearLayoutManager(this);
+        payment_receipt_pdf.setLayoutManager(layoutManager1);
 
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
@@ -178,6 +186,32 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LatestAccountActivity> call, Throwable t) {
+                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(i);
+            }
+        });
+        Call<ClientPaymentReceiptPDF> call2 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_payment_receipt_pdf(client_id);
+        call2.enqueue(new Callback<ClientPaymentReceiptPDF>() {
+            @Override
+            public void onResponse(Call<ClientPaymentReceiptPDF> call, Response<ClientPaymentReceiptPDF> response) {
+                try{
+                    ClientPaymentReceiptPDF clientPaymentReceiptPDF = response.body();
+                    pdf_receipt = clientPaymentReceiptPDF.getM();
+                    see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
+                }catch (NullPointerException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                }
+                adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext());
+                payment_receipt_pdf.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<ClientPaymentReceiptPDF> call, Throwable t) {
                 Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
