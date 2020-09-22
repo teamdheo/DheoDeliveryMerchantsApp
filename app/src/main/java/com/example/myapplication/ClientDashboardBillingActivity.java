@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -160,7 +161,9 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ClientPaymentPerfInfo> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(i);
             }
         });
 
@@ -201,12 +204,21 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 try{
                     ClientPaymentReceiptPDF clientPaymentReceiptPDF = response.body();
                     pdf_receipt = clientPaymentReceiptPDF.getM();
-                    see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
+                    try {
+                        if (pdf_receipt.get(8).getRecordsRemaining() > 0){
+                            see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
+                        }
+                        else{
+                            see_older.setVisibility(View.GONE);
+                        }
+                    }catch (NullPointerException e){
+                        Toast.makeText(getApplicationContext(), "you vave no information", Toast.LENGTH_LONG).show();
+                    }
                 }catch (NullPointerException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                 }
-                adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext());
+                adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext(), client_id);
                 payment_receipt_pdf.setAdapter(adapter);
             }
 
