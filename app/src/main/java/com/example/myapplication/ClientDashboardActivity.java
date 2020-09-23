@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
+import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.modelClassPickupAddresses.M;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.squareup.picasso.Picasso;
@@ -46,9 +47,11 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private int balance;
     private Button request_pickup, next_pickup;
     private List<M> pickup_address_length;
+    private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
     private List<com.example.myapplication.ModelClassAssingedCourierInfoDashboard.M> pickup_info_dashboard;
-    private RecyclerView pickup_list;
-    private RecyclerView.Adapter adapter;
+    private RecyclerView pickup_list, dashboard_payloads;
+    private RecyclerView.Adapter adapter, adapter_payload;
+    private RecyclerView.LayoutManager layoutManager;
     Helper helper = new Helper(this);
 
 
@@ -63,8 +66,11 @@ public class ClientDashboardActivity extends AppCompatActivity {
         next_pickup =(Button) findViewById(R.id.Next_pickups);
         scooter = (ImageView) findViewById(R.id.scooter);
         pickup_list = (RecyclerView) findViewById(R.id.recycler_pickup_agent);
+        dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
+        layoutManager = new LinearLayoutManager(this);
+        dashboard_payloads.setLayoutManager(layoutManager);
         next_pickup.setVisibility(View.GONE);
         scooter.setVisibility(View.GONE);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
@@ -214,5 +220,31 @@ public class ClientDashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Call<ClientDashboardPayloads> call2 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_dashboard_payloads(clientId);
+        call2.enqueue(new Callback<ClientDashboardPayloads>() {
+            @Override
+            public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
+                try {
+                    ClientDashboardPayloads clientDashboardPayloads = response.body();
+                    all_dashboard_payload = clientDashboardPayloads.getM();
+                }catch (NullPointerException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                }
+                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload,getApplicationContext());
+                dashboard_payloads.setAdapter(adapter_payload);
+            }
+
+            @Override
+            public void onFailure(Call<ClientDashboardPayloads> call, Throwable t) {
+                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 }
