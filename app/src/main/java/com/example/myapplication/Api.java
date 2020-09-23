@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
+import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
 import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
@@ -95,6 +96,11 @@ public interface Api {
     @FormUrlEncoded
     @POST("client_payment_receipt_pdf")
     Call<ClientPaymentReceiptPDF> client_payment_receipt_pdf(
+            @Field("client_id") Integer client_id
+    );
+    @FormUrlEncoded
+    @POST("client_dashboard_payloads")
+    Call<ClientDashboardPayloads> client_dashboard_payloads(
             @Field("client_id") Integer client_id
     );
 }
