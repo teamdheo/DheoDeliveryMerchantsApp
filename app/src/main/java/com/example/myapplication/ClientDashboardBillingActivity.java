@@ -205,14 +205,10 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                     ClientPaymentReceiptPDF clientPaymentReceiptPDF = response.body();
                     pdf_receipt = clientPaymentReceiptPDF.getM();
                     try {
-                        if (pdf_receipt.get(8).getRecordsRemaining() > 0){
-                            see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
-                        }
-                        else{
-                            see_older.setVisibility(View.GONE);
-                        }
-                    }catch (NullPointerException e){
-                        Toast.makeText(getApplicationContext(), "you vave no information", Toast.LENGTH_LONG).show();
+                        see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
+                    }catch (IndexOutOfBoundsException e){
+                        Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
+                        see_older.setVisibility(View.GONE);
                     }
                 }catch (NullPointerException e) {
                     e.printStackTrace();
