@@ -45,7 +45,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private String photo_url;
     private String name;
     private int balance;
-    private Button request_pickup, next_pickup;
+    private Button request_pickup, next_pickup, see_more;
     private List<M> pickup_address_length;
     private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
     private List<com.example.myapplication.ModelClassAssingedCourierInfoDashboard.M> pickup_info_dashboard;
@@ -65,6 +65,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
         request_pickup =(Button) findViewById(R.id.pickup_request);
         next_pickup =(Button) findViewById(R.id.Next_pickups);
         scooter = (ImageView) findViewById(R.id.scooter);
+        see_more = (Button) findViewById(R.id.see_more);
         pickup_list = (RecyclerView) findViewById(R.id.recycler_pickup_agent);
         dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
         pickup_list.setHasFixedSize(true);
@@ -243,6 +244,13 @@ public class ClientDashboardActivity extends AppCompatActivity {
                 Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
+            }
+        });
+        see_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AllPayloadsActivity.class);
+                startActivity(intent);
             }
         });
 
