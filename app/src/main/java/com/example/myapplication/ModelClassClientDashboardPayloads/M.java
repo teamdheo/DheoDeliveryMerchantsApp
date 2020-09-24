@@ -48,6 +48,39 @@ public class M {
     @SerializedName("return_done")
     @Expose
     private Boolean returnDone;
+    @SerializedName("on_hold")
+    @Expose
+    private Boolean onHold;
+    @SerializedName("enable_edit")
+    @Expose
+    private Boolean enableEdit;
+    @SerializedName("on_hold_label")
+    @Expose
+    private String onHoldLabel;
+
+    public Boolean getOnHold() {
+        return onHold;
+    }
+
+    public void setOnHold(Boolean onHold) {
+        this.onHold = onHold;
+    }
+
+    public Boolean getEnableEdit() {
+        return enableEdit;
+    }
+
+    public void setEnableEdit(Boolean enableEdit) {
+        this.enableEdit = enableEdit;
+    }
+
+    public String getOnHoldLabel() {
+        return onHoldLabel;
+    }
+
+    public void setOnHoldLabel(String onHoldLabel) {
+        this.onHoldLabel = onHoldLabel;
+    }
 
     public String getOrderNo() {
         return orderNo;
