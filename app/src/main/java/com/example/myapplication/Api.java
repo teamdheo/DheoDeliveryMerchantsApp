@@ -17,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface Api {
     //client sign up
@@ -102,5 +103,12 @@ public interface Api {
     @POST("client_dashboard_payloads")
     Call<ClientDashboardPayloads> client_dashboard_payloads(
             @Field("client_id") Integer client_id
+    );
+    @FormUrlEncoded
+    @POST("client_load_payload_page")
+    Call<ClientDashboardPayloads> client_load_payload_page(
+            @Field("client_id") Integer client_id,
+            @Query("page") int page,
+            @Query("limit") int limit
     );
 }
