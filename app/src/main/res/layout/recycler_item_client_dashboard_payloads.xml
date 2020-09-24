@@ -96,8 +96,19 @@
             android:padding="2dp"
             android:text=""
             android:textColor="#FFF"
-            app:layout_constraintTop_toBottomOf="@id/item_bar"
+            app:layout_constraintTop_toBottomOf="@id/item_track"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_amount"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="80dp"
+            android:padding="2dp"
+            android:text="amount"
+            android:textColor="#000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_track"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
