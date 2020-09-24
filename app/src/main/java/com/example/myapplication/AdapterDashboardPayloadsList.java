@@ -1,14 +1,19 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,41 +52,34 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 holder.date_time.setVisibility(View.GONE);
             }
             try {
+                holder.order_no.setText(dashboard_payload.get(position).getOrderNo());
+            }catch (NullPointerException e){
+                holder.order_no.setVisibility(View.GONE);
+            }
+            try {
+                if(dashboard_payload.get(position).getAmount() != null){
+                    holder.amount.setText(dashboard_payload.get(position).getAmount() + "TK");
+                }
+                else{
+                    holder.amount.setVisibility(View.GONE);
+                }
+            }catch (NullPointerException e) {
+                holder.amount.setVisibility(View.GONE);
+            }
+            try {
                 if(dashboard_payload.get(position).getHasReview()){
                     holder.rating.setText("4");
                 }
             }catch (NullPointerException e) {
                 holder.rating.setVisibility(View.GONE);
             }
-            try {
-                holder.order_no.setText(dashboard_payload.get(position).getOrderNo());
-            }catch (NullPointerException e){
-                holder.order_no.setVisibility(View.GONE);
-            }
-            try {
-                if(dashboard_payload.get(position).getHasReview()){
-                    holder.rating.setText("4");
-                }
-            }catch (NullPointerException e) {
-                holder.order_no.setVisibility(View.GONE);
-            }
-//            try {
-//                if(dashboard_payload.get(position).getCourierDrop() || dashboard_payload.get(position).getDelayed() ||dashboard_payload.get(position).getDeliveryDone()
-//                || dashboard_payload.get(position).getDeliveryStarted() || dashboard_payload.get(position).getPayloadCancelled()
-//                || dashboard_payload.get(position).getReturnDone() || dashboard_payload.get(position).getReturnStarted()){
 //
-//                }
-//                else{
-//                    //holder.label.setVisibility(View.GONE);
-//                }
-//            }catch (NullPointerException e) {
-//
-//            }
 
             try {
                 if (dashboard_payload.get(position).getCourierDrop()){
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Courier Drop");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.courier_drop));
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
@@ -90,6 +88,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 if (dashboard_payload.get(position).getDelayed()){
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delayed");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_delay));
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
@@ -107,6 +106,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 if (dashboard_payload.get(position).getDeliveryStarted()){
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delivery Started");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
@@ -124,6 +124,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 if (dashboard_payload.get(position).getReturnDone()){
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Return Done");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.paid_on));
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
@@ -132,9 +133,28 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 if (dashboard_payload.get(position).getReturnStarted()){
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Return Started");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
+
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
+            }
+            try {
+                if(dashboard_payload.get(position).getOnHold()){
+                    holder.label.setText(dashboard_payload.get(position).getOnHoldLabel());
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_delay));
+
+                }
+            }catch (NullPointerException e){}
+            try {
+                if(dashboard_payload.get(position).getEnableEdit()){
+                    holder.bar.setVisibility(View.VISIBLE);
+                    holder.edit.setVisibility(View.VISIBLE);
+                }
+            }catch (NullPointerException e){
+                holder.bar.setVisibility(View.GONE);
+                holder.edit.setVisibility(View.GONE);
+                holder.tracking.setVisibility(View.VISIBLE);
             }
             holder.tracking.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -155,7 +175,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
     }
 
     public class PayloadViewHolder extends RecyclerView.ViewHolder {
-        TextView customer_name, date_time, rating, order_no, edit, tracking,label;
+        TextView customer_name, date_time, rating, order_no, bar, edit, tracking,label, amount;
         public PayloadViewHolder(@NonNull View itemView) {
             super(itemView);
             this.customer_name = itemView.findViewById(R.id.item_customer_name);
@@ -165,6 +185,8 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             this.edit =itemView.findViewById(R.id.item_edit);
             this.tracking = itemView.findViewById(R.id.item_track);
             this.label = itemView.findViewById(R.id.item_label);
+            this.amount = itemView.findViewById(R.id.item_amount);
+            this.bar = itemView.findViewById(R.id.item_bar);
         }
     }
 }
