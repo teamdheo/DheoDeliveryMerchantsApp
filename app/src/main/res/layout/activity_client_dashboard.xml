@@ -134,6 +134,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amount" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/see_more"
+            android:text="See more >>"
+            android:textStyle="italic"
+            android:textColor="#FFF"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/rounded_signup"
+            app:layout_constraintTop_toBottomOf="@id/recycler_dashboard_payloads"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#282827"
+            app:layout_constraintTop_toBottomOf="@id/see_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/help_lagbe_1"
+                android:layout_width="140dp"
+                android:layout_marginTop="60dp"
+                android:layout_height="140dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginBottom="0dp"
+                android:src="@mipmap/help_lagbe" />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="150dp"
+                android:src="@mipmap/ph_white"/>
+
+        </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
