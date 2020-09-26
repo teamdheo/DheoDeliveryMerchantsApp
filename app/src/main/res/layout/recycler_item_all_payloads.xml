@@ -37,14 +37,20 @@
             android:textColor="#000000"
             app:layout_constraintTop_toBottomOf="@id/all_item_customer_name"
             app:layout_constraintStart_toStartOf="parent"/>
-        <TextView
+        <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/all_item_rating"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="4dp"
-            android:text="date and time"
-            android:textColor="#000000"
+            android:layout_marginTop="-30dp"
+            android:layout_gravity="left"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:scaleX=".4"
+            android:scaleY=".4"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
+            android:layout_marginBottom="-50dp"
+            android:layout_marginRight="-100dp"
             app:layout_constraintTop_toBottomOf="@id/all_item_date_time"
             app:layout_constraintStart_toStartOf="parent"/>
         <TextView
