@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
 import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
@@ -31,11 +32,12 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private int balance_client, client_id;
     private TextView client_name_billing, total_balance_billing,payment_pref, valued_date;
     private ImageView profile_photo_billing;
-    private RecyclerView.LayoutManager layoutManager, layoutManager1;
-    private RecyclerView latest_activity, payment_receipt_pdf;
+    private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
+    private RecyclerView latest_activity, payment_receipt_pdf, monthly_statement_pdf;
     private List<M> latest_payment_activity;
     private List<com.example.myapplication.ModelClassClientPaymentReceiptPDF.M> pdf_receipt;
-    private RecyclerView.Adapter adapter;
+    private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_billing_pdf;
+    private RecyclerView.Adapter adapter, monthly_billing_adapter;
     private Button see_older;
     Helper helper = new Helper(this);
 
@@ -50,11 +52,14 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         latest_activity = (RecyclerView) findViewById(R.id.recycler_account_activity);
         payment_receipt_pdf = (RecyclerView) findViewById(R.id.recycler_payment_receipt);
         see_older =(Button) findViewById(R.id.show_older);
+        monthly_statement_pdf = (RecyclerView) findViewById(R.id.recycler_monthly_payment_receipt);
 
         layoutManager = new LinearLayoutManager(this);
         latest_activity.setLayoutManager(layoutManager);
         layoutManager1 = new LinearLayoutManager(this);
         payment_receipt_pdf.setLayoutManager(layoutManager1);
+        layoutManager2 = new LinearLayoutManager(this);
+        monthly_statement_pdf.setLayoutManager(layoutManager2);
 
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
@@ -220,6 +225,31 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ClientPaymentReceiptPDF> call, Throwable t) {
+                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(i);
+            }
+        });
+        Call<ClientMonthlyStatementDate> call3 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_payment_statement_date(client_id);
+        call3.enqueue(new Callback<ClientMonthlyStatementDate>() {
+            @Override
+            public void onResponse(Call<ClientMonthlyStatementDate> call, Response<ClientMonthlyStatementDate> response) {
+                try {
+                    ClientMonthlyStatementDate clientMonthlyStatementDate = response.body();
+                    monthly_billing_pdf = clientMonthlyStatementDate.getM();
+                }catch (NullPointerException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                }
+                monthly_billing_adapter = new AdapterClassMonthlyBillingPDF(monthly_billing_pdf, getApplicationContext(), client_id);
+                monthly_statement_pdf.setAdapter(monthly_billing_adapter);
+            }
+
+            @Override
+            public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
                 Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
