@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
+import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.example.myapplication.modelClassPickupAddresses.M;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.squareup.picasso.Picasso;
@@ -49,9 +50,10 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private List<M> pickup_address_length;
     private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
     private List<com.example.myapplication.ModelClassAssingedCourierInfoDashboard.M> pickup_info_dashboard;
-    private RecyclerView pickup_list, dashboard_payloads;
-    private RecyclerView.Adapter adapter, adapter_payload;
-    private RecyclerView.LayoutManager layoutManager;
+    private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_payload_all_records;
+    private RecyclerView pickup_list, dashboard_payloads, all_record_payload;
+    private RecyclerView.Adapter adapter, adapter_payload, adapter_record_payload;
+    private RecyclerView.LayoutManager layoutManager, layoutManager1;
     Helper helper = new Helper(this);
 
 
@@ -68,10 +70,13 @@ public class ClientDashboardActivity extends AppCompatActivity {
         see_more = (Button) findViewById(R.id.see_more);
         pickup_list = (RecyclerView) findViewById(R.id.recycler_pickup_agent);
         dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
+        all_record_payload =(RecyclerView) findViewById(R.id.recycler_monthly_payload_records);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
         dashboard_payloads.setLayoutManager(layoutManager);
+        layoutManager1 = new LinearLayoutManager(this);
+        all_record_payload.setLayoutManager(layoutManager1);
         next_pickup.setVisibility(View.GONE);
         scooter.setVisibility(View.GONE);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
@@ -251,6 +256,30 @@ public class ClientDashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AllPayloadsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        Call<ClientMonthlyStatementDate> record_call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_payment_statement_date(clientId);
+        record_call.enqueue(new Callback<ClientMonthlyStatementDate>() {
+            @Override
+            public void onResponse(Call<ClientMonthlyStatementDate> call, Response<ClientMonthlyStatementDate> response) {
+                try{
+                    ClientMonthlyStatementDate clientMonthlyStatementDate1 = response.body();
+                    monthly_payload_all_records  = clientMonthlyStatementDate1.getM();
+                }catch (NullPointerException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                }
+                adapter_record_payload = new AdapterClassMonthlyAllRecordPayload(monthly_payload_all_records, getApplicationContext(), clientId);
+                all_record_payload.setAdapter(adapter_record_payload);
+            }
+
+            @Override
+            public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
+
             }
         });
 
