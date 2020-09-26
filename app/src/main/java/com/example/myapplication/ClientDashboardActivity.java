@@ -41,7 +41,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private String photoUrl, scooter_url;
     private int clientId;
     private String password;
-    private ImageView profile_photo, scooter;
+    private ImageView profile_photo, scooter, octopus_red_body;
     private TextView client_name, total_balance;
     private String photo_url;
     private String name;
@@ -71,6 +71,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
         pickup_list = (RecyclerView) findViewById(R.id.recycler_pickup_agent);
         dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
         all_record_payload =(RecyclerView) findViewById(R.id.recycler_monthly_payload_records);
+        octopus_red_body = (ImageView) findViewById(R.id.octopus_red_body);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
