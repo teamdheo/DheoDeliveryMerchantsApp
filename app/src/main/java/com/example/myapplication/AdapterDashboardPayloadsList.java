@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -68,7 +70,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             }
             try {
                 if(dashboard_payload.get(position).getHasReview()){
-                    holder.rating.setText("4");
+                    holder.rating.setRating(Float.parseFloat(dashboard_payload.get(position).getRating()));
                 }
             }catch (NullPointerException e) {
                 holder.rating.setVisibility(View.GONE);
@@ -80,6 +82,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Courier Drop");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.courier_drop));
+                    holder.label.setTextColor(Color.rgb(0,0,0));
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
@@ -89,6 +92,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delayed");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_delay));
+                    holder.label.setTextColor(Color.rgb(0,0,0));
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
@@ -142,6 +146,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             try {
                 if(dashboard_payload.get(position).getOnHold()){
                     holder.label.setText(dashboard_payload.get(position).getOnHoldLabel());
+                    holder.label.setTextColor(Color.rgb(0,0,0));
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_delay));
 
                 }
@@ -175,7 +180,8 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
     }
 
     public class PayloadViewHolder extends RecyclerView.ViewHolder {
-        TextView customer_name, date_time, rating, order_no, bar, edit, tracking,label, amount;
+        TextView customer_name, date_time, order_no, bar, edit, tracking,label, amount;
+        RatingBar rating;
         public PayloadViewHolder(@NonNull View itemView) {
             super(itemView);
             this.customer_name = itemView.findViewById(R.id.item_customer_name);
