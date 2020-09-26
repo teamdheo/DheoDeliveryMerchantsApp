@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
+import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
 import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
@@ -110,5 +111,11 @@ public interface Api {
             @Field("client_id") Integer client_id,
             @Query("page") int page,
             @Query("limit") int limit
+    );
+    @FormUrlEncoded
+    @POST("client_payment_statement_date")
+    Call<ClientMonthlyStatementDate> client_payment_statement_date(
+            @Field("client_id") Integer client_id
+
     );
 }
