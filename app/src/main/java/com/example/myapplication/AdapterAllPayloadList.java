@@ -2,10 +2,12 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,7 +63,7 @@ public class AdapterAllPayloadList extends RecyclerView.Adapter<AdapterAllPayloa
             }
             try {
                 if(clients_all_payload.get(position).getHasReview()){
-                    holder.rating.setText("4");
+                    holder.rating.setRating(Float.parseFloat(clients_all_payload.get(position).getRating()));
                 }
             }catch (NullPointerException e) {
                 holder.rating.setVisibility(View.GONE);
@@ -71,6 +73,7 @@ public class AdapterAllPayloadList extends RecyclerView.Adapter<AdapterAllPayloa
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Courier Drop");
                     holder.label.setBackground(ContextCompat.getDrawable(all_payload_context, R.drawable.courier_drop));
+                    holder.label.setTextColor(Color.rgb(0,0,0));
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
@@ -80,6 +83,7 @@ public class AdapterAllPayloadList extends RecyclerView.Adapter<AdapterAllPayloa
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delayed");
                     holder.label.setBackground(ContextCompat.getDrawable(all_payload_context, R.drawable.delivery_delay));
+                    holder.label.setTextColor(Color.rgb(0,0,0));
                 }
             }catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
@@ -133,6 +137,7 @@ public class AdapterAllPayloadList extends RecyclerView.Adapter<AdapterAllPayloa
                 if(clients_all_payload.get(position).getOnHold()){
                     holder.label.setText(clients_all_payload.get(position).getOnHoldLabel());
                     holder.label.setBackground(ContextCompat.getDrawable(all_payload_context, R.drawable.delivery_delay));
+                    holder.label.setTextColor(Color.rgb(0,0,0));
                 }
             }catch (NullPointerException e){}
             try {
@@ -163,7 +168,8 @@ public class AdapterAllPayloadList extends RecyclerView.Adapter<AdapterAllPayloa
     }
 
     public class AllPayloadHolder extends RecyclerView.ViewHolder {
-        TextView customer_name, date_time, rating, order_no, edit, bar, tracking,label, amount;
+        TextView customer_name, date_time, order_no, edit, bar, tracking,label, amount;
+        RatingBar rating;
         public AllPayloadHolder(@NonNull View itemView) {
             super(itemView);
             this.customer_name = itemView.findViewById(R.id.all_item_customer_name);
