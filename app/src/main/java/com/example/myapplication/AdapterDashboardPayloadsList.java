@@ -5,14 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -22,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.ModelClassClientDashboardPayloads.M;
 
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDashboardPayloadsList.PayloadViewHolder> {
     private List<M> dashboard_payload;
@@ -155,6 +160,22 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 if(dashboard_payload.get(position).getEnableEdit()){
                     holder.bar.setVisibility(View.VISIBLE);
                     holder.edit.setVisibility(View.VISIBLE);
+                    holder.edit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Toasty.error(payload_contex, "You can edit", Toast.LENGTH_LONG, true).show();
+                            AlertDialog alertDialog = new AlertDialog.Builder(payload_contex).create();
+                            alertDialog.setTitle("Alert");
+                            alertDialog.setMessage("Alert message to be shown");
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+                        }
+                    });
                 }
             }catch (NullPointerException e){
                 holder.bar.setVisibility(View.GONE);
