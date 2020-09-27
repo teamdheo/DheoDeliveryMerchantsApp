@@ -32,7 +32,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
     private List<M> dashboard_payload;
     Context payload_contex;
 
-    public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex){
+    public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex) {
         this.dashboard_payload = dashboard_payload;
         this.payload_contex = payload_contex;
     }
@@ -47,124 +47,124 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
 
     @Override
     public void onBindViewHolder(@NonNull final PayloadViewHolder holder, final int position) {
-        try{
-            try{
+        try {
+            try {
                 holder.customer_name.setText(dashboard_payload.get(position).getCustomerName());
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 holder.customer_name.setVisibility(View.GONE);
             }
             try {
                 holder.date_time.setText(dashboard_payload.get(position).getDate());
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 holder.date_time.setVisibility(View.GONE);
             }
             try {
                 holder.order_no.setText(dashboard_payload.get(position).getOrderNo());
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 holder.order_no.setVisibility(View.GONE);
             }
             try {
-                if(dashboard_payload.get(position).getAmount() != null){
+                if (dashboard_payload.get(position).getAmount() != null) {
                     holder.amount.setText(dashboard_payload.get(position).getAmount() + "TK");
-                }
-                else{
+                } else {
                     holder.amount.setVisibility(View.GONE);
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 holder.amount.setVisibility(View.GONE);
             }
             try {
-                if(dashboard_payload.get(position).getHasReview()){
+                if (dashboard_payload.get(position).getHasReview()) {
                     holder.rating.setRating(Float.parseFloat(dashboard_payload.get(position).getRating()));
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 holder.rating.setVisibility(View.GONE);
             }
 //
 
             try {
-                if (dashboard_payload.get(position).getCourierDrop()){
+                if (dashboard_payload.get(position).getCourierDrop()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Courier Drop");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.courier_drop));
-                    holder.label.setTextColor(Color.rgb(0,0,0));
+                    holder.label.setTextColor(Color.rgb(0, 0, 0));
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
             }
             try {
-                if (dashboard_payload.get(position).getDelayed()){
+                if (dashboard_payload.get(position).getDelayed()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delayed");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_delay));
-                    holder.label.setTextColor(Color.rgb(0,0,0));
+                    holder.label.setTextColor(Color.rgb(0, 0, 0));
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
             }
             try {
-                if (dashboard_payload.get(position).getDeliveryDone()){
+                if (dashboard_payload.get(position).getDeliveryDone()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delivery Done");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.paid_on));
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 // holder.label.setVisibility(View.INVISIBLE);
             }
             try {
-                if (dashboard_payload.get(position).getDeliveryStarted()){
+                if (dashboard_payload.get(position).getDeliveryStarted()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delivery Started");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
             }
             try {
-                if (dashboard_payload.get(position).getPayloadCancelled()){
+                if (dashboard_payload.get(position).getPayloadCancelled()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delivery Canceled");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_cancel));
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
             }
             try {
-                if (dashboard_payload.get(position).getReturnDone()){
+                if (dashboard_payload.get(position).getReturnDone()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Return Done");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.paid_on));
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
             }
             try {
-                if (dashboard_payload.get(position).getReturnStarted()){
+                if (dashboard_payload.get(position).getReturnStarted()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Return Started");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
 
                 }
-            }catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
             }
             try {
-                if(dashboard_payload.get(position).getOnHold()){
+                if (dashboard_payload.get(position).getOnHold()) {
                     holder.label.setText(dashboard_payload.get(position).getOnHoldLabel());
-                    holder.label.setTextColor(Color.rgb(0,0,0));
+                    holder.label.setTextColor(Color.rgb(0, 0, 0));
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_delay));
 
                 }
-            }catch (NullPointerException e){}
+            } catch (NullPointerException e) {
+            }
             try {
-                if(dashboard_payload.get(position).getEnableEdit()){
+                if (dashboard_payload.get(position).getEnableEdit()) {
                     holder.bar.setVisibility(View.VISIBLE);
                     holder.edit.setVisibility(View.VISIBLE);
                     holder.edit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             //Toasty.error(payload_contex, "You can edit", Toast.LENGTH_LONG, true).show();
-                            AlertDialog alertDialog = new AlertDialog.Builder(payload_contex).create();
+                            AlertDialog alertDialog = new AlertDialog.Builder(view.getRootView().getContext()).create();
                             alertDialog.setTitle("Alert");
                             alertDialog.setMessage("Alert message to be shown");
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -177,7 +177,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                         }
                     });
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 holder.bar.setVisibility(View.GONE);
                 holder.edit.setVisibility(View.GONE);
                 holder.tracking.setVisibility(View.VISIBLE);
@@ -185,13 +185,14 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             holder.tracking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri uri = Uri.parse("https://dheo.com/rocket?id=" + dashboard_payload.get(position).getShortId() +"&s=1");
+                    Uri uri = Uri.parse("https://dheo.com/rocket?id=" + dashboard_payload.get(position).getShortId() + "&s=1");
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     payload_contex.startActivity(intent);
                 }
             });
 
-        }catch (NullPointerException e){}
+        } catch (NullPointerException e) {
+        }
 
     }
 
@@ -201,15 +202,16 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
     }
 
     public class PayloadViewHolder extends RecyclerView.ViewHolder {
-        TextView customer_name, date_time, order_no, bar, edit, tracking,label, amount;
+        TextView customer_name, date_time, order_no, bar, edit, tracking, label, amount;
         RatingBar rating;
+
         public PayloadViewHolder(@NonNull View itemView) {
             super(itemView);
             this.customer_name = itemView.findViewById(R.id.item_customer_name);
             this.date_time = itemView.findViewById(R.id.item_date_time);
             this.rating = itemView.findViewById(R.id.item_rating);
             this.order_no = itemView.findViewById(R.id.item_order_no);
-            this.edit =itemView.findViewById(R.id.item_edit);
+            this.edit = itemView.findViewById(R.id.item_edit);
             this.tracking = itemView.findViewById(R.id.item_track);
             this.label = itemView.findViewById(R.id.item_label);
             this.amount = itemView.findViewById(R.id.item_amount);
