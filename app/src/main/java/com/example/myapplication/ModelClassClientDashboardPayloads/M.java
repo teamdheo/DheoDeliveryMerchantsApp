@@ -57,6 +57,17 @@ public class M {
     @SerializedName("on_hold_label")
     @Expose
     private String onHoldLabel;
+    @SerializedName("payload_id")
+    @Expose
+    private Integer payloadId;
+
+    public Integer getPayloadId() {
+        return payloadId;
+    }
+
+    public void setPayloadId(Integer payloadId) {
+        this.payloadId = payloadId;
+    }
 
     public Boolean getOnHold() {
         return onHold;
