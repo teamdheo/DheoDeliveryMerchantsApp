@@ -69,6 +69,13 @@ public class AdapterAllPayloadList extends RecyclerView.Adapter<AdapterAllPayloa
                 holder.rating.setVisibility(View.GONE);
             }
             try {
+                if(clients_all_payload.get(position).getCourierMemoAdded()){
+                    holder.label.setText("Courier Memo Added");
+                    holder.label.setVisibility(View.VISIBLE);
+                    holder.label.setBackground(ContextCompat.getDrawable(all_payload_context, R.drawable.paid_on));
+                }
+            } catch (NullPointerException e){}
+            try {
                 if (clients_all_payload.get(position).getCourierDrop()){
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Courier Drop");
