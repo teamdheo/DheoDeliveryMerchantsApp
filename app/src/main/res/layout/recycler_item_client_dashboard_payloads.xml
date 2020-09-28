@@ -112,12 +112,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/item_amount"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="80dp"
+            android:layout_marginLeft="10dp"
             android:padding="2dp"
             android:text="amount"
             android:textColor="#000000"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/item_track"/>
+            app:layout_constraintStart_toEndOf="@+id/item_date_time"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
