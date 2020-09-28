@@ -46,7 +46,7 @@ public class AdapterClassMonthlyBillingPDF extends RecyclerView.Adapter<AdapterC
                 url = "https://rocket.dheo.com/client/billing/print_monthly_statement?month="+ monthly_payment_all_date.get(position).getMonth() +"&year=" + monthly_payment_all_date.get(position).getYear()+ "&id=" + client_id +"&mode=billings";
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse( url), "application/pdf");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 monthly_billing_context.startActivity(intent);
             }
