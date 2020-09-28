@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
+import com.example.myapplication.ModelClassClientEditPayload.ClientEditPayload;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
 import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
@@ -116,6 +117,18 @@ public interface Api {
     @POST("client_payment_statement_date")
     Call<ClientMonthlyStatementDate> client_payment_statement_date(
             @Field("client_id") Integer client_id
-
     );
+    @FormUrlEncoded
+    @POST("client_editable_payload")
+    Call<ClientEditPayload> client_editable_payload(
+            @Field("payload_id") Integer payload_id
+    );
+    @FormUrlEncoded
+    @POST("client_update_payload")
+    Call<ResponseBody> client_update_payload(
+            @Field("payload_id") Integer payload_id,
+            @Field("edited_amount") String edited_amount,
+            @Field("edited_phone") String edited_phone
+    );
+
 }
