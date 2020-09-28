@@ -1,20 +1,15 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +17,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.ModelClassClientDashboardPayloads.M;
 import com.example.myapplication.ModelClassClientEditPayload.ClientEditPayload;
-import com.google.android.material.textfield.TextInputLayout;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -41,7 +35,8 @@ import retrofit2.Response;
 public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDashboardPayloadsList.PayloadViewHolder> {
     private List<M> dashboard_payload;
     Context payload_contex;
-    EditText phone;
+    EditText edit_phone, edit_amount;
+    Button save_button, cancel_button;
 
     public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex) {
         this.dashboard_payload = dashboard_payload;
@@ -159,6 +154,13 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 //holder.label.setVisibility(View.INVISIBLE);
             }
             try {
+                if(dashboard_payload.get(position).getCourierMemoAdded()){
+                    holder.label.setText("Courier Memo Added");
+                    holder.label.setVisibility(View.VISIBLE);
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.paid_on));
+                }
+            } catch (NullPointerException e){}
+            try {
                 if (dashboard_payload.get(position).getOnHold()) {
                     holder.label.setText(dashboard_payload.get(position).getOnHoldLabel());
                     holder.label.setTextColor(Color.rgb(0, 0, 0));
@@ -190,90 +192,61 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                                             LayoutInflater li = (LayoutInflater) payload_contex.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                                             View view = li.inflate(R.layout.dialog_payload_edit, null);
 
-                                            phone = view.findViewById(R.id.phone);
+                                            edit_phone = view.findViewById(R.id.edit_phone);
+                                            edit_amount = view.findViewById(R.id.edit_amount);
+                                            save_button = view.findViewById(R.id.edit_save);
+                                            cancel_button = view.findViewById(R.id.edit_cancel);
+                                            edit_phone.setText(s.getM().getEdiableNumber());
+                                            edit_amount.setText(s.getM().getEditableAmount());
 
 
                                             edit_dialog.setView(view);
-                                            AlertDialog dialog = edit_dialog.create();
+                                            final AlertDialog dialog = edit_dialog.create();
                                             dialog.show();
-//                                            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//                                            builder.setTitle("Edit Payload");
-//                                            //builder.setMessage("do you want confirm this action?");
-//                                            //builder.setView(R.layout.alert_dialog_payload_editor);
-//                                            final EditText edit_phone = new EditText(view.getContext());
-//                                            final EditText edit_amount = new EditText(view.getContext());
-//                                            LinearLayout layout = new LinearLayout(view.getContext());
-//                                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                                                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                                            params.setMargins(20, 20, 30, 0);
-//                                            edit_phone.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_edittext));
-//                                            edit_amount.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_edittext));
-//                                            layout.setOrientation(LinearLayout.VERTICAL);
-//                                            edit_phone.setHint("Phone number");
-//                                            edit_amount.setHint("COD amount if need to change");
-//                                            edit_phone.setText(s.getM().getEdiableNumber());
-//                                            edit_amount.setText(s.getM().getEditableAmount());
-//                                            edit_amount.setIncludeFontPadding(true);
-//                                            //edit_amount.setPadding(0,0,0,0);
-//                                            layout.addView(edit_phone, params);
-//                                            layout.addView(edit_amount, params);
-//                                            builder.setView(layout);
-//                                            builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-//
-//                                                public void onClick(final DialogInterface dialog, int which) {
-//                                                    if(edit_amount.getText().toString() != null && edit_phone.getText().toString().length() == 11){
-//                                                        Call<ResponseBody> call1 =RetrofitClient
-//                                                                .getInstance()
-//                                                                .getApi()
-//                                                                .client_update_payload(dashboard_payload.get(position).getPayloadId(), edit_amount.getText().toString(), edit_phone.getText().toString() );
-//                                                        call1.enqueue(new Callback<ResponseBody>() {
-//                                                            @Override
-//                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                                                                try {
-//                                                                    if (response.body().string().equals("{\"e\":0}")){
-//                                                                        Toasty.error(payload_contex, "Data updated", Toast.LENGTH_LONG, true).show();
-//                                                                        dialog.dismiss();
-//                                                                    }
-//                                                                    else{
-//                                                                        Toasty.error(payload_contex, "failed", Toast.LENGTH_LONG, true).show();
-//                                                                        dialog.dismiss();
-//                                                                    }
-//                                                                } catch (IOException e) {
-//                                                                    e.printStackTrace();
-//                                                                }
-//                                                            }
-//
-//                                                            @Override
-//                                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                                                                Toasty.error(payload_contex, "Try again", Toast.LENGTH_LONG, true).show();
-//                                                            }
-//                                                        });
-//                                                    }
-//                                                    else{
-//                                                        Toasty.error(payload_contex, "fill properly", Toast.LENGTH_LONG, true).show();
-//                                                    }
-//                                                    dialog.dismiss();
-//                                                }
-//
-//                                            });
-//
-//                                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//
-//                                                @Override
-//                                                public void onClick(DialogInterface dialog, int which) {
-//                                                    // I do not need any action here you might
-//                                                    dialog.dismiss();
-//                                                }
-//                                            });
-//
-//                                            AlertDialog alert = builder.create();
-//                                            alert.show();
-//                                            //alert.getButton(alert.BUTTON_NEGATIVE).setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_sign_up));
-//                                            alert.getButton(alert.BUTTON_POSITIVE).setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_signup));
-//                                            int color = Color.rgb(255,255,255);
-//                                            alert.getButton(alert.BUTTON_POSITIVE).setTextColor(color);
-//                                            Window window = alert.getWindow();
-//                                            //window.setLayout(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.WRAP_CONTENT);
+
+                                            save_button.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    if(edit_amount.getText().toString() != null && edit_phone.getText().toString().length() == 11){
+                                                        Call<ResponseBody> call1 =RetrofitClient
+                                                                .getInstance()
+                                                                .getApi()
+                                                                .client_update_payload(dashboard_payload.get(position).getPayloadId(), edit_amount.getText().toString(), edit_phone.getText().toString() );
+                                                        call1.enqueue(new Callback<ResponseBody>() {
+                                                            @Override
+                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                try {
+                                                                    if (response.body().string().equals("{\"e\":0}")){
+                                                                        Toasty.error(payload_contex, "Data updated", Toast.LENGTH_LONG, true).show();
+                                                                        dialog.dismiss();
+                                                                    }
+                                                                    else{
+                                                                        Toasty.error(payload_contex, "failed", Toast.LENGTH_LONG, true).show();
+                                                                        dialog.dismiss();
+                                                                    }
+                                                                } catch (IOException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                                Toasty.error(payload_contex, "Try again", Toast.LENGTH_LONG, true).show();
+                                                            }
+                                                        });
+                                                    }
+                                                    else{
+                                                        Toasty.error(payload_contex, "fill properly", Toast.LENGTH_LONG, true).show();
+                                                    }
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                            cancel_button.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
 
                                         }catch (NullPointerException e) {
                                             e.printStackTrace();
@@ -306,6 +279,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 public void onClick(View view) {
                     Uri uri = Uri.parse("https://dheo.com/rocket?id=" + dashboard_payload.get(position).getShortId() + "&s=1");
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     payload_contex.startActivity(intent);
                 }
             });
