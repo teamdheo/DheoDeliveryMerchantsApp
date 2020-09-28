@@ -42,8 +42,7 @@ public class AdapterClassMonthlyAllRecordPayload extends RecyclerView.Adapter<Ad
                 url = "https://rocket.dheo.com/client/billing/print_monthly_statement?month="+ all_monthly_records_payloads.get(position).getMonth() +"&year=" + all_monthly_records_payloads.get(position).getYear()+ "&id=" + cliendId +"&mode=deliveries";
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse( url), "application/pdf");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 all_record_context.startActivity(intent);
             }
         });
