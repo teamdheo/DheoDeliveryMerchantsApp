@@ -60,6 +60,17 @@ public class M {
     @SerializedName("payload_id")
     @Expose
     private Integer payloadId;
+    @SerializedName("courier_memo_added")
+    @Expose
+    private Boolean courierMemoAdded;
+
+    public Boolean getCourierMemoAdded() {
+        return courierMemoAdded;
+    }
+
+    public void setCourierMemoAdded(Boolean courierMemoAdded) {
+        this.courierMemoAdded = courierMemoAdded;
+    }
 
     public Integer getPayloadId() {
         return payloadId;
