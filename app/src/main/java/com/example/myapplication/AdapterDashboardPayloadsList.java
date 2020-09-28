@@ -41,6 +41,7 @@ import retrofit2.Response;
 public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDashboardPayloadsList.PayloadViewHolder> {
     private List<M> dashboard_payload;
     Context payload_contex;
+    EditText phone;
 
     public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex) {
         this.dashboard_payload = dashboard_payload;
@@ -184,84 +185,95 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                                     ClientEditPayload s = response.body();
                                     if (s.getE() == 0){
                                         try{
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                                            builder.setTitle("Edit Payload");
-                                            //builder.setMessage("do you want confirm this action?");
-                                            //builder.setView(R.layout.alert_dialog_payload_editor);
-                                            final EditText edit_phone = new EditText(view.getContext());
-                                            final EditText edit_amount = new EditText(view.getContext());
-                                            LinearLayout layout = new LinearLayout(view.getContext());
-                                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                                            params.setMargins(20, 20, 30, 0);
-                                            edit_phone.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_edittext));
-                                            edit_amount.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_edittext));
-                                            layout.setOrientation(LinearLayout.VERTICAL);
-                                            edit_phone.setHint("Phone number");
-                                            edit_amount.setHint("COD amount if need to change");
-                                            edit_phone.setText(s.getM().getEdiableNumber());
-                                            edit_amount.setText(s.getM().getEditableAmount());
-                                            edit_amount.setIncludeFontPadding(true);
-                                            //edit_amount.setPadding(0,0,0,0);
-                                            layout.addView(edit_phone, params);
-                                            layout.addView(edit_amount, params);
-                                            builder.setView(layout);
-                                            builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                            AlertDialog.Builder edit_dialog = new AlertDialog.Builder(view.getRootView().getContext());
+                                            edit_dialog.setCancelable(false);
+                                            LayoutInflater li = (LayoutInflater) payload_contex.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                            View view = li.inflate(R.layout.dialog_payload_edit, null);
 
-                                                public void onClick(final DialogInterface dialog, int which) {
-                                                    if(edit_amount.getText().toString() != null && edit_phone.getText().toString().length() == 11){
-                                                        Call<ResponseBody> call1 =RetrofitClient
-                                                                .getInstance()
-                                                                .getApi()
-                                                                .client_update_payload(dashboard_payload.get(position).getPayloadId(), edit_amount.getText().toString(), edit_phone.getText().toString() );
-                                                        call1.enqueue(new Callback<ResponseBody>() {
-                                                            @Override
-                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                                try {
-                                                                    if (response.body().string().equals("{\"e\":0}")){
-                                                                        Toasty.error(payload_contex, "Data updated", Toast.LENGTH_LONG, true).show();
-                                                                        dialog.dismiss();
-                                                                    }
-                                                                    else{
-                                                                        Toasty.error(payload_contex, "failed", Toast.LENGTH_LONG, true).show();
-                                                                        dialog.dismiss();
-                                                                    }
-                                                                } catch (IOException e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
+                                            phone = view.findViewById(R.id.phone);
 
-                                                            @Override
-                                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                                Toasty.error(payload_contex, "Try again", Toast.LENGTH_LONG, true).show();
-                                                            }
-                                                        });
-                                                    }
-                                                    else{
-                                                        Toasty.error(payload_contex, "fill properly", Toast.LENGTH_LONG, true).show();
-                                                    }
-                                                    dialog.dismiss();
-                                                }
 
-                                            });
-
-                                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    // I do not need any action here you might
-                                                    dialog.dismiss();
-                                                }
-                                            });
-
-                                            AlertDialog alert = builder.create();
-                                            alert.show();
-                                            //alert.getButton(alert.BUTTON_NEGATIVE).setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_sign_up));
-                                            alert.getButton(alert.BUTTON_POSITIVE).setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_signup));
-                                            int color = Color.rgb(255,255,255);
-                                            alert.getButton(alert.BUTTON_POSITIVE).setTextColor(color);
-                                            Window window = alert.getWindow();
-                                            //window.setLayout(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.WRAP_CONTENT);
+                                            edit_dialog.setView(view);
+                                            AlertDialog dialog = edit_dialog.create();
+                                            dialog.show();
+//                                            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//                                            builder.setTitle("Edit Payload");
+//                                            //builder.setMessage("do you want confirm this action?");
+//                                            //builder.setView(R.layout.alert_dialog_payload_editor);
+//                                            final EditText edit_phone = new EditText(view.getContext());
+//                                            final EditText edit_amount = new EditText(view.getContext());
+//                                            LinearLayout layout = new LinearLayout(view.getContext());
+//                                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                                                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                                            params.setMargins(20, 20, 30, 0);
+//                                            edit_phone.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_edittext));
+//                                            edit_amount.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_edittext));
+//                                            layout.setOrientation(LinearLayout.VERTICAL);
+//                                            edit_phone.setHint("Phone number");
+//                                            edit_amount.setHint("COD amount if need to change");
+//                                            edit_phone.setText(s.getM().getEdiableNumber());
+//                                            edit_amount.setText(s.getM().getEditableAmount());
+//                                            edit_amount.setIncludeFontPadding(true);
+//                                            //edit_amount.setPadding(0,0,0,0);
+//                                            layout.addView(edit_phone, params);
+//                                            layout.addView(edit_amount, params);
+//                                            builder.setView(layout);
+//                                            builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+//
+//                                                public void onClick(final DialogInterface dialog, int which) {
+//                                                    if(edit_amount.getText().toString() != null && edit_phone.getText().toString().length() == 11){
+//                                                        Call<ResponseBody> call1 =RetrofitClient
+//                                                                .getInstance()
+//                                                                .getApi()
+//                                                                .client_update_payload(dashboard_payload.get(position).getPayloadId(), edit_amount.getText().toString(), edit_phone.getText().toString() );
+//                                                        call1.enqueue(new Callback<ResponseBody>() {
+//                                                            @Override
+//                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                                                                try {
+//                                                                    if (response.body().string().equals("{\"e\":0}")){
+//                                                                        Toasty.error(payload_contex, "Data updated", Toast.LENGTH_LONG, true).show();
+//                                                                        dialog.dismiss();
+//                                                                    }
+//                                                                    else{
+//                                                                        Toasty.error(payload_contex, "failed", Toast.LENGTH_LONG, true).show();
+//                                                                        dialog.dismiss();
+//                                                                    }
+//                                                                } catch (IOException e) {
+//                                                                    e.printStackTrace();
+//                                                                }
+//                                                            }
+//
+//                                                            @Override
+//                                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                                                                Toasty.error(payload_contex, "Try again", Toast.LENGTH_LONG, true).show();
+//                                                            }
+//                                                        });
+//                                                    }
+//                                                    else{
+//                                                        Toasty.error(payload_contex, "fill properly", Toast.LENGTH_LONG, true).show();
+//                                                    }
+//                                                    dialog.dismiss();
+//                                                }
+//
+//                                            });
+//
+//                                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//
+//                                                @Override
+//                                                public void onClick(DialogInterface dialog, int which) {
+//                                                    // I do not need any action here you might
+//                                                    dialog.dismiss();
+//                                                }
+//                                            });
+//
+//                                            AlertDialog alert = builder.create();
+//                                            alert.show();
+//                                            //alert.getButton(alert.BUTTON_NEGATIVE).setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_sign_up));
+//                                            alert.getButton(alert.BUTTON_POSITIVE).setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.rounded_signup));
+//                                            int color = Color.rgb(255,255,255);
+//                                            alert.getButton(alert.BUTTON_POSITIVE).setTextColor(color);
+//                                            Window window = alert.getWindow();
+//                                            //window.setLayout(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.WRAP_CONTENT);
 
                                         }catch (NullPointerException e) {
                                             e.printStackTrace();
