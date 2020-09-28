@@ -26,9 +26,9 @@ public interface Api {
     @FormUrlEncoded
     @POST("sign_up")
     Call<SignupClientInfo> sign_up(
-            @Field("businessName") String businessName,
+            @Field("business_name") String business_name,
             @Field("address") String address,
-            @Field("phoneNo") String phoneNo,
+            @Field("phone_no") String phone_no,
             @Field("pass") String pass
     );
     //client logIn
