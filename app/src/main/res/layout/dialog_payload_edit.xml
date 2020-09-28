@@ -7,14 +7,16 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/phone"
+        android:id="@+id/edit_phone"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:paddingLeft="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:background="@drawable/rounded_edittext"
         android:ems="10"
         android:hint="phone number"
         android:inputType="number"
@@ -23,19 +25,22 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/edit_amount"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
+        android:paddingLeft="20dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
         android:hint="cod amount"
+        android:background="@drawable/rounded_edittext"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_phone" />
 
     <TextView
         android:id="@+id/textView"
@@ -44,28 +49,29 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="Edit Info"
+        android:text="Edit Payload Info"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/save"
+        android:id="@+id/edit_save"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_signup"
         android:layout_marginRight="16dp"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_amount" />
 
-    <TextView
-        android:id="@+id/textView4"
+    <Button
+        android:id="@+id/edit_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="Cancel"
-        app:layout_constraintBaseline_toBaselineOf="@+id/save"
-        app:layout_constraintEnd_toStartOf="@+id/save" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/edit_save"
+        app:layout_constraintEnd_toStartOf="@+id/edit_save" />
 </androidx.constraintlayout.widget.ConstraintLayout>
