@@ -109,6 +109,7 @@
             android:ems="13"
             android:hint="password"
             android:inputType="textPassword"
+            android:translationY="-5dp"
             android:paddingLeft="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
