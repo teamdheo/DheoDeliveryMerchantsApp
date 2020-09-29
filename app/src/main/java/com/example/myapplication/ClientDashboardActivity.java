@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -42,7 +43,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private int clientId;
     private String password;
     private ImageView profile_photo, scooter, octopus_red_body;
-    private TextView client_name, total_balance;
+    private TextView client_name, total_balance, phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
     private String photo_url;
     private String name;
     private int balance;
@@ -72,6 +73,17 @@ public class ClientDashboardActivity extends AppCompatActivity {
         dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
         all_record_payload =(RecyclerView) findViewById(R.id.recycler_monthly_payload_records);
         octopus_red_body = (ImageView) findViewById(R.id.octopus_red_body);
+        phone_call = findViewById(R.id.dashboard_phone);
+        facebook = findViewById(R.id.dashboard_fb);
+        my_delivery = findViewById(R.id.dashboard_my_delivery);
+        dashboard_billing = findViewById(R.id.dashboard_Billing);
+        settings = findViewById(R.id.dashboard_settings);
+        user_manual = findViewById(R.id.dashboard_user_manual);
+        log_out =findViewById(R.id.dashboard_logout);
+        dhep_delivery = findViewById(R.id.dashboard_dheo_delivery);
+        the_user_manual = findViewById(R.id.dashboard_The_manual);
+        meet_the_team = findViewById(R.id.dashboard_meet_team);
+        privacy_policy = findViewById(R.id.dashboard_policy);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -283,6 +295,41 @@ public class ClientDashboardActivity extends AppCompatActivity {
 
             }
         });
+        phone_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel: +8801301377181"));
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://m.me/dheolife";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+        dashboard_billing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                intent.putExtra("name_c", name);
+                intent.putExtra("balance_c", balance);
+                startActivity(intent);
+            }
+        });
+//        settings.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), Setting.class);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 }
