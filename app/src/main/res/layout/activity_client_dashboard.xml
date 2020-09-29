@@ -311,6 +311,56 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/monthly_billing_activity_bar2" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/relative_layout2"
+            android:background="#CC3533"
+            app:layout_constraintTop_toBottomOf="@id/recycler_monthly_payload_records"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dashboard_dheo_delivery"
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:text="Dheo delivery"
+                android:textSize="20dp"
+                android:textColor="#FFF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dashboard_The_manual"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="50dp"
+                android:textStyle="bold"
+                android:text="The User Manual"
+                android:textSize="20dp"
+                android:textColor="#FFF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dashboard_meet_team"
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:layout_marginTop="90dp"
+                android:text="Meet The Team"
+                android:textSize="20dp"
+                android:textColor="#FFF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dashboard_policy"
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:layout_marginTop="130dp"
+                android:text="Privacy Policy"
+                android:textSize="20dp"
+                android:textColor="#FFF"/>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
