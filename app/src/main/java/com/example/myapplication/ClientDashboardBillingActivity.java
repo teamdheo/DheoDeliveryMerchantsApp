@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.SQLException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +32,7 @@ import retrofit2.Response;
 public class ClientDashboardBillingActivity extends AppCompatActivity {
     private String name_client,photourl;
     private int balance_client, client_id;
-    private TextView client_name_billing, total_balance_billing,payment_pref, valued_date;
+    private TextView client_name_billing, total_balance_billing,payment_pref, valued_date,  phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
     private ImageView profile_photo_billing;
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
     private RecyclerView latest_activity, payment_receipt_pdf, monthly_statement_pdf;
@@ -39,6 +41,8 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_billing_pdf;
     private RecyclerView.Adapter adapter, monthly_billing_adapter;
     private Button see_older;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
 
     @Override
@@ -53,6 +57,17 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         payment_receipt_pdf = (RecyclerView) findViewById(R.id.recycler_payment_receipt);
         see_older =(Button) findViewById(R.id.show_older);
         monthly_statement_pdf = (RecyclerView) findViewById(R.id.recycler_monthly_payment_receipt);
+        phone_call = findViewById(R.id.billing_phone);
+        facebook = findViewById(R.id.billing_fb);
+        my_delivery = findViewById(R.id.billing_my_delivery);
+        dashboard_billing = findViewById(R.id.billing_Billing);
+        settings = findViewById(R.id.billing_settings);
+        user_manual = findViewById(R.id.billing_user_manual);
+        log_out =findViewById(R.id.billing_logout);
+        dhep_delivery = findViewById(R.id.billing_dheo_delivery);
+        the_user_manual = findViewById(R.id.billing_The_manual);
+        meet_the_team = findViewById(R.id.billing_meet_team);
+        privacy_policy = findViewById(R.id.billing_policy);
 
         layoutManager = new LinearLayoutManager(this);
         latest_activity.setLayoutManager(layoutManager);
@@ -252,6 +267,106 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
                 Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(i);
+            }
+        });
+        phone_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel: +8801301377181"));
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://m.me/dheolife";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+
+        my_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(intent);
+            }
+        });
+        dashboard_billing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                startActivity(intent);
+            }
+        });
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        user_manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://rocket.dheo.com/user-manual";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+
+        log_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPreferences=getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                editor=sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(intent);
+            }
+        });
+        dhep_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(intent);
+            }
+        });
+        the_user_manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://rocket.dheo.com/user-manual";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+        meet_the_team.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://team.dheo.com";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+        privacy_policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://dheo.com/privacy";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             }
         });
