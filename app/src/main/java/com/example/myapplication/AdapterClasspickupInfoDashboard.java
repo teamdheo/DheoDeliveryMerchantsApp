@@ -134,7 +134,7 @@ public class AdapterClasspickupInfoDashboard extends RecyclerView.Adapter<Adapte
 
     @Override
     public int getItemCount() {
-        return 1;
+        return pickup_info.size();
     }
 
 
