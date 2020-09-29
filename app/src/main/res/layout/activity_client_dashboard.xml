@@ -361,6 +361,43 @@
                 android:textSize="20dp"
                 android:textColor="#FFF"/>
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#000"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/block_logo_black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:textSize="12dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/footer"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="170dp"
+                android:text="© 2017-2020, DHEO LLC. All Rights Reserved."
+                android:textSize="11dp"
+                android:textColor="#666"/>
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="130dp"
+                android:src="@drawable/ecab_new_logo"/>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
