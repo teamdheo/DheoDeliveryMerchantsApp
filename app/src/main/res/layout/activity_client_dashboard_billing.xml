@@ -280,7 +280,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:id="@+id/dashboard_phone"
+                android:id="@+id/billing_phone"
                 android:layout_marginTop="100dp"
                 android:layout_marginLeft="200dp"
                 android:text="013-0137-7181"
@@ -289,7 +289,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:id="@+id/dashboard_fb"
+                android:id="@+id/billing_fb"
                 android:layout_marginTop="150dp"
                 android:layout_marginLeft="200dp"
                 android:text="Dheolife"
@@ -314,7 +314,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/dashboard_my_delivery"
+                android:id="@+id/billing_my_delivery"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
@@ -325,7 +325,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/dashboard_Billing"
+                android:id="@+id/billing_Billing"
                 android:padding="10dp"
                 android:layout_marginTop="65dp"
                 android:layout_marginLeft="5dp"
@@ -336,7 +336,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/dashboard_settings"
+                android:id="@+id/billing_settings"
                 android:padding="10dp"
                 android:layout_marginTop="120dp"
                 android:layout_marginLeft="5dp"
@@ -347,7 +347,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/dashboard_user_manual"
+                android:id="@+id/billing_user_manual"
                 android:padding="10dp"
                 android:layout_marginTop="175dp"
                 android:layout_marginLeft="5dp"
@@ -358,7 +358,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/dashboard_logout"
+                android:id="@+id/billing_logout"
                 android:padding="10dp"
                 android:layout_marginTop="230dp"
                 android:layout_marginLeft="5dp"
