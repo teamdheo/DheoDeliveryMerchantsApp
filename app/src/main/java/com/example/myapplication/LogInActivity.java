@@ -55,6 +55,8 @@ public class LogInActivity extends AppCompatActivity {
         saveLogin = sharedPreferences.getBoolean("saveLogin", false);
         if (saveLogin == true) {
             checkBox.setChecked(true);
+            Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+            startActivity(intent);
 
         }
         number.setText(phone_number);
