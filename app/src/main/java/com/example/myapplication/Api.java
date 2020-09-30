@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
+import com.example.myapplication.ModelClassBanksAndBranches.BanksAndBranches;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientEditPayload.ClientEditPayload;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
@@ -18,6 +19,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -129,6 +131,10 @@ public interface Api {
             @Field("payload_id") Integer payload_id,
             @Field("edited_amount") String edited_amount,
             @Field("edited_phone") String edited_phone
+    );
+    @GET("bank_and_branches")
+    Call<BanksAndBranches> bank_and_branches(
+
     );
 
 }
