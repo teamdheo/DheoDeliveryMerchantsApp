@@ -110,6 +110,65 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bank"
             app:layout_constraintTop_toBottomOf="@+id/pay_sec"/>
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/linear_other"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/other_option">-->
+<!--            <Button-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginLeft="5dp"-->
+<!--                android:layout_marginRight="5dp"-->
+<!--                android:text="Cash"-->
+<!--                android:id="@+id/cash"/>-->
+<!--            <Button-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginLeft="5dp"-->
+<!--                android:layout_marginRight="5dp"-->
+<!--                android:text="Bkash"-->
+<!--                android:id="@+id/bkash"/>-->
+<!--            <Button-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginRight="5dp"-->
+<!--                android:layout_marginLeft="5dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Nagad"-->
+<!--                android:id="@+id/nagad" />-->
+<!--        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/linear_bank"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bank"
+            android:orientation="vertical">
+            <Spinner
+                android:id="@+id/bank_name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_spinner"
+                android:gravity="center" />
+            <Spinner
+                android:id="@+id/branch_name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_spinner"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
