@@ -1,7 +1,6 @@
 
 package com.example.myapplication.ModelClassBanksAndBranches;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,9 +9,9 @@ public class M {
     @SerializedName("bank_name")
     @Expose
     private String bankName;
-    @SerializedName("bank_branches")
+    @SerializedName("bank_id")
     @Expose
-    private List<String> bankBranches = null;
+    private Integer bankId;
 
     public String getBankName() {
         return bankName;
@@ -22,12 +21,12 @@ public class M {
         this.bankName = bankName;
     }
 
-    public List<String> getBankBranches() {
-        return bankBranches;
+    public Integer getBankId() {
+        return bankId;
     }
 
-    public void setBankBranches(List<String> bankBranches) {
-        this.bankBranches = bankBranches;
+    public void setBankId(Integer bankId) {
+        this.bankId = bankId;
     }
 
 }
