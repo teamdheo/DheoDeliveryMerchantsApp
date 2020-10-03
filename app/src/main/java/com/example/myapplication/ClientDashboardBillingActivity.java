@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private List<com.example.myapplication.ModelClassClientPaymentReceiptPDF.M> pdf_receipt;
     private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_billing_pdf;
     private RecyclerView.Adapter adapter, monthly_billing_adapter;
+    private ProgressBar activity_progressbar, daily_receipt_progressbar, monthly_received_progressbar;
     private Button see_older;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -57,6 +59,9 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         payment_receipt_pdf = (RecyclerView) findViewById(R.id.recycler_payment_receipt);
         see_older =(Button) findViewById(R.id.show_older);
         monthly_statement_pdf = (RecyclerView) findViewById(R.id.recycler_monthly_payment_receipt);
+        activity_progressbar = findViewById(R.id.amount_activity_progressbar);
+        daily_receipt_progressbar = findViewById(R.id.payment_receipt_progressbar);
+        monthly_received_progressbar  = findViewById(R.id.monthly_receipt_progressbar);
         phone_call = findViewById(R.id.billing_phone);
         facebook = findViewById(R.id.billing_fb);
         my_delivery = findViewById(R.id.billing_my_delivery);
@@ -75,6 +80,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         payment_receipt_pdf.setLayoutManager(layoutManager1);
         layoutManager2 = new LinearLayoutManager(this);
         monthly_statement_pdf.setLayoutManager(layoutManager2);
+        see_older.setVisibility(View.INVISIBLE);
 
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
@@ -195,13 +201,15 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         call_1.enqueue(new Callback<LatestAccountActivity>() {
             @Override
             public void onResponse(Call<LatestAccountActivity> call, Response<LatestAccountActivity> response) {
-                try {
-                    LatestAccountActivity latestAccountActivity = response.body();
-                    latest_payment_activity = latestAccountActivity.getM();
-                    //Toasty.success(getApplicationContext(), latest_payment_activity.get(4).getAmount()+"", Toast.LENGTH_LONG, true).show();
-                }catch (NullPointerException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                if(response.body() != null){
+                    try {
+                        LatestAccountActivity latestAccountActivity = response.body();
+                        latest_payment_activity = latestAccountActivity.getM();
+                        activity_progressbar.setVisibility(View.GONE);
+                    }catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
                 }
                 adapter = new AdapterClassLatestPaymentActivity(latest_payment_activity,getApplicationContext());
                 latest_activity.setAdapter(adapter);
@@ -221,18 +229,22 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         call2.enqueue(new Callback<ClientPaymentReceiptPDF>() {
             @Override
             public void onResponse(Call<ClientPaymentReceiptPDF> call, Response<ClientPaymentReceiptPDF> response) {
-                try{
-                    ClientPaymentReceiptPDF clientPaymentReceiptPDF = response.body();
-                    pdf_receipt = clientPaymentReceiptPDF.getM();
-                    try {
-                        see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
-                    }catch (IndexOutOfBoundsException e){
-                        Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
-                        see_older.setVisibility(View.GONE);
+                if (response.body() != null){
+                    try{
+                        ClientPaymentReceiptPDF clientPaymentReceiptPDF = response.body();
+                        pdf_receipt = clientPaymentReceiptPDF.getM();
+                        daily_receipt_progressbar.setVisibility(View.GONE);
+                        try {
+                            see_older.setVisibility(View.VISIBLE);
+                            see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
+                        }catch (IndexOutOfBoundsException e){
+                            Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
+                            see_older.setVisibility(View.GONE);
+                        }
+                    }catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
-                }catch (NullPointerException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                 }
                 adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext(), client_id);
                 payment_receipt_pdf.setAdapter(adapter);
@@ -252,12 +264,15 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         call3.enqueue(new Callback<ClientMonthlyStatementDate>() {
             @Override
             public void onResponse(Call<ClientMonthlyStatementDate> call, Response<ClientMonthlyStatementDate> response) {
-                try {
-                    ClientMonthlyStatementDate clientMonthlyStatementDate = response.body();
-                    monthly_billing_pdf = clientMonthlyStatementDate.getM();
-                }catch (NullPointerException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                if(response.body() != null){
+                    try {
+                        ClientMonthlyStatementDate clientMonthlyStatementDate = response.body();
+                        monthly_billing_pdf = clientMonthlyStatementDate.getM();
+                        monthly_received_progressbar.setVisibility(View.GONE);
+                    }catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
                 }
                 monthly_billing_adapter = new AdapterClassMonthlyBillingPDF(monthly_billing_pdf, getApplicationContext(), client_id);
                 monthly_statement_pdf.setAdapter(monthly_billing_adapter);
