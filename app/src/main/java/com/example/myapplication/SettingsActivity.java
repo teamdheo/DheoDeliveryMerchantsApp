@@ -95,6 +95,8 @@ public class SettingsActivity extends AppCompatActivity {
                                         .getInstance()
                                         .getApi()
                                         .branches(s.get(position).getBankId());
+                                Toasty.error(getApplicationContext(), item+"", Toast.LENGTH_LONG, true).show();
+
                                 call1.enqueue(new Callback<BankBranches>() {
                                     @Override
                                     public void onResponse(Call<BankBranches> call, Response<BankBranches> response) {
