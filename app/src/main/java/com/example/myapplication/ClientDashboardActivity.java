@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private String photo_url;
     private String name;
     private int balance;
+    private ProgressBar payload_progressbar, monthly_record_progress_bar;
     private Button request_pickup, next_pickup, see_more;
     private List<M> pickup_address_length;
     private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
@@ -87,12 +89,15 @@ public class ClientDashboardActivity extends AppCompatActivity {
         the_user_manual = findViewById(R.id.dashboard_The_manual);
         meet_the_team = findViewById(R.id.dashboard_meet_team);
         privacy_policy = findViewById(R.id.dashboard_policy);
+        payload_progressbar = findViewById(R.id.dashboard_payload_progressbar);
+        monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
         dashboard_payloads.setLayoutManager(layoutManager);
         layoutManager1 = new LinearLayoutManager(this);
         all_record_payload.setLayoutManager(layoutManager1);
+        see_more.setVisibility(View.INVISIBLE);
         next_pickup.setVisibility(View.GONE);
         scooter.setVisibility(View.GONE);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
@@ -249,12 +254,18 @@ public class ClientDashboardActivity extends AppCompatActivity {
         call2.enqueue(new Callback<ClientDashboardPayloads>() {
             @Override
             public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
-                try {
-                    ClientDashboardPayloads clientDashboardPayloads = response.body();
-                    all_dashboard_payload = clientDashboardPayloads.getM();
-                }catch (NullPointerException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                if(response.body() != null){
+                    try {
+                        ClientDashboardPayloads clientDashboardPayloads = response.body();
+                        all_dashboard_payload = clientDashboardPayloads.getM();
+                        payload_progressbar.setVisibility(View.GONE);
+                        if(all_dashboard_payload.size() >= 10){
+                            see_more.setVisibility(View.VISIBLE);
+                        }
+                    }catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
                 }
                 adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload,getApplicationContext());
                 dashboard_payloads.setAdapter(adapter_payload);
@@ -282,12 +293,15 @@ public class ClientDashboardActivity extends AppCompatActivity {
         record_call.enqueue(new Callback<ClientMonthlyStatementDate>() {
             @Override
             public void onResponse(Call<ClientMonthlyStatementDate> call, Response<ClientMonthlyStatementDate> response) {
-                try{
-                    ClientMonthlyStatementDate clientMonthlyStatementDate1 = response.body();
-                    monthly_payload_all_records  = clientMonthlyStatementDate1.getM();
-                }catch (NullPointerException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                if(response.body() != null){
+                    try{
+                        ClientMonthlyStatementDate clientMonthlyStatementDate1 = response.body();
+                        monthly_payload_all_records  = clientMonthlyStatementDate1.getM();
+                        monthly_record_progress_bar.setVisibility(View.GONE);
+                    }catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
                 }
                 adapter_record_payload = new AdapterClassMonthlyAllRecordPayload(monthly_payload_all_records, getApplicationContext(), clientId);
                 all_record_payload.setAdapter(adapter_record_payload);
