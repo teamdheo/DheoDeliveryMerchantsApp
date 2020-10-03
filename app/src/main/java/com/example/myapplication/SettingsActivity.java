@@ -30,8 +30,10 @@ import retrofit2.Response;
 public class SettingsActivity extends AppCompatActivity {
     ArrayList<String> bank_name;
     ArrayList<String> branch_bank;
-    List<String> branches_name;
-    ArrayList<Integer> bank_id;
+
+    ArrayList<String> branches_name;
+    List<BankBranches> all_branches = new ArrayList<>();
+    List<BankBranches> clone_all_branches;
     TextView setting_name,go_back;
     ImageView setting_dp;
     private Spinner bank_name_show, bank_branches_show;
@@ -71,6 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
         go_back.setText("< Go Back");
         bank_name = new ArrayList<>();
+        branches_name = new ArrayList<>();
 
         //linearLayout.setBackgroundColor(Color.argb(0,0,0, (float) 0.2));
         Call<BanksAndBranches> call = RetrofitClient
@@ -94,17 +97,17 @@ public class SettingsActivity extends AppCompatActivity {
                                 Call<BankBranches> call1 = RetrofitClient
                                         .getInstance()
                                         .getApi()
-                                        .branches(s.get(position).getBankId());
-                                Toasty.error(getApplicationContext(), item+"", Toast.LENGTH_LONG, true).show();
+                                        .branches(item);
+                                //Toasty.error(getApplicationContext(), item+"", Toast.LENGTH_LONG, true).show();
 
                                 call1.enqueue(new Callback<BankBranches>() {
                                     @Override
                                     public void onResponse(Call<BankBranches> call, Response<BankBranches> response) {
                                         try {
                                             BankBranches bankBranches = response.body();
-                                            branches_name = (List<String>) bankBranches.getM();
-                                            for(int j = 0; j<branches_name.size(); j++){
-                                                branch_bank.add(branches_name.get(j));
+                                            Toasty.error(getApplicationContext(), bankBranches.getM().getBankBranches().size()+"", Toast.LENGTH_LONG, true).show();
+                                            for(int j = 0; j<bankBranches.getM().getBankBranches().size(); j++){
+                                               branches_name.add(bankBranches.getM().getBankBranches().get(j));
                                             }
 
                                             setBranchesAdapter();
@@ -138,7 +141,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setBranchesAdapter() {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, branch_bank);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, branches_name);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bank_branches_show.setAdapter(dataAdapter);
     }
