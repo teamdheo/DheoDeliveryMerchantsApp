@@ -139,7 +139,7 @@ public interface Api {
     @FormUrlEncoded
     @POST("branches")
     Call<BankBranches> branches(
-            @Field("payload_id") Integer bank_id
+            @Field("bank_id") Integer bank_id
     );
 
 }
