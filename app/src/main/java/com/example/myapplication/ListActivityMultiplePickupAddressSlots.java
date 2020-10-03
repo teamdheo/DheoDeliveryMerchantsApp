@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
     private RecyclerView pickup_slot_view;
     private RecyclerView.Adapter adapter;
     private Button back_to_dashboard;
+    private ProgressBar progressBar;
     Helper helper = new Helper(this);
     private int client_id;
 
@@ -37,8 +39,10 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
         setContentView(R.layout.activity_list_multiple_pickup_address_slots);
         pickup_slot_view = (RecyclerView) findViewById(R.id.multiple_address_slot) ;
         back_to_dashboard = (Button) findViewById(R.id.back_to_dashboard);
+        progressBar = findViewById(R.id.multiple_address_slot_progress);
         pickup_slot_view.setHasFixedSize(true);
         pickup_slot_view.setLayoutManager(new LinearLayoutManager(this));
+        back_to_dashboard.setVisibility(View.INVISIBLE);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             address_id_get = extras.getString("address_id");
@@ -54,14 +58,17 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
         call.enqueue(new Callback<AvailablePickupSlot>() {
             @Override
             public void onResponse(Call<AvailablePickupSlot> call, Response<AvailablePickupSlot> response) {
-                try {
-                    AvailablePickupSlot s = response.body();
-                    client_pickup_slots = s.getM();
-                    //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                if(response.body() != null){
+                    try {
+                        AvailablePickupSlot s = response.body();
+                        client_pickup_slots = s.getM();
+                        back_to_dashboard.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
 
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
                 }
                 adapter = new AdapterSingleAddressSlotList(client_pickup_slots,getApplicationContext(),address_id_get);
 
