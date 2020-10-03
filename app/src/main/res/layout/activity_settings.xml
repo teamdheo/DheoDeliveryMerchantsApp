@@ -110,38 +110,65 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bank"
             app:layout_constraintTop_toBottomOf="@+id/pay_sec"/>
-<!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/linear_other"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/other_option">-->
-<!--            <Button-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:layout_marginLeft="5dp"-->
-<!--                android:layout_marginRight="5dp"-->
-<!--                android:text="Cash"-->
-<!--                android:id="@+id/cash"/>-->
-<!--            <Button-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:layout_marginLeft="5dp"-->
-<!--                android:layout_marginRight="5dp"-->
-<!--                android:text="Bkash"-->
-<!--                android:id="@+id/bkash"/>-->
-<!--            <Button-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginRight="5dp"-->
-<!--                android:layout_marginLeft="5dp"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:text="Nagad"-->
-<!--                android:id="@+id/nagad" />-->
-<!--        </LinearLayout>-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/linear_other"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/other_option">
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Cash"
+                android:id="@+id/cash"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Bkash"
+                android:id="@+id/bkash"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Nagad"
+                android:id="@+id/nagad" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bikash_option"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_other"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="BKASH/NAGAD NUMBER"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_bkash_num"
+                android:textSize="16dp"
+                android:layout_margin="10dp"
+                android:hint="Add a Bkash or Nagad number e.g. 01916210901"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,20 +179,66 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bank"
             android:orientation="vertical">
-            <Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/bank_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg_spinner"
                 android:gravity="center" />
-            <Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/branch_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg_spinner"
                 android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="NAME OF BRANCH"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_bank_branch"
+                android:textSize="16dp"
+                android:layout_margin="10dp"
+                android:hint="Add a branch e.g. Uttara Branch"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="ACCOUNT NAME"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_account_name"
+                android:textSize="16dp"
+                android:layout_margin="10dp"
+                android:hint="Add an account name e.g. Rabiul Hasan Robi"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="ACCOUNT NUMBER"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_account_number"
+                android:textSize="16dp"
+                android:layout_margin="10dp"
+                android:hint="Add an account number e.g. 208 154 14983"/>
+
 
         </LinearLayout>
 
