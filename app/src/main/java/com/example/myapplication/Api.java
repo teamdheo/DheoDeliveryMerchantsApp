@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
+import com.example.myapplication.ModelClassBankBranches.BankBranches;
 import com.example.myapplication.ModelClassBanksAndBranches.BanksAndBranches;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientEditPayload.ClientEditPayload;
@@ -134,7 +135,11 @@ public interface Api {
     );
     @GET("bank_and_branches")
     Call<BanksAndBranches> bank_and_branches(
-
+    );
+    @FormUrlEncoded
+    @POST("branches")
+    Call<BankBranches> branches(
+            @Field("payload_id") Integer bank_id
     );
 
 }
