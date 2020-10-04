@@ -44,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url;
-    private Button bank, other_option, cash, bkash, nagad;
+    private Button bank, other_option, cash, bkash, nagad, save_payment_method;
     LinearLayout bank_layout, other_option_layout, bkash_option;
     Helper helper = new Helper(this);
 
@@ -70,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         edit_account_name = findViewById(R.id.edit_account_name);
         edit_account_num = findViewById(R.id.edit_account_number);
         bkash_or_nagad = findViewById(R.id.edit_bkash_num);
+        save_payment_method = findViewById(R.id.save_payment_method);
 
         valid_from = findViewById(R.id.valued_from_s);
         setting_name.setText(helper.getName());
@@ -91,21 +92,26 @@ public class SettingsActivity extends AppCompatActivity {
         branches_name = new ArrayList<>();
         bank_name_show.setPrompt("Select a Bank");
         bank_branches_show.setPrompt("Select a Branch ");
-        other_option_layout.setVisibility(View.INVISIBLE);
-        bkash_option.setVisibility(View.INVISIBLE);
+//        other_option_layout.setVisibility(View.INVISIBLE);
+//        bkash_option.setVisibility(View.INVISIBLE);
+//        bank_layout.setVisibility(View.VISIBLE);
+        other_option_layout.setVisibility(View.GONE);
+        //save_other_method.setVisibility(view.GONE);
         bank_layout.setVisibility(View.VISIBLE);
+        bkash_option.setVisibility(View.GONE);
         other_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 other_option_layout.setVisibility(View.VISIBLE);
-                bank_layout.setVisibility(View.INVISIBLE);
+                bank_layout.setVisibility(View.GONE);
+                //save_other_method.setVisibility(view.VISIBLE);
                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                 other_option.setTextColor(Color.rgb(0, 0, 0));
                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
                 cash.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        bkash_option.setVisibility(View.INVISIBLE);
+                        bkash_option.setVisibility(View.GONE);
                         cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                         cash.setTextColor(Color.rgb(0, 0, 0));
                         bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
@@ -138,9 +144,10 @@ public class SettingsActivity extends AppCompatActivity {
         bank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                other_option_layout.setVisibility(View.INVISIBLE);
+                other_option_layout.setVisibility(View.GONE);
+                //save_other_method.setVisibility(view.GONE);
                 bank_layout.setVisibility(View.VISIBLE);
-                bkash_option.setVisibility(View.INVISIBLE);
+                bkash_option.setVisibility(View.GONE);
                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                 bank.setTextColor(Color.rgb(0, 0, 0));
                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
@@ -158,9 +165,9 @@ public class SettingsActivity extends AppCompatActivity {
                     if(response.body() != null){
                         ClientPrefInfoAccountSetting s = response.body();
                         try{
-                            ArrayAdapter<String> adapter = (ArrayAdapter<String>) bank_name_show.getAdapter();
-                            int position = adapter.getPosition(s.getM().getBankName());
-                            bank_name_show.setSelection(position);
+//                            ArrayAdapter<String> adapter = (ArrayAdapter<String>) bank_name_show.getAdapter();
+//                            int position = adapter.getPosition(s.getM().getBankName());
+//                            bank_name_show.setSelection(position);
                         }catch (NullPointerException e){}
                        try{
                            valid_from.setText("Valued from "+s.getM().getStatDate());
@@ -168,11 +175,11 @@ public class SettingsActivity extends AppCompatActivity {
                            //bank_name_show.setI
                            if (s.getM().getPrefersCash()){
                                other_option_layout.setVisibility(View.VISIBLE);
-                               bank_layout.setVisibility(View.INVISIBLE);
+                               bank_layout.setVisibility(View.GONE);
                                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                other_option.setTextColor(Color.rgb(0, 0, 0));
                                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                               bkash_option.setVisibility(View.INVISIBLE);
+                               bkash_option.setVisibility(View.GONE);
                                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                cash.setTextColor(Color.rgb(0, 0, 0));
                                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
@@ -182,13 +189,13 @@ public class SettingsActivity extends AppCompatActivity {
                         try {
                             if (s.getM().getPrefersBkash()){
                                 other_option_layout.setVisibility(View.VISIBLE);
-                                bank_layout.setVisibility(View.INVISIBLE);
+                                bank_layout.setVisibility(View.GONE);
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 other_option.setTextColor(Color.rgb(0, 0, 0));
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
                                 bkash_or_nagad.setText(s.getM().getNumber());
 
-                                bkash_option.setVisibility(View.VISIBLE);
+                                bkash_option.setVisibility(View.GONE);
                                 bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 bkash.setTextColor(Color.rgb(0, 0, 0));
                                 cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
@@ -199,7 +206,7 @@ public class SettingsActivity extends AppCompatActivity {
                         try{
                             if(s.getM().getPrefersNagad()){
                                 other_option_layout.setVisibility(View.VISIBLE);
-                                bank_layout.setVisibility(View.INVISIBLE);
+                                bank_layout.setVisibility(View.GONE);
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 other_option.setTextColor(Color.rgb(0, 0, 0));
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
@@ -214,9 +221,9 @@ public class SettingsActivity extends AppCompatActivity {
                         }catch (NullPointerException e){}
                         try {
                             if (s.getM().getPrefersBank()){
-                                other_option_layout.setVisibility(View.INVISIBLE);
+                                other_option_layout.setVisibility(View.GONE);
                                 bank_layout.setVisibility(View.VISIBLE);
-                                bkash_option.setVisibility(View.INVISIBLE);
+                                bkash_option.setVisibility(View.GONE);
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 bank.setTextColor(Color.rgb(0, 0, 0));
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
@@ -254,7 +261,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         setBankNameAdapter();
                         bank_name_show.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                                 Integer item = s.get(position).getBankId();
                                 Call<BankBranches> call1 = RetrofitClient
                                         .getInstance()
@@ -266,13 +273,21 @@ public class SettingsActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(Call<BankBranches> call, Response<BankBranches> response) {
                                         try {
-                                            BankBranches bankBranches = response.body();
+                                            final BankBranches bankBranches = response.body();
                                             branches_name.clear();
                                             for(int j = 0; j<bankBranches.getM().getBankBranches().size(); j++){
                                                branches_name.add(bankBranches.getM().getBankBranches().get(j));
                                             }
 
                                             setBranchesAdapter();
+//                                            bank_branches_show.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                                                    //Integer item = s.get(position).getBankId();
+//                                                    edit_branch_name.setText(bankBranches.getM().getBankBranches().get(position));
+//                                                }
+//                                                public void onNothingSelected(AdapterView<?> parent) {
+//                                                }
+//                                            });
                                         }catch (NullPointerException e){}
                                     }
 
@@ -301,8 +316,16 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-    }
+        save_payment_method.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //bank_name_show.getSelectedItem().toString();
+                Toasty.error(getApplicationContext(), bank_name_show.getSelectedItem().toString(), Toast.LENGTH_LONG, true).show();
+            }
+        });
 
+
+    }
     private void setBranchesAdapter() {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, branches_name);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
