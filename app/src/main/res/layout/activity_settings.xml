@@ -163,7 +163,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="BKASH/NAGAD NUMBER"
+                android:id="@+id/bkash_hint"
+                android:text="BKASH NUMBER"
                 android:textSize="14dp"
                 android:textStyle="bold"
                 android:textColor="#000000"/>
@@ -173,7 +174,23 @@
                 android:id="@+id/edit_bkash_num"
                 android:textSize="16dp"
                 android:layout_margin="10dp"
-                android:hint="Add a Bkash or Nagad number e.g. 01916210901"/>
+                android:hint="Add a Bkash e.g. 01916210901"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:id="@+id/nagd_hint"
+                android:text="NAGAD NUMBER"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_nagad_num"
+                android:textSize="16dp"
+                android:layout_margin="10dp"
+                android:hint="Add a Nagad e.g. 01916210901"/>
 
         </LinearLayout>
 
