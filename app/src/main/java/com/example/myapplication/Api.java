@@ -148,8 +148,8 @@ public interface Api {
             @Field("client_id") Integer client_id
     );
     @FormUrlEncoded
-    @POST("client_payment_update")
-    Call<ResponseBody> client_payment_update(
+    @POST("client_payment_settings_update")
+    Call<ResponseBody> client_payment_settings_update(
             @Field("client_id") Integer client_id,
             @Field("mode") String mode,
             @Field("bank_name") String bank_name,
