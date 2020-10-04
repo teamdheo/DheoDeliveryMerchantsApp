@@ -147,5 +147,17 @@ public interface Api {
     Call<ClientPrefInfoAccountSetting> client_account_pref_setting_info(
             @Field("client_id") Integer client_id
     );
+    @FormUrlEncoded
+    @POST("client_payment_update")
+    Call<ResponseBody> client_payment_update(
+            @Field("client_id") Integer client_id,
+            @Field("mode") String mode,
+            @Field("bank_name") String bank_name,
+            @Field("bank_branch") String bank_branch,
+            @Field("account_name") String account_name,
+            @Field("account_number") String account_number,
+            @Field("bkash_number") String bkash_number,
+            @Field("nagad_num") String nagad_num
+    );
 
 }
