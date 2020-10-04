@@ -37,7 +37,8 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
         holder.address_id.setText(pickup_address.get(position).getAddress_id());
-
+        holder.setting_Address.setText(pickup_address.get(position).getClientPickupAddress());
+        holder.setting_phone.setText(pickup_address.get(position).getPhone_no());
 
     }
 
