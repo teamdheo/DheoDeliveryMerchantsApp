@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.example.myapplication.ModelClassBankBranches.BankBranches;
 import com.example.myapplication.ModelClassBanksAndBranches.BanksAndBranches;
 import com.example.myapplication.ModelClassBanksAndBranches.M;
 import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
+import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -52,6 +54,8 @@ public class SettingsActivity extends AppCompatActivity {
     private Button bank, other_option, cash, bkash, nagad, save_payment_method;
     LinearLayout bank_layout, other_option_layout, bkash_option,nagad_option;
     private RecyclerView all_address;
+    private  RecyclerView.Adapter adapter;
+    List<com.example.myapplication.modelClassPickupAddresses.M> all_add_settings;
     Helper helper = new Helper(this);
 
     @Override
@@ -360,13 +364,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        if(edit_account_num.getText().equals(null)&&  edit_account_name.getText().equals(null)){
+        if(!edit_account_num.getText().equals(null) && !edit_account_name.getText().equals(null)){
             mode = "bank";
         }
-        else if(edit_nagad_num.getText().equals(null)){
+        else if(!edit_nagad_num.getText().equals(null)){
             mode = "nagad";
         }
-        else if (bkash_or_nagad.getText().equals(null)){
+        else if (!bkash_or_nagad.getText().equals(null)){
             mode = "bkash";
         }
         else {
@@ -406,6 +410,32 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 });
                 //Toasty.error(getApplicationContext(), bank_name_show.getSelectedItem().toString(), Toast.LENGTH_LONG, true).show();
+            }
+        });
+
+        Call<PickupAddresses> call1 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .get_pickup_address(client_id);
+        call1.enqueue(new Callback<PickupAddresses>() {
+            @Override
+            public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                if(response.body() != null){
+                    try {
+                        PickupAddresses pickupAddresses = response.body();
+                        all_add_settings = pickupAddresses.getM();
+                    }catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
+                    adapter = new AdapterSettingsAllAddresses(all_add_settings, getApplicationContext());
+                    all_address.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PickupAddresses> call, Throwable t) {
+
             }
         });
 
