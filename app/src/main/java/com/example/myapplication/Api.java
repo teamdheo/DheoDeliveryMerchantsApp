@@ -8,6 +8,7 @@ import com.example.myapplication.ModelClassClientEditPayload.ClientEditPayload;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
 import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
+import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
 import com.example.myapplication.modelClassAvaiablePickupSlot.AvailablePickupSlot;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
@@ -140,6 +141,11 @@ public interface Api {
     @POST("branches")
     Call<BankBranches> branches(
             @Field("bank_id") Integer bank_id
+    );
+    @FormUrlEncoded
+    @POST("client_account_pref_setting_info")
+    Call<ClientPrefInfoAccountSetting> client_account_pref_setting_info(
+            @Field("client_id") Integer client_id
     );
 
 }
