@@ -339,7 +339,6 @@ public class SettingsActivity extends AppCompatActivity {
                 Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
             }
         });
-        //client_id,mode,bank_name_show.getSelectedItem().toString(),bank_branches_show.getSelectedItem().toString(),edit_account_name.getText().toString(),edit_account_num.getText().toString(),bkash_or_nagad.getText().toString(),edit_nagad_num.getText().toString();
 
         if(edit_account_num.getText() != null && edit_account_name.getText() != null){
             mode = "bank";
@@ -357,10 +356,36 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Toast.makeText(getApplicationContext(), mode, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), mode, Toast.LENGTH_LONG).show();
+                Call<ResponseBody> call3 = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .client_payment_update(client_id,mode,bank_name_show.getSelectedItem().toString(),bank_branches_show.getSelectedItem().toString(),edit_account_name.getText().toString(),edit_account_num.getText().toString(),bkash_or_nagad.getText().toString(),edit_nagad_num.getText().toString());
+                call3.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        String s = null;
+                        try {
+                            s = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                        if (s.equals("{\"e\":0}")){
+                            Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
 
+                        }
+                        else{
+                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                        }
+                    }
 
-                Toasty.error(getApplicationContext(), mode , Toast.LENGTH_LONG, true).show();
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                    }
+                });
+                Toasty.error(getApplicationContext(), bank_name_show.getSelectedItem().toString(), Toast.LENGTH_LONG, true).show();
             }
         });
 
