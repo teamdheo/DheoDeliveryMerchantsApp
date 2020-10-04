@@ -49,6 +49,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setting_profile_photo" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/valued_from_s"
+            android:text="Valued client since September 2019"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setting_name" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -57,7 +66,7 @@
             android:background="#CC3533"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setting_name">
+            app:layout_constraintTop_toBottomOf="@+id/valued_from_s">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
