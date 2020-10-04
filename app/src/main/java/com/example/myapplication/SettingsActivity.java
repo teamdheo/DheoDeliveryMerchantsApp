@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.myapplication.ModelClassBankBranches.BankBranches;
 import com.example.myapplication.ModelClassBanksAndBranches.BanksAndBranches;
 import com.example.myapplication.ModelClassBanksAndBranches.M;
+import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,8 +38,10 @@ public class SettingsActivity extends AppCompatActivity {
     ArrayList<String> branches_name;
     List<BankBranches> all_branches = new ArrayList<>();
     List<BankBranches> clone_all_branches;
-    TextView setting_name,go_back;
+    TextView setting_name,go_back, valid_from;
+    private EditText bkash_or_nagad, edit_branch_name, edit_account_name, edit_account_num;
     ImageView setting_dp;
+    private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url;
     private Button bank, other_option, cash, bkash, nagad;
@@ -62,7 +66,12 @@ public class SettingsActivity extends AppCompatActivity {
         cash = findViewById(R.id.cash);
         bkash = findViewById(R.id.bkash);
         nagad = findViewById(R.id.nagad);
-        //linearLayout = findViewById(R.id.linear_address);
+        edit_branch_name = findViewById(R.id.edit_bank_branch);
+        edit_account_name = findViewById(R.id.edit_account_name);
+        edit_account_num = findViewById(R.id.edit_account_number);
+        bkash_or_nagad = findViewById(R.id.edit_bkash_num);
+
+        valid_from = findViewById(R.id.valued_from_s);
         setting_name.setText(helper.getName());
         try{
             if(helper.getPhoto_Url().equals("default.svg")){
@@ -76,6 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
         }catch (SQLException e){
 
         }
+        client_id = helper.getClientId();
         go_back.setText("< Go Back");
         bank_name = new ArrayList<>();
         branches_name = new ArrayList<>();
@@ -134,6 +144,96 @@ public class SettingsActivity extends AppCompatActivity {
                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                 bank.setTextColor(Color.rgb(0, 0, 0));
                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+            }
+        });
+
+        Call<ClientPrefInfoAccountSetting> call2 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_account_pref_setting_info(client_id);
+        call2.enqueue(new Callback<ClientPrefInfoAccountSetting>() {
+            @Override
+            public void onResponse(Call<ClientPrefInfoAccountSetting> call, Response<ClientPrefInfoAccountSetting> response) {
+                try {
+                    if(response.body() != null){
+                        ClientPrefInfoAccountSetting s = response.body();
+                        try{
+                            ArrayAdapter<String> adapter = (ArrayAdapter<String>) bank_name_show.getAdapter();
+                            int position = adapter.getPosition(s.getM().getBankName());
+                            bank_name_show.setSelection(position);
+                        }catch (NullPointerException e){}
+                       try{
+                           valid_from.setText("Valued from "+s.getM().getStatDate());
+
+                           //bank_name_show.setI
+                           if (s.getM().getPrefersCash()){
+                               other_option_layout.setVisibility(View.VISIBLE);
+                               bank_layout.setVisibility(View.INVISIBLE);
+                               other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                               other_option.setTextColor(Color.rgb(0, 0, 0));
+                               bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                               bkash_option.setVisibility(View.INVISIBLE);
+                               cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                               cash.setTextColor(Color.rgb(0, 0, 0));
+                               bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                               nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                           }
+                       }catch (NullPointerException e){}
+                        try {
+                            if (s.getM().getPrefersBkash()){
+                                other_option_layout.setVisibility(View.VISIBLE);
+                                bank_layout.setVisibility(View.INVISIBLE);
+                                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                                other_option.setTextColor(Color.rgb(0, 0, 0));
+                                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                bkash_or_nagad.setText(s.getM().getNumber());
+
+                                bkash_option.setVisibility(View.VISIBLE);
+                                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                                bkash.setTextColor(Color.rgb(0, 0, 0));
+                                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+
+                            }
+                        }catch (NullPointerException e ){}
+                        try{
+                            if(s.getM().getPrefersNagad()){
+                                other_option_layout.setVisibility(View.VISIBLE);
+                                bank_layout.setVisibility(View.INVISIBLE);
+                                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                                other_option.setTextColor(Color.rgb(0, 0, 0));
+                                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                bkash_or_nagad.setText(s.getM().getNumber());
+
+                                bkash_option.setVisibility(View.VISIBLE);
+                                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                                nagad.setTextColor(Color.rgb(0, 0, 0));
+                                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                            }
+                        }catch (NullPointerException e){}
+                        try {
+                            if (s.getM().getPrefersBank()){
+                                other_option_layout.setVisibility(View.INVISIBLE);
+                                bank_layout.setVisibility(View.VISIBLE);
+                                bkash_option.setVisibility(View.INVISIBLE);
+                                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                                bank.setTextColor(Color.rgb(0, 0, 0));
+                                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                edit_branch_name.setText(s.getM().getBranchName());
+                                edit_account_name.setText(s.getM().getAccountName());
+                                edit_account_num.setText(s.getM().getAccountNumber());
+                            }
+                        }catch (NullPointerException e){}
+                    }
+                }catch (NullPointerException e){
+                    Toasty.error(getApplicationContext(), "null", Toast.LENGTH_LONG, true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClientPrefInfoAccountSetting> call, Throwable t) {
+                Toasty.error(getApplicationContext(), "unable to response", Toast.LENGTH_LONG, true).show();
             }
         });
 
