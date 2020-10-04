@@ -123,13 +123,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/linear_other"
+            android:layout_margin="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/other_option">
             <Button
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:text="Cash"
@@ -137,7 +137,6 @@
             <Button
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:text="Bkash"
@@ -147,7 +146,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
                 android:text="Nagad"
                 android:id="@+id/nagad" />
 
@@ -186,7 +184,7 @@
             android:id="@+id/linear_bank"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bank"
+            app:layout_constraintTop_toBottomOf="@id/bikash_option"
             android:orientation="vertical">
             <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/bank_name"
@@ -247,9 +245,18 @@
                 android:textSize="16dp"
                 android:layout_margin="10dp"
                 android:hint="Add an account number e.g. 208 154 14983"/>
-
-
         </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/save_payment_method"
+            android:layout_marginLeft="10dp"
+            android:text="Save"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_signup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear_bank"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
