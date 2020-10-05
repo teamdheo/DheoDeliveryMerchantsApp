@@ -159,5 +159,17 @@ public interface Api {
             @Field("bkash_number") String bkash_number,
             @Field("nagad_num") String nagad_num
     );
+    @FormUrlEncoded
+    @POST("delete_pickup_address")
+    Call<ResponseBody> delete_pickup_address(
+            @Field("Pickup_address_id") String Pickup_address_id
+    );
+    @FormUrlEncoded
+    @POST("add_new_address")
+    Call<ResponseBody> add_new_address(
+            @Field("client_id") Integer client_id,
+            @Field("number") String number,
+            @Field("address") String address
+    );
 
 }
