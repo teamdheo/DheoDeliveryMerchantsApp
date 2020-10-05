@@ -39,6 +39,50 @@ public class M {
     @SerializedName("prefers_nagad")
     @Expose
     private Boolean prefersNagad;
+    @SerializedName("is_submitted")
+    @Expose
+    private Boolean isSubmitted;
+    @SerializedName("phone_no")
+    @Expose
+    private String phoneNo;
+    @SerializedName("submitted_date")
+    @Expose
+    private String submittedDate;
+    @SerializedName("link")
+    @Expose
+    private String link;
+
+    public Boolean getSubmitted() {
+        return isSubmitted;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setSubmitted(Boolean submitted) {
+        isSubmitted = submitted;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getSubmittedDate() {
+        return submittedDate;
+    }
+
+    public void setSubmittedDate(String submittedDate) {
+        this.submittedDate = submittedDate;
+    }
 
     public String getStatDate() {
         return statDate;
