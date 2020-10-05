@@ -2,15 +2,15 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,22 +40,19 @@ import retrofit2.Response;
 
 public class SettingsActivity extends AppCompatActivity {
     ArrayList<String> bank_name;
-    ArrayList<String> branch_bank;
-
     ArrayList<String> branches_name;
-    List<BankBranches> all_branches = new ArrayList<>();
-    List<BankBranches> clone_all_branches;
-    TextView setting_name,go_back, valid_from,nagad_hint,bkash_hint;
-    private EditText bkash_or_nagad, edit_branch_name, edit_account_name, edit_account_num, edit_nagad_num;
+    private TextView setting_name,go_back, valid_from,nagad_hint,bkash_hint,verify_submit_date;
+    private EditText bkash_or_nagad, edit_branch_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone,edit_web_link,change_account_phone;
     ImageView setting_dp;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url, mode;
-    private Button bank, other_option, cash, bkash, nagad, save_payment_method;
-    LinearLayout bank_layout, other_option_layout, bkash_option,nagad_option;
+    private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn,save_new_address,cancel_new_add,add_web_address_btn,change_phone_btn;
+    LinearLayout bank_layout, other_option_layout, bkash_option,address_sec_layout;
     private RecyclerView all_address;
     private  RecyclerView.Adapter adapter;
     List<com.example.myapplication.modelClassPickupAddresses.M> all_add_settings;
+    private ProgressDialog progressDialog;
     Helper helper = new Helper(this);
 
     @Override
@@ -86,9 +83,24 @@ public class SettingsActivity extends AppCompatActivity {
         nagad_hint = findViewById(R.id.nagd_hint);
         bkash_hint = findViewById(R.id.bkash_hint);
         all_address = findViewById(R.id.all_address);
-
+        all_address.setHasFixedSize(true);
+        all_address.setLayoutManager(new LinearLayoutManager(this));
+        add_address_btn =  findViewById(R.id.add_address_btn);
+        address_sec_layout =  findViewById(R.id.address_sec_layout);
+        add_new_add = findViewById(R.id.add_new_add);
+        add_new_phone = findViewById(R.id.add_new_phone);
+        save_new_address =  findViewById(R.id.save_new_address);
+        cancel_new_add = findViewById(R.id.cancel_new_address);
+        edit_web_link = findViewById(R.id.edit_web_link);
+        add_web_address_btn = findViewById(R.id.add_web_address_btn);
+        change_account_phone =findViewById(R.id.change_account_phone);
+        change_phone_btn = findViewById(R.id.change_phone_btn);
+        verify_submit_date = findViewById(R.id.verify_submit_date);
         valid_from = findViewById(R.id.valued_from_s);
+
+
         setting_name.setText(helper.getName());
+        progressDialog = new ProgressDialog(this);
         try{
             if(helper.getPhoto_Url().equals("default.svg")){
                 setting_dp = findViewById(R.id.setting_profile_photo);
@@ -112,6 +124,8 @@ public class SettingsActivity extends AppCompatActivity {
         //nagad_option.setVisibility(View.GONE);
         bank_layout.setVisibility(View.VISIBLE);
         bkash_option.setVisibility(View.GONE);
+        address_sec_layout.setVisibility(View.GONE);
+        verify_submit_date.setVisibility(View.GONE);
         other_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,7 +205,20 @@ public class SettingsActivity extends AppCompatActivity {
                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
             }
         });
-
+        add_address_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                address_sec_layout.setVisibility(View.VISIBLE);
+            }
+        });
+        cancel_new_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                address_sec_layout.setVisibility(View.GONE);
+            }
+        });
+        progressDialog.setMessage("Processing...");
+        progressDialog.show();
         Call<ClientPrefInfoAccountSetting> call2 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -201,11 +228,24 @@ public class SettingsActivity extends AppCompatActivity {
             public void onResponse(Call<ClientPrefInfoAccountSetting> call, Response<ClientPrefInfoAccountSetting> response) {
                 try {
                     if(response.body() != null){
+                        progressDialog.dismiss();
                         ClientPrefInfoAccountSetting s = response.body();
                         try{
 //                            ArrayAdapter<String> adapter = (ArrayAdapter<String>) bank_name_show.getAdapter();
 //                            int position = adapter.getPosition(s.getM().getBankName());
 //                            bank_name_show.setSelection(position);
+                        }catch (NullPointerException e){}
+                        try {
+                            edit_web_link.setText(s.getM().getLink());
+                        }catch (NullPointerException e){}
+                        try {
+                            change_account_phone.setText(s.getM().getPhoneNo());
+                        }catch (NullPointerException e){}
+                        try {
+                            if(s.getM().getSubmitted()){
+                                verify_submit_date.setVisibility(View.VISIBLE);
+                                verify_submit_date.setText("You submitted your ID on " + s.getM().getSubmittedDate());
+                            }
                         }catch (NullPointerException e){}
                        try{
                            valid_from.setText("Valued from "+s.getM().getStatDate());
@@ -364,13 +404,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        if(!edit_account_num.getText().equals(null) && !edit_account_name.getText().equals(null)){
+        if(edit_nagad_num.getText().equals(null) && !edit_account_num.getText().equals(null) && !edit_account_name.getText().equals(null) && bkash_or_nagad.getText().equals(null)){
             mode = "bank";
         }
-        else if(!edit_nagad_num.getText().equals(null)){
+        else if(!edit_nagad_num.getText().equals(null) && edit_account_num.getText().equals(null) && edit_account_name.getText().equals(null) && bkash_or_nagad.getText().equals(null)){
             mode = "nagad";
         }
-        else if (!bkash_or_nagad.getText().equals(null)){
+        else if (!edit_nagad_num.getText().equals(null) && edit_account_num.getText().equals(null) && edit_account_name.getText().equals(null) && !bkash_or_nagad.getText().equals(null)){
             mode = "bkash";
         }
         else {
@@ -379,8 +419,9 @@ public class SettingsActivity extends AppCompatActivity {
         save_payment_method.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Toast.makeText(getApplicationContext(), mode, Toast.LENGTH_LONG).show();
+//                progressDialog.setMessage("Updating...");
+//                progressDialog.show();
                 Call<ResponseBody> call3 = RetrofitClient
                         .getInstance()
                         .getApi()
@@ -396,7 +437,10 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")){
+                            progressDialog.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                            startActivity(intent);
 
                         }
                         else{
@@ -435,6 +479,47 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PickupAddresses> call, Throwable t) {
+                Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+            }
+        });
+
+        save_new_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.setMessage("Updating...");
+                progressDialog.show();
+                Call<ResponseBody> call4 = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .add_new_address(client_id,add_new_phone.getText().toString(),add_new_add.getText().toString());
+                call4.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        String s = null;
+                        try {
+                            s = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                        if (s.equals("{\"e\":0}")){
+                            progressDialog.dismiss();
+                            Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                            startActivity(intent);
+
+                        }
+                        else{
+                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+
+                    }
+                });
 
             }
         });
