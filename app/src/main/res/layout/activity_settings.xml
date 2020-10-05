@@ -279,7 +279,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:id="@+id/linear_address"
-            android:background="#DCDCDC"
+            android:background="#EFEFEF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/save_payment_method"
@@ -305,13 +305,175 @@
                 android:textSize="15dp" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/all_address"
+                android:background="#EFEFEF"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="10dp"
+                android:scrollbars="vertical" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:scrollbars="vertical"
-                android:background="#ffffff"/>
+                android:id="@+id/add_address_btn"
+                android:text="Add a new address"
+                android:textSize="15dp"
+                android:textColor="#FFF"
+                android:background="@drawable/rounded_signup"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/address_sec_layout"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/add_new_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="8dp"
+                    android:background="@drawable/rounded_log_in"
+                    android:hint="Pickup address"
+                    android:textSize="15sp"/>
+                <EditText
+                    android:id="@+id/add_new_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="8dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="Phone no"
+                    android:background="@drawable/rounded_log_in"
+                    android:textSize="15sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/save_and_cancel"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="70dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/save_new_address"
+                        android:text="Save"
+                        android:textColor="#FFF"
+                        android:background="@drawable/rounded_signup"/>
+                    <Button
+                        android:layout_width="70dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/cancel_new_address"
+                        android:text="Cancel"
+                        android:textColor="#000000"
+                        android:background="@drawable/defult_button"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fb_link"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Website"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:textColor="#000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/fb_link_sec"
+                android:text="Your FB/Insta/Website address (for customers)."
+                android:textSize="15dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_web_link"
+                android:textSize="16dp"
+                android:layout_margin="10dp"
+                android:hint="e.g. https://www.facebook.com/shopdheo"/>
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/add_web_address_btn"
+                android:text="Save"
+                android:textColor="#FFF"
+                android:background="@drawable/rounded_signup"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/phone"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Phone"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:textColor="#000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/phone_sec"
+                android:text="What phone number should we use for your account?"
+                android:textSize="15dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/change_account_phone"
+                android:textSize="16dp"
+                android:layout_margin="10dp"
+                android:hint="e.g. https://www.facebook.com/shopdheo"/>
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/change_phone_btn"
+                android:text="Save"
+                android:textColor="#FFF"
+                android:background="@drawable/rounded_signup"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/verify_id"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Verification ID"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:textColor="#000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/verify_submit_date"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Verification ID"
+                android:padding="8dp"
+                android:background="@drawable/id_submit_background"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="#FFF" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/verify_id_sec"
+                android:text="You can submit an updated ID below"
+                android:textSize="15dp" />
         </LinearLayout>
 
 
