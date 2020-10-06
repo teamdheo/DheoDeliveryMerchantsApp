@@ -171,5 +171,17 @@ public interface Api {
             @Field("number") String number,
             @Field("address") String address
     );
+    @FormUrlEncoded
+    @POST("update_link")
+    Call<ResponseBody> update_link(
+            @Field("client_id") Integer client_id,
+            @Field("link") String link
+    );
+    @FormUrlEncoded
+    @POST("update_number")
+    Call<ResponseBody> update_number(
+            @Field("client_id") Integer client_id,
+            @Field("number") String number
+    );
 
 }
