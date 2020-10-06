@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -41,7 +43,7 @@ import retrofit2.Response;
 public class SettingsActivity extends AppCompatActivity {
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
-    private TextView setting_name,go_back, valid_from,nagad_hint,bkash_hint,verify_submit_date;
+    private TextView setting_name,go_back, valid_from,nagad_hint,bkash_hint,verify_submit_date, phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,image_upload,show_upload_image,reset_pass;
     private EditText bkash_or_nagad, edit_branch_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone,edit_web_link,change_account_phone;
     ImageView setting_dp;
     private int client_id;
@@ -53,6 +55,8 @@ public class SettingsActivity extends AppCompatActivity {
     private  RecyclerView.Adapter adapter;
     List<com.example.myapplication.modelClassPickupAddresses.M> all_add_settings;
     private ProgressDialog progressDialog;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
 
     @Override
@@ -97,6 +101,21 @@ public class SettingsActivity extends AppCompatActivity {
         change_phone_btn = findViewById(R.id.change_phone_btn);
         verify_submit_date = findViewById(R.id.verify_submit_date);
         valid_from = findViewById(R.id.valued_from_s);
+        image_upload = findViewById(R.id.upload_image);
+        show_upload_image = findViewById(R.id.show_upload_image);
+        reset_pass = findViewById(R.id.reset_pass);
+
+        phone_call = findViewById(R.id.billing_phone);
+        facebook = findViewById(R.id.billing_fb);
+        my_delivery = findViewById(R.id.billing_my_delivery);
+        dashboard_billing = findViewById(R.id.billing_Billing);
+        settings = findViewById(R.id.billing_settings);
+        user_manual = findViewById(R.id.billing_user_manual);
+        log_out =findViewById(R.id.billing_logout);
+        dhep_delivery = findViewById(R.id.billing_dheo_delivery);
+        the_user_manual = findViewById(R.id.billing_The_manual);
+        meet_the_team = findViewById(R.id.billing_meet_team);
+        privacy_policy = findViewById(R.id.billing_policy);
 
 
         setting_name.setText(helper.getName());
@@ -524,6 +543,200 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        add_web_address_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.setMessage("Updating...");
+                progressDialog.show();
+                Call<ResponseBody> call5 = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .update_link(client_id, edit_web_link.getText().toString());
+                call5.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        String s = null;
+                        try {
+                            s = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                        if (s.equals("{\"e\":0}")){
+                            progressDialog.dismiss();
+                            Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                            startActivity(intent);
+
+                        }
+                        else{
+                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                    }
+                });
+            }
+        });
+
+        change_phone_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.setMessage("Updating...");
+                progressDialog.show();
+                Call<ResponseBody> call6 = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .update_number(client_id, change_account_phone.getText().toString());
+                call6.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        String s = null;
+                        try {
+                            s = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                        if (s.equals("{\"e\":0}")){
+                            progressDialog.dismiss();
+                            Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                            startActivity(intent);
+
+                        }
+                        else{
+                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                    }
+                });
+            }
+        });
+
+        phone_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel: +8801301377181"));
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://m.me/dheolife";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+
+        my_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(intent);
+            }
+        });
+        dashboard_billing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                startActivity(intent);
+            }
+        });
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        user_manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://rocket.dheo.com/user-manual";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+
+        log_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPreferences=getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                editor=sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(intent);
+            }
+        });
+        dhep_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(intent);
+            }
+        });
+        the_user_manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://rocket.dheo.com/user-manual";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+        meet_the_team.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://team.dheo.com";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+        privacy_policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://dheo.com/privacy";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+        reset_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), PasswordResetActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        image_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 1);
+            }
+        });
 
     }
     private void setBranchesAdapter() {
@@ -538,5 +751,4 @@ public class SettingsActivity extends AppCompatActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bank_name_show.setAdapter(dataAdapter);
     }
-
 }
