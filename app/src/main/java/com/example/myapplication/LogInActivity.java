@@ -64,6 +64,8 @@ public class LogInActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.setMessage("Authenticating...");
+                progressDialog.show();
                 if(number.getText().toString().length() == 11 && password.getText().toString().length() > 0) {
                     Call<ClientInfo> call = RetrofitClient
                             .getInstance()
@@ -89,7 +91,7 @@ public class LogInActivity extends AppCompatActivity {
                                     String sql = "CREATE TABLE IF NOT EXISTS ClientBasicInfo (_id Integer Primary Key, name TEXT,balance Integer);";
                                     sqLiteDatabase.execSQL(sql);
                                     if (session == 1) {
-                                        sql = "INSERT or REPLACE INTO ClientBasicInfo VALUES ( 1,'" + s.getM().getName()+ "','" + s.getM().getBalance() + "');";
+                                        sql = "INSERT or REPLACE INTO ClientBasicInfo VALUES ( 1,'" + s.getM().getName() +"','" + s.getM().getBalance() + "');";
                                         sqLiteDatabase.execSQL(sql);
                                     }
 //
