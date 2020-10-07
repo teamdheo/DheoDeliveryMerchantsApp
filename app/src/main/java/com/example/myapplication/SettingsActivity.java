@@ -1,18 +1,26 @@
 package com.example.myapplication;
 
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.SQLException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,6 +39,8 @@ import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPr
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +52,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SettingsActivity extends AppCompatActivity {
+    private static final int SELECT_PICTURE = 1;
+    private String selectedImagePath;
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
     private TextView setting_name,go_back, valid_from,nagad_hint,bkash_hint,verify_submit_date, phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,image_upload,show_upload_image,reset_pass;
@@ -50,11 +62,13 @@ public class SettingsActivity extends AppCompatActivity {
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url, mode;
-    private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn,save_new_address,cancel_new_add,add_web_address_btn,change_phone_btn;
-    LinearLayout bank_layout, other_option_layout, bkash_option,address_sec_layout;
+    private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn;
+    LinearLayout bank_layout, other_option_layout, bkash_option, address_sec_layout;
     private RecyclerView all_address;
-    private  RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter adapter;
     List<com.example.myapplication.modelClassPickupAddresses.M> all_add_settings;
+    File imageFile;
+    String picturePath = null;
     private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -90,15 +104,15 @@ public class SettingsActivity extends AppCompatActivity {
         all_address = findViewById(R.id.all_address);
         all_address.setHasFixedSize(true);
         all_address.setLayoutManager(new LinearLayoutManager(this));
-        add_address_btn =  findViewById(R.id.add_address_btn);
-        address_sec_layout =  findViewById(R.id.address_sec_layout);
+        add_address_btn = findViewById(R.id.add_address_btn);
+        address_sec_layout = findViewById(R.id.address_sec_layout);
         add_new_add = findViewById(R.id.add_new_add);
         add_new_phone = findViewById(R.id.add_new_phone);
-        save_new_address =  findViewById(R.id.save_new_address);
+        save_new_address = findViewById(R.id.save_new_address);
         cancel_new_add = findViewById(R.id.cancel_new_address);
         edit_web_link = findViewById(R.id.edit_web_link);
         add_web_address_btn = findViewById(R.id.add_web_address_btn);
-        change_account_phone =findViewById(R.id.change_account_phone);
+        change_account_phone = findViewById(R.id.change_account_phone);
         change_phone_btn = findViewById(R.id.change_phone_btn);
         verify_submit_date = findViewById(R.id.verify_submit_date);
         valid_from = findViewById(R.id.valued_from_s);
@@ -112,7 +126,7 @@ public class SettingsActivity extends AppCompatActivity {
         dashboard_billing = findViewById(R.id.billing_Billing);
         settings = findViewById(R.id.billing_settings);
         user_manual = findViewById(R.id.billing_user_manual);
-        log_out =findViewById(R.id.billing_logout);
+        log_out = findViewById(R.id.billing_logout);
         dhep_delivery = findViewById(R.id.billing_dheo_delivery);
         the_user_manual = findViewById(R.id.billing_The_manual);
         meet_the_team = findViewById(R.id.billing_meet_team);
@@ -121,16 +135,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         setting_name.setText(helper.getName());
         progressDialog = new ProgressDialog(this);
-        try{
-            if(helper.getPhoto_Url().equals("default.svg")){
+        try {
+            if (helper.getPhoto_Url().equals("default.svg")) {
                 setting_dp = findViewById(R.id.setting_profile_photo);
-            }
-            else {
+            } else {
                 setting_dp = findViewById(R.id.setting_profile_photo);
-                photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + helper.getPhoto_Url() ;
+                photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + helper.getPhoto_Url();
                 Picasso.get().load(photo_url).into(setting_dp);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
 
         }
         client_id = helper.getClientId();
@@ -247,46 +260,51 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ClientPrefInfoAccountSetting> call, Response<ClientPrefInfoAccountSetting> response) {
                 try {
-                    if(response.body() != null){
+                    if (response.body() != null) {
                         progressDialog.dismiss();
                         ClientPrefInfoAccountSetting s = response.body();
-                        try{
+                        try {
 //                            ArrayAdapter<String> adapter = (ArrayAdapter<String>) bank_name_show.getAdapter();
 //                            int position = adapter.getPosition(s.getM().getBankName());
 //                            bank_name_show.setSelection(position);
-                        }catch (NullPointerException e){}
+                        } catch (NullPointerException e) {
+                        }
                         try {
                             edit_web_link.setText(s.getM().getLink());
-                        }catch (NullPointerException e){}
+                        } catch (NullPointerException e) {
+                        }
                         try {
                             change_account_phone.setText(s.getM().getPhoneNo());
-                        }catch (NullPointerException e){}
+                        } catch (NullPointerException e) {
+                        }
                         try {
-                            if(s.getM().getSubmitted()){
+                            if (s.getM().getSubmitted()) {
                                 verify_submit_date.setVisibility(View.VISIBLE);
                                 verify_submit_date.setText("You submitted your ID on " + s.getM().getSubmittedDate());
                             }
-                        }catch (NullPointerException e){}
-                       try{
-                           valid_from.setText("Valued from "+s.getM().getStatDate());
-
-                           //bank_name_show.setI
-                           if (s.getM().getPrefersCash()){
-                               other_option_layout.setVisibility(View.VISIBLE);
-                               bank_layout.setVisibility(View.GONE);
-                               //nagad_option.setVisibility(View.GONE);
-                               other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                               other_option.setTextColor(Color.rgb(255, 255, 255));
-                               bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                               bkash_option.setVisibility(View.GONE);
-                               cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                               cash.setTextColor(Color.rgb(255, 255, 255));
-                               bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                               nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                           }
-                       }catch (NullPointerException e){}
+                        } catch (NullPointerException e) {
+                        }
                         try {
-                            if (s.getM().getPrefersBkash()){
+                            valid_from.setText("Valued from " + s.getM().getStatDate());
+
+                            //bank_name_show.setI
+                            if (s.getM().getPrefersCash()) {
+                                other_option_layout.setVisibility(View.VISIBLE);
+                                bank_layout.setVisibility(View.GONE);
+                                //nagad_option.setVisibility(View.GONE);
+                                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                                other_option.setTextColor(Color.rgb(255, 255, 255));
+                                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                bkash_option.setVisibility(View.GONE);
+                                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                                cash.setTextColor(Color.rgb(255, 255, 255));
+                                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                            }
+                        } catch (NullPointerException e) {
+                        }
+                        try {
+                            if (s.getM().getPrefersBkash()) {
                                 other_option_layout.setVisibility(View.VISIBLE);
                                 bank_layout.setVisibility(View.GONE);
                                 //nagad_option.setVisibility(View.GONE);
@@ -306,9 +324,10 @@ public class SettingsActivity extends AppCompatActivity {
                                 nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
 
                             }
-                        }catch (NullPointerException e ){}
-                        try{
-                            if(s.getM().getPrefersNagad()){
+                        } catch (NullPointerException e) {
+                        }
+                        try {
+                            if (s.getM().getPrefersNagad()) {
                                 other_option_layout.setVisibility(View.VISIBLE);
                                 bank_layout.setVisibility(View.GONE);
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
@@ -327,9 +346,10 @@ public class SettingsActivity extends AppCompatActivity {
                                 cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
                                 bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
                             }
-                        }catch (NullPointerException e){}
+                        } catch (NullPointerException e) {
+                        }
                         try {
-                            if (s.getM().getPrefersBank()){
+                            if (s.getM().getPrefersBank()) {
                                 other_option_layout.setVisibility(View.GONE);
                                 bank_layout.setVisibility(View.VISIBLE);
                                 bkash_option.setVisibility(View.GONE);
@@ -341,9 +361,10 @@ public class SettingsActivity extends AppCompatActivity {
                                 edit_account_name.setText(s.getM().getAccountName());
                                 edit_account_num.setText(s.getM().getAccountNumber());
                             }
-                        }catch (NullPointerException e){}
+                        } catch (NullPointerException e) {
+                        }
                     }
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     Toasty.error(getApplicationContext(), "null", Toast.LENGTH_LONG, true).show();
                 }
             }
@@ -363,9 +384,9 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<BanksAndBranches> call, Response<BanksAndBranches> response) {
                 try {
-                    if(response.body() != null){
+                    if (response.body() != null) {
                         final List<M> s = response.body().getM();
-                        for(int i = 0; i<s.size(); i++){
+                        for (int i = 0; i < s.size(); i++) {
                             bank_name.add(s.get(i).getBankName());
 
                         }
@@ -385,8 +406,8 @@ public class SettingsActivity extends AppCompatActivity {
                                         try {
                                             final BankBranches bankBranches = response.body();
                                             branches_name.clear();
-                                            for(int j = 0; j<bankBranches.getM().getBankBranches().size(); j++){
-                                               branches_name.add(bankBranches.getM().getBankBranches().get(j));
+                                            for (int j = 0; j < bankBranches.getM().getBankBranches().size(); j++) {
+                                                branches_name.add(bankBranches.getM().getBankBranches().get(j));
                                             }
 
                                             setBranchesAdapter();
@@ -398,7 +419,8 @@ public class SettingsActivity extends AppCompatActivity {
 //                                                public void onNothingSelected(AdapterView<?> parent) {
 //                                                }
 //                                            });
-                                        }catch (NullPointerException e){}
+                                        } catch (NullPointerException e) {
+                                        }
                                     }
 
                                     @Override
@@ -408,14 +430,15 @@ public class SettingsActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+
                             public void onNothingSelected(AdapterView<?> parent) {
                             }
                         });
-                    }
-                    else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Response failed", Toast.LENGTH_LONG).show();
                     }
-                }catch (NullPointerException e){}
+                } catch (NullPointerException e) {
+                }
             }
 
             @Override
@@ -449,16 +472,13 @@ public class SettingsActivity extends AppCompatActivity {
 //        else if(nagad.getBackground().getConstantState().equals(myDrawable.getConstantState())){
 //            mode = "nagad";
 //        }
-        if(!edit_account_name.getText().toString().equals(null) && !edit_account_num.getText().toString().equals(null)){
+        if (!edit_account_name.getText().toString().equals(null) && !edit_account_num.getText().toString().equals(null)) {
             mode = "bank";
-        }
-        else if (!edit_nagad_num.getText().toString().equals(null)){
+        } else if (!edit_nagad_num.getText().toString().equals(null)) {
             mode = "nagad";
-        }
-        else if(!bkash_or_nagad.getText().toString().equals(null)){
+        } else if (!bkash_or_nagad.getText().toString().equals(null)) {
             mode = "bkash";
-        }
-        else {
+        } else {
             mode = "cash";
         }
 
@@ -466,13 +486,13 @@ public class SettingsActivity extends AppCompatActivity {
         save_payment_method.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), bank_name_show.getSelectedItem()+"", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), bank_name_show.getSelectedItem() + "", Toast.LENGTH_LONG).show();
 //                progressDialog.setMessage("Updating...");
 //                progressDialog.show();
                 Call<ResponseBody> call3 = RetrofitClient
                         .getInstance()
                         .getApi()
-                        .client_payment_settings_update(client_id,mode,bank_name_show.getSelectedItem().toString(),bank_branches_show.getSelectedItem().toString(),edit_account_name.getText().toString(),edit_account_num.getText().toString(),bkash_or_nagad.getText().toString(),edit_nagad_num.getText().toString());
+                        .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
                 call3.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -483,14 +503,13 @@ public class SettingsActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                        if (s.equals("{\"e\":0}")){
+                        if (s.equals("{\"e\":0}")) {
                             progressDialog.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
 
-                        }
-                        else{
+                        } else {
                             Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
                         }
                     }
@@ -511,11 +530,11 @@ public class SettingsActivity extends AppCompatActivity {
         call1.enqueue(new Callback<PickupAddresses>() {
             @Override
             public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
-                if(response.body() != null){
+                if (response.body() != null) {
                     try {
                         PickupAddresses pickupAddresses = response.body();
                         all_add_settings = pickupAddresses.getM();
-                    }catch (NullPointerException e) {
+                    } catch (NullPointerException e) {
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
@@ -538,7 +557,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Call<ResponseBody> call4 = RetrofitClient
                         .getInstance()
                         .getApi()
-                        .add_new_address(client_id,add_new_phone.getText().toString(),add_new_add.getText().toString());
+                        .add_new_address(client_id, add_new_phone.getText().toString(), add_new_add.getText().toString());
                 call4.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -549,14 +568,13 @@ public class SettingsActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                        if (s.equals("{\"e\":0}")){
+                        if (s.equals("{\"e\":0}")) {
                             progressDialog.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
 
-                        }
-                        else{
+                        } else {
                             Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
                         }
                     }
@@ -590,14 +608,13 @@ public class SettingsActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                        if (s.equals("{\"e\":0}")){
+                        if (s.equals("{\"e\":0}")) {
                             progressDialog.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
 
-                        }
-                        else{
+                        } else {
                             Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
                         }
                     }
@@ -629,14 +646,13 @@ public class SettingsActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                        if (s.equals("{\"e\":0}")){
+                        if (s.equals("{\"e\":0}")) {
                             progressDialog.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
 
-                        }
-                        else{
+                        } else {
                             Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
                         }
                     }
@@ -704,8 +720,8 @@ public class SettingsActivity extends AppCompatActivity {
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferences=getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-                editor=sharedPreferences.edit();
+                sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
                 Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
@@ -760,13 +776,61 @@ public class SettingsActivity extends AppCompatActivity {
         image_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 1);
+
+                try {
+                    if (ActivityCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, SELECT_PICTURE);
+                    } else {
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto , SELECT_PICTURE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            Uri selectedImage =  data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            if (selectedImage != null) {
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+                    File file = new File(picturePath);
+                    String imageName = file.getName();
+                    show_upload_image.setText(imageName);
+                    show_upload_image.setTextSize(12);
+
+//                    float aspectRatio = bitmap.getWidth() /
+//                            (float) bitmap.getHeight();
+//                    int width = 500;
+//                    int height = Math.round(width / aspectRatio);
+//                    bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
+//                    bitmap.compress(Bitmap.CompressFormat.WEBP, 100, baos);
+//                    byte[] imageBytes = baos.toByteArray();
+//                    //todo out of memory exception
+//                    bitmap.recycle();
+
+                    cursor.close();
+                }
+            }
+
+        }
+    }
+
     private void setBranchesAdapter() {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, branches_name);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
