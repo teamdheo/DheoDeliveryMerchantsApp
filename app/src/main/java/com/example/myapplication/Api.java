@@ -183,5 +183,11 @@ public interface Api {
             @Field("client_id") Integer client_id,
             @Field("number") String number
     );
-
+    @FormUrlEncoded
+    @POST("update_address")
+    Call<ResponseBody> update_address(
+            @Field("address_id") String address_id,
+            @Field("pickup_address") String pickup_address,
+            @Field("pickup_phone") String pickup_phone
+    );
 }
