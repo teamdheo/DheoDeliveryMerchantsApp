@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -105,7 +106,7 @@ public class SettingsActivity extends AppCompatActivity {
         show_upload_image = findViewById(R.id.show_upload_image);
         reset_pass = findViewById(R.id.reset_pass);
 
-        phone_call = findViewById(R.id.billing_phone);
+        phone_call = findViewById(R.id.billing_phone5);
         facebook = findViewById(R.id.billing_fb);
         my_delivery = findViewById(R.id.billing_my_delivery);
         dashboard_billing = findViewById(R.id.billing_Billing);
@@ -423,22 +424,49 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        if(edit_nagad_num.getText().equals(null) && !edit_account_num.getText().equals(null) && !edit_account_name.getText().equals(null) && bkash_or_nagad.getText().equals(null)){
+//        if(bank. getBackground().getConstantState().equals(getResources().getDrawable(R.drawable.rounded_signup).getConstantState())){
+//            mode = "bank" ;
+//        }
+//        if(cash.getBackground().getConstantState().equals(getResources().getDrawable(R.drawable.rounded_signup).getConstantState())){
+//            mode = "cash" ;
+//        }
+//        if(bkash.getBackground().getConstantState().equals(getResources().getDrawable(R.drawable.rounded_signup).getConstantState())){
+//            mode = "bkash" ;
+//        }
+//        if(nagad.getBackground().getConstantState().equals(getResources().getDrawable(R.drawable.rounded_signup).getConstantState())){
+//            mode = "nagad" ;
+//        }
+//        Drawable myDrawable = getResources().getDrawable(R.drawable.rounded_signup);
+//        if(bank.getBackground().getConstantState().equals(myDrawable.getConstantState())){
+//            mode = "bank";
+//        }
+//        else if(cash.getBackground().getConstantState().equals(myDrawable.getConstantState())){
+//            mode = "cash";
+//        }
+//        else if(bkash.getBackground().getConstantState().equals(myDrawable.getConstantState())){
+//            mode = "bkash";
+//        }
+//        else if(nagad.getBackground().getConstantState().equals(myDrawable.getConstantState())){
+//            mode = "nagad";
+//        }
+        if(!edit_account_name.getText().toString().equals(null) && !edit_account_num.getText().toString().equals(null)){
             mode = "bank";
         }
-        else if(!edit_nagad_num.getText().equals(null) && edit_account_num.getText().equals(null) && edit_account_name.getText().equals(null) && bkash_or_nagad.getText().equals(null)){
+        else if (!edit_nagad_num.getText().toString().equals(null)){
             mode = "nagad";
         }
-        else if (!edit_nagad_num.getText().equals(null) && edit_account_num.getText().equals(null) && edit_account_name.getText().equals(null) && !bkash_or_nagad.getText().equals(null)){
+        else if(!bkash_or_nagad.getText().toString().equals(null)){
             mode = "bkash";
         }
         else {
             mode = "cash";
         }
+
+        Toast.makeText(getApplicationContext(), mode, Toast.LENGTH_LONG).show();
         save_payment_method.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), mode, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), bank_name_show.getSelectedItem()+"", Toast.LENGTH_LONG).show();
 //                progressDialog.setMessage("Updating...");
 //                progressDialog.show();
                 Call<ResponseBody> call3 = RetrofitClient
