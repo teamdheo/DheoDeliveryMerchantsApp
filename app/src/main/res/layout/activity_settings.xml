@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFF">
+
         <ImageView
             android:id="@+id/cover"
             android:layout_width="match_parent"
@@ -38,6 +40,7 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cover" />
+
         <TextView
             android:id="@+id/setting_name"
             android:layout_width="wrap_content"
@@ -50,161 +53,178 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setting_profile_photo" />
+
         <TextView
+            android:id="@+id/valued_from_s"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/valued_from_s"
-            android:text="Valued client since September 2019"
             android:layout_marginTop="4dp"
+            android:text="Valued client since September 2019"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setting_name" />
+
         <RelativeLayout
+            android:id="@+id/relative"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:id="@+id/relative"
             android:layout_marginTop="30dp"
             android:background="#CC3533"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/valued_from_s">
+
             <TextView
+                android:id="@+id/go_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/go_back"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
-                android:textSize="15dp"
+                android:layout_marginTop="10dp"
+                android:text=" Go Back"
                 android:textColor="#FFF"
-                android:text=" Go Back"/>
+                android:textSize="15dp" />
 
 
         </RelativeLayout>
+
         <TextView
+            android:id="@+id/payment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/payment"
-            android:layout_marginTop="30dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="30dp"
             android:text="Payments"
+            android:textColor="#000"
             android:textSize="40dp"
             android:textStyle="bold"
-            android:textColor="#000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/relative"/>
+            app:layout_constraintTop_toBottomOf="@+id/relative" />
+
         <TextView
+            android:id="@+id/pay_sec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pay_sec"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:text="Choose a payment method."
             android:textSize="15dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/payment"/>
+            app:layout_constraintTop_toBottomOf="@+id/payment" />
+
         <Button
+            android:id="@+id/bank"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/bank"
             android:text="Bank"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/other_option"
-            app:layout_constraintTop_toBottomOf="@+id/pay_sec"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pay_sec" />
+
         <Button
+            android:id="@+id/other_option"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Other Options"
-            android:id="@+id/other_option"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bank"
-            app:layout_constraintTop_toBottomOf="@+id/pay_sec"/>
+            app:layout_constraintTop_toBottomOf="@+id/pay_sec" />
+
         <LinearLayout
+            android:id="@+id/linear_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/linear_other"
             android:layout_margin="10dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/other_option">
+
             <Button
+                android:id="@+id/cash"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginRight="5dp"
-                android:text="Cash"
-                android:id="@+id/cash"/>
+                android:text="Cash" />
+
             <Button
+                android:id="@+id/bkash"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:text="Bkash"
-                android:id="@+id/bkash"/>
+                android:text="Bkash" />
+
             <Button
+                android:id="@+id/nagad"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
-                android:text="Nagad"
-                android:id="@+id/nagad" />
+                android:layout_marginRight="5dp"
+                android:text="Nagad" />
 
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/bikash_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bikash_option"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear_other"
-            android:orientation="vertical">
+            app:layout_constraintTop_toBottomOf="@id/linear_other">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:id="@+id/bkash_hint"
-                android:text="BKASH NUMBER"
-                android:textSize="14dp"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edit_bkash_num"
-                android:textSize="16dp"
-                android:layout_margin="10dp"
-                android:hint="Add a Bkash e.g. 01916210901"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:id="@+id/nagd_hint"
-                android:text="NAGAD NUMBER"
+                android:text="BKASH NUMBER"
+                android:textColor="#000000"
                 android:textSize="14dp"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:textStyle="bold" />
+
             <EditText
+                android:id="@+id/edit_bkash_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_nagad_num"
-                android:textSize="16dp"
                 android:layout_margin="10dp"
-                android:hint="Add a Nagad e.g. 01916210901"/>
+                android:hint="Add a Bkash e.g. 01916210901"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/nagd_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="NAGAD NUMBER"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_nagad_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Add a Nagad e.g. 01916210901"
+                android:textSize="16dp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_bank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/linear_bank"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bikash_option"
-            android:orientation="vertical">
+            app:layout_constraintTop_toBottomOf="@id/bikash_option">
+
             <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/bank_name"
                 android:layout_width="match_parent"
@@ -212,576 +232,634 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/bg_spinner"
                 android:gravity="center" />
+
             <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/branch_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg_spinner"
-                android:gravity="center"/>
+                android:gravity="center" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="NAME OF BRANCH"
+                android:textColor="#000000"
                 android:textSize="14dp"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:textStyle="bold" />
+
             <EditText
+                android:id="@+id/edit_bank_branch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_bank_branch"
-                android:textSize="16dp"
                 android:layout_margin="10dp"
-                android:hint="Add a branch e.g. Uttara Branch"/>
+                android:hint="Add a branch e.g. Uttara Branch"
+                android:textSize="16dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="ACCOUNT NAME"
+                android:textColor="#000000"
                 android:textSize="14dp"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:textStyle="bold" />
+
             <EditText
+                android:id="@+id/edit_account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_account_name"
-                android:textSize="16dp"
                 android:layout_margin="10dp"
-                android:hint="Add an account name e.g. Rabiul Hasan Robi"/>
+                android:hint="Add an account name e.g. Rabiul Hasan Robi"
+                android:textSize="16dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="ACCOUNT NUMBER"
+                android:textColor="#000000"
                 android:textSize="14dp"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:textStyle="bold" />
+
             <EditText
+                android:id="@+id/edit_account_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_account_number"
-                android:textSize="16dp"
                 android:layout_margin="10dp"
-                android:hint="Add an account number e.g. 208 154 14983"/>
+                android:hint="Add an account number e.g. 208 154 14983"
+                android:textSize="16dp" />
         </LinearLayout>
+
         <Button
+            android:id="@+id/save_payment_method"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/save_payment_method"
             android:layout_marginLeft="10dp"
+            android:background="@drawable/rounded_signup"
             android:text="Save"
             android:textColor="#FFF"
-            android:background="@drawable/rounded_signup"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear_bank"/>
+            app:layout_constraintTop_toBottomOf="@+id/linear_bank" />
+
         <LinearLayout
+            android:id="@+id/linear_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:id="@+id/linear_address"
             android:background="#EFEFEF"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/save_payment_method"
-            android:orientation="vertical">
+            app:layout_constraintTop_toBottomOf="@id/save_payment_method">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/address"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="Address"
-                android:textSize="40dp"
-                android:textStyle="bold"
-                android:textColor="#000" />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Address"
+                android:textColor="#000"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/address_sec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Your pickup addresses."
                 android:textSize="15dp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/all_address"
-                android:background="#EFEFEF"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:background="#EFEFEF"
                 android:scrollbars="vertical" />
+
             <Button
+                android:id="@+id/add_address_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/add_address_btn"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_signup"
+                android:padding="10dp"
                 android:text="Add a new address"
-                android:textSize="15dp"
                 android:textColor="#FFF"
-                android:background="@drawable/rounded_signup"/>
+                android:textSize="15dp" />
+
             <LinearLayout
+                android:id="@+id/address_sec_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/address_sec_layout"
                 android:orientation="vertical">
+
                 <EditText
                     android:id="@+id/add_new_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
-                    android:padding="8dp"
                     android:background="@drawable/rounded_log_in"
                     android:hint="Pickup address"
-                    android:textSize="15sp"/>
+                    android:padding="8dp"
+                    android:textSize="15sp" />
+
                 <EditText
                     android:id="@+id/add_new_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:padding="8dp"
                     android:layout_marginTop="10dp"
-                    android:hint="Phone no"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/rounded_log_in"
-                    android:textSize="15sp"/>
+                    android:hint="Phone no"
+                    android:padding="8dp"
+                    android:textSize="15sp" />
+
                 <LinearLayout
+                    android:id="@+id/save_and_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/save_and_cancel"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
+
                     <Button
+                        android:id="@+id/save_new_address"
                         android:layout_width="70dp"
                         android:layout_height="35dp"
-                        android:id="@+id/save_new_address"
+                        android:background="@drawable/rounded_signup"
                         android:text="Save"
-                        android:textColor="#FFF"
-                        android:background="@drawable/rounded_signup"/>
+                        android:textColor="#FFF" />
+
                     <Button
+                        android:id="@+id/cancel_new_address"
                         android:layout_width="70dp"
                         android:layout_height="35dp"
                         android:layout_marginLeft="10dp"
-                        android:id="@+id/cancel_new_address"
+                        android:background="@drawable/defult_button"
                         android:text="Cancel"
-                        android:textColor="#000000"
-                        android:background="@drawable/defult_button"/>
+                        android:textColor="#000000" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/fb_link"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="Website"
-                android:textSize="40dp"
-                android:textStyle="bold"
-                android:textColor="#000" />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Website"
+                android:textColor="#000"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/fb_link_sec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Your FB/Insta/Website address (for customers)."
                 android:textSize="15dp" />
+
             <EditText
+                android:id="@+id/edit_web_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_web_link"
-                android:textSize="16dp"
                 android:layout_margin="10dp"
-                android:hint="e.g. https://www.facebook.com/shopdheo"/>
+                android:hint="e.g. https://www.facebook.com/shopdheo"
+                android:textSize="16dp" />
+
             <Button
+                android:id="@+id/add_web_address_btn"
                 android:layout_width="70dp"
                 android:layout_height="35dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/add_web_address_btn"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_signup"
                 android:text="Save"
-                android:textColor="#FFF"
-                android:background="@drawable/rounded_signup"/>
+                android:textColor="#FFF" />
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/phone"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="Phone"
-                android:textSize="40dp"
-                android:textStyle="bold"
-                android:textColor="#000" />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Phone"
+                android:textColor="#000"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/phone_sec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="What phone number should we use for your account?"
                 android:textSize="15dp" />
+
             <EditText
+                android:id="@+id/change_account_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/change_account_phone"
-                android:textSize="16dp"
                 android:layout_margin="10dp"
-                android:hint="e.g. https://www.facebook.com/shopdheo"/>
+                android:hint="e.g. https://www.facebook.com/shopdheo"
+                android:textSize="16dp" />
+
             <Button
+                android:id="@+id/change_phone_btn"
                 android:layout_width="70dp"
                 android:layout_height="35dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/change_phone_btn"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_signup"
                 android:text="Save"
-                android:textColor="#FFF"
-                android:background="@drawable/rounded_signup"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/verify_id"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="Verification ID"
-                android:textSize="40dp"
-                android:textStyle="bold"
-                android:textColor="#000" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/verify_submit_date"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="Verification ID"
-                android:padding="8dp"
-                android:background="@drawable/id_submit_background"
-                android:textSize="15dp"
-                android:textStyle="bold"
                 android:textColor="#FFF" />
+
             <TextView
+                android:id="@+id/verify_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Verification ID"
+                android:textColor="#000"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/verify_submit_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/id_submit_background"
+                android:padding="8dp"
+                android:text="Verification ID"
+                android:textColor="#FFF"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/verify_id_sec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="You can submit an updated ID below"
                 android:textSize="15dp" />
+
             <LinearLayout
+                android:id="@+id/upload_sec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/upload_sec"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Choose File"
                     android:id="@+id/upload_image"
-                    android:textSize="25sp"
-                    android:padding="3dp"
-                    android:textColor="#000000"
-                    android:background="@drawable/upload_bg"/>
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No file chosen"
-                    android:id="@+id/show_upload_image"
-                    android:textSize="25sp"
+                    android:background="@drawable/upload_bg"
                     android:padding="3dp"
-                    android:textColor="#000000"/>
+                    android:text="Choose File"
+                    android:textColor="#000000"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/show_upload_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="No file chosen"
+                    android:textColor="#000000"
+                    android:textSize="25sp" />
 
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="4dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginRight="10dp"
-                android:background="#333"/>
+                android:background="#333" />
+
             <Button
+                android:id="@+id/upload_image_to_server"
                 android:layout_width="70dp"
                 android:layout_height="35dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/upload_image_to_server"
-                android:text="Save"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:textColor="#FFF"
-                android:background="@drawable/rounded_signup"/>
+                android:background="@drawable/rounded_signup"
+                android:text="Save"
+                android:textColor="#FFF" />
         </LinearLayout>
+
         <TextView
+            android:id="@+id/s_reset_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:background="#FFF"
             android:text="Password"
+            android:textColor="#000"
             android:textSize="40dp"
             android:textStyle="bold"
-            android:background="#FFF"
-            android:textColor="#000"
-            android:id="@+id/s_reset_pass"
-            app:layout_constraintTop_toBottomOf="@id/linear_address"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_address" />
+
         <TextView
+            android:id="@+id/reset_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
             android:background="#FFF"
-            android:textSize="20dp"
             android:text="Reset your password >"
             android:textColor="#CC3533"
-            android:id="@+id/reset_pass"
-            app:layout_constraintTop_toBottomOf="@id/s_reset_pass"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/s_reset_pass" />
+
         <RelativeLayout
+            android:id="@+id/relative_layout"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginTop="20dp"
             android:background="#282827"
-            android:id="@+id/relative_layout"
-            app:layout_constraintTop_toBottomOf="@id/reset_pass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="20dp">
+            app:layout_constraintTop_toBottomOf="@id/reset_pass">
 
             <ImageView
                 android:id="@+id/help_lagbe_1"
                 android:layout_width="170dp"
-                android:layout_marginTop="30dp"
                 android:layout_height="170dp"
                 android:layout_marginLeft="0dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="0dp"
                 android:src="@mipmap/help_lagbe" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginLeft="170dp"
                 android:layout_marginTop="30dp"
-                android:paddingBottom="10dp"
-                android:paddingRight="60dp"
+                android:background="@drawable/help_lagbe_bg"
+                android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
-                android:background="@drawable/help_lagbe_bg"
-                android:layout_marginLeft="170dp">
+                android:paddingRight="60dp"
+                android:paddingBottom="10dp">
+
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@mipmap/ph_white"/>
+                    android:src="@mipmap/ph_white" />
+
                 <TextView
+                    android:id="@+id/billing_phone5"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:id="@+id/billing_phone5"
                     android:text="013-0137-7181"
                     android:textColor="#FFF"
-                    android:textStyle="italic"/>
+                    android:textStyle="italic" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginLeft="170dp"
                 android:layout_marginTop="120dp"
-                android:paddingBottom="10dp"
-                android:paddingRight="105dp"
+                android:background="@drawable/help_lagbe_bg"
+                android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
-                android:background="@drawable/help_lagbe_bg"
-                android:layout_marginLeft="170dp">
+                android:paddingRight="105dp"
+                android:paddingBottom="10dp">
+
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@mipmap/fb_white"/>
+                    android:src="@mipmap/fb_white" />
+
                 <TextView
+                    android:id="@+id/billing_fb"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:id="@+id/billing_fb"
                     android:text="Dheolife"
                     android:textColor="#FFF"
-                    android:textStyle="italic"/>
+                    android:textStyle="italic" />
 
             </LinearLayout>
 
 
-
         </RelativeLayout>
+
         <RelativeLayout
+            android:id="@+id/relative_layout1"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:id="@+id/relative_layout1"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" >
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout">
+
             <ImageView
+                android:id="@+id/octopus_red_body"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:translationY="-15dp"
+                android:src="@drawable/octopus_red_body"
                 android:translationX="120dp"
-                android:id="@+id/octopus_red_body"
-                android:src="@drawable/octopus_red_body"/>
+                android:translationY="-15dp" />
+
             <TextView
+                android:id="@+id/billing_my_delivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_my_delivery"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/link_section"
+                android:padding="10dp"
                 android:text="My Deliveries"
                 android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
+                android:textSize="20dp" />
+
             <TextView
+                android:id="@+id/billing_Billing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_Billing"
-                android:padding="10dp"
-                android:layout_marginTop="65dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
+                android:layout_marginTop="65dp"
+                android:background="@drawable/link_section"
+                android:padding="10dp"
                 android:text="Billing"
                 android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
+                android:textSize="20dp" />
+
             <TextView
+                android:id="@+id/billing_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_settings"
-                android:padding="10dp"
-                android:layout_marginTop="120dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
+                android:layout_marginTop="120dp"
+                android:background="@drawable/link_section"
+                android:padding="10dp"
                 android:text="Settings"
                 android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
+                android:textSize="20dp" />
+
             <TextView
+                android:id="@+id/billing_user_manual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_user_manual"
-                android:padding="10dp"
-                android:layout_marginTop="175dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
+                android:layout_marginTop="175dp"
+                android:background="@drawable/link_section"
+                android:padding="10dp"
                 android:text="User Manual"
                 android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
+                android:textSize="20dp" />
+
             <TextView
+                android:id="@+id/billing_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_logout"
-                android:padding="10dp"
-                android:layout_marginTop="230dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
+                android:layout_marginTop="230dp"
+                android:background="@drawable/link_section"
+                android:padding="10dp"
                 android:text="Logout"
                 android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
+                android:textSize="20dp" />
 
 
         </RelativeLayout>
+
         <View
+            android:id="@+id/state_line_monthly1"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:id="@+id/state_line_monthly1"
             android:layout_marginTop="4dp"
             android:background="#CC3533"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout1" />
+
         <RelativeLayout
+            android:id="@+id/relative_layout2"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:id="@+id/relative_layout2"
             android:background="#CC3533"
-            app:layout_constraintTop_toBottomOf="@id/state_line_monthly1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/state_line_monthly1">
+
             <TextView
+                android:id="@+id/billing_dheo_delivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_dheo_delivery"
                 android:layout_marginLeft="10dp"
-                android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:text="Dheo Delivery"
+                android:textColor="#FFF"
                 android:textSize="18dp"
-                android:textColor="#FFF"/>
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/billing_The_manual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_The_manual"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="50dp"
-                android:textStyle="bold"
                 android:text="The User Manual"
+                android:textColor="#FFF"
                 android:textSize="18dp"
-                android:textColor="#FFF"/>
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/billing_meet_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_meet_team"
                 android:layout_marginLeft="10dp"
-                android:textStyle="bold"
                 android:layout_marginTop="90dp"
                 android:text="Meet The Team"
+                android:textColor="#FFF"
                 android:textSize="18dp"
-                android:textColor="#FFF"/>
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/billing_policy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/billing_policy"
                 android:layout_marginLeft="10dp"
-                android:textStyle="bold"
                 android:layout_marginTop="130dp"
                 android:text="Privacy Policy"
+                android:textColor="#FFF"
                 android:textSize="18dp"
-                android:textColor="#FFF"/>
+                android:textStyle="bold" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="#000"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout2">
+
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="80dp"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/block_logo_black"/>
+                android:layout_marginTop="80dp"
+                android:src="@mipmap/block_logo_black" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#FFF"
-                android:textSize="12dp"
-                android:layout_marginTop="100dp"
                 android:layout_marginLeft="100dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/footer"/>
+                android:text="@string/footer"
+                android:textColor="#FFF"
+                android:textSize="12dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="170dp"
                 android:text="© 2017-2020, DHEO LLC. All Rights Reserved."
-                android:textSize="11dp"
-                android:textColor="#666"/>
+                android:textColor="#666"
+                android:textSize="11dp" />
+
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="130dp"
-                android:src="@drawable/ecab_new_logo"/>
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ecab_new_logo" />
         </RelativeLayout>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
