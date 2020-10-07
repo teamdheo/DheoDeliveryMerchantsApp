@@ -3,6 +3,8 @@ package com.example.myapplication;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,10 +49,11 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddressViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final AddressViewHolder holder, final int position) {
         holder.address_id.setText(pickup_address.get(position).getAddress_id());
         holder.setting_Address.setText(pickup_address.get(position).getClientPickupAddress());
         holder.setting_phone.setText(pickup_address.get(position).getPhone_no());
+        holder.save_address.setVisibility(View.INVISIBLE);
         holder.delete_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +88,106 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Toasty.error(mycontex, "Try Again!", Toast.LENGTH_LONG, true).show();
+                    }
+                });
+            }
+        });
+        holder.setting_Address.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                holder.save_address.setVisibility(View.VISIBLE);
+                holder.save_address.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        progressDialog.setMessage("updating...");
+                        progressDialog.show();
+                        Call<ResponseBody> call1 = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .update_address(pickup_address.get(position).getAddress_id(),holder.setting_Address.getText().toString(),holder.setting_phone.getText().toString());
+                        call1.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                String s = null;
+                                try {
+                                    s = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(mycontex, s, Toast.LENGTH_LONG).show();
+                                if (s.equals("{\"e\":0}")){
+                                    progressDialog.dismiss();
+                                    Toasty.error(mycontex, "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Intent intent = new Intent(mycontex, SettingsActivity.class);
+                                    mycontex.startActivity(intent);
+
+                                }
+                                else{
+                                    Toasty.error(mycontex, "server failed to response", Toast.LENGTH_LONG, true).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toasty.error(mycontex, "Try Again!", Toast.LENGTH_LONG, true).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        holder.setting_phone.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                holder.save_address.setVisibility(View.VISIBLE);
+                holder.save_address.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        progressDialog.setMessage("updating...");
+                        progressDialog.show();
+                        Call<ResponseBody> call1 = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .update_address(pickup_address.get(position).getAddress_id(),holder.setting_Address.getText().toString(),holder.setting_phone.getText().toString());
+                        call1.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                String s = null;
+                                try {
+                                    s = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(mycontex, s, Toast.LENGTH_LONG).show();
+                                if (s.equals("{\"e\":0}")){
+                                    progressDialog.dismiss();
+                                    Toasty.error(mycontex, "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Intent intent = new Intent(mycontex, SettingsActivity.class);
+                                    mycontex.startActivity(intent);
+
+                                }
+                                else{
+                                    Toasty.error(mycontex, "server failed to response", Toast.LENGTH_LONG, true).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toasty.error(mycontex, "Try Again!", Toast.LENGTH_LONG, true).show();
+                            }
+                        });
                     }
                 });
             }
