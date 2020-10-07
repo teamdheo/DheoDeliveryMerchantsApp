@@ -1,33 +1,18 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.SQLException;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -46,17 +31,8 @@ import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPr
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -66,13 +42,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SettingsActivity extends AppCompatActivity {
-    private static final int SELECT_PICTURE = 1;
-    private String selectedImagePath;
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
     private TextView setting_name,go_back, valid_from,nagad_hint,bkash_hint,verify_submit_date, phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,image_upload,show_upload_image,reset_pass;
     private EditText bkash_or_nagad, edit_branch_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone,edit_web_link,change_account_phone;
-    ImageView setting_dp,imageView;
+    ImageView setting_dp;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url, mode;
@@ -81,8 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
     private RecyclerView all_address;
     private  RecyclerView.Adapter adapter;
     List<com.example.myapplication.modelClassPickupAddresses.M> all_add_settings;
-    File imageFile;
-    String picturePath = null;
     private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -788,61 +760,13 @@ public class SettingsActivity extends AppCompatActivity {
         image_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                try {
-                    if (ActivityCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, SELECT_PICTURE);
-                    } else {
-                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(pickPhoto , SELECT_PICTURE);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 1);
             }
         });
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            Uri selectedImage =  data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            if (selectedImage != null) {
-                Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                if (cursor != null) {
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-                    File file = new File(picturePath);
-                    String imageName = file.getName();
-                    show_upload_image.setText(imageName);
-                    show_upload_image.setTextSize(12);
-
-//                    float aspectRatio = bitmap.getWidth() /
-//                            (float) bitmap.getHeight();
-//                    int width = 500;
-//                    int height = Math.round(width / aspectRatio);
-//                    bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
-//                    bitmap.compress(Bitmap.CompressFormat.WEBP, 100, baos);
-//                    byte[] imageBytes = baos.toByteArray();
-//                    //todo out of memory exception
-//                    bitmap.recycle();
-
-                    cursor.close();
-                }
-            }
-
-        }
-    }
-
     private void setBranchesAdapter() {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, branches_name);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

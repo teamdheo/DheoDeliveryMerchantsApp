@@ -174,8 +174,9 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                                 if (s.equals("{\"e\":0}")){
                                    // progressDialog.dismiss();
                                     Toasty.error(mycontex, "successfully updated", Toast.LENGTH_LONG, true).show();
-                                    Intent intent = new Intent(mycontex, SettingsActivity.class);
-                                    mycontex.startActivity(intent);
+                                    holder.save_address.setVisibility(View.INVISIBLE);
+//                                    Intent intent = new Intent(mycontex, SettingsActivity.class);
+//                                    mycontex.startActivity(intent);
 
                                 }
                                 else{
