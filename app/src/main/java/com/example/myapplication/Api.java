@@ -190,4 +190,10 @@ public interface Api {
             @Field("pickup_address") String pickup_address,
             @Field("pickup_phone") String pickup_phone
     );
+    @FormUrlEncoded
+    @POST("upload_national_id")
+    Call<ResponseBody> upload_national_id(
+            @Field("client_id") Integer client_id,
+            @Field("national_id") String national_id
+    );
 }

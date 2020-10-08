@@ -1,15 +1,21 @@
 package com.example.myapplication;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,8 +25,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,7 +53,9 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -53,7 +66,10 @@ import retrofit2.Response;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final int SELECT_PICTURE = 1;
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private static final int CAMERA_REQUEST = 2 ;
     private String selectedImagePath;
+    private String currentImagePath, national_id;
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
     private TextView setting_name,go_back, valid_from,nagad_hint,bkash_hint,verify_submit_date, phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,image_upload,show_upload_image,reset_pass;
@@ -62,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url, mode;
-    private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn;
+    private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn,upload_image_to_server;
     LinearLayout bank_layout, other_option_layout, bkash_option, address_sec_layout;
     private RecyclerView all_address;
     private RecyclerView.Adapter adapter;
@@ -73,6 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +136,7 @@ public class SettingsActivity extends AppCompatActivity {
         image_upload = findViewById(R.id.upload_image);
         show_upload_image = findViewById(R.id.show_upload_image);
         reset_pass = findViewById(R.id.reset_pass);
+        upload_image_to_server = findViewById(R.id.upload_image_to_server);
 
         phone_call = findViewById(R.id.billing_phone5);
         facebook = findViewById(R.id.billing_fb);
@@ -131,7 +149,6 @@ public class SettingsActivity extends AppCompatActivity {
         the_user_manual = findViewById(R.id.billing_The_manual);
         meet_the_team = findViewById(R.id.billing_meet_team);
         privacy_policy = findViewById(R.id.billing_policy);
-
 
         setting_name.setText(helper.getName());
         progressDialog = new ProgressDialog(this);
@@ -776,27 +793,137 @@ public class SettingsActivity extends AppCompatActivity {
         image_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                try {
-                    if (ActivityCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, SELECT_PICTURE);
-                    } else {
-                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(pickPhoto , SELECT_PICTURE);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(SettingsActivity.this, R.style.AppTheme));
+                builder.setCancelable(false);
+                final View customLayout = getLayoutInflater().inflate(R.layout.national_id_upload_dialog, null);
+                builder.setView(customLayout);
+                TextView take_a_photo = customLayout.findViewById(R.id.take_a_photo);
+                TextView gallery_upload = customLayout.findViewById(R.id.gallery_upload);
+                Button cancel_btn = customLayout.findViewById(R.id.cancel_btn);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+                cancel_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                });
+                gallery_upload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            if (ActivityCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, SELECT_PICTURE);
+                            } else {
+                                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(pickPhoto , SELECT_PICTURE);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                take_a_photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        captureImage(view);
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        upload_image_to_server.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.setMessage("Updating...");
+                progressDialog.show();
+                try {
+                    if(!national_id.equals(null)){
+                        Toast.makeText(getApplicationContext(), "image update", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                        Call<ResponseBody> call_national_id = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .upload_national_id(client_id,national_id);
+                        call_national_id.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                String s = null;
+                                try {
+                                    s = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                if (s.equals("{\"e\":0}")) {
+                                    progressDialog.dismiss();
+                                    Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                    startActivity(intent);
+
+                                } else {
+                                    Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
+                            }
+                        });
+                    }
+
+                }catch (NullPointerException e){
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "no image found", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+
+    }
+    public void captureImage(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            imageFile = null;
+            try {
+                imageFile = createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (imageFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.myapplication.fileprovider",
+                        imageFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                intent.putExtra("image_path",currentImagePath);
+                startActivityForResult(intent, CAMERA_REQUEST);
+            }
+        }
+    }
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentImagePath = image.getAbsolutePath();
+        return image;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
+        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage =  data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             if (selectedImage != null) {
@@ -814,19 +941,40 @@ public class SettingsActivity extends AppCompatActivity {
                     show_upload_image.setText(imageName);
                     show_upload_image.setTextSize(12);
 
-//                    float aspectRatio = bitmap.getWidth() /
-//                            (float) bitmap.getHeight();
-//                    int width = 500;
-//                    int height = Math.round(width / aspectRatio);
-//                    bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
-//                    bitmap.compress(Bitmap.CompressFormat.WEBP, 100, baos);
-//                    byte[] imageBytes = baos.toByteArray();
-//                    //todo out of memory exception
-//                    bitmap.recycle();
-
+                    float aspectRatio = bitmap.getWidth() /
+                            (float) bitmap.getHeight();
+                    int width = 500;
+                    int height = Math.round(width / aspectRatio);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] imageBytes = baos.toByteArray();
+                    //todo out of memory exception
+                    bitmap.recycle();
+                    national_id = Base64.encodeToString(imageBytes, Base64.DEFAULT);
                     cursor.close();
                 }
             }
+
+        }
+        else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
+            //imageView.setImageBitmap(bitmap);
+            File file = new File(currentImagePath);
+            String imageName = file.getName();
+            show_upload_image.setText(imageName);
+            show_upload_image.setTextSize(10);
+            float aspectRatio = bitmap.getWidth() /
+                    (float) bitmap.getHeight();
+            int width = 500;
+            int height = Math.round(width / aspectRatio);
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            //todo out of memory exception
+            bitmap.recycle();
+            national_id = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
 
         }
     }
