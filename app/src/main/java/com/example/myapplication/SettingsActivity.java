@@ -1,21 +1,9 @@
 package com.example.myapplication;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -24,6 +12,7 @@ import android.database.SQLException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,7 +20,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,6 +30,17 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.ModelClassBankBranches.BankBranches;
 import com.example.myapplication.ModelClassBanksAndBranches.BanksAndBranches;
@@ -67,18 +66,18 @@ import retrofit2.Response;
 public class SettingsActivity extends AppCompatActivity {
     private static final int SELECT_PICTURE = 1;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    private static final int CAMERA_REQUEST = 2 ;
+    private static final int CAMERA_REQUEST = 2;
     private String selectedImagePath;
     private String currentImagePath, national_id;
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
-    private TextView setting_name,go_back, valid_from,nagad_hint,bkash_hint,verify_submit_date, phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,image_upload,show_upload_image,reset_pass;
-    private EditText bkash_or_nagad, edit_branch_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone,edit_web_link,change_account_phone;
+    private TextView setting_name, go_back, valid_from, nagad_hint, bkash_hint, verify_submit_date, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, image_upload, show_upload_image, reset_pass;
+    private EditText bkash_or_nagad, edit_branch_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone;
     ImageView setting_dp;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url, mode;
-    private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn,upload_image_to_server;
+    private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn, upload_image_to_server;
     LinearLayout bank_layout, other_option_layout, bkash_option, address_sec_layout;
     private RecyclerView all_address;
     private RecyclerView.Adapter adapter;
@@ -488,6 +487,7 @@ public class SettingsActivity extends AppCompatActivity {
 //        else if(nagad.getBackground().getConstantState().equals(myDrawable.getConstantState())){
 //            mode = "nagad";
 //        }
+
         if (!edit_account_name.getText().toString().equals(null) && !edit_account_num.getText().toString().equals(null)) {
             mode = "bank";
         } else if (!edit_nagad_num.getText().toString().equals(null)) {
@@ -498,7 +498,7 @@ public class SettingsActivity extends AppCompatActivity {
             mode = "cash";
         }
 
-        Toast.makeText(getApplicationContext(), mode, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), mode, Toast.LENGTH_LONG).show();
         save_payment_method.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -813,9 +813,11 @@ public class SettingsActivity extends AppCompatActivity {
                         try {
                             if (ActivityCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                                 ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, SELECT_PICTURE);
+                                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(pickPhoto, SELECT_PICTURE);
                             } else {
                                 Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto , SELECT_PICTURE);
+                                startActivityForResult(pickPhoto, SELECT_PICTURE);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -824,9 +826,18 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 });
                 take_a_photo.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View view) {
-                        captureImage(view);
+                        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                        {
+                            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+                        }
+                        else
+                        {
+                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                        }
                         dialog.dismiss();
                     }
                 });
@@ -838,13 +849,13 @@ public class SettingsActivity extends AppCompatActivity {
                 progressDialog.setMessage("Updating...");
                 progressDialog.show();
                 try {
-                    if(!national_id.equals(null)){
+                    if (!national_id.equals(null)) {
                         Toast.makeText(getApplicationContext(), "image update", Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
                         Call<ResponseBody> call_national_id = RetrofitClient
                                 .getInstance()
                                 .getApi()
-                                .upload_national_id(client_id,national_id);
+                                .upload_national_id(client_id, national_id);
                         call_national_id.enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -873,7 +884,7 @@ public class SettingsActivity extends AppCompatActivity {
                         });
                     }
 
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "no image found", Toast.LENGTH_LONG).show();
                 }
@@ -882,26 +893,41 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
-    public void captureImage(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            imageFile = null;
-            try {
-                imageFile = createImageFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_PERMISSION_CODE)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    imageFile = null;
+                    try {
+                        imageFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-            if (imageFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.myapplication.fileprovider",
-                        imageFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    if (imageFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(this,
+                                "com.example.myapplication.fileprovider",
+                                imageFile);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 //                intent.putExtra("image_path",currentImagePath);
-                startActivityForResult(intent, CAMERA_REQUEST);
+                        startActivityForResult(intent, CAMERA_REQUEST);
+                    }
+                }
+            }
+            else
+            {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
             }
         }
     }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -923,7 +949,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && data != null) {
-            Uri selectedImage =  data.getData();
+            Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             if (selectedImage != null) {
                 Cursor cursor = getContentResolver().query(selectedImage,
@@ -954,8 +980,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
 
-        }
-        else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
             //imageView.setImageBitmap(bitmap);
             File file = new File(currentImagePath);
