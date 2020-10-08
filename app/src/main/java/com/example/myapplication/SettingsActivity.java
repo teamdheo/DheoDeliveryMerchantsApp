@@ -301,7 +301,7 @@ public class SettingsActivity extends AppCompatActivity {
                         } catch (NullPointerException e) {
                         }
                         try {
-                            valid_from.setText("Valued from " + s.getM().getStatDate());
+                            valid_from.setText("Valued client since " + s.getM().getStatDate());
 
                             //bank_name_show.setI
                             if (s.getM().getPrefersCash()) {
