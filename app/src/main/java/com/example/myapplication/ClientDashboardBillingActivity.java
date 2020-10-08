@@ -61,7 +61,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         monthly_statement_pdf = (RecyclerView) findViewById(R.id.recycler_monthly_payment_receipt);
         activity_progressbar = findViewById(R.id.amount_activity_progressbar);
         daily_receipt_progressbar = findViewById(R.id.payment_receipt_progressbar);
-        monthly_received_progressbar  = findViewById(R.id.monthly_receipt_progressbar);
+        //monthly_received_progressbar  = findViewById(R.id.monthly_receipt_progressbar);
         phone_call = findViewById(R.id.billing_phone);
         facebook = findViewById(R.id.billing_fb);
         my_delivery = findViewById(R.id.billing_my_delivery);
@@ -208,6 +208,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         activity_progressbar.setVisibility(View.GONE);
                     }catch (NullPointerException e) {
                         e.printStackTrace();
+                        activity_progressbar.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -264,23 +265,25 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         call3.enqueue(new Callback<ClientMonthlyStatementDate>() {
             @Override
             public void onResponse(Call<ClientMonthlyStatementDate> call, Response<ClientMonthlyStatementDate> response) {
-                if(response.body() != null){
-                    try {
-                        ClientMonthlyStatementDate clientMonthlyStatementDate = response.body();
-                        monthly_billing_pdf = clientMonthlyStatementDate.getM();
-                        monthly_received_progressbar.setVisibility(View.GONE);
-                    }catch (NullPointerException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                try {
+                    if(response.body() != null){
+                        try {
+                            ClientMonthlyStatementDate clientMonthlyStatementDate = response.body();
+                            monthly_billing_pdf = clientMonthlyStatementDate.getM();
+                        }catch (NullPointerException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
+                }catch (NullPointerException e){}
+
                 monthly_billing_adapter = new AdapterClassMonthlyBillingPDF(monthly_billing_pdf, getApplicationContext(), client_id);
                 monthly_statement_pdf.setAdapter(monthly_billing_adapter);
             }
 
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
             }

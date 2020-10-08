@@ -90,7 +90,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
         meet_the_team = findViewById(R.id.dashboard_meet_team);
         privacy_policy = findViewById(R.id.dashboard_policy);
         payload_progressbar = findViewById(R.id.dashboard_payload_progressbar);
-        monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
+        //monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -262,7 +262,12 @@ public class ClientDashboardActivity extends AppCompatActivity {
                         if(all_dashboard_payload.size() >= 10){
                             see_more.setVisibility(View.VISIBLE);
                         }
+                        else{
+                            see_more.setVisibility(View.GONE);
+                        }
                     }catch (NullPointerException e) {
+                        see_more.setVisibility(View.GONE);
+                        dashboard_payloads.setVisibility(View.GONE);
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
@@ -297,12 +302,16 @@ public class ClientDashboardActivity extends AppCompatActivity {
                     try{
                         ClientMonthlyStatementDate clientMonthlyStatementDate1 = response.body();
                         monthly_payload_all_records  = clientMonthlyStatementDate1.getM();
-                        monthly_record_progress_bar.setVisibility(View.GONE);
                     }catch (NullPointerException e) {
+                        all_record_payload.setVisibility(View.GONE);
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
+                if (response.body().getM().size()<1){
+                    monthly_record_progress_bar.setVisibility(View.GONE);
+                }
+
                 adapter_record_payload = new AdapterClassMonthlyAllRecordPayload(monthly_payload_all_records, getApplicationContext(), clientId);
                 all_record_payload.setAdapter(adapter_record_payload);
             }

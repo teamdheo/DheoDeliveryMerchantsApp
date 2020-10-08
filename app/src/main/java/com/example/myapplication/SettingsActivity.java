@@ -89,7 +89,6 @@ public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
-    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
