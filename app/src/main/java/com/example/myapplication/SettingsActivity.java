@@ -111,7 +111,6 @@ public class SettingsActivity extends AppCompatActivity {
         edit_account_name = findViewById(R.id.edit_account_name);
         edit_account_num = findViewById(R.id.edit_account_number);
         bkash_or_nagad = findViewById(R.id.edit_bkash_num);
-        //nagad_option = findViewById(R.id.nagad_option);
         edit_nagad_num = findViewById(R.id.edit_nagad_num);
         save_payment_method = findViewById(R.id.save_payment_method);
         nagad_hint = findViewById(R.id.nagd_hint);
@@ -835,8 +834,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                            captureImage(view);
                         }
                         dialog.dismiss();
                     }
@@ -902,6 +900,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
                 Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     imageFile = null;
@@ -916,7 +915,6 @@ public class SettingsActivity extends AppCompatActivity {
                                 "com.example.myapplication.fileprovider",
                                 imageFile);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//                intent.putExtra("image_path",currentImagePath);
                         startActivityForResult(intent, CAMERA_REQUEST);
                     }
                 }
@@ -924,6 +922,27 @@ public class SettingsActivity extends AppCompatActivity {
             else
             {
                 Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void captureImage(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            imageFile = null;
+            try {
+                imageFile = createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (imageFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.myapplication.fileprovider",
+                        imageFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                intent.putExtra("image_path",currentImagePath);
+                startActivityForResult(intent, CAMERA_REQUEST);
             }
         }
     }
