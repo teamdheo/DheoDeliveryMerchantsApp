@@ -848,8 +848,7 @@ public class SettingsActivity extends AppCompatActivity {
                 progressDialog.show();
                 try {
                     if (!national_id.equals(null)) {
-                        Toast.makeText(getApplicationContext(), "image update", Toast.LENGTH_LONG).show();
-                        progressDialog.dismiss();
+                        //Toast.makeText(getApplicationContext(), "image update", Toast.LENGTH_LONG).show();
                         Call<ResponseBody> call_national_id = RetrofitClient
                                 .getInstance()
                                 .getApi()
