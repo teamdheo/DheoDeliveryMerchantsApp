@@ -239,6 +239,22 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/bg_spinner"
                 android:gravity="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="NAME OF BANK"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_bank_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Add a bank e.g. Jamuna Bank"
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"

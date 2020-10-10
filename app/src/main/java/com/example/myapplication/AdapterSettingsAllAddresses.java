@@ -57,8 +57,8 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
         holder.delete_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Removing...");
-                progressDialog.show();
+//                progressDialog.setMessage("Removing...");
+//                progressDialog.show();
                 Call<ResponseBody> call = RetrofitClient
                         .getInstance()
                         .getApi()
@@ -74,7 +74,7 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                         }
                         Toast.makeText(mycontex, s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")){
-                            progressDialog.dismiss();
+                           // progressDialog.dismiss();
                             Toasty.error(mycontex, "successfully removed", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(mycontex, SettingsActivity.class);
                             mycontex.startActivity(intent);

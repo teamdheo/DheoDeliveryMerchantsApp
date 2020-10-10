@@ -73,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
     private TextView setting_name, go_back, valid_from, nagad_hint, bkash_hint, verify_submit_date, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, image_upload, show_upload_image, reset_pass;
-    private EditText bkash_or_nagad, edit_branch_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone;
+    private EditText bkash_or_nagad, edit_branch_name, edit_bank_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone;
     ImageView setting_dp;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
@@ -110,6 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
         cash = findViewById(R.id.cash);
         bkash = findViewById(R.id.bkash);
         nagad = findViewById(R.id.nagad);
+        edit_bank_name = findViewById(R.id.edit_bank_name);
         edit_branch_name = findViewById(R.id.edit_bank_branch);
         edit_account_name = findViewById(R.id.edit_account_name);
         edit_account_num = findViewById(R.id.edit_account_number);
@@ -193,64 +194,65 @@ public class SettingsActivity extends AppCompatActivity {
                 bkash.setTextColor(Color.rgb(0, 0, 0));
                 nagad.setTextColor(Color.rgb(0, 0, 0));
                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                cash.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        bkash_option.setVisibility(View.GONE);
-//                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cash.getLayoutParams();
-//                        params.bottomMargin = 20;params.leftMargin = 100;
-                        cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                        cash.setTextColor(Color.rgb(255, 255, 255));
-                        bank.setTextColor(Color.rgb(0, 0, 0));
-                        bkash.setTextColor(Color.rgb(0, 0, 0));
-                        nagad.setTextColor(Color.rgb(0, 0, 0));
-                        mode = "cash";
-                        bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                        nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                    }
-                });
-                bkash.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        bkash_option.setVisibility(View.VISIBLE);
-                        edit_nagad_num.setVisibility(View.GONE);
-                        nagad_hint.setVisibility(View.GONE);
-                        bkash_hint.setVisibility(View.VISIBLE);
-                        bkash_or_nagad.setVisibility(View.VISIBLE);
-                        //
-                        mode = "bkash";
-                        bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                        bkash.setTextColor(Color.rgb(255, 255, 255));
-                        bank.setTextColor(Color.rgb(0, 0, 0));
-                        cash.setTextColor(Color.rgb(0, 0, 0));
-                        nagad.setTextColor(Color.rgb(0, 0, 0));
-                        cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                        nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                    }
-                });
-                nagad.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        bkash_option.setVisibility(View.VISIBLE);
-                        //nagad_option.setVisibility(View.VISIBLE);
-                        edit_nagad_num.setVisibility(View.VISIBLE);
-                        bkash_or_nagad.setVisibility(View.GONE);
-                        nagad_hint.setVisibility(View.VISIBLE);
-                        bkash_hint.setVisibility(View.GONE);
-                        //
-                        mode = "nagad";
-                        nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                        nagad.setTextColor(Color.rgb(255, 255, 255));
-                        bank.setTextColor(Color.rgb(0, 0, 0));
-                        cash.setTextColor(Color.rgb(0, 0, 0));
-                        bkash.setTextColor(Color.rgb(0, 0, 0));
-                        cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                        bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                    }
-                });
-
             }
         });
+
+        cash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bkash_option.setVisibility(View.GONE);
+//                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cash.getLayoutParams();
+//                        params.bottomMargin = 20;params.leftMargin = 100;
+                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                cash.setTextColor(Color.rgb(255, 255, 255));
+                bank.setTextColor(Color.rgb(0, 0, 0));
+                bkash.setTextColor(Color.rgb(0, 0, 0));
+                nagad.setTextColor(Color.rgb(0, 0, 0));
+                mode = "cash";
+                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+            }
+        });
+        bkash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bkash_option.setVisibility(View.VISIBLE);
+                edit_nagad_num.setVisibility(View.GONE);
+                nagad_hint.setVisibility(View.GONE);
+                bkash_hint.setVisibility(View.VISIBLE);
+                bkash_or_nagad.setVisibility(View.VISIBLE);
+                //
+                mode = "bkash";
+                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                bkash.setTextColor(Color.rgb(255, 255, 255));
+                bank.setTextColor(Color.rgb(0, 0, 0));
+                cash.setTextColor(Color.rgb(0, 0, 0));
+                nagad.setTextColor(Color.rgb(0, 0, 0));
+                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+            }
+        });
+        nagad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bkash_option.setVisibility(View.VISIBLE);
+                //nagad_option.setVisibility(View.VISIBLE);
+                edit_nagad_num.setVisibility(View.VISIBLE);
+                bkash_or_nagad.setVisibility(View.GONE);
+                nagad_hint.setVisibility(View.VISIBLE);
+                bkash_hint.setVisibility(View.GONE);
+                //
+                mode = "nagad";
+                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                nagad.setTextColor(Color.rgb(255, 255, 255));
+                bank.setTextColor(Color.rgb(0, 0, 0));
+                cash.setTextColor(Color.rgb(0, 0, 0));
+                bkash.setTextColor(Color.rgb(0, 0, 0));
+                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+            }
+        });
+
         bank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -294,6 +296,7 @@ public class SettingsActivity extends AppCompatActivity {
 //                            ArrayAdapter<String> adapter = (ArrayAdapter<String>) bank_name_show.getAdapter();
 //                            int position = adapter.getPosition(s.getM().getBankName());
 //                            bank_name_show.setSelection(position);
+                            edit_bank_name.setText(s.getM().getBankName());
                         } catch (NullPointerException e) {
                         }
                         try {
