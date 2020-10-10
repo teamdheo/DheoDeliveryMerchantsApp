@@ -188,7 +188,6 @@ public class SettingsActivity extends AppCompatActivity {
                 bkash.setTextColor(Color.rgb(0, 0, 0));
                 nagad.setTextColor(Color.rgb(0, 0, 0));
                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                mode = null;
                 cash.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
