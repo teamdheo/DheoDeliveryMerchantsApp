@@ -165,7 +165,6 @@
                 android:layout_marginRight="5dp"
                 android:text="Nagad" />
 
-
         </LinearLayout>
 
         <LinearLayout
@@ -291,14 +290,17 @@
                 android:layout_margin="10dp"
                 android:hint="Add an account number e.g. 208 154 14983"
                 android:textSize="16dp" />
+
         </LinearLayout>
 
         <Button
             android:id="@+id/save_payment_method"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/rounded_signup"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
             android:text="Save"
             android:textColor="#FFF"
             app:layout_constraintStart_toStartOf="parent"

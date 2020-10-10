@@ -115,7 +115,7 @@ public class SettingsActivity extends AppCompatActivity {
         edit_account_num = findViewById(R.id.edit_account_number);
         bkash_or_nagad = findViewById(R.id.edit_bkash_num);
         edit_nagad_num = findViewById(R.id.edit_nagad_num);
-        save_payment_method = findViewById(R.id.save_payment_method);
+
         nagad_hint = findViewById(R.id.nagd_hint);
         bkash_hint = findViewById(R.id.bkash_hint);
         all_address = findViewById(R.id.all_address);
@@ -137,6 +137,7 @@ public class SettingsActivity extends AppCompatActivity {
         show_upload_image = findViewById(R.id.show_upload_image);
         reset_pass = findViewById(R.id.reset_pass);
         upload_image_to_server = findViewById(R.id.upload_image_to_server);
+        save_payment_method = findViewById(R.id.save_payment_method);
 
         phone_call = findViewById(R.id.billing_phone5);
         facebook = findViewById(R.id.billing_fb);
@@ -176,11 +177,15 @@ public class SettingsActivity extends AppCompatActivity {
         bkash_option.setVisibility(View.GONE);
         address_sec_layout.setVisibility(View.GONE);
         verify_submit_date.setVisibility(View.GONE);
+        //
         other_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 other_option_layout.setVisibility(View.VISIBLE);
                 bank_layout.setVisibility(View.GONE);
+                //
+                cash.setVisibility(View.VISIBLE);
+                //
                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                 other_option.setTextColor(Color.rgb(255, 255, 255));
                 bank.setTextColor(Color.rgb(0, 0, 0));
@@ -212,7 +217,7 @@ public class SettingsActivity extends AppCompatActivity {
                         nagad_hint.setVisibility(View.GONE);
                         bkash_hint.setVisibility(View.VISIBLE);
                         bkash_or_nagad.setVisibility(View.VISIBLE);
-                        //nagad_option.setVisibility(View.GONE);
+                        //
                         mode = "bkash";
                         bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                         bkash.setTextColor(Color.rgb(255, 255, 255));
@@ -232,6 +237,7 @@ public class SettingsActivity extends AppCompatActivity {
                         bkash_or_nagad.setVisibility(View.GONE);
                         nagad_hint.setVisibility(View.VISIBLE);
                         bkash_hint.setVisibility(View.GONE);
+                        //
                         mode = "nagad";
                         nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                         nagad.setTextColor(Color.rgb(255, 255, 255));
@@ -313,7 +319,6 @@ public class SettingsActivity extends AppCompatActivity {
                                 other_option_layout.setVisibility(View.VISIBLE);
                                 bank_layout.setVisibility(View.GONE);
                                 //mode = "cash";
-                                //nagad_option.setVisibility(View.GONE);
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 other_option.setTextColor(Color.rgb(255, 255, 255));
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
@@ -329,8 +334,7 @@ public class SettingsActivity extends AppCompatActivity {
                             if (s.getM().getPrefersBkash()) {
                                 other_option_layout.setVisibility(View.VISIBLE);
                                 bank_layout.setVisibility(View.GONE);
-                               // mode = "bkash";
-                                //nagad_option.setVisibility(View.GONE);
+                                //mode = "bkash";
                                 nagad_hint.setVisibility(View.GONE);
                                 bkash_hint.setVisibility(View.VISIBLE);
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
@@ -356,14 +360,13 @@ public class SettingsActivity extends AppCompatActivity {
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 other_option.setTextColor(Color.rgb(255, 255, 255));
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                                bkash_or_nagad.setText(s.getM().getNumber());
                                 //mode = "nagad";
 
-                                bkash_option.setVisibility(View.GONE);
-                                //nagad_option.setVisibility(View.VISIBLE);
+                                bkash_option.setVisibility(View.VISIBLE);
                                 edit_nagad_num.setVisibility(View.VISIBLE);
                                 bkash_or_nagad.setVisibility(View.GONE);
                                 nagad_hint.setVisibility(View.VISIBLE);
+                                edit_nagad_num.setText(s.getM().getNumber());
                                 bkash_hint.setVisibility(View.GONE);
                                 nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 nagad.setTextColor(Color.rgb(255, 255, 255));
@@ -377,7 +380,6 @@ public class SettingsActivity extends AppCompatActivity {
                                 other_option_layout.setVisibility(View.GONE);
                                 bank_layout.setVisibility(View.VISIBLE);
                                 bkash_option.setVisibility(View.GONE);
-                                //nagad_option.setVisibility(View.GONE);
                                 //mode = "bank";
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 bank.setTextColor(Color.rgb(255, 255, 255));
@@ -476,8 +478,6 @@ public class SettingsActivity extends AppCompatActivity {
         save_payment_method.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),   mode + edit_nagad_num.getText().toString(), Toast.LENGTH_LONG).show();
-                //Toast.makeText(getApplicationContext(), bank_name_show.getSelectedItem() + "", Toast.LENGTH_LONG).show();
                 progressDialog.setMessage("Updating...");
                 progressDialog.show();
                 Call<ResponseBody> call3 = RetrofitClient
