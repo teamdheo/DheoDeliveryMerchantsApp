@@ -6,6 +6,7 @@ import com.example.myapplication.ModelClassBanksAndBranches.BanksAndBranches;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientEditPayload.ClientEditPayload;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
+import com.example.myapplication.ModelClassClientPayloadSearch.ClientPayloadSearch;
 import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
 import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
@@ -195,5 +196,11 @@ public interface Api {
     Call<ResponseBody> upload_national_id(
             @Field("client_id") Integer client_id,
             @Field("national_id") String national_id
+    );
+    @FormUrlEncoded
+    @POST("client_payload_search")
+    Call<ClientPayloadSearch> client_payload_search(
+            @Field("client_id") Integer client_id,
+            @Field("number") String number
     );
 }

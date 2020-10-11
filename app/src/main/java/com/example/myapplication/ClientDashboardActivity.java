@@ -17,6 +17,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
+import com.example.myapplication.ModelClassClientPayloadSearch.ClientPayloadSearch;
 import com.example.myapplication.modelClassPickupAddresses.M;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.squareup.picasso.Picasso;
@@ -49,15 +51,17 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private String photo_url;
     private String name;
     private int balance;
+    private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar;
-    private Button request_pickup, next_pickup, see_more;
+    private Button request_pickup, next_pickup, see_more,payload_search_btn;
     private List<M> pickup_address_length;
     private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
     private List<com.example.myapplication.ModelClassAssingedCourierInfoDashboard.M> pickup_info_dashboard;
     private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_payload_all_records;
-    private RecyclerView pickup_list, dashboard_payloads, all_record_payload;
-    private RecyclerView.Adapter adapter, adapter_payload, adapter_record_payload;
-    private RecyclerView.LayoutManager layoutManager, layoutManager1;
+    private List<com.example.myapplication.ModelClassClientPayloadSearch.M> payload_search;
+    private RecyclerView pickup_list, dashboard_payloads, all_record_payload,recycler_search_payload;
+    private RecyclerView.Adapter adapter, adapter_payload, adapter_record_payload, adapter_serch_payload;
+    private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
@@ -90,6 +94,9 @@ public class ClientDashboardActivity extends AppCompatActivity {
         meet_the_team = findViewById(R.id.dashboard_meet_team);
         privacy_policy = findViewById(R.id.dashboard_policy);
         payload_progressbar = findViewById(R.id.dashboard_payload_progressbar);
+        payload_search_editText = findViewById(R.id.payload_search_editText);
+        payload_search_btn = findViewById(R.id.payload_search_btn);
+        recycler_search_payload = (RecyclerView) findViewById(R.id.recycler_search_payload);
         //monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
@@ -97,9 +104,13 @@ public class ClientDashboardActivity extends AppCompatActivity {
         dashboard_payloads.setLayoutManager(layoutManager);
         layoutManager1 = new LinearLayoutManager(this);
         all_record_payload.setLayoutManager(layoutManager1);
+        layoutManager2 = new LinearLayoutManager(this);
+        recycler_search_payload.setLayoutManager(layoutManager2);
         see_more.setVisibility(View.INVISIBLE);
         next_pickup.setVisibility(View.GONE);
         scooter.setVisibility(View.GONE);
+        recycler_search_payload.setVisibility(View.GONE);
+        dashboard_payloads.setVisibility(View.VISIBLE);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
         try{
@@ -319,6 +330,40 @@ public class ClientDashboardActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
 
+            }
+        });
+        payload_search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+
+                Call<ClientPayloadSearch> call_search = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .client_payload_search(clientId,payload_search_editText.getText().toString());
+                call_search.enqueue(new Callback<ClientPayloadSearch>() {
+                    @Override
+                    public void onResponse(Call<ClientPayloadSearch> call, Response<ClientPayloadSearch> response) {
+                        if(response.body() != null){
+                            try{
+                                ClientPayloadSearch clientPayloadSearch = response.body();
+                                payload_search = clientPayloadSearch.getM();
+                                recycler_search_payload.setVisibility(View.VISIBLE);
+                                dashboard_payloads.setVisibility(View.GONE);
+                                see_more.setVisibility(View.GONE);
+                            }catch (NullPointerException e){
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        adapter_serch_payload = new AdapterSearchPayload(payload_search,getApplicationContext());
+                        recycler_search_payload.setAdapter(adapter_serch_payload);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ClientPayloadSearch> call, Throwable t) {
+
+                    }
+                });
             }
         });
         phone_call.setOnClickListener(new View.OnClickListener() {

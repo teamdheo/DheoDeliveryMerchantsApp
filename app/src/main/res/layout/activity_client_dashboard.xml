@@ -123,6 +123,41 @@
             app:layout_constraintHorizontal_bias="0.548"
             app:layout_constraintStart_toEndOf="@+id/balance"
             app:layout_constraintTop_toBottomOf="@+id/pickup_request" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_layout"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:background="#EFEFEF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amount"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/payload_search_editText"
+                android:hint="Search by ID or phone number"/>
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="45dp"
+                android:id="@+id/payload_search_btn"
+                android:text="Search"/>
+
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_search_payload"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:scrollbars="vertical"
+            android:background="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_layout" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_dashboard_payloads"
             android:layout_width="match_parent"
@@ -133,7 +168,7 @@
             android:background="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amount" />
+            app:layout_constraintTop_toBottomOf="@+id/recycler_search_payload" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
