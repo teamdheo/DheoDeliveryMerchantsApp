@@ -1,17 +1,22 @@
 package com.example.myapplication;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -67,6 +72,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
     Helper helper = new Helper(this);
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         helper.checkInternetConnection();
@@ -113,6 +119,11 @@ public class ClientDashboardActivity extends AppCompatActivity {
         dashboard_payloads.setVisibility(View.VISIBLE);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
+        final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
+        builder.setCancelable(false);
+        final View customLayout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+        builder.setView(customLayout);
+        final AlertDialog dialog = builder.create();
         try{
             if(helper.getPhoto_Url().equals("default.svg")){
                 profile_photo =(ImageView) findViewById(R.id.profile_photo);
@@ -335,7 +346,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
         payload_search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-
+                dialog.show();
                 Call<ClientPayloadSearch> call_search = RetrofitClient
                         .getInstance()
                         .getApi()
@@ -350,10 +361,15 @@ public class ClientDashboardActivity extends AppCompatActivity {
                                 recycler_search_payload.setVisibility(View.VISIBLE);
                                 dashboard_payloads.setVisibility(View.GONE);
                                 see_more.setVisibility(View.GONE);
+                                dialog.dismiss();
                             }catch (NullPointerException e){
                                 e.printStackTrace();
                                 Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                             }
+                        }
+                        if(response.body().getM().size()<1){
+                            dialog.dismiss();
+                            Toasty.error(getApplicationContext(), "Input missing", Toast.LENGTH_LONG, true).show();
                         }
                         adapter_serch_payload = new AdapterSearchPayload(payload_search,getApplicationContext());
                         recycler_search_payload.setAdapter(adapter_serch_payload);
@@ -361,7 +377,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ClientPayloadSearch> call, Throwable t) {
-
+                        Toast.makeText(getApplicationContext(), "Try again!", Toast.LENGTH_LONG).show();
                     }
                 });
             }
