@@ -1,12 +1,5 @@
 package com.example.myapplication;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -27,6 +19,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
@@ -52,19 +50,19 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private int clientId;
     private String password;
     private ImageView profile_photo, scooter, octopus_red_body;
-    private TextView client_name, total_balance, phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
+    private TextView client_name, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
     private String photo_url;
     private String name;
     private int balance;
     private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar;
-    private Button request_pickup, next_pickup, see_more,payload_search_btn;
+    private Button request_pickup, next_pickup, see_more, payload_search_btn;
     private List<M> pickup_address_length;
     private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
     private List<com.example.myapplication.ModelClassAssingedCourierInfoDashboard.M> pickup_info_dashboard;
     private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_payload_all_records;
     private List<com.example.myapplication.ModelClassClientPayloadSearch.M> payload_search;
-    private RecyclerView pickup_list, dashboard_payloads, all_record_payload,recycler_search_payload;
+    private RecyclerView pickup_list, dashboard_payloads, all_record_payload, recycler_search_payload;
     private RecyclerView.Adapter adapter, adapter_payload, adapter_record_payload, adapter_serch_payload;
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
     private SharedPreferences sharedPreferences;
@@ -72,21 +70,20 @@ public class ClientDashboardActivity extends AppCompatActivity {
     Helper helper = new Helper(this);
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         helper.checkInternetConnection();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_dashboard);
         client_name = (TextView) findViewById(R.id.name);
-        total_balance = (TextView) findViewById(R.id.amount) ;
-        request_pickup =(Button) findViewById(R.id.pickup_request);
-        next_pickup =(Button) findViewById(R.id.Next_pickups);
+        total_balance = (TextView) findViewById(R.id.amount);
+        request_pickup = (Button) findViewById(R.id.pickup_request);
+        next_pickup = (Button) findViewById(R.id.Next_pickups);
         scooter = (ImageView) findViewById(R.id.scooter);
         see_more = (Button) findViewById(R.id.see_more);
         pickup_list = (RecyclerView) findViewById(R.id.recycler_pickup_agent);
         dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
-        all_record_payload =(RecyclerView) findViewById(R.id.recycler_monthly_payload_records);
+        all_record_payload = (RecyclerView) findViewById(R.id.recycler_monthly_payload_records);
         octopus_red_body = (ImageView) findViewById(R.id.octopus_red_body);
         phone_call = findViewById(R.id.dashboard_phone);
         facebook = findViewById(R.id.dashboard_fb);
@@ -94,7 +91,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
         dashboard_billing = findViewById(R.id.dashboard_Billing);
         settings = findViewById(R.id.dashboard_settings);
         user_manual = findViewById(R.id.dashboard_user_manual);
-        log_out =findViewById(R.id.dashboard_logout);
+        log_out = findViewById(R.id.dashboard_logout);
         dhep_delivery = findViewById(R.id.dashboard_dheo_delivery);
         the_user_manual = findViewById(R.id.dashboard_The_manual);
         meet_the_team = findViewById(R.id.dashboard_meet_team);
@@ -124,16 +121,15 @@ public class ClientDashboardActivity extends AppCompatActivity {
         final View customLayout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
         builder.setView(customLayout);
         final AlertDialog dialog = builder.create();
-        try{
-            if(helper.getPhoto_Url().equals("default.svg")){
-                profile_photo =(ImageView) findViewById(R.id.profile_photo);
-            }
-            else {
-                profile_photo =(ImageView) findViewById(R.id.profile_photo);
-                photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + helper.getPhoto_Url() ;
+        try {
+            if (helper.getPhoto_Url().equals("default.svg")) {
+                profile_photo = (ImageView) findViewById(R.id.profile_photo);
+            } else {
+                profile_photo = (ImageView) findViewById(R.id.profile_photo);
+                photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + helper.getPhoto_Url();
                 Picasso.get().load(photo_url).into(profile_photo);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
 
         }
         Bundle extras = getIntent().getExtras();
@@ -185,11 +181,11 @@ public class ClientDashboardActivity extends AppCompatActivity {
                 try {
                     AssingedCourierInfoDashboard pickup = response.body();
                     pickup_info_dashboard = pickup.getM();
-                    if(pickup_info_dashboard.size() > 0){
+                    if (pickup_info_dashboard.size() > 0) {
 
                         next_pickup.setVisibility(View.VISIBLE);
                         scooter.setVisibility(View.VISIBLE);
-                        scooter_url= "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/scooter.png";
+                        scooter_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/scooter.png";
                         Picasso.get().load(scooter_url).into(scooter);
                         next_pickup.setText("Next pickups");
                         request_pickup.setText("Cancel or Change");
@@ -231,13 +227,12 @@ public class ClientDashboardActivity extends AppCompatActivity {
                         try {
                             PickupAddresses pickup = response.body();
                             pickup_address_length = pickup.getM();
-                            if(pickup_address_length.size() < 2){
-                                Intent i = new Intent(ClientDashboardActivity.this,SingleAddressPickupSlotActivity.class);
+                            if (pickup_address_length.size() < 2) {
+                                Intent i = new Intent(ClientDashboardActivity.this, SingleAddressPickupSlotActivity.class);
                                 i.putExtra("address_id", pickup.getM().get(0).getAddress_id());
                                 startActivity(i);
-                            }
-                            else{
-                                Intent i = new Intent(ClientDashboardActivity.this,ListActivityPickupAddress.class);
+                            } else {
+                                Intent i = new Intent(ClientDashboardActivity.this, ListActivityPickupAddress.class);
                                 startActivity(i);
                             }
                         } catch (NullPointerException e) {
@@ -276,25 +271,24 @@ public class ClientDashboardActivity extends AppCompatActivity {
         call2.enqueue(new Callback<ClientDashboardPayloads>() {
             @Override
             public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
-                if(response.body() != null){
+                if (response.body() != null) {
                     try {
                         ClientDashboardPayloads clientDashboardPayloads = response.body();
                         all_dashboard_payload = clientDashboardPayloads.getM();
                         payload_progressbar.setVisibility(View.GONE);
-                        if(all_dashboard_payload.size() >= 10){
+                        if (all_dashboard_payload.size() >= 10) {
                             see_more.setVisibility(View.VISIBLE);
-                        }
-                        else{
+                        } else {
                             see_more.setVisibility(View.GONE);
                         }
-                    }catch (NullPointerException e) {
+                    } catch (NullPointerException e) {
                         see_more.setVisibility(View.GONE);
                         dashboard_payloads.setVisibility(View.GONE);
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
-                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload,getApplicationContext());
+                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext());
                 dashboard_payloads.setAdapter(adapter_payload);
             }
 
@@ -320,17 +314,17 @@ public class ClientDashboardActivity extends AppCompatActivity {
         record_call.enqueue(new Callback<ClientMonthlyStatementDate>() {
             @Override
             public void onResponse(Call<ClientMonthlyStatementDate> call, Response<ClientMonthlyStatementDate> response) {
-                if(response.body() != null){
-                    try{
+                if (response.body() != null) {
+                    try {
                         ClientMonthlyStatementDate clientMonthlyStatementDate1 = response.body();
-                        monthly_payload_all_records  = clientMonthlyStatementDate1.getM();
-                    }catch (NullPointerException e) {
+                        monthly_payload_all_records = clientMonthlyStatementDate1.getM();
+                    } catch (NullPointerException e) {
                         all_record_payload.setVisibility(View.GONE);
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
-                if (response.body().getM().size()<1){
+                if (response.body().getM().size() < 1) {
                     monthly_record_progress_bar.setVisibility(View.GONE);
                 }
 
@@ -350,28 +344,28 @@ public class ClientDashboardActivity extends AppCompatActivity {
                 Call<ClientPayloadSearch> call_search = RetrofitClient
                         .getInstance()
                         .getApi()
-                        .client_payload_search(clientId,payload_search_editText.getText().toString());
+                        .client_payload_search(clientId, payload_search_editText.getText().toString());
                 call_search.enqueue(new Callback<ClientPayloadSearch>() {
                     @Override
                     public void onResponse(Call<ClientPayloadSearch> call, Response<ClientPayloadSearch> response) {
-                        if(response.body() != null){
-                            try{
+                        if (response.body() != null) {
+                            try {
                                 ClientPayloadSearch clientPayloadSearch = response.body();
                                 payload_search = clientPayloadSearch.getM();
                                 recycler_search_payload.setVisibility(View.VISIBLE);
                                 dashboard_payloads.setVisibility(View.GONE);
                                 see_more.setVisibility(View.GONE);
                                 dialog.dismiss();
-                            }catch (NullPointerException e){
+                            } catch (NullPointerException e) {
                                 e.printStackTrace();
                                 Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                             }
                         }
-                        if(response.body().getM().size()<1){
+                        if (response.body().getM().size() < 1) {
                             dialog.dismiss();
                             Toasty.error(getApplicationContext(), "Input missing", Toast.LENGTH_LONG, true).show();
                         }
-                        adapter_serch_payload = new AdapterSearchPayload(payload_search,getApplicationContext());
+                        adapter_serch_payload = new AdapterSearchPayload(payload_search, getApplicationContext());
                         recycler_search_payload.setAdapter(adapter_serch_payload);
                     }
 
@@ -438,8 +432,8 @@ public class ClientDashboardActivity extends AppCompatActivity {
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferences=getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-                editor=sharedPreferences.edit();
+                sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
                 Intent intent = new Intent(getApplicationContext(), LogInActivity.class);

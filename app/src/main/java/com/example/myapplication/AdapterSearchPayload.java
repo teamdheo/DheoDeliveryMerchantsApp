@@ -152,16 +152,7 @@ public class AdapterSearchPayload extends RecyclerView.Adapter<AdapterSearchPayl
                 }
             } catch (NullPointerException e) {
             }
-            try {
-                if (search_payload.get(position).getEnableEdit()) {
-                    holder.bar.setVisibility(View.VISIBLE);
-                    holder.edit.setVisibility(View.VISIBLE);
-                }
-            } catch (NullPointerException e) {
-                holder.bar.setVisibility(View.GONE);
-                holder.edit.setVisibility(View.GONE);
-                holder.tracking.setVisibility(View.VISIBLE);
-            }
+
             holder.tracking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -183,7 +174,7 @@ public class AdapterSearchPayload extends RecyclerView.Adapter<AdapterSearchPayl
     }
 
     public class SearchPayloadHolder extends RecyclerView.ViewHolder {
-        TextView customer_name, date_time, order_no, bar, edit, tracking, label, amount;
+        TextView customer_name, date_time, order_no, bar, tracking, label, amount;
         RatingBar rating;
         public SearchPayloadHolder(@NonNull View itemView) {
             super(itemView);
@@ -191,7 +182,6 @@ public class AdapterSearchPayload extends RecyclerView.Adapter<AdapterSearchPayl
             this.date_time = itemView.findViewById(R.id.search_date_time);
             this.rating = itemView.findViewById(R.id.search_rating);
             this.order_no = itemView.findViewById(R.id.search_order_no);
-            this.edit = itemView.findViewById(R.id.search_edit);
             this.tracking = itemView.findViewById(R.id.search_track);
             this.label = itemView.findViewById(R.id.search_label);
             this.amount = itemView.findViewById(R.id.search_amount);

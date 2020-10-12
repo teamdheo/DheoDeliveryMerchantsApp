@@ -68,7 +68,6 @@ public class SettingsActivity extends AppCompatActivity {
     private static final int SELECT_PICTURE = 1;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST = 2;
-    private String selectedImagePath;
     private String currentImagePath, national_id;
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
@@ -85,12 +84,10 @@ public class SettingsActivity extends AppCompatActivity {
     List<com.example.myapplication.modelClassPickupAddresses.M> all_add_settings;
     File imageFile;
     String picturePath = null;
-    private ProgressDialog progressDialog;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +150,6 @@ public class SettingsActivity extends AppCompatActivity {
         privacy_policy = findViewById(R.id.billing_policy);
 
         setting_name.setText(helper.getName());
-        progressDialog = new ProgressDialog(this);
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
                 setting_dp = findViewById(R.id.setting_profile_photo);
@@ -279,8 +275,11 @@ public class SettingsActivity extends AppCompatActivity {
                 address_sec_layout.setVisibility(View.GONE);
             }
         });
-        progressDialog.setMessage("Processing...");
-        progressDialog.show();
+        final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(SettingsActivity.this, R.style.AppTheme));
+        builder.setCancelable(false);
+        final View customLayout = getLayoutInflater().inflate(R.layout.updating_dialog, null);
+        builder.setView(customLayout);
+        final AlertDialog dialog_text = builder.create();
         Call<ClientPrefInfoAccountSetting> call2 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -290,7 +289,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onResponse(Call<ClientPrefInfoAccountSetting> call, Response<ClientPrefInfoAccountSetting> response) {
                 try {
                     if (response.body() != null) {
-                        progressDialog.dismiss();
                         ClientPrefInfoAccountSetting s = response.body();
                         try {
 //                            ArrayAdapter<String> adapter = (ArrayAdapter<String>) bank_name_show.getAdapter();
@@ -481,8 +479,7 @@ public class SettingsActivity extends AppCompatActivity {
         save_payment_method.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Updating...");
-                progressDialog.show();
+                dialog_text.show();
                 Call<ResponseBody> call3 = RetrofitClient
                         .getInstance()
                         .getApi()
@@ -498,7 +495,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")) {
-                            progressDialog.dismiss();
+                            dialog_text.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
@@ -546,8 +543,7 @@ public class SettingsActivity extends AppCompatActivity {
         save_new_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Updating...");
-                progressDialog.show();
+                dialog_text.show();
                 Call<ResponseBody> call4 = RetrofitClient
                         .getInstance()
                         .getApi()
@@ -563,7 +559,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")) {
-                            progressDialog.dismiss();
+                            dialog_text.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
@@ -586,8 +582,7 @@ public class SettingsActivity extends AppCompatActivity {
         add_web_address_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Updating...");
-                progressDialog.show();
+                dialog_text.show();
                 Call<ResponseBody> call5 = RetrofitClient
                         .getInstance()
                         .getApi()
@@ -603,7 +598,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")) {
-                            progressDialog.dismiss();
+                            dialog_text.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
@@ -624,8 +619,7 @@ public class SettingsActivity extends AppCompatActivity {
         change_phone_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Updating...");
-                progressDialog.show();
+                dialog_text.show();
                 Call<ResponseBody> call6 = RetrofitClient
                         .getInstance()
                         .getApi()
@@ -641,7 +635,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")) {
-                            progressDialog.dismiss();
+                            dialog_text.dismiss();
                             Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
@@ -823,8 +817,7 @@ public class SettingsActivity extends AppCompatActivity {
         upload_image_to_server.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Updating...");
-                progressDialog.show();
+                dialog_text.show();
                 try {
                     if (!national_id.equals(null)) {
                         //Toast.makeText(getApplicationContext(), "image update", Toast.LENGTH_LONG).show();
@@ -843,7 +836,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 }
                                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
-                                    progressDialog.dismiss();
+                                    dialog_text.dismiss();
                                     Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                     startActivity(intent);
@@ -861,7 +854,6 @@ public class SettingsActivity extends AppCompatActivity {
                     }
 
                 } catch (NullPointerException e) {
-                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "no image found", Toast.LENGTH_LONG).show();
                 }
             }
@@ -995,8 +987,6 @@ public class SettingsActivity extends AppCompatActivity {
             //todo out of memory exception
             bitmap.recycle();
             national_id = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-
         }
     }
 

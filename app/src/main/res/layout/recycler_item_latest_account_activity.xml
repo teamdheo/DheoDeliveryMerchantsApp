@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="4dp"
+            android:textSize="12sp"
             android:text="sep 17"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:paddingRight="5dp"
             android:layout_marginLeft="4dp"
             android:text="sep 17"
-            android:textSize="15sp"
+            android:textSize="11sp"
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +47,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="4dp"
             android:text="sep 17"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="#FFF"
             android:padding="5dp"
@@ -54,16 +56,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/customer_name"/>
+
         <TextView
             android:id="@+id/lebel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:textAlignment="viewStart"
             android:text="sep 17"
             android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/activity_amount"
             app:layout_constraintStart_toEndOf="@+id/month_year"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/activity_amount"/>
+            android:gravity="start" />
+
         <TextView
             android:id="@+id/activity_amount"
             android:layout_width="wrap_content"
@@ -72,6 +80,7 @@
             android:layout_marginRight="4dp"
             android:padding="4dp"
             android:text="sep 17"
+            android:textSize="12sp"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
