@@ -48,6 +48,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.setMessage("Loading...");
+                progressDialog.show();
                 if(businessName.getText().toString().length() >0 && address.getText().toString().length() > 0
                         && phoneNo.getText().toString().length() == 11 && pass.getText().toString().length() > 0) {
                     Call<SignupClientInfo> call = RetrofitClient

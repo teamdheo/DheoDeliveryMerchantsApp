@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +38,8 @@ public class PasswordResetActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.setMessage("Wait a moment...");
+                progressDialog.show();
                 if(client_number.getText().toString().length() == 11) {
                     Call<PassResetRequest> call = RetrofitClient
                             .getInstance()
@@ -83,10 +86,20 @@ public class PasswordResetActivity extends AppCompatActivity {
         phone_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(PasswordResetActivity.this,PassResetDoneActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel: +8801301377181"));
+                startActivity(intent);
             }
         });
 
+        dheo_life.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://m.me/dheolife";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
     }
 }
