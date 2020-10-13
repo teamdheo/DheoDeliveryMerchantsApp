@@ -22,7 +22,29 @@
         <activity android:name=".ClientDashboardBillingActivity" />
         <activity android:name=".SingleAddressPickupSlotActivity" />
         <activity android:name=".ListActivityPickupAddress" />
-        <activity android:name=".PassResetDoneActivity" />
+        <activity android:name=".PassResetDoneActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Accepts URIs that begin with "https://example.com" -->
+                <data android:host="rocket.dheo.com" />
+                <data android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Accepts URIs that begin with "https://www.example.com" -->
+                <data android:host="www.rocket.dheo.com" />
+                <data android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity android:name=".PasswordResetActivity" />
         <activity android:name=".ClientDashboardActivity" />
         <activity android:name=".SignUpActivity" />

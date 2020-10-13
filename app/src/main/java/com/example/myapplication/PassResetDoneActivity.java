@@ -40,11 +40,23 @@ public class PassResetDoneActivity extends AppCompatActivity {
         phone_call = findViewById(R.id.phonecall4);
         dheo_life = findViewById(R.id.dheolife4);
         progressDialog=new ProgressDialog(this);
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if(action.equals(Intent.ACTION_VIEW)){
+            Uri data = intent.getData();
+            if (data.getQueryParameter("token") != null ) {
 
+                String param = data.getQueryParameter("token");
+                token.setText(param);
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "nothing here", Toast.LENGTH_LONG).show();
+            }
+        }
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             pass_token = extras.getString("token");
-            token.setText(pass_token);
+            //token.setText(pass_token);
         }
         button.setOnClickListener(new View.OnClickListener() {
             @Override

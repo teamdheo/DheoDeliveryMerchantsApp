@@ -163,6 +163,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_layout" />
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/go_back"
+            android:text=""
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_signup"
+            android:textColor="#FFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_search_payload"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_dashboard_payloads"
             android:layout_width="match_parent"
@@ -173,7 +184,7 @@
             android:background="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_search_payload" />
+            app:layout_constraintTop_toBottomOf="@+id/go_back" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -2,4 +2,5 @@
     <string name="app_name">DheoRocketMerchantApp</string>
     <string name="bank_info">আমরা এখন ব্যাংক পেমেন্টও সাপোর্ট করছি। কোনো প্রকার চার্জ ছাড়াই দ্রুত এবং নিরাপদে পেমেন্ট পেতে <a href="https://rocket.dheo.com/client/profile#payments_section">এখানে</a> ক্লিক করে আপনার ব্যাংক অ্যাকাউন্টের প্রয়োজনীয় তথ্য হালনাগাদ করুন, ধন্যবাদ।</string>
     <string name="footer">Dheo.com is operated by <b>DHEO LLC, Seattle Washington, USA.</b> DHEO’s official partner in Bangladesh is <b>Blaze International, Dhaka Bangladesh.</b></string>
+    <string name="goback"> <u>Go back</u></string>
 </resources>

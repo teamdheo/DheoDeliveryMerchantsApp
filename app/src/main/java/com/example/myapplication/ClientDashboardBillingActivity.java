@@ -247,6 +247,10 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "no information", Toast.LENGTH_LONG).show();
+                    see_older.setVisibility(View.GONE);
+                }
                 adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext(), client_id);
                 payment_receipt_pdf.setAdapter(adapter);
             }

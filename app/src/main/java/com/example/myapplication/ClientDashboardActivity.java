@@ -56,7 +56,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private int balance;
     private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar;
-    private Button request_pickup, next_pickup, see_more, payload_search_btn;
+    private Button request_pickup, next_pickup, see_more, payload_search_btn, go_back;
     private List<M> pickup_address_length;
     private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
     private List<com.example.myapplication.ModelClassAssingedCourierInfoDashboard.M> pickup_info_dashboard;
@@ -101,6 +101,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
         payload_search_btn = findViewById(R.id.payload_search_btn);
         recycler_search_payload = (RecyclerView) findViewById(R.id.recycler_search_payload);
         //monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
+        go_back = findViewById(R.id.go_back);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -113,6 +114,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
         next_pickup.setVisibility(View.GONE);
         scooter.setVisibility(View.GONE);
         recycler_search_payload.setVisibility(View.GONE);
+        go_back.setVisibility(View.GONE);
         dashboard_payloads.setVisibility(View.VISIBLE);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
@@ -340,40 +342,55 @@ public class ClientDashboardActivity extends AppCompatActivity {
         payload_search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                dialog.show();
-                Call<ClientPayloadSearch> call_search = RetrofitClient
-                        .getInstance()
-                        .getApi()
-                        .client_payload_search(clientId, payload_search_editText.getText().toString());
-                call_search.enqueue(new Callback<ClientPayloadSearch>() {
-                    @Override
-                    public void onResponse(Call<ClientPayloadSearch> call, Response<ClientPayloadSearch> response) {
-                        if (response.body() != null) {
-                            try {
-                                ClientPayloadSearch clientPayloadSearch = response.body();
-                                payload_search = clientPayloadSearch.getM();
-                                recycler_search_payload.setVisibility(View.VISIBLE);
-                                dashboard_payloads.setVisibility(View.GONE);
-                                see_more.setVisibility(View.GONE);
-                                dialog.dismiss();
-                            } catch (NullPointerException e) {
-                                e.printStackTrace();
-                                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                if(payload_search_editText.getText().toString().length() != 0){
+                    dialog.show();
+                    Call<ClientPayloadSearch> call_search = RetrofitClient
+                            .getInstance()
+                            .getApi()
+                            .client_payload_search(clientId, payload_search_editText.getText().toString());
+                    call_search.enqueue(new Callback<ClientPayloadSearch>() {
+                        @Override
+                        public void onResponse(Call<ClientPayloadSearch> call, Response<ClientPayloadSearch> response) {
+                            if (response.body() != null) {
+                                try {
+                                    ClientPayloadSearch clientPayloadSearch = response.body();
+                                    payload_search = clientPayloadSearch.getM();
+                                    recycler_search_payload.setVisibility(View.VISIBLE);
+                                    go_back.setText("< Back");
+                                    go_back.setVisibility(View.VISIBLE);
+                                    dashboard_payloads.setVisibility(View.GONE);
+                                    see_more.setVisibility(View.GONE);
+                                    dialog.dismiss();
+                                    go_back.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    });
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                                }
                             }
+                            if (response.body().getM().size() < 1) {
+                                dialog.dismiss();
+                                Toasty.error(getApplicationContext(), "Wrong input", Toast.LENGTH_LONG, true).show();
+                            }
+                            adapter_serch_payload = new AdapterSearchPayload(payload_search, getApplicationContext());
+                            recycler_search_payload.setAdapter(adapter_serch_payload);
                         }
-                        if (response.body().getM().size() < 1) {
-                            dialog.dismiss();
-                            Toasty.error(getApplicationContext(), "Input missing", Toast.LENGTH_LONG, true).show();
-                        }
-                        adapter_serch_payload = new AdapterSearchPayload(payload_search, getApplicationContext());
-                        recycler_search_payload.setAdapter(adapter_serch_payload);
-                    }
 
-                    @Override
-                    public void onFailure(Call<ClientPayloadSearch> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Try again!", Toast.LENGTH_LONG).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ClientPayloadSearch> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), "Try again!", Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        }
+                    });
+                }
+                else{
+                    Toasty.error(getApplicationContext(), "Input missing", Toast.LENGTH_LONG, true).show();
+                }
             }
         });
         phone_call.setOnClickListener(new View.OnClickListener() {
