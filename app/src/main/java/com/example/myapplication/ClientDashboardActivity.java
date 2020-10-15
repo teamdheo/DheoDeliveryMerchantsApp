@@ -1,14 +1,26 @@
 package com.example.myapplication;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -20,9 +32,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,9 +45,26 @@ import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMont
 import com.example.myapplication.ModelClassClientPayloadSearch.ClientPayloadSearch;
 import com.example.myapplication.modelClassPickupAddresses.M;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -58,6 +88,9 @@ public class ClientDashboardActivity extends AppCompatActivity {
     private ProgressBar payload_progressbar, monthly_record_progress_bar;
     private Button request_pickup, next_pickup, see_more, payload_search_btn, go_back;
     private List<M> pickup_address_length;
+    GoogleMap googleMap;
+    private GoogleApiClient googleApiClient;
+    SupportMapFragment fm;
     private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
     private List<com.example.myapplication.ModelClassAssingedCourierInfoDashboard.M> pickup_info_dashboard;
     private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_payload_all_records;
@@ -116,6 +149,10 @@ public class ClientDashboardActivity extends AppCompatActivity {
         recycler_search_payload.setVisibility(View.GONE);
         go_back.setVisibility(View.GONE);
         dashboard_payloads.setVisibility(View.VISIBLE);
+        fm = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+        fm.getMapAsync((OnMapReadyCallback) this);
+
+
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
         final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
@@ -342,7 +379,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
         payload_search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if(payload_search_editText.getText().toString().length() != 0){
+                if (payload_search_editText.getText().toString().length() != 0) {
                     dialog.show();
                     Call<ClientPayloadSearch> call_search = RetrofitClient
                             .getInstance()
@@ -387,8 +424,7 @@ public class ClientDashboardActivity extends AppCompatActivity {
                             dialog.dismiss();
                         }
                     });
-                }
-                else{
+                } else {
                     Toasty.error(getApplicationContext(), "Input missing", Toast.LENGTH_LONG, true).show();
                 }
             }
@@ -496,4 +532,6 @@ public class ClientDashboardActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

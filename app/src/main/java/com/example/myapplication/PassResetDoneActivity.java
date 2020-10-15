@@ -42,17 +42,19 @@ public class PassResetDoneActivity extends AppCompatActivity {
         progressDialog=new ProgressDialog(this);
         Intent intent = getIntent();
         String action = intent.getAction();
-        if(action.equals(Intent.ACTION_VIEW)){
-            Uri data = intent.getData();
-            if (data.getQueryParameter("token") != null ) {
+       try{
+           if(action.equals(Intent.ACTION_VIEW)){
+               Uri data = intent.getData();
+               if (data.getQueryParameter("token") != null ) {
 
-                String param = data.getQueryParameter("token");
-                token.setText(param);
-            }
-            else{
-                Toast.makeText(getApplicationContext(), "nothing here", Toast.LENGTH_LONG).show();
-            }
-        }
+                   String param = data.getQueryParameter("token");
+                   token.setText(param);
+               }
+               else{
+                   Toast.makeText(getApplicationContext(), "nothing here", Toast.LENGTH_LONG).show();
+               }
+           }
+       }catch (NullPointerException e){}
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             pass_token = extras.getString("token");
