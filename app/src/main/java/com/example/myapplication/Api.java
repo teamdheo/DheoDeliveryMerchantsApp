@@ -11,6 +11,7 @@ import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPe
 import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
+import com.example.myapplication.ModelClassPickupMapInfo.PickupMapInfo;
 import com.example.myapplication.modelClassAvaiablePickupSlot.AvailablePickupSlot;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.example.myapplication.modelClassClientInfo.ClientInfo;
@@ -197,10 +198,16 @@ public interface Api {
             @Field("client_id") Integer client_id,
             @Field("national_id") String national_id
     );
+
     @FormUrlEncoded
     @POST("client_payload_search")
     Call<ClientPayloadSearch> client_payload_search(
             @Field("client_id") Integer client_id,
             @Field("number") String number
+    );
+    @FormUrlEncoded
+    @POST("client_pickup_map")
+    Call<PickupMapInfo> client_pickup_map(
+            @Field("client_id") Integer client_id
     );
 }

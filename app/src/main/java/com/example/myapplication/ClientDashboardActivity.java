@@ -9,18 +9,16 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
+import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.ContextThemeWrapper;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -32,9 +30,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,28 +43,25 @@ import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.Assinged
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.example.myapplication.ModelClassClientPayloadSearch.ClientPayloadSearch;
+import com.example.myapplication.ModelClassPickupMapInfo.PickupMapInfo;
 import com.example.myapplication.modelClassPickupAddresses.M;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.TimeZone;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -72,7 +69,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ClientDashboardActivity extends AppCompatActivity {
+public class ClientDashboardActivity extends FragmentActivity implements OnMapReadyCallback {
     SQLiteDatabase sqLiteDatabase;
     private int session = 0;
     private String phone;
@@ -91,16 +88,39 @@ public class ClientDashboardActivity extends AppCompatActivity {
     GoogleMap googleMap;
     private GoogleApiClient googleApiClient;
     SupportMapFragment fm;
+    private double latitude;
+    private double longitude;
+    private LatLng latLng;
+    private float zoomLevel;
     private List<com.example.myapplication.ModelClassClientDashboardPayloads.M> all_dashboard_payload;
     private List<com.example.myapplication.ModelClassAssingedCourierInfoDashboard.M> pickup_info_dashboard;
     private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_payload_all_records;
     private List<com.example.myapplication.ModelClassClientPayloadSearch.M> payload_search;
+    private List<com.example.myapplication.ModelClassPickupMapInfo.M> map_info;
     private RecyclerView pickup_list, dashboard_payloads, all_record_payload, recycler_search_payload;
     private RecyclerView.Adapter adapter, adapter_payload, adapter_record_payload, adapter_serch_payload;
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
+    private GoogleMap mMap;
+    LocationManager locationManager;
+    LocationListener locationListener;
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0, (android.location.LocationListener) locationListener);
+
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            }
+        }
+    }
 
 
     @Override
@@ -149,11 +169,11 @@ public class ClientDashboardActivity extends AppCompatActivity {
         recycler_search_payload.setVisibility(View.GONE);
         go_back.setVisibility(View.GONE);
         dashboard_payloads.setVisibility(View.VISIBLE);
-        fm = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
-        fm.getMapAsync((OnMapReadyCallback) this);
+        fm = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        fm.getMapAsync(this);
 
-
-        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        //getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
         final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
         builder.setCancelable(false);
@@ -532,6 +552,85 @@ public class ClientDashboardActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onMapReady(final GoogleMap map) {
+        Call<PickupMapInfo> call5 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_pickup_map(clientId);
+        call5.enqueue(new Callback<PickupMapInfo>() {
+            @Override
+            public void onResponse(Call<PickupMapInfo> call, Response<PickupMapInfo> response) {
+                try{
+                    if(response.body() != null){
+                        PickupMapInfo pickupMapInfo = response.body();
+                        if(pickupMapInfo.getE() == 0){
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            try {
+                                long time = sdf.parse(pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getUpdatedAt()).getTime();
+                                long now = System.currentTimeMillis();
+                                CharSequence ago = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
+                                latitude = Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getCoordinates().getLat());
+                                longitude =  Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getCoordinates().getLong());
+                                latLng = new LatLng(latitude,longitude);
+                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getName()+"("+pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPhone()+")")
+                                        .snippet(ago.toString());
+                                zoomLevel = 10.0f; //This goes up to 21
+                                Marker m = map.addMarker(marker);
+                                m.showInfoWindow();
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                                //map.setMyLocationEnabled(true);
+                                map.setTrafficEnabled(true);
+                                map.setIndoorEnabled(true);
+                                map.setBuildingsEnabled(true);
+
+                                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                                map.getUiSettings().setZoomControlsEnabled(true);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+//                           String a = pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getCoordinates().getLat();
+//                            Toast.makeText(getApplicationContext(), a+"", Toast.LENGTH_LONG).show();
+
+
+                        }
+                    }
+                }catch (NullPointerException e){}
+            }
+
+            @Override
+            public void onFailure(Call<PickupMapInfo> call, Throwable t) {
+
+            }
+        });
+//        latitude = -33.857013;
+//        longitude =151.207694 ;
+//        latLng = new LatLng(latitude,longitude);
+//        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Robi is here ");
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        zoomLevel = 16.0f; //This goes up to 21
+//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+//        map.setMyLocationEnabled(true);
+//        map.setTrafficEnabled(true);
+//        map.setIndoorEnabled(true);
+//        map.setBuildingsEnabled(true);
+//        map.addMarker(marker);
+//        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//        map.getUiSettings().setZoomControlsEnabled(true);
+    }
+
 
 
 }
