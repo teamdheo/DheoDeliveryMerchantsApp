@@ -76,7 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
     ImageView setting_dp;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
-    private String photo_url, mode;
+    private String photo_url, mode,name_client;
     private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn, upload_image_to_server;
     LinearLayout bank_layout, other_option_layout, bkash_option, address_sec_layout;
     private RecyclerView all_address;
@@ -148,8 +148,12 @@ public class SettingsActivity extends AppCompatActivity {
         the_user_manual = findViewById(R.id.billing_The_manual);
         meet_the_team = findViewById(R.id.billing_meet_team);
         privacy_policy = findViewById(R.id.billing_policy);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            name_client = extras.getString("name_c");
+        }
 
-        setting_name.setText(helper.getName());
+        setting_name.setText(name_client);
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
                 setting_dp = findViewById(R.id.setting_profile_photo);

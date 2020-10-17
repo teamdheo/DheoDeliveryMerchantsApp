@@ -97,8 +97,8 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             name_client = extras.getString("name_c");
             balance_client = extras.getInt("balance_c");
         }
-        client_name_billing.setText(helper.getName());
-        total_balance_billing.setText(helper.getBalance() + "TK");
+        client_name_billing.setText(name_client);
+        total_balance_billing.setText(balance_client + "TK");
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Billing Dashboard");
         client_id = helper.getClientId();
@@ -330,6 +330,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                intent.putExtra("name_c", name_client);
                 startActivity(intent);
             }
         });

@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollViewParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ClientDashboardActivity">
@@ -78,12 +79,18 @@
             android:id="@+id/map_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
             <fragment
                 android:id="@+id/map"
                 class="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"/>
+            <View
+                android:id="@+id/customView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@android:color/transparent" />
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_pickup_agent"

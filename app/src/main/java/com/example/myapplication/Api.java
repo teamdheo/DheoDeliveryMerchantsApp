@@ -3,6 +3,7 @@ package com.example.myapplication;
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
 import com.example.myapplication.ModelClassBankBranches.BankBranches;
 import com.example.myapplication.ModelClassBanksAndBranches.BanksAndBranches;
+import com.example.myapplication.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientEditPayload.ClientEditPayload;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
@@ -208,6 +209,11 @@ public interface Api {
     @FormUrlEncoded
     @POST("client_pickup_map")
     Call<PickupMapInfo> client_pickup_map(
+            @Field("client_id") Integer client_id
+    );
+    @FormUrlEncoded
+    @POST("client_basic_info")
+    Call<ClientBasicInfo> client_basic_info(
             @Field("client_id") Integer client_id
     );
 }

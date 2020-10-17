@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -26,7 +27,9 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,11 +38,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
+import com.example.myapplication.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.example.myapplication.ModelClassClientPayloadSearch.ClientPayloadSearch;
@@ -102,10 +107,12 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    LinearLayout map_layout;
     Helper helper = new Helper(this);
     private GoogleMap mMap;
     LocationManager locationManager;
     LocationListener locationListener;
+    NestedScrollView scrollView;
 
 
     @Override
@@ -155,6 +162,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
         recycler_search_payload = (RecyclerView) findViewById(R.id.recycler_search_payload);
         //monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
         go_back = findViewById(R.id.go_back);
+        map_layout = findViewById(R.id.map_layout);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -172,6 +180,14 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
         fm = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         fm.getMapAsync(this);
+        map_layout.setVisibility(View.GONE);
+//        View customView = null;
+//        NestedScrollView scrollViewParent = null;
+
+//        scrollViewParent = (NestedScrollView) findViewById(R.id.scrollViewParent);
+//        customView = (View) findViewById(R.id.customView);
+
+
 
         //getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
@@ -198,11 +214,11 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
             password = extras.getString("PASS");
             clientId = extras.getInt("CLIENTId");
             session = extras.getInt("SESSION");
-            name = extras.getString("name");
-            balance = extras.getInt("balance");
+//            name = extras.getString("name");
+//            balance = extras.getInt("balance");
         }
-        client_name.setText(helper.getName());
-        total_balance.setText(helper.getBalance() + "TK");
+//        client_name.setText(name);
+//        total_balance.setText(balance + "TK");
 
         sqLiteDatabase = getBaseContext().openOrCreateDatabase("SQLite", MODE_PRIVATE, null);
         String sql = "CREATE TABLE IF NOT EXISTS ClientProfileInfo (_id Integer Primary Key,phone TEXT,image TEXT,clientId Integer,password TEXT);";
@@ -228,6 +244,71 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
             startActivity(i);
         }
         query.close();
+        Call<ClientBasicInfo> call1 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_basic_info(clientId);
+        call1.enqueue(new Callback<ClientBasicInfo>() {
+            @Override
+            public void onResponse(Call<ClientBasicInfo> call, Response<ClientBasicInfo> response) {
+                try {
+                    ClientBasicInfo s = response.body();
+                    if(s.getE() == 0){
+                        client_name.setText(s.getM().getName());
+                        total_balance.setText(s.getM().getBalance() + "TK");
+                        name = s.getM().getName();
+                        balance = s.getM().getBalance();
+                        total_balance.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                                intent.putExtra("name_c", name);
+                                intent.putExtra("balance_c", balance);
+                                startActivity(intent);
+                            }
+                        });
+                        settings.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                intent.putExtra("name_c", name);
+                                startActivity(intent);
+                            }
+                        });
+
+                    }
+                }catch (NullPointerException e){}
+            }
+
+            @Override
+            public void onFailure(Call<ClientBasicInfo> call, Throwable t) {
+
+            }
+        });
+        Call<PickupMapInfo> call6 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_pickup_map(clientId);
+        call6.enqueue(new Callback<PickupMapInfo>() {
+            @Override
+            public void onResponse(Call<PickupMapInfo> call, Response<PickupMapInfo> response) {
+                PickupMapInfo info = response.body();
+                if(info.getE() == 0){
+                    try {
+                        if (info.getM().getCourierPingMap().getAgents().size() > 0){
+                            map_layout.setVisibility(View.VISIBLE);
+                            next_pickup.setVisibility(View.GONE);
+                            scooter.setVisibility(View.GONE);
+                        }
+                    }catch (NullPointerException e){}
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PickupMapInfo> call, Throwable t) {
+
+            }
+        });
 
         Call<AssingedCourierInfoDashboard> call = RetrofitClient
                 .getInstance()
@@ -314,15 +395,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
 //                startActivity(i);
             }
         });
-        total_balance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
-                intent.putExtra("name_c", name);
-                intent.putExtra("balance_c", balance);
-                startActivity(intent);
-            }
-        });
+
         Call<ClientDashboardPayloads> call2 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -484,13 +557,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                 startActivity(intent);
             }
         });
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
+
         user_manual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -550,7 +617,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                 startActivity(i);
             }
         });
-
+        //Toasty.success(getApplicationContext(), name+"", Toast.LENGTH_LONG, true).show();
     }
 
     @Override
@@ -594,10 +661,6 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                                 }
 
                             }
-//                           String a = pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getCoordinates().getLat();
-//                            Toast.makeText(getApplicationContext(), a+"", Toast.LENGTH_LONG).show();
-
-
                         }
                     }
                 }catch (NullPointerException e){}
@@ -608,29 +671,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
 
             }
         });
-//        latitude = -33.857013;
-//        longitude =151.207694 ;
-//        latLng = new LatLng(latitude,longitude);
-//        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Robi is here ");
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-//        zoomLevel = 16.0f; //This goes up to 21
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
-//        map.setMyLocationEnabled(true);
-//        map.setTrafficEnabled(true);
-//        map.setIndoorEnabled(true);
-//        map.setBuildingsEnabled(true);
-//        map.addMarker(marker);
-//        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//        map.getUiSettings().setZoomControlsEnabled(true);
+
     }
 
 
