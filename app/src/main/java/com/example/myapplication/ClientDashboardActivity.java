@@ -1,24 +1,15 @@
 package com.example.myapplication;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -26,15 +17,12 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,7 +34,6 @@ import com.example.myapplication.ModelClassClientPayloadSearch.ClientPayloadSear
 import com.example.myapplication.ModelClassPickupMapInfo.PickupMapInfo;
 import com.example.myapplication.modelClassPickupAddresses.M;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -59,7 +46,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -85,8 +71,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
     private ProgressBar payload_progressbar, monthly_record_progress_bar;
     private Button request_pickup, next_pickup, see_more, payload_search_btn, go_back;
     private List<M> pickup_address_length;
-    GoogleMap googleMap;
-    private GoogleApiClient googleApiClient;
+    LinearLayout map_layout;
     SupportMapFragment fm;
     private double latitude;
     private double longitude;
@@ -108,19 +93,19 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
     LocationListener locationListener;
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0, (android.location.LocationListener) locationListener);
-
-                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0, (android.location.LocationListener) locationListener);
+//
+//                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//            }
+//        }
+//    }
 
 
     @Override
@@ -152,6 +137,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
         payload_progressbar = findViewById(R.id.dashboard_payload_progressbar);
         payload_search_editText = findViewById(R.id.payload_search_editText);
         payload_search_btn = findViewById(R.id.payload_search_btn);
+        map_layout = findViewById(R.id.map_layout);
         recycler_search_payload = (RecyclerView) findViewById(R.id.recycler_search_payload);
         //monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
         go_back = findViewById(R.id.go_back);
@@ -172,6 +158,8 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
         fm = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         fm.getMapAsync(this);
+        map_layout.setVisibility(View.GONE);
+
 
         //getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
@@ -228,6 +216,30 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
             startActivity(i);
         }
         query.close();
+//        Call<PickupMapInfo> call6 = RetrofitClient
+//                .getInstance()
+//                .getApi()
+//                .client_pickup_map(clientId);
+//        call6.enqueue(new Callback<PickupMapInfo>() {
+//            @Override
+//            public void onResponse(Call<PickupMapInfo> call, Response<PickupMapInfo> response) {
+//                PickupMapInfo info = response.body();
+//                try{
+//                    if(info.getM().getCourierPingMap().getAgents().size() > 0){
+//                        map_layout.setVisibility(View.VISIBLE);
+//                        next_pickup.setVisibility(View.GONE);
+//                        scooter.setVisibility(View.GONE);
+//                        pickup_list.setVisibility(View.GONE);
+//
+//                    }
+//                }catch (NullPointerException e){}
+//            }
+//
+//            @Override
+//            public void onFailure(Call<PickupMapInfo> call, Throwable t) {
+//
+//            }
+//        });
 
         Call<AssingedCourierInfoDashboard> call = RetrofitClient
                 .getInstance()
@@ -566,36 +578,39 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                     if(response.body() != null){
                         PickupMapInfo pickupMapInfo = response.body();
                         if(pickupMapInfo.getE() == 0){
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-                            try {
-                                long time = sdf.parse(pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getUpdatedAt()).getTime();
-                                long now = System.currentTimeMillis();
-                                CharSequence ago = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
-                                latitude = Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getCoordinates().getLat());
-                                longitude =  Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getCoordinates().getLong());
-                                latLng = new LatLng(latitude,longitude);
-                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getName()+"("+pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPhone()+")")
-                                        .snippet(ago.toString());
-                                zoomLevel = 10.0f; //This goes up to 21
-                                Marker m = map.addMarker(marker);
-                                m.showInfoWindow();
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
-                                //map.setMyLocationEnabled(true);
-                                map.setTrafficEnabled(true);
-                                map.setIndoorEnabled(true);
-                                map.setBuildingsEnabled(true);
+                            for(int i = 0; i< pickupMapInfo.getM().getCourierPingMap().getAgents().size(); i++){
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                                try {
+                                    long time = sdf.parse(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPing().getUpdatedAt()).getTime();
+                                    long now = System.currentTimeMillis();
+                                    CharSequence ago = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
+                                    latitude = Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPing().getCoordinates().getLat());
+                                    longitude =  Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPing().getCoordinates().getLong());
+                                    latLng = new LatLng(latitude,longitude);
+//                                Target target = new PicassoM;
+//                                targets.add(target);
+//                                Picasso.with(MapsActivity.this).load(myMarker.getmIcon()).resize(84, 125).into(target);
+//
+//                                photo_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPhoto() ;
+//                                Picasso.get().load(photo_url).into();
+                                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getName()+"("+pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPhone()+")")
+                                            .snippet("Last seen "+ago.toString());
+                                    zoomLevel = 10.0f; //This goes up to 21
+                                    Marker m = map.addMarker(marker);
+                                    m.showInfoWindow();
+                                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                                    //map.setMyLocationEnabled(true);
+                                    map.setTrafficEnabled(true);
+                                    map.setIndoorEnabled(true);
+                                    map.setBuildingsEnabled(true);
 
-                                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                                map.getUiSettings().setZoomControlsEnabled(true);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                                    map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                                    map.getUiSettings().setZoomControlsEnabled(true);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
-
-//                           String a = pickupMapInfo.getM().getCourierPingMap().getAgents().get(0).getPing().getCoordinates().getLat();
-//                            Toast.makeText(getApplicationContext(), a+"", Toast.LENGTH_LONG).show();
-
-
                         }
                     }
                 }catch (NullPointerException e){}
@@ -603,34 +618,9 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
 
             @Override
             public void onFailure(Call<PickupMapInfo> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "failed", Toast.LENGTH_LONG, true).show();
             }
         });
-//        latitude = -33.857013;
-//        longitude =151.207694 ;
-//        latLng = new LatLng(latitude,longitude);
-//        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Robi is here ");
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-//        zoomLevel = 16.0f; //This goes up to 21
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
-//        map.setMyLocationEnabled(true);
-//        map.setTrafficEnabled(true);
-//        map.setIndoorEnabled(true);
-//        map.setBuildingsEnabled(true);
-//        map.addMarker(marker);
-//        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//        map.getUiSettings().setZoomControlsEnabled(true);
+
     }
-
-
-
 }
