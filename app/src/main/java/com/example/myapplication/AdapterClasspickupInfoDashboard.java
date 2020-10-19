@@ -137,9 +137,6 @@ public class AdapterClasspickupInfoDashboard extends RecyclerView.Adapter<Adapte
         return pickup_info.size();
     }
 
-
-
-
     public class AgentViewHolder extends RecyclerView.ViewHolder {
         TextView day_and_date, time_of_pickup, pickup_address, agent_name, agent_number;
         ImageView agent_photo, location_icon;

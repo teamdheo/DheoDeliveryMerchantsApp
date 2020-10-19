@@ -14,8 +14,6 @@ public class Helper {
     private String client_pass;
     private int clientId;
     private String photo_Url;
-    private String name;
-    private  int balance;
     SQLiteDatabase sqLiteDatabase;
 
     public Helper(Context context) {
@@ -73,24 +71,5 @@ public class Helper {
         sqLiteDatabase.close();
         return clientId;
     }
-    public String getName() {
-        //pin fetch from database
-        sqLiteDatabase = context.openOrCreateDatabase("SQLite", Context.MODE_PRIVATE, null);
-        Cursor query = sqLiteDatabase.rawQuery("SELECT * FROM ClientBasicInfo", null);
-        if (query.moveToFirst()) {
-            name = query.getString(1);
-        }
-        sqLiteDatabase.close();
-        return name;
-    }
-    public int getBalance() {
-        //pin fetch from database
-        sqLiteDatabase = context.openOrCreateDatabase("SQLite", Context.MODE_PRIVATE, null);
-        Cursor query = sqLiteDatabase.rawQuery("SELECT * FROM ClientBasicInfo", null);
-        if (query.moveToFirst()) {
-            balance = query.getInt(2);
-        }
-        sqLiteDatabase.close();
-        return balance;
-    }
+
 }

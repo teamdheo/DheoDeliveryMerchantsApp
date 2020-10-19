@@ -29,24 +29,24 @@
         <activity android:name=".PassResetDoneActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Accepts URIs that begin with "https://example.com" -->
                 <data android:host="rocket.dheo.com" />
-                <data android:scheme="https" />
+                <data android:scheme="https"
+                    android:pathPrefix="/client/reset_password"/>
             </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
-                <!-- Accepts URIs that begin with "https://www.example.com" -->
-                <data android:host="www.rocket.dheo.com" />
-                <data android:scheme="https" />
+                <data
+                    android:scheme="https"
+                    android:host="www.rocket.dheo.com"
+                    android:pathPrefix="/client/reset_password"
+                    />
             </intent-filter>
         </activity>
         <activity android:name=".PasswordResetActivity" />

@@ -1,8 +1,6 @@
 package com.example.myapplication;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,14 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -29,14 +22,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentActivity;
@@ -64,7 +54,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -618,10 +607,29 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
             }
         });
         //Toasty.success(getApplicationContext(), name+"", Toast.LENGTH_LONG, true).show();
+
     }
+//    private class InfoWindowRefresher implements Callback {
+//        private Marker markerToRefresh;
+//
+//        private InfoWindowRefresher(Marker markerToRefresh) {
+//            this.markerToRefresh = markerToRefresh;
+//        }
+//
+//        @Override
+//        public void onResponse(Call call, Response response) {
+//            markerToRefresh.showInfoWindow();
+//        }
+//
+//        @Override
+//        public void onFailure(Call call, Throwable t) {
+//
+//        }
+//    }
 
     @Override
     public void onMapReady(final GoogleMap map) {
+
         Call<PickupMapInfo> call5 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -631,7 +639,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
             public void onResponse(Call<PickupMapInfo> call, Response<PickupMapInfo> response) {
                 try{
                     if(response.body() != null){
-                        PickupMapInfo pickupMapInfo = response.body();
+                        final PickupMapInfo pickupMapInfo = response.body();
                         if(pickupMapInfo.getE() == 0){
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -644,7 +652,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                                     longitude =  Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPing().getCoordinates().getLong());
                                     latLng = new LatLng(latitude,longitude);
                                     MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getName()+"("+pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPhone()+")")
-                                            .snippet("last seen " + ago.toString());
+                                            .snippet("last seen " + ago.toString());;
                                     zoomLevel = 10.0f; //This goes up to 21
                                     Marker m = map.addMarker(marker);
                                     m.showInfoWindow();
@@ -656,6 +664,36 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
 
                                     map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                                     map.getUiSettings().setZoomControlsEnabled(true);
+//                                    final int finalI = i;
+//                                    class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
+//                                        LayoutInflater mInflater;
+//                                        Map<Marker, String> imageStringMapMarker;
+//                                        Context context;
+//
+//                                        public CustomWindowAdapter(LayoutInflater i,  Map<Marker, String> imageStringMapMarker2, Context context ){
+//                                            mInflater = i;
+//                                            imageStringMapMarker = imageStringMapMarker2;
+//                                        }
+//
+//                                        @Override
+//                                        public View getInfoWindow(Marker marker) {
+//                                            return null;
+//                                        }
+//
+//                                        @Override
+//                                        public View getInfoContents(final Marker marker) {
+//                                            String url_map;
+//                                            View v = mInflater.inflate(R.layout.custom_info_window, null);
+//
+//                                            ImageView ivThumbnail = (ImageView) v.findViewById(R.id.map_image);
+//                                            TextView map_name = v.findViewById(R.id.name_map);
+//                                            url_map = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + pickupMapInfo.getM().getCourierPingMap().getAgents().get(finalI).getPhoto() ;
+//                                            Picasso.get().load(url_map).into(ivThumbnail);
+//                                            return v;
+//
+//                                        }
+//                                    }
+//                                    map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater(), , getApplicationContext()));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
@@ -666,6 +704,8 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                 }catch (NullPointerException e){}
             }
 
+
+
             @Override
             public void onFailure(Call<PickupMapInfo> call, Throwable t) {
 
@@ -673,7 +713,4 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
         });
 
     }
-
-
-
 }

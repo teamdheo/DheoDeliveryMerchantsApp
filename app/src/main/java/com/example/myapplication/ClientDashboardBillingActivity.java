@@ -175,7 +175,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
                         }
                         try {
-                            if(helper.getBalance() == 0){
+                            if(balance_client == 0){
                                 payment_pref.setText("If some entries are not here, it means they are being processed by our finance team (usually within 1 working day).");
                             }
                         }catch (NullPointerException e){}
