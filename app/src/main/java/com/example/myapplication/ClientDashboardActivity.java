@@ -79,8 +79,6 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
     private ProgressBar payload_progressbar, monthly_record_progress_bar;
     private Button request_pickup, next_pickup, see_more, payload_search_btn, go_back;
     private List<M> pickup_address_length;
-    GoogleMap googleMap;
-    private GoogleApiClient googleApiClient;
     SupportMapFragment fm;
     private double latitude;
     private double longitude;
@@ -264,6 +262,41 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                                 startActivity(intent);
                             }
                         });
+                        Call<ClientDashboardPayloads> call2 = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .client_dashboard_payloads(clientId);
+                        call2.enqueue(new Callback<ClientDashboardPayloads>() {
+                            @Override
+                            public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
+                                if (response.body() != null) {
+                                    try {
+                                        ClientDashboardPayloads clientDashboardPayloads = response.body();
+                                        all_dashboard_payload = clientDashboardPayloads.getM();
+                                        payload_progressbar.setVisibility(View.GONE);
+                                        if (all_dashboard_payload.size() >= 10) {
+                                            see_more.setVisibility(View.VISIBLE);
+                                        } else {
+                                            see_more.setVisibility(View.GONE);
+                                        }
+                                    } catch (NullPointerException e) {
+                                        see_more.setVisibility(View.GONE);
+                                        dashboard_payloads.setVisibility(View.GONE);
+                                        e.printStackTrace();
+                                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name);
+                                dashboard_payloads.setAdapter(adapter_payload);
+                            }
+
+                            @Override
+                            public void onFailure(Call<ClientDashboardPayloads> call, Throwable t) {
+                                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+                                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                                startActivity(i);
+                            }
+                        });
 
                     }
                 }catch (NullPointerException e){}
@@ -310,10 +343,12 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                 try {
                     AssingedCourierInfoDashboard pickup = response.body();
                     pickup_info_dashboard = pickup.getM();
+                    //Toasty.success(getApplicationContext(),pickup_info_dashboard.size()+"" , Toast.LENGTH_LONG, true).show();
                     if (pickup_info_dashboard.size() > 0) {
-
                         next_pickup.setVisibility(View.VISIBLE);
                         scooter.setVisibility(View.VISIBLE);
+                        next_pickup.setVisibility(View.VISIBLE);
+                        map_layout.setVisibility(View.GONE);
                         scooter_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/scooter.png";
                         Picasso.get().load(scooter_url).into(scooter);
                         next_pickup.setText("Next pickups");
@@ -325,6 +360,9 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
                         animation.setRepeatMode(Animation.REVERSE);
                         scooter.startAnimation(animation);
                     }
+                    else{
+                        //Toasty.success(getApplicationContext(),"no data" , Toast.LENGTH_LONG, true).show();
+                    }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
@@ -335,7 +373,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
 
             @Override
             public void onFailure(Call<AssingedCourierInfoDashboard> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
             }
@@ -385,41 +423,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
             }
         });
 
-        Call<ClientDashboardPayloads> call2 = RetrofitClient
-                .getInstance()
-                .getApi()
-                .client_dashboard_payloads(clientId);
-        call2.enqueue(new Callback<ClientDashboardPayloads>() {
-            @Override
-            public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
-                if (response.body() != null) {
-                    try {
-                        ClientDashboardPayloads clientDashboardPayloads = response.body();
-                        all_dashboard_payload = clientDashboardPayloads.getM();
-                        payload_progressbar.setVisibility(View.GONE);
-                        if (all_dashboard_payload.size() >= 10) {
-                            see_more.setVisibility(View.VISIBLE);
-                        } else {
-                            see_more.setVisibility(View.GONE);
-                        }
-                    } catch (NullPointerException e) {
-                        see_more.setVisibility(View.GONE);
-                        dashboard_payloads.setVisibility(View.GONE);
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
-                    }
-                }
-                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext());
-                dashboard_payloads.setAdapter(adapter_payload);
-            }
 
-            @Override
-            public void onFailure(Call<ClientDashboardPayloads> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
-                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(i);
-            }
-        });
         see_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

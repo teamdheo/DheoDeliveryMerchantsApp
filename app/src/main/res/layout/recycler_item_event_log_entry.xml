@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recycler_address"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="10dp"
+    android:focusable="true">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="rijrjitirgktkk"
+        android:textAlignment="textEnd"
+        android:textColor="#000000"
+        android:id="@+id/event_time"
+        app:layout_constraintEnd_toStartOf="@+id/state_line"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="end" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:textAlignment="textEnd"
+        android:text="rijrjitirgktkk"
+        android:textColor="#000000"
+        android:id="@+id/event_date"
+        app:layout_constraintEnd_toStartOf="@+id/state_line"
+        app:layout_constraintTop_toBottomOf="@+id/event_time"
+        android:gravity="end" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/state_line"
+        android:background="@drawable/dotted_shape"
+        android:layout_marginLeft="130dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:layout_marginTop="10dp"
+        android:textColor="#000000"
+        android:text="rijrjitirgktkk"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/event_description"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/state_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="start" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

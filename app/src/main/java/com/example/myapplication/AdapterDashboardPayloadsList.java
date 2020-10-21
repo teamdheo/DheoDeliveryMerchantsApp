@@ -37,10 +37,12 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
     Context payload_contex;
     EditText edit_phone, edit_amount;
     Button save_button, cancel_button;
+    private String client_name;
 
-    public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex) {
+    public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex, String client_name) {
         this.dashboard_payload = dashboard_payload;
         this.payload_contex = payload_contex;
+        this.client_name = client_name;
     }
 
     @NonNull
@@ -277,9 +279,14 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             holder.tracking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri uri = Uri.parse("https://dheo.com/rocket?id=" + dashboard_payload.get(position).getShortId() + "&s=1");
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    Uri uri = Uri.parse("https://dheo.com/rocket?id=" + dashboard_payload.get(position).getShortId() + "&s=1");
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    payload_contex.startActivity(intent);
+                    Intent intent = new Intent(payload_contex, OrderTrackerActivity.class);
+                    intent.putExtra("short_id", dashboard_payload.get(position).getShortId());
+                    intent.putExtra("payload_id", dashboard_payload.get(position).getPayloadId());
+                    intent.putExtra("client_name", client_name);
                     payload_contex.startActivity(intent);
                 }
             });

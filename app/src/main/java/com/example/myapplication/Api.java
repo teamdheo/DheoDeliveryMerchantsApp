@@ -13,6 +13,7 @@ import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPayment
 import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
 import com.example.myapplication.ModelClassPickupMapInfo.PickupMapInfo;
+import com.example.myapplication.ModelClassTrackerLogEntry.TrackerLogEntry;
 import com.example.myapplication.modelClassAvaiablePickupSlot.AvailablePickupSlot;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
 import com.example.myapplication.modelClassClientInfo.ClientInfo;
@@ -215,5 +216,10 @@ public interface Api {
     @POST("client_basic_info")
     Call<ClientBasicInfo> client_basic_info(
             @Field("client_id") Integer client_id
+    );
+    @FormUrlEncoded
+    @POST("order_tracker_log_entry")
+    Call<TrackerLogEntry> order_tracker_log_entry(
+            @Field("payload_id") Integer payload_id
     );
 }
