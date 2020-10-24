@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,11 +11,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.ModelClassDeliveryMapInfo.DeliveryMapInfo;
+import com.example.myapplication.ModelClassOrderStatusPageInfo.OrderStatusPageInfo;
 import com.example.myapplication.ModelClassTrackerLogEntry.M;
 import com.example.myapplication.ModelClassTrackerLogEntry.TrackerLogEntry;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -26,15 +37,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderTrackerActivity extends AppCompatActivity {
+public class OrderTrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
     private String short_id, client_name, photo_url,label_image_url;
     private int payload_id,day;
-    private TextView track_client_name,order_no,friday_note, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
-    private ImageView track_client_image,label_image;
+    private TextView track_client_name,order_no,friday_note, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,track_courier, customer_name, customer_phone, courier_name, courier_phone;
+    private ImageView track_client_image,label_image, courier_photo;
     private RecyclerView tracker_events;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<M> all_log_entries;
+    LinearLayout delivery_map_layout;
+    SupportMapFragment fm;
+    private double latitude;
+    private double longitude;
+    private LatLng latLng;
+    private float zoomLevel;
     Helper helper = new Helper(this);
 
     @Override
@@ -53,6 +70,13 @@ public class OrderTrackerActivity extends AppCompatActivity {
         privacy_policy = findViewById(R.id.billing_policy);
         layoutManager = new LinearLayoutManager(this);
         tracker_events.setLayoutManager(layoutManager);
+        delivery_map_layout = findViewById(R.id.delivery_map_layout);
+        track_courier = findViewById(R.id.track_courier);
+        customer_name = findViewById(R.id.customer_name);
+        customer_phone = findViewById(R.id.customer_phone);
+        courier_name = findViewById(R.id.courier_name);
+        courier_phone = findViewById(R.id.courier_phone);
+        courier_photo = findViewById(R.id.courier_photo);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             short_id = extras.getString("short_id");
@@ -86,6 +110,11 @@ public class OrderTrackerActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
 
         }
+        fm = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.delivery_map);
+        fm.getMapAsync(this);
+        delivery_map_layout.setVisibility(View.GONE);
+        track_courier.setVisibility(View.GONE);
 
         Call<TrackerLogEntry> call = RetrofitClient
                 .getInstance()
@@ -111,6 +140,53 @@ public class OrderTrackerActivity extends AppCompatActivity {
 
             }
         });
+
+        Call<OrderStatusPageInfo> call2 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .order_status_page_info(payload_id);
+        call2.enqueue(new Callback<OrderStatusPageInfo>() {
+            @Override
+            public void onResponse(Call<OrderStatusPageInfo> call, Response<OrderStatusPageInfo> response) {
+               try {
+                   final OrderStatusPageInfo s = response.body();
+                   if(s.getE() == 0){
+                       //Toast.makeText(getApplicationContext(), s.getM().getCustomerPhone()+"", Toast.LENGTH_LONG).show();
+                       customer_name.setText("Name: " + s.getM().getCustomerName());
+                       customer_phone.setText("Phone: "+ s.getM().getCustomerPhone());
+                       courier_name.setText(s.getM().getCourierName());
+                       courier_phone.setText(s.getM().getCourierPhone());
+                       String courier_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getCourierPhoto() ;
+                       Picasso.get().load(courier_url).into(courier_photo);
+                       customer_phone.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View arg0) {
+                               Intent intent = new Intent(Intent.ACTION_DIAL);
+                               intent.setData(Uri.parse("tel: +88"+s.getM().getCustomerPhone()));
+                               //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                               startActivity(intent);
+                           }
+                       });
+                       courier_phone.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View arg0) {
+                               Intent intent = new Intent(Intent.ACTION_DIAL);
+                               intent.setData(Uri.parse("tel: +88"+s.getM().getCourierPhone()));
+                               //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                               startActivity(intent);
+                           }
+                       });
+                   }
+               }catch (NullPointerException e){}
+            }
+
+            @Override
+            public void onFailure(Call<OrderStatusPageInfo> call, Throwable t) {
+
+            }
+        });
+
+
         dhep_delivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,6 +222,51 @@ public class OrderTrackerActivity extends AppCompatActivity {
                 i.setData(Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+            }
+        });
+    }
+
+    @Override
+    public void onMapReady(final GoogleMap map) {
+        Call<DeliveryMapInfo> call1 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .delivery_map_info(payload_id);
+        call1.enqueue(new Callback<DeliveryMapInfo>() {
+            @Override
+            public void onResponse(Call<DeliveryMapInfo> call, Response<DeliveryMapInfo> response) {
+                try {
+                    DeliveryMapInfo s = response.body();
+                    if (s.getE() == 0){
+                        if(s.getM().getCourierPingMap()){
+                            delivery_map_layout.setVisibility(View.VISIBLE);
+                            track_courier.setVisibility(View.VISIBLE);
+                            //Toast.makeText(getApplicationContext(), s.getM().getCourierName()+"", Toast.LENGTH_LONG).show();
+                            latitude = Double.parseDouble(s.getM().getLatitude());
+                            longitude =  Double.parseDouble(s.getM().getLongitude());
+                            latLng = new LatLng(latitude,longitude);
+                            MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(s.getM().getCourierName() + "( "+ s.getM().getCourierPhone() + " )")
+                                    .snippet("last seen " + s.getM().getLastSeen());
+                            zoomLevel = 12.0f; //This goes up to 21
+                            Marker m = map.addMarker(marker);
+                            m.showInfoWindow();
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                            //map.setMyLocationEnabled(true);
+                            map.setTrafficEnabled(true);
+                            map.setIndoorEnabled(true);
+                            map.setBuildingsEnabled(true);
+
+                            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                            map.getUiSettings().setZoomControlsEnabled(true);
+                        }
+
+                    }
+                }catch (NullPointerException e){}
+            }
+
+            @Override
+            public void onFailure(Call<DeliveryMapInfo> call, Throwable t) {
+
             }
         });
     }

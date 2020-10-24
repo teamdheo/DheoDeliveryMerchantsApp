@@ -84,18 +84,95 @@
             android:id="@+id/order_no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/state_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/customer_info"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/order_no"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer:"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/customer_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:text=""
+                android:id="@+id/customer_phone"/>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/assaign_courier"
+            android:text="Assigned Courier:"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customer_info"/>
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/courier_info"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assaign_courier"
+        android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/courier_photo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/client_photo"
+                app:civ_border_color="#FFF"
+                app:civ_border_width="1dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/courier_name"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:id="@+id/courier_phone"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:textColor="#000000"
             android:textSize="18dp"
             android:text="Latest updates:"
             android:textStyle="bold"
             android:id="@+id/update"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/order_no"/>
+            app:layout_constraintTop_toBottomOf="@+id/courier_info"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,6 +194,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:id="@+id/track_courier"
+            android:textColor="#000000"
             android:text="Track your courier:"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -126,13 +204,13 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="10dp"
-            android:id="@+id/map_layout"
+            android:id="@+id/delivery_map_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/track_courier"
             app:layout_constraintStart_toStartOf="parent"
             android:orientation="vertical">
             <fragment
-                android:id="@+id/map"
+                android:id="@+id/delivery_map"
                 class="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"/>
@@ -147,21 +225,24 @@
             android:layout_height="wrap_content"
             android:id="@+id/label_image_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/map_layout"
+            app:layout_constraintTop_toBottomOf="@+id/delivery_map_layout"
             app:layout_constraintStart_toStartOf="parent"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/label_info"
+                android:textColor="#000000"
                 android:text="Package label:"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <ImageView
+                android:layout_height="500dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
                 android:layout_marginTop="5dp"
                 android:id="@+id/label_image"/>
         </LinearLayout>

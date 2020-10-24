@@ -11,7 +11,9 @@ import com.example.myapplication.ModelClassClientPayloadSearch.ClientPayloadSear
 import com.example.myapplication.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
 import com.example.myapplication.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.example.myapplication.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
+import com.example.myapplication.ModelClassDeliveryMapInfo.DeliveryMapInfo;
 import com.example.myapplication.ModelClassLatestAccountActivity.LatestAccountActivity;
+import com.example.myapplication.ModelClassOrderStatusPageInfo.OrderStatusPageInfo;
 import com.example.myapplication.ModelClassPickupMapInfo.PickupMapInfo;
 import com.example.myapplication.ModelClassTrackerLogEntry.TrackerLogEntry;
 import com.example.myapplication.modelClassAvaiablePickupSlot.AvailablePickupSlot;
@@ -220,6 +222,16 @@ public interface Api {
     @FormUrlEncoded
     @POST("order_tracker_log_entry")
     Call<TrackerLogEntry> order_tracker_log_entry(
+            @Field("payload_id") Integer payload_id
+    );
+    @FormUrlEncoded
+    @POST("delivery_map_info")
+    Call<DeliveryMapInfo> delivery_map_info(
+            @Field("payload_id") Integer payload_id
+    );
+    @FormUrlEncoded
+    @POST("order_status_page_info")
+    Call<OrderStatusPageInfo> order_status_page_info(
             @Field("payload_id") Integer payload_id
     );
 }

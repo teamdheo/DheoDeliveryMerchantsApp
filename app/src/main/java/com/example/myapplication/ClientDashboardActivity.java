@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentActivity;
@@ -63,7 +64,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ClientDashboardActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ClientDashboardActivity extends AppCompatActivity implements OnMapReadyCallback {
     SQLiteDatabase sqLiteDatabase;
     private int session = 0;
     private String phone;
@@ -176,7 +177,7 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
 
 
 
-        //getSupportActionBar().setElevation(0);//remove actionbar shadow
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
         final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
         builder.setCancelable(false);
@@ -613,23 +614,6 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
         //Toasty.success(getApplicationContext(), name+"", Toast.LENGTH_LONG, true).show();
 
     }
-//    private class InfoWindowRefresher implements Callback {
-//        private Marker markerToRefresh;
-//
-//        private InfoWindowRefresher(Marker markerToRefresh) {
-//            this.markerToRefresh = markerToRefresh;
-//        }
-//
-//        @Override
-//        public void onResponse(Call call, Response response) {
-//            markerToRefresh.showInfoWindow();
-//        }
-//
-//        @Override
-//        public void onFailure(Call call, Throwable t) {
-//
-//        }
-//    }
 
     @Override
     public void onMapReady(final GoogleMap map) {
@@ -668,36 +652,6 @@ public class ClientDashboardActivity extends FragmentActivity implements OnMapRe
 
                                     map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                                     map.getUiSettings().setZoomControlsEnabled(true);
-//                                    final int finalI = i;
-//                                    class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
-//                                        LayoutInflater mInflater;
-//                                        Map<Marker, String> imageStringMapMarker;
-//                                        Context context;
-//
-//                                        public CustomWindowAdapter(LayoutInflater i,  Map<Marker, String> imageStringMapMarker2, Context context ){
-//                                            mInflater = i;
-//                                            imageStringMapMarker = imageStringMapMarker2;
-//                                        }
-//
-//                                        @Override
-//                                        public View getInfoWindow(Marker marker) {
-//                                            return null;
-//                                        }
-//
-//                                        @Override
-//                                        public View getInfoContents(final Marker marker) {
-//                                            String url_map;
-//                                            View v = mInflater.inflate(R.layout.custom_info_window, null);
-//
-//                                            ImageView ivThumbnail = (ImageView) v.findViewById(R.id.map_image);
-//                                            TextView map_name = v.findViewById(R.id.name_map);
-//                                            url_map = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + pickupMapInfo.getM().getCourierPingMap().getAgents().get(finalI).getPhoto() ;
-//                                            Picasso.get().load(url_map).into(ivThumbnail);
-//                                            return v;
-//
-//                                        }
-//                                    }
-//                                    map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater(), , getApplicationContext()));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
