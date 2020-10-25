@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,13 +42,15 @@ import retrofit2.Response;
 public class OrderTrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
     private String short_id, client_name, photo_url,label_image_url;
     private int payload_id,day;
-    private TextView track_client_name,order_no,friday_note, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,track_courier, customer_name, customer_phone, courier_name, courier_phone;
+    private TextView track_client_name,order_no,friday_note, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,track_courier, customer_name, customer_phone, courier_name, courier_phone,review,name_rating,customer_review,phone_call, facebook;
     private ImageView track_client_image,label_image, courier_photo;
     private RecyclerView tracker_events;
     private RecyclerView.Adapter adapter;
+    private RatingBar customer_rating;
     private RecyclerView.LayoutManager layoutManager;
     private List<M> all_log_entries;
     LinearLayout delivery_map_layout;
+    RelativeLayout customer_review_sec;
     SupportMapFragment fm;
     private double latitude;
     private double longitude;
@@ -77,12 +81,21 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         courier_name = findViewById(R.id.courier_name);
         courier_phone = findViewById(R.id.courier_phone);
         courier_photo = findViewById(R.id.courier_photo);
+        customer_review_sec = findViewById(R.id.customer_review_sec);
+        review = findViewById(R.id.review);
+        name_rating = findViewById(R.id.name_rating);
+        customer_rating = findViewById(R.id.customer_rating);
+        customer_review = findViewById(R.id.customer_review);
+        phone_call = findViewById(R.id.tracking_phone);
+        facebook = findViewById(R.id.tracking_fb);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             short_id = extras.getString("short_id");
             payload_id = extras.getInt("payload_id");
             client_name = extras.getString("client_name");
         }
+        review.setVisibility(View.GONE);
+        customer_review_sec.setVisibility(View.GONE);
         friday_note.setVisibility(View.GONE);
         track_client_name.setText(client_name);
         order_no.setText("Order number: "+helper.getClientId()+"."+payload_id);
@@ -176,6 +189,15 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
                                startActivity(intent);
                            }
                        });
+                      try {
+                          if(s.getM().getHasReview()){
+                              review.setVisibility(View.VISIBLE);
+                              customer_review_sec.setVisibility(View.VISIBLE);
+                              name_rating.setText(s.getM().getCustomerName() +"'s review: ");
+                              customer_rating.setRating(s.getM().getCustomerRating());
+                              customer_review.setText(s.getM().getCustomerReview());
+                          }
+                      }catch (NullPointerException e){}
                    }
                }catch (NullPointerException e){}
             }
@@ -218,6 +240,25 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onClick(View view) {
                 String url = "https://dheo.com/privacy";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+        phone_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel: +8801301377181"));
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://m.me/dheolife";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -187,7 +187,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ClientPaymentPerfInfo> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
             }
@@ -218,7 +218,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LatestAccountActivity> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
             }
@@ -257,7 +257,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ClientPaymentReceiptPDF> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
             }
@@ -284,10 +284,9 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 monthly_billing_adapter = new AdapterClassMonthlyBillingPDF(monthly_billing_pdf, getApplicationContext(), client_id);
                 monthly_statement_pdf.setAdapter(monthly_billing_adapter);
             }
-
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "wrong here!", Toast.LENGTH_LONG, true).show();
                 Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
             }

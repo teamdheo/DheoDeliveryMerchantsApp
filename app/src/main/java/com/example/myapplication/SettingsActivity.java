@@ -178,6 +178,13 @@ public class SettingsActivity extends AppCompatActivity {
         bkash_option.setVisibility(View.GONE);
         address_sec_layout.setVisibility(View.GONE);
         verify_submit_date.setVisibility(View.GONE);
+        go_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(intent);
+            }
+        });
         //
         other_option.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -69,8 +69,48 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
 
         }
         try{
+            if(pick_up_slots.get(position).getSameDay()){
+                holder.delivery_day.setText("Delivery: Today");
+                holder.book.setText("Book");
+                holder.booked.setVisibility(View.INVISIBLE);
+            }
+        }catch (NullPointerException e){
+
+        }
+        try{
+            if(pick_up_slots.get(position).getSecondDay()){
+                holder.delivery_day.setText("Delivery: Second Day");
+                holder.book.setText("Book");
+                holder.booked.setVisibility(View.INVISIBLE);
+            }
+        }catch (NullPointerException e){
+
+        }
+        try{
             if(pick_up_slots.get(position).getNextDay() && pick_up_slots.get(position).getAlreadyBooked()){
                 holder.delivery_day.setText("Delivery: Next Day");
+                holder.booked.setVisibility(View.VISIBLE);
+                holder.booked.setText("Booked! ❎");
+                holder.book.setVisibility(View.INVISIBLE);
+
+            }
+        }catch (NullPointerException e){
+
+        }
+        try{
+            if(pick_up_slots.get(position).getSameDay() && pick_up_slots.get(position).getAlreadyBooked()){
+                holder.delivery_day.setText("Delivery: Today");
+                holder.booked.setVisibility(View.VISIBLE);
+                holder.booked.setText("Booked! ❎");
+                holder.book.setVisibility(View.INVISIBLE);
+
+            }
+        }catch (NullPointerException e){
+
+        }
+        try{
+            if(pick_up_slots.get(position).getSecondDay() && pick_up_slots.get(position).getAlreadyBooked()){
+                holder.delivery_day.setText("Delivery: Second Day");
                 holder.booked.setVisibility(View.VISIBLE);
                 holder.booked.setText("Booked! ❎");
                 holder.book.setVisibility(View.INVISIBLE);

@@ -18,12 +18,34 @@ public class M {
     @SerializedName("next_day")
     @Expose
     private Boolean nextDay;
+    @SerializedName("same_day")
+    @Expose
+    private Boolean sameDay;
+    @SerializedName("second_day")
+    @Expose
+    private Boolean secondDay;
     @SerializedName("already_booked")
     @Expose
     private Boolean alreadyBooked;
     @SerializedName("unbookable")
     @Expose
     private Boolean unbookable;
+
+    public Boolean getSameDay() {
+        return sameDay;
+    }
+
+    public void setSameDay(Boolean sameDay) {
+        this.sameDay = sameDay;
+    }
+
+    public Boolean getSecondDay() {
+        return secondDay;
+    }
+
+    public void setSecondDay(Boolean secondDay) {
+        this.secondDay = secondDay;
+    }
 
     public String getId() {
         return id;

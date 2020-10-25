@@ -7,4 +7,11 @@
         <item name="colorAccent">#B71C1C</item>
     </style>
 
+    <style name="MyRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:maxHeight">0dp</item>
+        <item name="colorControlNormal">#CCC</item>
+        <item name="colorControlActivated">#999</item>
+    </style>
+
 </resources>
