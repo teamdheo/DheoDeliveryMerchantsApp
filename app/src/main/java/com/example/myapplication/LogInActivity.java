@@ -35,6 +35,8 @@ public class LogInActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setTitle("Log In");
         helper.checkInternetConnection();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);

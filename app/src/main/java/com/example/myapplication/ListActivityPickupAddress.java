@@ -34,6 +34,8 @@ public class ListActivityPickupAddress extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setTitle("Select a address");
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("Select an address");
         setContentView(R.layout.activity_list_pickup_address);
         pickup_list = (RecyclerView) findViewById(R.id.recycler_pickup);

@@ -36,6 +36,8 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setTitle("Book a pickup");
         setContentView(R.layout.activity_list_multiple_pickup_address_slots);
         pickup_slot_view = (RecyclerView) findViewById(R.id.multiple_address_slot) ;
         back_to_dashboard = (Button) findViewById(R.id.back_to_dashboard);

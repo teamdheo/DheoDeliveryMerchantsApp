@@ -243,7 +243,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     ClientBasicInfo s = response.body();
                     if(s.getE() == 0){
                         client_name.setText(s.getM().getName());
-                        total_balance.setText(s.getM().getBalance() + "TK");
+                        total_balance.setText(s.getM().getBalance() + " TK");
                         name = s.getM().getName();
                         balance = s.getM().getBalance();
                         total_balance.setOnClickListener(new View.OnClickListener() {

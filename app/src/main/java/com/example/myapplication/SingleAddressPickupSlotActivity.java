@@ -37,6 +37,8 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setTitle("Book a pickup");
         setContentView(R.layout.activity_single_address_pickup_slot);
         pickup_slot_view =(RecyclerView) findViewById(R.id.recycler_pickup_slot);
         back_to_dashboard1 = (Button) findViewById(R.id.back_to_dashboard1);

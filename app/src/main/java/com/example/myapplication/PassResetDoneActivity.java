@@ -32,6 +32,8 @@ public class PassResetDoneActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setTitle("Reset Done");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass_reset_done);
         newpass = (EditText) findViewById(R.id.newpass);

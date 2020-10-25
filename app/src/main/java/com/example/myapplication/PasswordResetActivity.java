@@ -29,6 +29,8 @@ public class PasswordResetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setTitle("Reset Password");
         setContentView(R.layout.activity_password_reset);
         client_number = (EditText) findViewById(R.id.phone_req);
         button = (Button) findViewById(R.id.btnnext);
@@ -54,7 +56,7 @@ public class PasswordResetActivity extends AppCompatActivity {
                                 //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
 
                                 if (s.getE() == 0) {
-                                    Toasty.success(getApplicationContext(), "create a new password", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "Dheo will send you a sms", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), PassResetDoneActivity.class);
                                     intent.putExtra("token", s.getM().getSms_token());
                                     startActivity(intent);

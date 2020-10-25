@@ -33,6 +33,8 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setTitle("Sign up");
         setContentView(R.layout.activity_sign_up);
         businessName =(EditText) findViewById(R.id.businessname);
         address =(EditText) findViewById(R.id.address);
