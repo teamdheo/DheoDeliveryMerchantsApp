@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.ModelClassTrackerLogEntry.M;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 
@@ -41,9 +41,11 @@ public class AdapterTrackerEvents extends RecyclerView.Adapter<AdapterTrackerEve
             holder.event_date.setText(event_list.get(position).getDate());
         }catch (NullPointerException e){}
         try{
-            holder.event_description.setText(event_list.get(position).getDescription());
+            holder.event_description.setText(event_list.get(position).getDescription() + "\n");
         }catch (NullPointerException e){}
-
+       if(position == event_list.size()-1){
+           holder.dotted_line.setVisibility(View.GONE);
+       }
     }
 
     @Override
@@ -54,11 +56,13 @@ public class AdapterTrackerEvents extends RecyclerView.Adapter<AdapterTrackerEve
     public class MyEventViewHolder extends RecyclerView.ViewHolder {
         TextView event_date, event_time, event_description;
         ImageView event_photo;
+        View dotted_line;
         public MyEventViewHolder(@NonNull View itemView) {
             super(itemView);
             this.event_time = itemView.findViewById(R.id.event_time);
             this.event_date = itemView.findViewById(R.id.event_date);
             this.event_description = itemView.findViewById(R.id.event_description);
+            this.dotted_line = itemView.findViewById(R.id.dotted_line);
 
 
         }

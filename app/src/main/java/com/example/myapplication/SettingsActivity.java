@@ -175,6 +175,8 @@ public class SettingsActivity extends AppCompatActivity {
         other_option_layout.setVisibility(View.GONE);
         //nagad_option.setVisibility(View.GONE);
         bank_layout.setVisibility(View.VISIBLE);
+//        edit_bank_name.setVisibility(View.GONE);
+//        edit_branch_name.setVisibility(View.GONE);
         bkash_option.setVisibility(View.GONE);
         address_sec_layout.setVisibility(View.GONE);
         verify_submit_date.setVisibility(View.GONE);
@@ -191,9 +193,9 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 other_option_layout.setVisibility(View.VISIBLE);
                 bank_layout.setVisibility(View.GONE);
-                //
+
                 cash.setVisibility(View.VISIBLE);
-                //
+
                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                 other_option.setTextColor(Color.rgb(255, 255, 255));
                 bank.setTextColor(Color.rgb(0, 0, 0));
@@ -266,6 +268,8 @@ public class SettingsActivity extends AppCompatActivity {
                 other_option_layout.setVisibility(View.GONE);
                 bank_layout.setVisibility(View.VISIBLE);
                 bkash_option.setVisibility(View.GONE);
+//                edit_bank_name.setVisibility(View.GONE);
+//                edit_branch_name.setVisibility(View.GONE);
                 mode = "bank";
                 other_option.setTextColor(Color.rgb(0, 0, 0));
                 //nagad_option.setVisibility(View.GONE);
@@ -392,6 +396,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 other_option_layout.setVisibility(View.GONE);
                                 bank_layout.setVisibility(View.VISIBLE);
                                 bkash_option.setVisibility(View.GONE);
+//                                edit_bank_name.setVisibility(View.VISIBLE);
+//                                edit_branch_name.setVisibility(View.VISIBLE);
                                 //mode = "bank";
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 bank.setTextColor(Color.rgb(255, 255, 255));
