@@ -21,6 +21,12 @@ public class M {
     @SerializedName("payload_id")
     @Expose
     private String payloadId;
+    @SerializedName("id")
+    @Expose
+    private String Id;
+    @SerializedName("short_id")
+    @Expose
+    private String shortId;
     @SerializedName("customer_name")
     @Expose
     private String customerName;
@@ -30,6 +36,30 @@ public class M {
     @SerializedName("has_tagged_entry")
     @Expose
     private Boolean hasTaggedEntry;
+
+    public Boolean getNegative() {
+        return isNegative;
+    }
+
+    public void setNegative(Boolean negative) {
+        isNegative = negative;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public String getShortId() {
+        return shortId;
+    }
+
+    public void setShortId(String shortId) {
+        this.shortId = shortId;
+    }
 
     public Integer getAmount() {
         return amount;

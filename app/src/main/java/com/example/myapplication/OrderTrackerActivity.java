@@ -103,7 +103,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         if(day == 6){
             friday_note.setVisibility(View.VISIBLE);
         }
-        //Toast.makeText(getApplicationContext(), day+"", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), payload_id+"", Toast.LENGTH_LONG).show();
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
                 track_client_image = (ImageView) findViewById(R.id.tracker_profile_photo);

@@ -212,7 +212,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
-                adapter = new AdapterClassLatestPaymentActivity(latest_payment_activity,getApplicationContext());
+                adapter = new AdapterClassLatestPaymentActivity(latest_payment_activity,getApplicationContext(), name_client);
                 latest_activity.setAdapter(adapter);
             }
 

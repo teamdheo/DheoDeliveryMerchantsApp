@@ -1,10 +1,12 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,10 +19,13 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
     private List<M> latest_account_activity;
     Context activity_context;
     Helper helper;
+    private String client_name;
+    private int extensionRemoved;
 
-    public AdapterClassLatestPaymentActivity(List<M> latest_account_activity, Context activity_context) {
+    public AdapterClassLatestPaymentActivity(List<M> latest_account_activity, Context activity_context, String client_name) {
         this.latest_account_activity = latest_account_activity;
         this.activity_context = activity_context;
+        this.client_name = client_name;
         Helper helper = new Helper(activity_context);
     }
 
@@ -72,6 +77,18 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
             }
             try {
                 holder.payload_id.setText(latest_account_activity.get(position).getPayloadId());
+                holder.payload_id.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        extensionRemoved =Integer.parseInt(latest_account_activity.get(position).getId());
+                        //Toast.makeText(activity_context.getApplicationContext(), extensionRemoved+"", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(activity_context, OrderTrackerActivity.class);
+                        intent.putExtra("short_id", latest_account_activity.get(position).getShortId());
+                        intent.putExtra("payload_id",extensionRemoved);
+                        intent.putExtra("client_name", client_name);
+                        activity_context.startActivity(intent);
+                    }
+                });
             } catch (NullPointerException e) {
                 holder.payload_id.setVisibility(View.GONE);
             }
