@@ -157,6 +157,14 @@
                     android:layout_marginTop="5dp"
                     android:text=""
                     android:id="@+id/courier_phone"/>
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/call_courier"
+                    android:layout_marginTop="5dp"
+                    android:text="Call"
+                    android:textColor="#FFF"
+                    android:background="@drawable/rounded_signup"/>
 
             </LinearLayout>
 

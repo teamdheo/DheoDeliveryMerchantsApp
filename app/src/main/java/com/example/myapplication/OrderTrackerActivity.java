@@ -10,6 +10,7 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -41,6 +42,7 @@ import retrofit2.Response;
 
 public class OrderTrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
     private String short_id, client_name, photo_url,label_image_url;
+    private Button call_courier;
     private int payload_id,day;
     private TextView track_client_name,order_no,friday_note, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,track_courier, customer_name, customer_phone, courier_name, courier_phone,review,name_rating,customer_review,phone_call, facebook;
     private ImageView track_client_image,label_image, courier_photo;
@@ -81,6 +83,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         courier_name = findViewById(R.id.courier_name);
         courier_phone = findViewById(R.id.courier_phone);
         courier_photo = findViewById(R.id.courier_photo);
+        call_courier = findViewById(R.id.call_courier);
         customer_review_sec = findViewById(R.id.customer_review_sec);
         review = findViewById(R.id.review);
         name_rating = findViewById(R.id.name_rating);
@@ -180,7 +183,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
                                startActivity(intent);
                            }
                        });
-                       courier_phone.setOnClickListener(new View.OnClickListener() {
+                       call_courier.setOnClickListener(new View.OnClickListener() {
                            @Override
                            public void onClick(View arg0) {
                                Intent intent = new Intent(Intent.ACTION_DIAL);
