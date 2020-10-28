@@ -30,11 +30,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
+import com.example.myapplication.ModelClassBlogUpdateTitle.BlogUpdateTitle;
 import com.example.myapplication.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
@@ -42,7 +42,6 @@ import com.example.myapplication.ModelClassClientPayloadSearch.ClientPayloadSear
 import com.example.myapplication.ModelClassPickupMapInfo.PickupMapInfo;
 import com.example.myapplication.modelClassPickupAddresses.M;
 import com.example.myapplication.modelClassPickupAddresses.PickupAddresses;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -71,9 +70,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private String photoUrl, scooter_url, cover_url;
     private int clientId;
     private String password;
-    private ImageView profile_photo, scooter, octopus_red_body, cover;
-    private TextView client_name, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
-    private String photo_url;
+    private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo;
+    private TextView client_name, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more;
+    private String photo_url, blog_url;
     private String name;
     private int balance;
     private EditText payload_search_editText;
@@ -152,6 +151,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         go_back = findViewById(R.id.go_back);
         map_layout = findViewById(R.id.map_layout);
         cover = findViewById(R.id.cover);
+        blog_photo = findViewById(R.id.blog_photo);
+        blog_title = findViewById(R.id.blog_title);
+        blog_see_more = findViewById(R.id.blog_see_more);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -313,6 +315,41 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<ClientBasicInfo> call, Throwable t) {
+
+            }
+        });
+        Call<BlogUpdateTitle> call8 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .blog_update_title();
+        call8.enqueue(new Callback<BlogUpdateTitle>() {
+            @Override
+            public void onResponse(Call<BlogUpdateTitle> call, Response<BlogUpdateTitle> response) {
+                BlogUpdateTitle s = response.body();
+                try {
+                    if(s.getE() == 0){
+                        blog_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getPhoto() ;
+                        Picasso.get().load(blog_url).into(blog_photo);
+                        String text = s.getM().getTitle();
+                        String array[] = text.split(" ");
+                        blog_title.setText(array[0] + " " +array[1]+" " +array[2]+" "+array[3]+ "...");
+                        blog_see_more.setText("See >");
+                        blog_see_more.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String url = "https://rocket.dheo.com/updates";
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse(url));
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(i);
+                            }
+                        });
+                    }
+                }catch (NullPointerException e){}
+            }
+
+            @Override
+            public void onFailure(Call<BlogUpdateTitle> call, Throwable t) {
 
             }
         });

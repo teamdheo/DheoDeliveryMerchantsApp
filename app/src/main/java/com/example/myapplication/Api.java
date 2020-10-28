@@ -3,6 +3,7 @@ package com.example.myapplication;
 import com.example.myapplication.ModelClassAssingedCourierInfoDashboard.AssingedCourierInfoDashboard;
 import com.example.myapplication.ModelClassBankBranches.BankBranches;
 import com.example.myapplication.ModelClassBanksAndBranches.BanksAndBranches;
+import com.example.myapplication.ModelClassBlogUpdateTitle.BlogUpdateTitle;
 import com.example.myapplication.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.example.myapplication.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.example.myapplication.ModelClassClientEditPayload.ClientEditPayload;
@@ -233,5 +234,8 @@ public interface Api {
     @POST("order_status_page_info")
     Call<OrderStatusPageInfo> order_status_page_info(
             @Field("payload_id") Integer payload_id
+    );
+    @GET("blog_update_title")
+    Call<BlogUpdateTitle> blog_update_title(
     );
 }
