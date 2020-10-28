@@ -287,6 +287,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                     intent.putExtra("short_id", dashboard_payload.get(position).getShortId());
                     intent.putExtra("payload_id", dashboard_payload.get(position).getPayloadId());
                     intent.putExtra("client_name", client_name);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     payload_contex.startActivity(intent);
                 }
             });

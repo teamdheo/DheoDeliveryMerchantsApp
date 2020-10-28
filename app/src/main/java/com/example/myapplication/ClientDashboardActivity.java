@@ -68,10 +68,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     SQLiteDatabase sqLiteDatabase;
     private int session = 0;
     private String phone;
-    private String photoUrl, scooter_url;
+    private String photoUrl, scooter_url, cover_url;
     private int clientId;
     private String password;
-    private ImageView profile_photo, scooter, octopus_red_body;
+    private ImageView profile_photo, scooter, octopus_red_body, cover;
     private TextView client_name, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
     private String photo_url;
     private String name;
@@ -151,6 +151,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         //monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
         go_back = findViewById(R.id.go_back);
         map_layout = findViewById(R.id.map_layout);
+        cover = findViewById(R.id.cover);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -193,6 +194,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 Picasso.get().load(photo_url).into(profile_photo);
             }
         } catch (SQLException e) {
+
+        }
+        try {
+            cover_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/dheo-rocket-packages.jpg";
+            Picasso.get().load(cover_url).into(cover);
+
+        } catch (NullPointerException e) {
 
         }
         Bundle extras = getIntent().getExtras();
@@ -243,7 +251,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     ClientBasicInfo s = response.body();
                     if(s.getE() == 0){
                         client_name.setText(s.getM().getName());
-                        total_balance.setText(s.getM().getBalance() + " TK");
+                        total_balance.setText(" " +s.getM().getBalance() + "TK");
                         name = s.getM().getName();
                         balance = s.getM().getBalance();
                         total_balance.setOnClickListener(new View.OnClickListener() {

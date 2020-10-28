@@ -1,10 +1,5 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.database.SQLException;
 import android.net.Uri;
@@ -16,7 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.ModelClassDeliveryMapInfo.DeliveryMapInfo;
 import com.example.myapplication.ModelClassOrderStatusPageInfo.OrderStatusPageInfo;
@@ -31,8 +29,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -106,7 +102,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         if(day == 6){
             friday_note.setVisibility(View.VISIBLE);
         }
-        Toast.makeText(getApplicationContext(), payload_id+"", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), payload_id+"", Toast.LENGTH_LONG).show();
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
                 track_client_image = (ImageView) findViewById(R.id.tracker_profile_photo);

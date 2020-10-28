@@ -86,6 +86,7 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
                         intent.putExtra("short_id", latest_account_activity.get(position).getShortId());
                         intent.putExtra("payload_id",extensionRemoved);
                         intent.putExtra("client_name", client_name);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity_context.startActivity(intent);
                     }
                 });

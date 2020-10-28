@@ -32,13 +32,13 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
     private Context mycontex;
     Helper helper;
     String address_id_check;
-    private ProgressDialog progressDialog;
+    //private ProgressDialog progressDialog;
 
     public AdapterSettingsAllAddresses(List<M> pickup_address, Context mycontex) {
         this.pickup_address = pickup_address;
         this.mycontex = mycontex;
         Helper helper = new Helper(mycontex);
-        ProgressDialog progressDialog = new ProgressDialog(mycontex);
+        //ProgressDialog progressDialog = new ProgressDialog(mycontex);
     }
     @NonNull
     @Override
