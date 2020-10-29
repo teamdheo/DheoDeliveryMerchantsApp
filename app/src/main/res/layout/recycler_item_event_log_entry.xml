@@ -40,6 +40,7 @@
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="153dp"
+        android:layerType="software"
         android:id="@+id/dotted_line"
         android:background="@drawable/dotted_shape"
         app:layout_constraintBottom_toBottomOf="parent"

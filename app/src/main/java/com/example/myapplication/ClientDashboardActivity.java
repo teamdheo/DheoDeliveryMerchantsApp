@@ -198,13 +198,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         } catch (SQLException e) {
 
         }
-        try {
-            cover_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/dheo-rocket-packages.jpg";
-            Picasso.get().load(cover_url).into(cover);
-
-        } catch (NullPointerException e) {
-
-        }
+//        try {
+//            cover_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/dheo_rocket_packages_app.jpg";
+//            Picasso.get().load(cover_url).into(cover);
+//
+//        } catch (NullPointerException e) {
+//
+//        }
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             phone = extras.getString("PHONE");

@@ -5,16 +5,18 @@
     android:id="@+id/scrollViewParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ClientDashboardActivity">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/cover"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="240dp"
+            android:src="@mipmap/dheo_rocket_packages"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

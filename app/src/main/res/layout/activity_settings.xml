@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".SettingsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +16,7 @@
             android:id="@+id/cover"
             android:layout_width="match_parent"
             android:layout_height="240dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/dheo_rocket_packages"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,8 +78,9 @@
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
+                android:layout_alignParentRight="true"
                 android:translationY="-30dp"
-                android:translationX="220dp"
+                android:layout_marginRight="-58dp"
                 android:id="@+id/octopus_body"
                 android:src="@drawable/octopus_white"/>
 
