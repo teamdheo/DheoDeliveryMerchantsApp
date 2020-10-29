@@ -315,7 +315,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<ClientBasicInfo> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
         });
         Call<BlogUpdateTitle> call8 = RetrofitClient
@@ -350,7 +350,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<BlogUpdateTitle> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
         });
         Call<PickupMapInfo> call6 = RetrofitClient
@@ -374,7 +374,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<PickupMapInfo> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
         });
 

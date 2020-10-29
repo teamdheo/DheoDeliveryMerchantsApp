@@ -4,7 +4,6 @@ package com.example.myapplication;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -52,7 +51,6 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -560,38 +558,43 @@ public class SettingsActivity extends AppCompatActivity {
         save_new_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog_text.show();
-                Call<ResponseBody> call4 = RetrofitClient
-                        .getInstance()
-                        .getApi()
-                        .add_new_address(client_id, add_new_phone.getText().toString(), add_new_add.getText().toString());
-                call4.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        String s = null;
-                        try {
-                            s = response.body().string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                if(add_new_add.getText().toString().length() != 0 && add_new_phone.getText().toString().length() != 0){
+                    dialog_text.show();
+                    Call<ResponseBody> call4 = RetrofitClient
+                            .getInstance()
+                            .getApi()
+                            .add_new_address(client_id, add_new_phone.getText().toString(), add_new_add.getText().toString());
+                    call4.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            String s = null;
+                            try {
+                                s = response.body().string();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                            if (s.equals("{\"e\":0}")) {
+                                dialog_text.dismiss();
+                                Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                startActivity(intent);
+
+                            } else {
+                                Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                            }
                         }
-                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                        if (s.equals("{\"e\":0}")) {
-                            dialog_text.dismiss();
-                            Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
-                            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                            startActivity(intent);
 
-                        } else {
-                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+
                         }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
-
-                    }
-                });
+                    });
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Fill properly", Toast.LENGTH_LONG).show();
+                }
 
             }
         });

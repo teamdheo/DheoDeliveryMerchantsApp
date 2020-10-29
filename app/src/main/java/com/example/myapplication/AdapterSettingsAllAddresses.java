@@ -77,6 +77,7 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                            // progressDialog.dismiss();
                             Toasty.error(mycontex, "successfully removed", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(mycontex, SettingsActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             mycontex.startActivity(intent);
 
                         }
@@ -125,6 +126,7 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                                     //progressDialog.dismiss();
                                     Toasty.error(mycontex, "successfully updated", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(mycontex, SettingsActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     mycontex.startActivity(intent);
 
                                 }
