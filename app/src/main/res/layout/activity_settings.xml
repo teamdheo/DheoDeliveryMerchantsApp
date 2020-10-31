@@ -735,7 +735,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/octopus_red_body"
                 android:translationX="120dp"
-                android:translationY="-15dp" />
+                android:translationY="-30dp" />
 
             <TextView
                 android:id="@+id/billing_my_delivery"

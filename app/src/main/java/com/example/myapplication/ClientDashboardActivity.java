@@ -332,7 +332,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         Picasso.get().load(blog_url).into(blog_photo);
                         String text = s.getM().getTitle();
                         String array[] = text.split(" ");
-                        blog_title.setText(array[0] + " " +array[1]+" " +array[2]+" "+array[3]+ "...");
+                        blog_title.setText(array[0] + " " +array[1]+" " +array[2]+"...");
                         blog_see_more.setText("See >");
                         blog_see_more.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -456,7 +456,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
                     @Override
                     public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                        Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
                         Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                         startActivity(i);
                     }
@@ -505,7 +505,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
             }
         });
         payload_search_btn.setOnClickListener(new View.OnClickListener() {

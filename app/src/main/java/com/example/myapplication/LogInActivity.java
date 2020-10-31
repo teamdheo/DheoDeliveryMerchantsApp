@@ -80,7 +80,7 @@ public class LogInActivity extends AppCompatActivity {
                                 ClientInfo s = response.body();
                                 //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.getE() == 0) {
-                                    Toasty.success(getApplicationContext(), s.getM().getId()+"", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "Welcome Back!", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                                     intent.putExtra("PHONE", number.getText().toString());
                                     intent.putExtra("PASS", password.getText().toString());

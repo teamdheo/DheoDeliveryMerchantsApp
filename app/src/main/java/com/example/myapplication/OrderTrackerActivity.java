@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -149,7 +151,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
 
             @Override
             public void onFailure(Call<TrackerLogEntry> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
         });
 
@@ -203,7 +205,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
 
             @Override
             public void onFailure(Call<OrderStatusPageInfo> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
         });
 
@@ -306,7 +308,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
 
             @Override
             public void onFailure(Call<DeliveryMapInfo> call, Throwable t) {
-
+                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
         });
     }

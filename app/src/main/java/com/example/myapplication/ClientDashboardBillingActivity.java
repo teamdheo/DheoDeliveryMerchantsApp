@@ -115,7 +115,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         valued_date.setText("Valued client since " + s.getM().getStatDate());
                         try {
                             if(s.getM().getPositiveBalance()) {
-                                Toasty.success(getApplicationContext(), s.getM().getTimeLeft()+"", Toast.LENGTH_LONG, true).show();
+                                //Toasty.success(getApplicationContext(), s.getM().getTimeLeft()+"", Toast.LENGTH_LONG, true).show();
                                 try {
                                     if(s.getM().getTimeLeft() > 0){
                                         try {

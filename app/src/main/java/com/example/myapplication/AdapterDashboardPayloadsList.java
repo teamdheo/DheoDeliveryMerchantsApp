@@ -221,6 +221,9 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                                                                     if (response.body().string().equals("{\"e\":0}")){
                                                                         Toasty.error(payload_contex, "Data updated", Toast.LENGTH_LONG, true).show();
                                                                         dialog.dismiss();
+                                                                        Intent intent = new Intent(payload_contex, ClientDashboardActivity.class);
+                                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                        payload_contex.startActivity(intent);
                                                                     }
                                                                     else{
                                                                         Toasty.error(payload_contex, "failed", Toast.LENGTH_LONG, true).show();
