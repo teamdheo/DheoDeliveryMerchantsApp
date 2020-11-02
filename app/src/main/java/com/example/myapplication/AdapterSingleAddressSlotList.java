@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +41,8 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
     private  String slot_id;
     private int client_id;
     private String  v;
+    private EditText edit_note;
+    private Button save_note, cancel_note;
 
     public AdapterSingleAddressSlotList(List<M> pick_up_slots,Context context, String address_id){
         this.pick_up_slots = pick_up_slots;
@@ -200,6 +204,29 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
              }
          });
 
+        holder.add_a_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder edit_dialog = new AlertDialog.Builder(view.getRootView().getContext());
+                edit_dialog.setCancelable(false);
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View new_view = li.inflate(R.layout.add_note_dialog, null);
+                edit_note = new_view.findViewById(R.id.edit_note);
+                save_note = new_view.findViewById(R.id.edit_save_note);
+                cancel_note = new_view.findViewById(R.id.edit_cancel_note);
+                edit_dialog.setView(new_view);
+                final AlertDialog dialog = edit_dialog.create();
+                dialog.show();
+                cancel_note.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+            }
+        });
+
 
         //date = new StringBuffer(10);
         start_time = new StringBuffer(2);
@@ -291,7 +318,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView id, day,date,time, delivery_day;
+        TextView id, day,date,time, delivery_day, add_a_note;
         Button book,booked;
         CardView cardView;
         public MyViewHolder(@NonNull View itemView) {
@@ -304,6 +331,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
             this.book = itemView.findViewById(R.id.book);
             this.booked = itemView.findViewById(R.id.booked);
             this.cardView = itemView.findViewById(R.id.recycler_red);
+            this.add_a_note = itemView.findViewById(R.id.add_a_note);
         }
     }
 }
