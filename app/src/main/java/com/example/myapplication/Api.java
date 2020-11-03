@@ -238,4 +238,11 @@ public interface Api {
     @GET("blog_update_title")
     Call<BlogUpdateTitle> blog_update_title(
     );
+    @FormUrlEncoded
+    @POST("add_pickup_note")
+    Call<ResponseBody> add_pickup_note(
+            @Field("client_id") Integer client_id,
+            @Field("slot_id") String slot_id,
+            @Field("pickup_note") String pickup_note
+    );
 }

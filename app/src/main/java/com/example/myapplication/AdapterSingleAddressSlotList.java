@@ -144,9 +144,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
                 holder.book.setVisibility(View.INVISIBLE);
                 holder.booked.setVisibility(View.VISIBLE);
                 holder.booked.setText("Booked! ❎");
-//                Intent intent = new Intent(context, ListActivityMultiplePickupAddressSlots.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
+//
                 Call<ResponseBody> call = RetrofitClient
                         .getInstance()
                         .getApi()
@@ -221,6 +219,40 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
+                    }
+                });
+                save_note.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Call<ResponseBody> bodyCall = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .add_pickup_note(client_id, holder.id.getText().toString(), edit_note.getText().toString());
+                        bodyCall.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                String s = null;
+                                try {
+                                    s = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+                                if (s.equals("{\"e\":0}")) {
+                                    dialog.dismiss();
+                                    Toasty.error(context, "successfully updated", Toast.LENGTH_LONG, true).show();
+
+
+                                } else {
+                                    Toasty.error(context, "server failed to response", Toast.LENGTH_LONG, true).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                                Toasty.error(context, "try Again!", Toast.LENGTH_LONG, true).show();
+                            }
+                        });
                     }
                 });
 
