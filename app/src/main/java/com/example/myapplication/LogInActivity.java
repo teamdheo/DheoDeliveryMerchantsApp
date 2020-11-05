@@ -24,7 +24,7 @@ public class LogInActivity extends AppCompatActivity {
     private EditText number, password;
     private ProgressDialog progressDialog;
     private CheckBox checkBox;
-    private ImageView button,phone_call,dheo_life, instagram_link, dheo_web_link;
+    private ImageView button,phone_call,dheo_life, instagram_link;
     private Integer session = 1;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -50,7 +50,6 @@ public class LogInActivity extends AppCompatActivity {
         phone_call =  findViewById(R.id.phone_call_link);
         dheo_life =  findViewById(R.id.facebook_link);
         instagram_link = findViewById(R.id.instra_link);
-        dheo_web_link = findViewById(R.id.dheo_web_link);
         progressDialog=new ProgressDialog(this);
 
         sharedPreferences=getSharedPreferences("LoginPrefs", MODE_PRIVATE);
@@ -143,15 +142,17 @@ public class LogInActivity extends AppCompatActivity {
         phone_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel: +8801301377181"));
-                startActivity(intent);
+                String url = "https://m.me/dheolife";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             }
         });
         dheo_life.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "https://m.me/dheolife";
+
+                String url = "https://www.facebook.com/groups/bd.ecommerce.network";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
@@ -160,21 +161,13 @@ public class LogInActivity extends AppCompatActivity {
         instagram_link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://instagram.com/dheolife?igshid=5hzpny6raumz";
+                String url = "https://rocket.dheo.com/user-manual";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
             }
         });
-        dheo_web_link.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://rocket.dheo.com";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
+
     }
     
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +24,8 @@ import retrofit2.Response;
 
 public class PasswordResetActivity extends AppCompatActivity {
     private EditText client_number;
-    private  TextView phone_call, dheo_life;
     private ProgressDialog progressDialog;
-    private Button button;
+    private ImageView button,phone_call,dheo_life, instagram_link;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +33,10 @@ public class PasswordResetActivity extends AppCompatActivity {
         setTitle("Reset Password");
         setContentView(R.layout.activity_password_reset);
         client_number = (EditText) findViewById(R.id.phone_req);
-        button = (Button) findViewById(R.id.btnnext);
-        phone_call = (TextView) findViewById(R.id.phone_call2);
-        dheo_life = (TextView) findViewById(R.id.dheo_life2);
+        button =  findViewById(R.id.btnnext);
+        phone_call =  findViewById(R.id.phone_call_link);
+        dheo_life =  findViewById(R.id.facebook_link);
+        instagram_link = findViewById(R.id.instra_link);
         progressDialog=new ProgressDialog(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,17 +88,27 @@ public class PasswordResetActivity extends AppCompatActivity {
         });
         phone_call.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel: +8801301377181"));
-                startActivity(intent);
+            public void onClick(View arg0) {
+                String url = "https://m.me/dheolife";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             }
         });
-
         dheo_life.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "https://m.me/dheolife";
+
+                String url = "https://www.facebook.com/groups/bd.ecommerce.network";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        instagram_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://rocket.dheo.com/user-manual";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
