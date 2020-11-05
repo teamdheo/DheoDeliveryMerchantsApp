@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.myapplication.modelClassClientInfo.ClientInfo;
@@ -19,11 +20,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 public class LogInActivity extends AppCompatActivity {
-    private TextView forgetPass, phone_call, dheo_life;
+    private TextView forgetPass,signUp1;
     private EditText number, password;
     private ProgressDialog progressDialog;
     private CheckBox checkBox;
-    private Button button, signUp1;
+    private ImageView button,phone_call,dheo_life, instagram_link, dheo_web_link;
     private Integer session = 1;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -40,14 +41,16 @@ public class LogInActivity extends AppCompatActivity {
         helper.checkInternetConnection();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-        signUp1 = (Button) findViewById(R.id.click);
+        signUp1 =  findViewById(R.id.click);
         number = (EditText) findViewById(R.id.phone);
         password = (EditText) findViewById(R.id.txtPwd);
         checkBox = (CheckBox) findViewById(R.id.rememberme);
         forgetPass =(TextView) findViewById(R.id.forgrtpass);
-        button = (Button) findViewById(R.id.btnLogin) ;
-        phone_call = (TextView) findViewById(R.id.phonecall);
-        dheo_life = (TextView) findViewById(R.id.dheolife);
+        button =  findViewById(R.id.btnLogin) ;
+        phone_call =  findViewById(R.id.phone_call_link);
+        dheo_life =  findViewById(R.id.facebook_link);
+        instagram_link = findViewById(R.id.instra_link);
+        dheo_web_link = findViewById(R.id.dheo_web_link);
         progressDialog=new ProgressDialog(this);
 
         sharedPreferences=getSharedPreferences("LoginPrefs", MODE_PRIVATE);
@@ -149,6 +152,24 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String url = "https://m.me/dheolife";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        instagram_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://instagram.com/dheolife?igshid=5hzpny6raumz";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        dheo_web_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://rocket.dheo.com";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
