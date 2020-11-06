@@ -14,8 +14,8 @@
         <ImageView
             android:id="@+id/cover"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:src="@mipmap/dheo_rocket_packages"
+            android:layout_height="260dp"
+            android:src="@drawable/reset_cover"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
