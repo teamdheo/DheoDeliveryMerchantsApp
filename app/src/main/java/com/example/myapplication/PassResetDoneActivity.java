@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ public class PassResetDoneActivity extends AppCompatActivity {
     private EditText newpass, token;
     private ProgressDialog progressDialog;
     private TextView phone_call, dheo_life;
-    private Button button;
+    private ImageView button;
     private String pass_token;
     private Integer session = 1;
 
@@ -38,9 +39,9 @@ public class PassResetDoneActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pass_reset_done);
         newpass = (EditText) findViewById(R.id.newpass);
         token = (EditText) findViewById(R.id.token);
-        button = (Button) findViewById(R.id.btnsubmit);
-        phone_call = findViewById(R.id.phonecall4);
-        dheo_life = findViewById(R.id.dheolife4);
+        button =  findViewById(R.id.btnsubmit);
+//        phone_call = findViewById(R.id.phonecall4);
+//        dheo_life = findViewById(R.id.dheolife4);
         progressDialog=new ProgressDialog(this);
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -115,22 +116,22 @@ public class PassResetDoneActivity extends AppCompatActivity {
             }
         });
 
-        phone_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel: +8801301377181"));
-                startActivity(intent);
-            }
-        });
-        dheo_life.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://m.me/dheolife";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
+//        phone_call.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                Intent intent = new Intent(Intent.ACTION_DIAL);
+//                intent.setData(Uri.parse("tel: +8801301377181"));
+//                startActivity(intent);
+//            }
+//        });
+//        dheo_life.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String url = "https://m.me/dheolife";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                startActivity(i);
+//            }
+//        });
     }
 }

@@ -34,9 +34,9 @@ public class PasswordResetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_password_reset);
         client_number = (EditText) findViewById(R.id.phone_req);
         button =  findViewById(R.id.btnnext);
-        phone_call =  findViewById(R.id.phone_call_link);
-        dheo_life =  findViewById(R.id.facebook_link);
-        instagram_link = findViewById(R.id.instra_link);
+//        phone_call =  findViewById(R.id.phone_call_link);
+//        dheo_life =  findViewById(R.id.facebook_link);
+//        instagram_link = findViewById(R.id.instra_link);
         progressDialog=new ProgressDialog(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,33 +86,33 @@ public class PasswordResetActivity extends AppCompatActivity {
                 }
             }
         });
-        phone_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                String url = "https://m.me/dheolife";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
-        dheo_life.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String url = "https://www.facebook.com/groups/bd.ecommerce.network";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
-        instagram_link.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://rocket.dheo.com/user-manual";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
+//        phone_call.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                String url = "https://m.me/dheolife";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                startActivity(i);
+//            }
+//        });
+//        dheo_life.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                String url = "https://www.facebook.com/groups/bd.ecommerce.network";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                startActivity(i);
+//            }
+//        });
+//        instagram_link.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String url = "https://rocket.dheo.com/user-manual";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                startActivity(i);
+//            }
+//        });
     }
 }
