@@ -245,4 +245,11 @@ public interface Api {
             @Field("slot_id") String slot_id,
             @Field("pickup_note") String pickup_note
     );
+    @FormUrlEncoded
+    @POST("user_agreement")
+    Call<ResponseBody> user_agreement(
+            @Field("client_id") Integer client_id,
+            @Field("status") String status
+
+    );
 }

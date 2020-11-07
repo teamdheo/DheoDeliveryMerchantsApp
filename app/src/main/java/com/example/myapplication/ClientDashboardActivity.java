@@ -52,12 +52,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
 
 import es.dmoral.toasty.Toasty;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -250,7 +252,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onResponse(Call<ClientBasicInfo> call, Response<ClientBasicInfo> response) {
                 try {
-                    ClientBasicInfo s = response.body();
+                    final ClientBasicInfo s = response.body();
                     if(s.getE() == 0){
                         client_name.setText(s.getM().getName());
                         total_balance.setText(" " +s.getM().getBalance() + "TK");
@@ -271,6 +273,130 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                 intent.putExtra("name_c", name);
                                 startActivity(intent);
+                            }
+                        });
+
+                        request_pickup.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                try{
+                                    if(s.getM().getOobUx()){
+                                        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
+                                        builder.setCancelable(false);
+                                        final View customLayout = getLayoutInflater().inflate(R.layout.client_agriment_layput, null);
+                                        builder.setView(customLayout);
+                                        Button i_accept = customLayout.findViewById(R.id.i_accept);
+                                        Button cancel_ag = customLayout.findViewById(R.id.cancel_accept);
+                                        final AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                        cancel_ag.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        i_accept.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Call<ResponseBody> agreement_call = RetrofitClient
+                                                        .getInstance()
+                                                        .getApi()
+                                                        .user_agreement(clientId, "true");
+                                                agreement_call.enqueue(new Callback<ResponseBody>() {
+                                                    @Override
+                                                    public void onResponse(Call<ResponseBody> a_call, Response<ResponseBody> a_response) {
+                                                        String s = null;
+                                                        try {
+                                                            s = a_response.body().string();
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                                        if (s.equals("{\"e\":0}")) {
+                                                            dialog.dismiss();
+                                                            Toasty.error(getApplicationContext(), "Agreement accepted", Toast.LENGTH_LONG, true).show();
+                                                            Call<PickupAddresses> call = RetrofitClient
+                                                                    .getInstance()
+                                                                    .getApi()
+                                                                    .get_pickup_address(clientId);
+
+                                                            call.enqueue(new Callback<PickupAddresses>() {
+                                                                @Override
+                                                                public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                                                                    try {
+                                                                        PickupAddresses pickup = response.body();
+                                                                        pickup_address_length = pickup.getM();
+                                                                        if (pickup_address_length.size() < 2) {
+                                                                            Intent i = new Intent(ClientDashboardActivity.this, SingleAddressPickupSlotActivity.class);
+                                                                            i.putExtra("address_id", pickup.getM().get(0).getAddress_id());
+                                                                            startActivity(i);
+                                                                        } else {
+                                                                            Intent i = new Intent(ClientDashboardActivity.this, ListActivityPickupAddress.class);
+                                                                            startActivity(i);
+                                                                        }
+                                                                    } catch (NullPointerException e) {
+                                                                        e.printStackTrace();
+                                                                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onFailure(Call<PickupAddresses> call, Throwable t) {
+                                                                    Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
+                                                                    Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                                                                    startActivity(i);
+                                                                }
+
+                                                            });
+
+                                                        } else {
+                                                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                                        }
+                                                    }
+                                                    @Override
+                                                    public void onFailure(Call<ResponseBody> a_call, Throwable t) {
+                                                        Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+
+                                }catch (NullPointerException e){
+                                    Call<PickupAddresses> call = RetrofitClient
+                                            .getInstance()
+                                            .getApi()
+                                            .get_pickup_address(clientId);
+
+                                    call.enqueue(new Callback<PickupAddresses>() {
+                                        @Override
+                                        public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                                            try {
+                                                PickupAddresses pickup = response.body();
+                                                pickup_address_length = pickup.getM();
+                                                if (pickup_address_length.size() < 2) {
+                                                    Intent i = new Intent(ClientDashboardActivity.this, SingleAddressPickupSlotActivity.class);
+                                                    i.putExtra("address_id", pickup.getM().get(0).getAddress_id());
+                                                    startActivity(i);
+                                                } else {
+                                                    Intent i = new Intent(ClientDashboardActivity.this, ListActivityPickupAddress.class);
+                                                    startActivity(i);
+                                                }
+                                            } catch (NullPointerException e) {
+                                                e.printStackTrace();
+                                                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<PickupAddresses> call, Throwable t) {
+                                            Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
+                                            Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                                            startActivity(i);
+                                        }
+
+                                    });
+                                }
                             }
                         });
                         Call<ClientDashboardPayloads> call2 = RetrofitClient
@@ -425,50 +551,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
 
         });
-
-        request_pickup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Call<PickupAddresses> call = RetrofitClient
-                        .getInstance()
-                        .getApi()
-                        .get_pickup_address(clientId);
-
-                call.enqueue(new Callback<PickupAddresses>() {
-                    @Override
-                    public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
-                        try {
-                            PickupAddresses pickup = response.body();
-                            pickup_address_length = pickup.getM();
-                            if (pickup_address_length.size() < 2) {
-                                Intent i = new Intent(ClientDashboardActivity.this, SingleAddressPickupSlotActivity.class);
-                                i.putExtra("address_id", pickup.getM().get(0).getAddress_id());
-                                startActivity(i);
-                            } else {
-                                Intent i = new Intent(ClientDashboardActivity.this, ListActivityPickupAddress.class);
-                                startActivity(i);
-                            }
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                        Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
-                        Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                        startActivity(i);
-                    }
-
-                });
-
-
-//                Intent i = new Intent(ClientDashboardActivity.this,ListActivityPickupAddress.class);
-//                startActivity(i);
-            }
-        });
-
 
         see_more.setOnClickListener(new View.OnClickListener() {
             @Override

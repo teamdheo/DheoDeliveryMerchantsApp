@@ -12,6 +12,9 @@ public class M {
     @SerializedName("balance")
     @Expose
     private Integer balance;
+    @SerializedName("oob_ux")
+    @Expose
+    private Boolean oobUx;
 
     public String getName() {
         return name;
@@ -27,6 +30,14 @@ public class M {
 
     public void setBalance(Integer balance) {
         this.balance = balance;
+    }
+
+    public Boolean getOobUx() {
+        return oobUx;
+    }
+
+    public void setOobUx(Boolean oobUx) {
+        this.oobUx = oobUx;
     }
 
 }

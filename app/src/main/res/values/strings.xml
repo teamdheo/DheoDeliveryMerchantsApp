@@ -3,4 +3,9 @@
     <string name="bank_info">আমরা এখন ব্যাংক পেমেন্টও সাপোর্ট করছি। কোনো প্রকার চার্জ ছাড়াই দ্রুত এবং নিরাপদে পেমেন্ট পেতে Settings ক্লিক করে আপনার ব্যাংক অ্যাকাউন্টের প্রয়োজনীয় তথ্য হালনাগাদ করুন, ধন্যবাদ।</string>
     <string name="footer">Dheo.com is operated by <b>DHEO LLC, Seattle Washington, USA.</b> DHEO’s official partner in Bangladesh is <b>Blaze International, Dhaka Bangladesh.</b></string>
     <string name="goback"> <u>Go back</u></string>
+    <string name="agriment_part1">
+       Here is a quick review of our core delivery policies. All policies are in our <a href="https://rocket.dheo.com/user-manual">User Manual</a>.\n\n<b>MAXIMUM SIZE AND WEIGHT:</b>\n13 inches x 8 inches x 4 inches\nUpto 3Kg per parcel. Additional weight is counted as additional deliveries.\n\n<b>WE DO NOT DELIVER:</b>
+    </string>
+    <string name="agriment_part2">\n<b>FRAGILE ITEMS:</b> We ask that you pack your fragile items carefully for pickup and mark it as fragile. We do not assume responsibility for damages.\n\n<b>DAMAGED PARCELS:</b> Our couriers are well trained to carry your parcels with care. We do not assume automatic responsibility for damages. However we will investigate the issue and offer damage compensation on a case-by-case basis.\n\n<b>INSIDE DHAKA DELIVERY:</b> We deliver to all metro areas in Dhaka. To know more about our delivery zones check out our<a href ="https://rocket.dheo.com/user-manual#coverage_section">Delivery Zones</a>.\n\n<b>OUTSIDE DHAKA DELIVERY:</b> We deliver <a href ="https://rocket.dheo.com/notice">outside Dhaka</a> through Sundarban National Courier, however, cash on delivery (COD) is NOT available for outside Dhaka deliveries.
+    </string>
 </resources>
