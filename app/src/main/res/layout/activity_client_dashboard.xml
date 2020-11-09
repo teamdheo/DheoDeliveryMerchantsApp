@@ -254,24 +254,49 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/balance_sec"/>
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/see_more"
-            android:text="See more >>"
-            android:textStyle="italic"
-            android:textColor="#FFF"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="8dp"
+            android:id="@+id/show_older_layout"
             android:background="@drawable/rounded_signup"
             app:layout_constraintTop_toBottomOf="@id/recycler_dashboard_payloads"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+            <Button
+                android:id="@+id/show_older"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_weight=".25"
+                android:textSize="10dp"
+                android:background="@drawable/rounded_signup"
+                android:padding="2dp"
+                android:layout_marginRight="50dp"
+                android:text="Older"
+                android:textColor="#FFF"
+                android:layout_gravity="start"/>
+
+            <Button
+                android:id="@+id/show_newer"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="50dp"
+                android:layout_weight=".25"
+                android:textSize="10dp"
+                android:background="@drawable/rounded_signup"
+                android:padding="2dp"
+                android:text="Newer"
+                android:layout_gravity="end"
+                android:textColor="#FFF"/>
+
+        </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="#282827"
             android:id="@+id/relative_layout"
-            app:layout_constraintTop_toBottomOf="@id/see_more"
+            app:layout_constraintTop_toBottomOf="@id/show_older_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="8dp">

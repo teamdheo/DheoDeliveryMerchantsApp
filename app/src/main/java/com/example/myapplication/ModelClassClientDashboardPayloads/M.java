@@ -63,6 +63,24 @@ public class M {
     @SerializedName("courier_memo_added")
     @Expose
     private Boolean courierMemoAdded;
+    @SerializedName("has_results")
+    @Expose
+    private Boolean hasResults;
+    @SerializedName("page_number")
+    @Expose
+    private Integer pageNumber;
+    @SerializedName("show_next")
+    @Expose
+    private Boolean showNext;
+    @SerializedName("show_prev")
+    @Expose
+    private Boolean showPrev;
+    @SerializedName("records_remaining")
+    @Expose
+    private Integer recordsRemaining;
+    @SerializedName("offset")
+    @Expose
+    private Integer offset;
 
     public Boolean getCourierMemoAdded() {
         return courierMemoAdded;
@@ -215,5 +233,51 @@ public class M {
         this.rating = rating;
     }
 
+    public Boolean getHasResults() {
+        return hasResults;
+    }
 
+    public void setHasResults(Boolean hasResults) {
+        this.hasResults = hasResults;
+    }
+
+    public Integer getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public Boolean getShowNext() {
+        return showNext;
+    }
+
+    public void setShowNext(Boolean showNext) {
+        this.showNext = showNext;
+    }
+
+    public Boolean getShowPrev() {
+        return showPrev;
+    }
+
+    public void setShowPrev(Boolean showPrev) {
+        this.showPrev = showPrev;
+    }
+
+    public Integer getRecordsRemaining() {
+        return recordsRemaining;
+    }
+
+    public void setRecordsRemaining(Integer recordsRemaining) {
+        this.recordsRemaining = recordsRemaining;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
 }

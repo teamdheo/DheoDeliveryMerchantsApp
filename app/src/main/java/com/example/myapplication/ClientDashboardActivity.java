@@ -70,7 +70,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private int session = 0;
     private String phone;
     private String photoUrl, scooter_url, cover_url;
-    private int clientId;
+    private int clientId,page_number = 1,payload_remaining;
     private String password;
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo;
     private TextView client_name, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more;
@@ -79,7 +79,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private int balance;
     private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar;
-    private Button request_pickup, next_pickup, see_more, payload_search_btn, go_back;
+    private Button request_pickup, next_pickup, see_older, see_newer, payload_search_btn, go_back;
     private List<M> pickup_address_length;
     SupportMapFragment fm;
     private double latitude;
@@ -129,7 +129,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         request_pickup = (Button) findViewById(R.id.pickup_request);
         next_pickup = (Button) findViewById(R.id.Next_pickups);
         scooter = (ImageView) findViewById(R.id.scooter);
-        see_more = (Button) findViewById(R.id.see_more);
+        see_older = (Button) findViewById(R.id.show_older);
+        see_newer = findViewById(R.id.show_newer);
         pickup_list = (RecyclerView) findViewById(R.id.recycler_pickup_agent);
         dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
         all_record_payload = (RecyclerView) findViewById(R.id.recycler_monthly_payload_records);
@@ -164,7 +165,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         all_record_payload.setLayoutManager(layoutManager1);
         layoutManager2 = new LinearLayoutManager(this);
         recycler_search_payload.setLayoutManager(layoutManager2);
-        see_more.setVisibility(View.INVISIBLE);
+        see_older.setVisibility(View.INVISIBLE);
+        see_newer.setVisibility(View.INVISIBLE);
         next_pickup.setVisibility(View.GONE);
         scooter.setVisibility(View.GONE);
         recycler_search_payload.setVisibility(View.GONE);
@@ -400,42 +402,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             }
                         });
 
-                        Call<ClientDashboardPayloads> call2 = RetrofitClient
-                                .getInstance()
-                                .getApi()
-                                .client_dashboard_payloads(clientId);
-                        call2.enqueue(new Callback<ClientDashboardPayloads>() {
-                            @Override
-                            public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
-                                if (response.body() != null) {
-                                    try {
-                                        ClientDashboardPayloads clientDashboardPayloads = response.body();
-                                        all_dashboard_payload = clientDashboardPayloads.getM();
-                                        payload_progressbar.setVisibility(View.GONE);
-                                        if (all_dashboard_payload.size() >= 10) {
-                                            see_more.setVisibility(View.VISIBLE);
-                                        } else {
-                                            see_more.setVisibility(View.GONE);
-                                        }
-                                    } catch (NullPointerException e) {
-                                        see_more.setVisibility(View.GONE);
-                                        dashboard_payloads.setVisibility(View.GONE);
-                                        e.printStackTrace();
-                                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name);
-                                dashboard_payloads.setAdapter(adapter_payload);
-                            }
-
-                            @Override
-                            public void onFailure(Call<ClientDashboardPayloads> call, Throwable t) {
-                                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
-                                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                                startActivity(i);
-                            }
-                        });
-
                     }
                 } catch (NullPointerException e) {
                 }
@@ -555,11 +521,24 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
         });
 
-        see_more.setOnClickListener(new View.OnClickListener() {
+        see_older.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AllPayloadsActivity.class);
-                startActivity(intent);
+                if((payload_remaining - (payload_remaining/(page_number*8))) > 0) {
+                    page_number++;
+                    loadDashboardPayload();
+                }
+
+            }
+        });
+        see_newer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(page_number>1){
+                    page_number--;
+                    loadDashboardPayload();
+                }
+
             }
         });
 
@@ -613,7 +592,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                     go_back.setText("< Back");
                                     go_back.setVisibility(View.VISIBLE);
                                     dashboard_payloads.setVisibility(View.GONE);
-                                    see_more.setVisibility(View.GONE);
                                     dialog.dismiss();
                                     go_back.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -742,6 +720,50 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         });
         //Toasty.success(getApplicationContext(), name+"", Toast.LENGTH_LONG, true).show();
+
+    }
+
+    private void loadDashboardPayload() {
+        Call<ClientDashboardPayloads> call2 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_dashboard_payloads(clientId, page_number);
+        call2.enqueue(new Callback<ClientDashboardPayloads>() {
+            @Override
+            public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
+                if (response.body() != null) {
+                    try {
+                        ClientDashboardPayloads clientDashboardPayloads = response.body();
+                        all_dashboard_payload = clientDashboardPayloads.getM();
+                        if (all_dashboard_payload.get(8).getShowNext()){
+                            see_older.setVisibility(View.VISIBLE);
+                            see_older.setText("<Older (" + all_dashboard_payload.get(8).getRecordsRemaining() + ")");
+                            payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
+                            Toasty.error(getApplicationContext(), payload_remaining, Toast.LENGTH_LONG, true).show();
+                        }
+                        if (all_dashboard_payload.get(8).getShowPrev()){
+                            see_newer.setVisibility(View.VISIBLE);
+                            see_older.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
+                            payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
+                        }
+                        payload_progressbar.setVisibility(View.GONE);
+                    } catch (NullPointerException e) {
+                        dashboard_payloads.setVisibility(View.GONE);
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
+                }
+                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name);
+                dashboard_payloads.setAdapter(adapter_payload);
+            }
+
+            @Override
+            public void onFailure(Call<ClientDashboardPayloads> call, Throwable t) {
+                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 

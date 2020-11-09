@@ -128,7 +128,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("client_dashboard_payloads")
     Call<ClientDashboardPayloads> client_dashboard_payloads(
-            @Field("client_id") Integer client_id
+            @Field("client_id") Integer client_id,
+            @Field("page_number") Integer page_number
     );
 
     @FormUrlEncoded

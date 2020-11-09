@@ -82,6 +82,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         layoutManager2 = new LinearLayoutManager(this);
         monthly_statement_pdf.setLayoutManager(layoutManager2);
         see_older.setVisibility(View.INVISIBLE);
+        see_newer.setVisibility(View.INVISIBLE);
 
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
@@ -394,9 +395,15 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         pdf_receipt = clientPaymentReceiptPDF.getM();
                         daily_receipt_progressbar.setVisibility(View.GONE);
                         try {
-                            see_older.setVisibility(View.VISIBLE);
-                            see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
-                            remaining_receipt = pdf_receipt.get(8).getRecordsRemaining();
+                            if(pdf_receipt.get(8).getShowNext()){
+                                see_older.setVisibility(View.VISIBLE);
+                                see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
+                                remaining_receipt = pdf_receipt.get(8).getRecordsRemaining();
+                            }
+                            if (pdf_receipt.get(8).getShowPrev()){
+                                see_newer.setVisibility(View.VISIBLE);
+                                see_newer.setText("Newer ("+pdf_receipt.get(8).getOffset()+")>");
+                            }
                             Toast.makeText(getApplicationContext(), remaining_receipt+"", Toast.LENGTH_LONG).show();
                         }catch (IndexOutOfBoundsException e){
                             Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
