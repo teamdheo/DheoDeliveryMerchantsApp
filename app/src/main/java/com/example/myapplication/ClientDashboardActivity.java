@@ -578,6 +578,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onClick(final View view) {
                 if (payload_search_editText.getText().toString().length() != 0) {
+                    see_newer.setVisibility(View.INVISIBLE);
+                    see_older.setVisibility(View.INVISIBLE);
                     dialog.show();
                     Call<ClientPayloadSearch> call_search = RetrofitClient
                             .getInstance()
