@@ -254,52 +254,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/balance_sec"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/show_older_layout"
+        <Button
+            android:id="@+id/show_older"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:textSize="10dp"
             android:background="@drawable/rounded_signup"
-            app:layout_constraintTop_toBottomOf="@id/recycler_dashboard_payloads"
+            android:padding="2dp"
+            android:layout_marginLeft="10dp"
+            android:text="Older"
+            android:textColor="#FFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_dashboard_payloads"
+            android:layout_gravity="start"/>
+        <Button
+            android:id="@+id/show_newer"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_dashboard_payloads"
             app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
-            <Button
-                android:id="@+id/show_older"
-                android:layout_width="70dp"
-                android:layout_height="35dp"
-                android:layout_weight=".25"
-                android:textSize="10dp"
-                android:background="@drawable/rounded_signup"
-                android:padding="2dp"
-                android:layout_marginRight="50dp"
-                android:text="Older"
-                android:textColor="#FFF"
-                android:layout_gravity="start"/>
-
-            <Button
-                android:id="@+id/show_newer"
-                android:layout_width="70dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="50dp"
-                android:layout_weight=".25"
-                android:textSize="10dp"
-                android:background="@drawable/rounded_signup"
-                android:padding="2dp"
-                android:text="Newer"
-                android:layout_gravity="end"
-                android:textColor="#FFF"/>
-
-        </LinearLayout>
+            android:textSize="10dp"
+            android:background="@drawable/rounded_signup"
+            android:padding="2dp"
+            android:text="Newer"
+            android:layout_gravity="end"
+            android:textColor="#FFF"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="#282827"
             android:id="@+id/relative_layout"
-            app:layout_constraintTop_toBottomOf="@id/show_older_layout"
+            app:layout_constraintTop_toBottomOf="@id/recycler_dashboard_payloads"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="55dp">
 
             <ImageView
                 android:id="@+id/help_lagbe_1"

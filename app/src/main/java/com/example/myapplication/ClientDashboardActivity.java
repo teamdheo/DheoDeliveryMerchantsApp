@@ -745,8 +745,11 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         }
                         if (all_dashboard_payload.get(8).getShowPrev()){
                             see_newer.setVisibility(View.VISIBLE);
-                            see_older.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
+                            see_newer.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
                             payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
+                        }
+                        if(page_number == 1){
+                            see_newer.setVisibility(View.INVISIBLE);
                         }
                         payload_progressbar.setVisibility(View.GONE);
                     } catch (NullPointerException e) {

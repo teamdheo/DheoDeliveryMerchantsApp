@@ -404,7 +404,13 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                                 see_newer.setVisibility(View.VISIBLE);
                                 see_newer.setText("Newer ("+pdf_receipt.get(8).getOffset()+")>");
                             }
-                            Toast.makeText(getApplicationContext(), remaining_receipt+"", Toast.LENGTH_LONG).show();
+                            if(page_number == 1){
+                                see_newer.setVisibility(View.INVISIBLE);
+                            }
+                            if(pdf_receipt.get(8).getRecordsRemaining() == 0){
+                                see_older.setVisibility(View.INVISIBLE);
+                            }
+                            //Toast.makeText(getApplicationContext(), remaining_receipt+"", Toast.LENGTH_LONG).show();
                         }catch (IndexOutOfBoundsException e){
                             Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
                             see_older.setVisibility(View.GONE);
