@@ -723,7 +723,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
     }
 
-    private void loadDashboardPayload() {
+    public void loadDashboardPayload() {
         Call<ClientDashboardPayloads> call2 = RetrofitClient
                 .getInstance()
                 .getApi()

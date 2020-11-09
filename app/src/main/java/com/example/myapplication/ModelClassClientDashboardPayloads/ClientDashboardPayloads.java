@@ -29,5 +29,4 @@ public class ClientDashboardPayloads {
     public void setM(List<M> m) {
         this.m = m;
     }
-
 }
