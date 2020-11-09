@@ -521,6 +521,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
         });
 
+        loadDashboardPayload();
+
         see_older.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -739,7 +741,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             see_older.setVisibility(View.VISIBLE);
                             see_older.setText("<Older (" + all_dashboard_payload.get(8).getRecordsRemaining() + ")");
                             payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
-                            Toasty.error(getApplicationContext(), payload_remaining, Toast.LENGTH_LONG, true).show();
+//                            Toasty.error(getApplicationContext(), payload_remaining, Toast.LENGTH_LONG, true).show();
                         }
                         if (all_dashboard_payload.get(8).getShowPrev()){
                             see_newer.setVisibility(View.VISIBLE);
