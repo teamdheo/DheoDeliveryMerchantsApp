@@ -42,6 +42,7 @@ public interface Api {
             @Field("phone_no") String phone_no,
             @Field("pass") String pass
     );
+
     //client logIn
     @FormUrlEncoded
     @POST("log_in")
@@ -49,12 +50,14 @@ public interface Api {
             @Field("number") String number,
             @Field("password") String password
     );
+
     //reset request
     @FormUrlEncoded
     @POST("reset_request")
     Call<PassResetRequest> reset_request(
             @Field("client_number") String client_number
     );
+
     //reset pass done
     @FormUrlEncoded
     @POST("reset_password")
@@ -62,6 +65,7 @@ public interface Api {
             @Field("password") String password,
             @Field("token") String token
     );
+
     @FormUrlEncoded
     @POST("get_pickup_address")
     Call<PickupAddresses> get_pickup_address(
@@ -73,12 +77,14 @@ public interface Api {
     Call<AvailablePickupSlot> get_avaiable_pickup_slot(
             @Field("clientId") Integer clientId
     );
+
     @FormUrlEncoded
     @POST("get_multiple_address_slot")
     Call<AvailablePickupSlot> get_multiple_address_slot(
             @Field("client_id") Integer client_id,
             @Field("address_id_get") String address_id_get
     );
+
     @FormUrlEncoded
     @POST("book_address_pickup")
     Call<ResponseBody> book_address_pickup(
@@ -86,37 +92,45 @@ public interface Api {
             @Field("address_id") String address_id,
             @Field("slot_id") String slot_id
     );
+
     @FormUrlEncoded
     @POST("cancel_pickup")
     Call<ResponseBody> cancel_pickup(
             @Field("client_id") Integer client_id,
             @Field("slot_id") String slot_id
     );
+
     @FormUrlEncoded
     @POST("assigned_agent_info_dashboard")
     Call<AssingedCourierInfoDashboard> assigned_agent_info_dashboard(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("client_payment_perf_info")
     Call<ClientPaymentPerfInfo> client_payment_perf_info(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("latest_account_activity")
     Call<LatestAccountActivity> latest_account_activity(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("client_payment_receipt_pdf")
     Call<ClientPaymentReceiptPDF> client_payment_receipt_pdf(
-            @Field("client_id") Integer client_id
+            @Field("client_id") Integer client_id,
+            @Field("page_number") Integer page_number
     );
+
     @FormUrlEncoded
     @POST("client_dashboard_payloads")
     Call<ClientDashboardPayloads> client_dashboard_payloads(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("client_load_payload_page")
     Call<ClientDashboardPayloads> client_load_payload_page(
@@ -124,16 +138,19 @@ public interface Api {
             @Query("page") int page,
             @Query("limit") int limit
     );
+
     @FormUrlEncoded
     @POST("client_payment_statement_date")
     Call<ClientMonthlyStatementDate> client_payment_statement_date(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("client_editable_payload")
     Call<ClientEditPayload> client_editable_payload(
             @Field("payload_id") Integer payload_id
     );
+
     @FormUrlEncoded
     @POST("client_update_payload")
     Call<ResponseBody> client_update_payload(
@@ -141,19 +158,23 @@ public interface Api {
             @Field("edited_amount") String edited_amount,
             @Field("edited_phone") String edited_phone
     );
+
     @GET("bank_and_branches")
     Call<BanksAndBranches> bank_and_branches(
     );
+
     @FormUrlEncoded
     @POST("branches")
     Call<BankBranches> branches(
             @Field("bank_id") Integer bank_id
     );
+
     @FormUrlEncoded
     @POST("client_account_pref_setting_info")
     Call<ClientPrefInfoAccountSetting> client_account_pref_setting_info(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("client_payment_settings_update")
     Call<ResponseBody> client_payment_settings_update(
@@ -166,11 +187,13 @@ public interface Api {
             @Field("bkash_number") String bkash_number,
             @Field("nagad_num") String nagad_num
     );
+
     @FormUrlEncoded
     @POST("delete_pickup_address")
     Call<ResponseBody> delete_pickup_address(
             @Field("Pickup_address_id") String Pickup_address_id
     );
+
     @FormUrlEncoded
     @POST("add_new_address")
     Call<ResponseBody> add_new_address(
@@ -178,18 +201,21 @@ public interface Api {
             @Field("number") String number,
             @Field("address") String address
     );
+
     @FormUrlEncoded
     @POST("update_link")
     Call<ResponseBody> update_link(
             @Field("client_id") Integer client_id,
             @Field("link") String link
     );
+
     @FormUrlEncoded
     @POST("update_number")
     Call<ResponseBody> update_number(
             @Field("client_id") Integer client_id,
             @Field("number") String number
     );
+
     @FormUrlEncoded
     @POST("update_address")
     Call<ResponseBody> update_address(
@@ -197,6 +223,7 @@ public interface Api {
             @Field("pickup_address") String pickup_address,
             @Field("pickup_phone") String pickup_phone
     );
+
     @FormUrlEncoded
     @POST("upload_national_id")
     Call<ResponseBody> upload_national_id(
@@ -210,34 +237,41 @@ public interface Api {
             @Field("client_id") Integer client_id,
             @Field("number") String number
     );
+
     @FormUrlEncoded
     @POST("client_pickup_map")
     Call<PickupMapInfo> client_pickup_map(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("client_basic_info")
     Call<ClientBasicInfo> client_basic_info(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("order_tracker_log_entry")
     Call<TrackerLogEntry> order_tracker_log_entry(
             @Field("payload_id") Integer payload_id
     );
+
     @FormUrlEncoded
     @POST("delivery_map_info")
     Call<DeliveryMapInfo> delivery_map_info(
             @Field("payload_id") Integer payload_id
     );
+
     @FormUrlEncoded
     @POST("order_status_page_info")
     Call<OrderStatusPageInfo> order_status_page_info(
             @Field("payload_id") Integer payload_id
     );
+
     @GET("blog_update_title")
     Call<BlogUpdateTitle> blog_update_title(
     );
+
     @FormUrlEncoded
     @POST("add_pickup_note")
     Call<ResponseBody> add_pickup_note(
@@ -245,6 +279,7 @@ public interface Api {
             @Field("slot_id") String slot_id,
             @Field("pickup_note") String pickup_note
     );
+
     @FormUrlEncoded
     @POST("user_agreement")
     Call<ResponseBody> user_agreement(

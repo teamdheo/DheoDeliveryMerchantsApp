@@ -108,10 +108,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0, (android.location.LocationListener) locationListener);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (android.location.LocationListener) locationListener);
 
                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             }
@@ -179,7 +179,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
 //        scrollViewParent = (NestedScrollView) findViewById(R.id.scrollViewParent);
 //        customView = (View) findViewById(R.id.customView);
-
 
 
         getSupportActionBar().setElevation(0);//remove actionbar shadow
@@ -253,9 +252,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             public void onResponse(Call<ClientBasicInfo> call, Response<ClientBasicInfo> response) {
                 try {
                     final ClientBasicInfo s = response.body();
-                    if(s.getE() == 0){
+                    if (s.getE() == 0) {
                         client_name.setText(s.getM().getName());
-                        total_balance.setText(" " +s.getM().getBalance() + "TK");
+                        total_balance.setText(" " + s.getM().getBalance() + "TK");
                         name = s.getM().getName();
                         balance = s.getM().getBalance();
                         total_balance.setOnClickListener(new View.OnClickListener() {
@@ -279,8 +278,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         request_pickup.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                try{
-                                    if(s.getM().getOobUx()){
+                                try {
+                                    if (s.getM().getOobUx()) {
                                         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
                                         builder.setCancelable(false);
                                         final View customLayout = getLayoutInflater().inflate(R.layout.client_agriment_layput, null);
@@ -353,6 +352,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                                             Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
                                                         }
                                                     }
+
                                                     @Override
                                                     public void onFailure(Call<ResponseBody> a_call, Throwable t) {
                                                         Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
@@ -362,7 +362,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                         });
                                     }
 
-                                }catch (NullPointerException e){
+                                } catch (NullPointerException e) {
                                     Call<PickupAddresses> call = RetrofitClient
                                             .getInstance()
                                             .getApi()
@@ -399,6 +399,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                 }
                             }
                         });
+
                         Call<ClientDashboardPayloads> call2 = RetrofitClient
                                 .getInstance()
                                 .getApi()
@@ -436,7 +437,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         });
 
                     }
-                }catch (NullPointerException e){}
+                } catch (NullPointerException e) {
+                }
             }
 
             @Override
@@ -453,12 +455,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             public void onResponse(Call<BlogUpdateTitle> call, Response<BlogUpdateTitle> response) {
                 BlogUpdateTitle s = response.body();
                 try {
-                    if(s.getE() == 0){
-                        blog_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getPhoto() ;
+                    if (s.getE() == 0) {
+                        blog_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getPhoto();
                         Picasso.get().load(blog_url).into(blog_photo);
                         String text = s.getM().getTitle();
                         String array[] = text.split(" ");
-                        blog_title.setText(array[0] + " " +array[1]+" " +array[2]+"...");
+                        blog_title.setText(array[0] + " " + array[1] + " " + array[2] + "...");
                         blog_see_more.setText("See >");
                         blog_see_more.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -471,7 +473,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             }
                         });
                     }
-                }catch (NullPointerException e){}
+                } catch (NullPointerException e) {
+                }
             }
 
             @Override
@@ -487,14 +490,15 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onResponse(Call<PickupMapInfo> call, Response<PickupMapInfo> response) {
                 PickupMapInfo info = response.body();
-                if(info.getE() == 0){
+                if (info.getE() == 0) {
                     try {
-                        if (info.getM().getCourierPingMap().getAgents().size() > 0){
+                        if (info.getM().getCourierPingMap().getAgents().size() > 0) {
                             map_layout.setVisibility(View.VISIBLE);
                             next_pickup.setVisibility(View.GONE);
                             scooter.setVisibility(View.GONE);
                         }
-                    }catch (NullPointerException e){}
+                    } catch (NullPointerException e) {
+                    }
                 }
             }
 
@@ -531,8 +535,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         animation.setRepeatCount(Animation.INFINITE);
                         animation.setRepeatMode(Animation.REVERSE);
                         scooter.startAnimation(animation);
-                    }
-                    else{
+                    } else {
                         //Toasty.success(getApplicationContext(),"no data" , Toast.LENGTH_LONG, true).show();
                     }
                 } catch (NullPointerException e) {
@@ -752,22 +755,23 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         call5.enqueue(new Callback<PickupMapInfo>() {
             @Override
             public void onResponse(Call<PickupMapInfo> call, Response<PickupMapInfo> response) {
-                try{
-                    if(response.body() != null){
+                try {
+                    if (response.body() != null) {
                         final PickupMapInfo pickupMapInfo = response.body();
-                        if(pickupMapInfo.getE() == 0){
+                        if (pickupMapInfo.getE() == 0) {
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-                            for(int i = 0; i< pickupMapInfo.getM().getCourierPingMap().getAgents().size(); i++){
+                            for (int i = 0; i < pickupMapInfo.getM().getCourierPingMap().getAgents().size(); i++) {
                                 try {
                                     long time = sdf.parse(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPing().getUpdatedAt()).getTime();
                                     long now = System.currentTimeMillis();
                                     CharSequence ago = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
                                     latitude = Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPing().getCoordinates().getLat());
-                                    longitude =  Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPing().getCoordinates().getLong());
-                                    latLng = new LatLng(latitude,longitude);
-                                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getName()+"("+pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPhone()+")")
-                                            .snippet("last seen " + ago.toString());;
+                                    longitude = Double.parseDouble(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPing().getCoordinates().getLong());
+                                    latLng = new LatLng(latitude, longitude);
+                                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getName() + "(" + pickupMapInfo.getM().getCourierPingMap().getAgents().get(i).getPhone() + ")")
+                                            .snippet("last seen " + ago.toString());
+                                    ;
                                     zoomLevel = 10.0f; //This goes up to 21
                                     Marker m = map.addMarker(marker);
                                     m.showInfoWindow();
@@ -786,9 +790,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             }
                         }
                     }
-                }catch (NullPointerException e){}
+                } catch (NullPointerException e) {
+                }
             }
-
 
 
             @Override

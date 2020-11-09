@@ -32,7 +32,7 @@ import retrofit2.Response;
 
 public class ClientDashboardBillingActivity extends AppCompatActivity {
     private String name_client,photourl;
-    private int balance_client, client_id;
+    private int balance_client, client_id, page_number = 1, remaining_receipt;
     private TextView client_name_billing, total_balance_billing,payment_pref, valued_date,  phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
     private ImageView profile_photo_billing;
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
@@ -42,7 +42,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private List<com.example.myapplication.ModelClassClientMonthlyStatementDate.M> monthly_billing_pdf;
     private RecyclerView.Adapter adapter, monthly_billing_adapter;
     private ProgressBar activity_progressbar, daily_receipt_progressbar, monthly_received_progressbar;
-    private Button see_older;
+    private Button see_older, see_newer;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
@@ -58,6 +58,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         latest_activity = (RecyclerView) findViewById(R.id.recycler_account_activity);
         payment_receipt_pdf = (RecyclerView) findViewById(R.id.recycler_payment_receipt);
         see_older =(Button) findViewById(R.id.show_older);
+        see_newer=findViewById(R.id.show_newer);
         monthly_statement_pdf = (RecyclerView) findViewById(R.id.recycler_monthly_payment_receipt);
         activity_progressbar = findViewById(R.id.amount_activity_progressbar);
         daily_receipt_progressbar = findViewById(R.id.payment_receipt_progressbar);
@@ -102,6 +103,29 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Billing Dashboard");
         client_id = helper.getClientId();
+
+        loadPaymentReceipt();
+
+        see_older.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((remaining_receipt - (remaining_receipt/(page_number*8))) > 0){
+                    page_number++;
+                    loadPaymentReceipt();
+                }
+            }
+        });
+
+        see_newer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(page_number>1){
+                    page_number--;
+                    loadPaymentReceipt();
+                }
+            }
+        });
+
         Call<ClientPaymentPerfInfo> call = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -223,45 +247,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        Call<ClientPaymentReceiptPDF> call2 = RetrofitClient
-                .getInstance()
-                .getApi()
-                .client_payment_receipt_pdf(client_id);
-        call2.enqueue(new Callback<ClientPaymentReceiptPDF>() {
-            @Override
-            public void onResponse(Call<ClientPaymentReceiptPDF> call, Response<ClientPaymentReceiptPDF> response) {
-                if (response.body() != null){
-                    try{
-                        ClientPaymentReceiptPDF clientPaymentReceiptPDF = response.body();
-                        pdf_receipt = clientPaymentReceiptPDF.getM();
-                        daily_receipt_progressbar.setVisibility(View.GONE);
-                        try {
-                            see_older.setVisibility(View.VISIBLE);
-                            see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
-                        }catch (IndexOutOfBoundsException e){
-                            Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
-                            see_older.setVisibility(View.GONE);
-                        }
-                    }catch (NullPointerException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
-                    }
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "no information", Toast.LENGTH_LONG).show();
-                    see_older.setVisibility(View.GONE);
-                }
-                adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext(), client_id);
-                payment_receipt_pdf.setAdapter(adapter);
-            }
 
-            @Override
-            public void onFailure(Call<ClientPaymentReceiptPDF> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
-                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(i);
-            }
-        });
         Call<ClientMonthlyStatementDate> call3 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -389,6 +375,50 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+    }
+
+    public void loadPaymentReceipt(){
+        Call<ClientPaymentReceiptPDF> call2 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_payment_receipt_pdf(client_id, page_number);
+        call2.enqueue(new Callback<ClientPaymentReceiptPDF>() {
+            @Override
+            public void onResponse(Call<ClientPaymentReceiptPDF> call, Response<ClientPaymentReceiptPDF> response) {
+                if (response.body() != null){
+                    try{
+                        ClientPaymentReceiptPDF clientPaymentReceiptPDF = response.body();
+                        pdf_receipt = clientPaymentReceiptPDF.getM();
+                        daily_receipt_progressbar.setVisibility(View.GONE);
+                        try {
+                            see_older.setVisibility(View.VISIBLE);
+                            see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
+                            remaining_receipt = pdf_receipt.get(8).getRecordsRemaining();
+                            Toast.makeText(getApplicationContext(), remaining_receipt+"", Toast.LENGTH_LONG).show();
+                        }catch (IndexOutOfBoundsException e){
+                            Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
+                            see_older.setVisibility(View.GONE);
+                        }
+                    }catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "no information", Toast.LENGTH_LONG).show();
+                    see_older.setVisibility(View.GONE);
+                }
+                adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext(), client_id);
+                payment_receipt_pdf.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<ClientPaymentReceiptPDF> call, Throwable t) {
+                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
+                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(i);
             }
         });
