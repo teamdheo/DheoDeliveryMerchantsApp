@@ -266,7 +266,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                         }
                     }
-                }catch (NullPointerException e){}
+                }catch (NullPointerException | IndexOutOfBoundsException e){}
 
                 monthly_billing_adapter = new AdapterClassMonthlyBillingPDF(monthly_billing_pdf, getApplicationContext(), client_id);
                 monthly_statement_pdf.setAdapter(monthly_billing_adapter);
@@ -274,8 +274,8 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
                 Toasty.error(getApplicationContext(), "wrong here!", Toast.LENGTH_LONG, true).show();
-                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+//                startActivity(i);
             }
         });
         phone_call.setOnClickListener(new View.OnClickListener() {
@@ -415,7 +415,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
                             see_older.setVisibility(View.GONE);
                         }
-                    }catch (NullPointerException e) {
+                    }catch (NullPointerException | IndexOutOfBoundsException e) {
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }

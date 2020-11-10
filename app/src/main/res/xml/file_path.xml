@@ -3,5 +3,5 @@
 
     <external-path
         name="my_images"
-        path="Android/data/com.dheo.myapplication/files/Pictures"/>
+        path="Android/data/com.dheo.dheodeliverymerchantapp/files/Pictures"/>
 </paths>

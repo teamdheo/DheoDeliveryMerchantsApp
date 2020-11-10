@@ -173,6 +173,9 @@ public class SettingsActivity extends AppCompatActivity {
         other_option_layout.setVisibility(View.GONE);
         //nagad_option.setVisibility(View.GONE);
         bank_layout.setVisibility(View.VISIBLE);
+        bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+        bank.setTextColor(Color.rgb(255, 255, 255));
+        other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
 //        edit_bank_name.setVisibility(View.GONE);
 //        edit_branch_name.setVisibility(View.GONE);
         bkash_option.setVisibility(View.GONE);
@@ -511,7 +514,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")) {
                             dialog_text.dismiss();
-                            Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                            Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
 
@@ -576,7 +579,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                             if (s.equals("{\"e\":0}")) {
                                 dialog_text.dismiss();
-                                Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                 startActivity(intent);
 
@@ -619,7 +622,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")) {
                             dialog_text.dismiss();
-                            Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                            Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
 
@@ -656,7 +659,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")) {
                             dialog_text.dismiss();
-                            Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                            Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
 
@@ -857,7 +860,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog_text.dismiss();
-                                    Toasty.error(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                     startActivity(intent);
 
@@ -902,7 +905,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                     if (imageFile != null) {
                         Uri photoURI = FileProvider.getUriForFile(this,
-                                "com.example.myapplication.fileprovider",
+                                "com.dheo.dheodeliverymerchantapp.fileprovider",
                                 imageFile);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                         startActivityForResult(intent, CAMERA_REQUEST);
@@ -928,7 +931,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (imageFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.myapplication.fileprovider",
+                        "com.dheo.dheodeliverymerchantapp.fileprovider",
                         imageFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 //                intent.putExtra("image_path",currentImagePath);

@@ -571,7 +571,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "You don't have any statement!", Toast.LENGTH_LONG, true).show();
             }
         });
         payload_search_btn.setOnClickListener(new View.OnClickListener() {
@@ -619,7 +619,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
                         @Override
                         public void onFailure(Call<ClientPayloadSearch> call, Throwable t) {
-                            Toast.makeText(getApplicationContext(), "Try again!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Try again1!", Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
                     });
@@ -736,29 +736,37 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
                 if (response.body() != null) {
+                    ClientDashboardPayloads clientDashboardPayloads = response.body();
+                    all_dashboard_payload = clientDashboardPayloads.getM();
                     try {
-                        ClientDashboardPayloads clientDashboardPayloads = response.body();
-                        all_dashboard_payload = clientDashboardPayloads.getM();
-                        if (all_dashboard_payload.get(8).getShowNext()){
-                            see_older.setVisibility(View.VISIBLE);
-                            see_older.setText("<Older (" + all_dashboard_payload.get(8).getRecordsRemaining() + ")");
-                            payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
+                        if (all_dashboard_payload.size()> 8){
+                            if (all_dashboard_payload.get(8).getShowNext()){
+                                see_older.setVisibility(View.VISIBLE);
+                                see_older.setText("<Older (" + all_dashboard_payload.get(8).getRecordsRemaining() + ")");
+                                payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
 //                            Toasty.error(getApplicationContext(), payload_remaining, Toast.LENGTH_LONG, true).show();
-                        }
-                        if (all_dashboard_payload.get(8).getShowPrev()){
-                            see_newer.setVisibility(View.VISIBLE);
-                            see_newer.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
-                            payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
+                            }
+                            if (all_dashboard_payload.get(8).getShowPrev()){
+                                see_newer.setVisibility(View.VISIBLE);
+                                see_newer.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
+                                payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
+                            }
                         }
                         if(page_number == 1){
                             see_newer.setVisibility(View.INVISIBLE);
                         }
                         payload_progressbar.setVisibility(View.GONE);
-                    } catch (NullPointerException e) {
+                    } catch (NullPointerException | IndexOutOfBoundsException e) {
                         dashboard_payloads.setVisibility(View.GONE);
+                        payload_progressbar.setVisibility(View.GONE);
                         e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "You don't have any payload", Toast.LENGTH_LONG).show();
                     }
+                }
+                else{
+                    Toasty.error(getApplicationContext(), "You have no payload!", Toast.LENGTH_LONG, true).show();
+                    Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                    startActivity(i);
                 }
                 adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name);
                 dashboard_payloads.setAdapter(adapter_payload);
