@@ -176,6 +176,7 @@ public class SettingsActivity extends AppCompatActivity {
         bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
         bank.setTextColor(Color.rgb(255, 255, 255));
         other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+        other_option.setTextColor(Color.rgb(0, 0, 0));
 //        edit_bank_name.setVisibility(View.GONE);
 //        edit_branch_name.setVisibility(View.GONE);
         bkash_option.setVisibility(View.GONE);
@@ -339,6 +340,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 other_option.setTextColor(Color.rgb(255, 255, 255));
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                bank.setTextColor(Color.rgb(0, 0, 0));
                                 bkash_option.setVisibility(View.GONE);
                                 cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 cash.setTextColor(Color.rgb(255, 255, 255));
@@ -357,6 +359,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 other_option.setTextColor(Color.rgb(255, 255, 255));
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                bank.setTextColor(Color.rgb(0, 0, 0));
                                 bkash_or_nagad.setText(s.getM().getNumber());
 
                                 bkash_option.setVisibility(View.VISIBLE);
@@ -377,6 +380,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 other_option.setTextColor(Color.rgb(255, 255, 255));
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                bank.setTextColor(Color.rgb(0, 0, 0));
                                 //mode = "nagad";
 
                                 bkash_option.setVisibility(View.VISIBLE);
@@ -403,6 +407,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                                 bank.setTextColor(Color.rgb(255, 255, 255));
                                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                other_option.setTextColor(Color.rgb(0, 0, 0));
                                 edit_branch_name.setText(s.getM().getBranchName());
                                 edit_account_name.setText(s.getM().getAccountName());
                                 edit_account_num.setText(s.getM().getAccountNumber());
@@ -498,36 +503,160 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog_text.show();
-                Call<ResponseBody> call3 = RetrofitClient
-                        .getInstance()
-                        .getApi()
-                        .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
-                call3.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        String s = null;
-                        try {
-                            s = response.body().string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                        if (s.equals("{\"e\":0}")) {
-                            dialog_text.dismiss();
-                            Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
-                            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                            startActivity(intent);
+                if(mode == "bank"){
+                    if(edit_account_name.getText().toString().length() !=0 && edit_account_num.getText().toString().length()!=0){
+                        Call<ResponseBody> call3 = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                        call3.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                String s = null;
+                                try {
+                                    s = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                if (s.equals("{\"e\":0}")) {
+                                    dialog_text.dismiss();
+                                    Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                    startActivity(intent);
 
-                        } else {
-                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
-                        }
+                                } else {
+                                    Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                            }
+                        });
+                    }
+                    else {
+                        Toasty.error(getApplicationContext(), "Fill account name & number properly ", Toast.LENGTH_LONG, true).show();
+                        dialog_text.dismiss();
+                    }
+                }
+                else if(mode == "bkash"){
+                    if(bkash_or_nagad.getText().toString().length() == 11){
+                        Call<ResponseBody> call3 = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                        call3.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                String s = null;
+                                try {
+                                    s = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                if (s.equals("{\"e\":0}")) {
+                                    dialog_text.dismiss();
+                                    Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                    startActivity(intent);
+
+                                } else {
+                                    Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    dialog_text.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                            }
+                        });
+                    }
+                    else{
+                        Toasty.error(getApplicationContext(), "Bkash number should be 11 disit", Toast.LENGTH_LONG, true).show();
+                        dialog_text.dismiss();
+                    }
+                }
+                else if(mode == "nagad"){
+                    if(edit_nagad_num.getText().toString().length() == 11){
+                        Call<ResponseBody> call3 = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                        call3.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                String s = null;
+                                try {
+                                    s = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                if (s.equals("{\"e\":0}")) {
+                                    dialog_text.dismiss();
+                                    Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                    startActivity(intent);
+
+                                } else {
+                                    Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    dialog_text.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                            }
+                        });
+                    }
+                    else{
+                        Toasty.error(getApplicationContext(), "Nagad number should be 11 disit", Toast.LENGTH_LONG, true).show();
+                        dialog_text.dismiss();
                     }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
-                    }
-                });
+                }
+                else if(mode == "cash"){
+                    Call<ResponseBody> call3 = RetrofitClient
+                            .getInstance()
+                            .getApi()
+                            .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                    call3.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            String s = null;
+                            try {
+                                s = response.body().string();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                            if (s.equals("{\"e\":0}")) {
+                                dialog_text.dismiss();
+                                Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                startActivity(intent);
+
+                            } else {
+                                Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                dialog_text.dismiss();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                        }
+                    });
+                }
+                else{
+                    Toasty.error(getApplicationContext(), "You didn't choose a option", Toast.LENGTH_LONG, true).show();
+                    dialog_text.dismiss();
+                }
                 //Toasty.error(getApplicationContext(), bank_name_show.getSelectedItem().toString(), Toast.LENGTH_LONG, true).show();
             }
         });

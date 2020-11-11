@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.DateUtils;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -70,6 +71,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private int session = 0;
     private String phone;
     private String photoUrl, scooter_url, cover_url;
+    boolean doubleBackToExitPressedOnce = false;
     private int clientId,page_number = 1,payload_remaining;
     private String password;
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo;
@@ -723,6 +725,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 startActivity(i);
             }
         });
+
+
         //Toasty.success(getApplicationContext(), name+"", Toast.LENGTH_LONG, true).show();
 
     }
@@ -838,5 +842,21 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity();
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 }
