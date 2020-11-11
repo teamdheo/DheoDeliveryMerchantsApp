@@ -21,10 +21,12 @@ import java.util.List;
 public class AdapterSearchPayload extends RecyclerView.Adapter<AdapterSearchPayload.SearchPayloadHolder> {
     private List<M> search_payload;
     Context search_contex;
+    private String client_name;
 
-    public AdapterSearchPayload(List<M> search_payload, Context search_contex){
+    public AdapterSearchPayload(List<M> search_payload, Context search_contex, String client_name){
         this.search_payload = search_payload;
         this.search_contex = search_contex;
+        this.client_name = client_name;
     }
     @NonNull
     @Override
@@ -73,7 +75,7 @@ public class AdapterSearchPayload extends RecyclerView.Adapter<AdapterSearchPayl
             try {
                 if (search_payload.get(position).getCourierDrop()) {
                     holder.label.setVisibility(View.VISIBLE);
-                    holder.label.setText("Courier Drop");
+                    holder.label.setText("Out for sundarban");
                     holder.label.setBackground(ContextCompat.getDrawable(search_contex, R.drawable.courier_drop));
                     holder.label.setTextColor(Color.rgb(0, 0, 0));
                 }
@@ -156,8 +158,10 @@ public class AdapterSearchPayload extends RecyclerView.Adapter<AdapterSearchPayl
             holder.tracking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri uri = Uri.parse("https://dheo.com/rocket?id=" + search_payload.get(position).getShortId() + "&s=1");
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    Intent intent = new Intent(search_contex, OrderTrackerActivity.class);
+                    intent.putExtra("short_id", search_payload.get(position).getShortId());
+                    intent.putExtra("payload_id", search_payload.get(position).getPayloadId());
+                    intent.putExtra("client_name", client_name);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     search_contex.startActivity(intent);
                 }

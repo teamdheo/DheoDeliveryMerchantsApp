@@ -615,7 +615,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                 dialog.dismiss();
                                 Toasty.error(getApplicationContext(), "Wrong input", Toast.LENGTH_LONG, true).show();
                             }
-                            adapter_serch_payload = new AdapterSearchPayload(payload_search, getApplicationContext());
+                            adapter_serch_payload = new AdapterSearchPayload(payload_search, getApplicationContext(), name);
                             recycler_search_payload.setAdapter(adapter_serch_payload);
                         }
 

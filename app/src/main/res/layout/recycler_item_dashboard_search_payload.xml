@@ -42,19 +42,16 @@
 
         <RatingBar
             android:id="@+id/search_rating"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="-30dp"
-            android:layout_gravity="left"
             android:isIndicator="true"
-            android:numStars="5"
-            android:scaleX=".4"
-            android:scaleY=".4"
-            android:transformPivotX="0dp"
-            android:transformPivotY="0dp"
-            android:layout_marginBottom="-50dp"
-            android:layout_marginRight="-100dp"
+            android:max="5"
+            android:rating="3"
+            android:stepSize="1"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:theme="@style/MyRatingBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_date_time" />
 
