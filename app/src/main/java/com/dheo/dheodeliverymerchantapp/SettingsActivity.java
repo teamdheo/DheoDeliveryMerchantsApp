@@ -782,37 +782,68 @@ public class SettingsActivity extends AppCompatActivity {
         change_phone_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog_text.show();
-                Call<ResponseBody> call6 = RetrofitClient
-                        .getInstance()
-                        .getApi()
-                        .update_number(client_id, change_account_phone.getText().toString());
-                call6.enqueue(new Callback<ResponseBody>() {
+                final AlertDialog.Builder builder_num = new AlertDialog.Builder(new ContextThemeWrapper(SettingsActivity.this, R.style.AppTheme));
+                builder_num.setCancelable(false);
+                final View customLayout = getLayoutInflater().inflate(R.layout.confirm_num_dialog, null);
+                builder_num.setView(customLayout);
+                final EditText confirm_acc_num = customLayout.findViewById(R.id.confirm_acc_num);
+                Button acc_num_confirm_btn = customLayout.findViewById(R.id.acc_num_confirm_btn);
+                Button cancel_dialog_btn = customLayout.findViewById(R.id.cancel_acc_num);
+                final AlertDialog dialog_num = builder_num.create();
+                dialog_num.show();
+                cancel_dialog_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        String s = null;
-                        try {
-                            s = response.body().string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                        if (s.equals("{\"e\":0}")) {
-                            dialog_text.dismiss();
-                            Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
-                            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                            startActivity(intent);
-
-                        } else {
-                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                    public void onClick(View v) {
+                        dialog_num.dismiss();
                     }
                 });
+                acc_num_confirm_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(change_account_phone.getText().toString().length() == 11 && change_account_phone.getText().toString().equals(confirm_acc_num.getText().toString())){
+                            dialog_text.show();
+                            Call<ResponseBody> call6 = RetrofitClient
+                                    .getInstance()
+                                    .getApi()
+                                    .update_number(client_id, change_account_phone.getText().toString());
+                            call6.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    String s = null;
+                                    try {
+                                        s = response.body().string();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                    if (s.equals("{\"e\":0}")) {
+                                        dialog_text.dismiss();
+                                        dialog_num.dismiss();
+                                        Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                        startActivity(intent);
+
+                                    } else {
+                                        Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                        dialog_num.dismiss();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                                    dialog_num.dismiss();
+                                }
+                            });
+
+                        }
+                        else {
+                            Toasty.error(getApplicationContext(), "Incorrect number", Toast.LENGTH_LONG, true).show();
+                            dialog_num.dismiss();
+                        }
+                    }
+                });
+
             }
         });
 

@@ -30,18 +30,21 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDashboardPayloadsList.PayloadViewHolder> {
     private List<M> dashboard_payload;
     Context payload_contex;
     EditText edit_phone, edit_amount;
-    Button save_button, cancel_button;
+    Button save_button, cancel_button, cancel_confirm, cancel_cancel;
     private String client_name;
+    private int client_id;
 
-    public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex, String client_name) {
+    public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex, String client_name, int client_id) {
         this.dashboard_payload = dashboard_payload;
         this.payload_contex = payload_contex;
         this.client_name = client_name;
+        this.client_id = client_id;
     }
 
     @NonNull
@@ -174,6 +177,8 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 if (dashboard_payload.get(position).getEnableEdit()) {
                     holder.bar.setVisibility(View.VISIBLE);
                     holder.edit.setVisibility(View.VISIBLE);
+                    holder.bar1.setVisibility(View.VISIBLE);
+                    holder.cancel.setVisibility(View.VISIBLE);
                     holder.edit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View view) {
@@ -218,7 +223,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                                                 try {
                                                                     if (response.body().string().equals("{\"e\":0}")){
-                                                                        Toasty.error(payload_contex, "Data updated", Toast.LENGTH_LONG, true).show();
+                                                                        Toasty.success(payload_contex, "Data updated", Toast.LENGTH_LONG, true).show();
                                                                         dialog.dismiss();
                                                                         Intent intent = new Intent(payload_contex, ClientDashboardActivity.class);
                                                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -272,10 +277,66 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
 
 
                     });
+                    holder.cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder cancel_dialog = new AlertDialog.Builder(v.getRootView().getContext());
+                            cancel_dialog.setCancelable(false);
+                            LayoutInflater layoutInflater = (LayoutInflater) payload_contex.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View view1 = layoutInflater.inflate(R.layout.dialog_payload_cancel, null);
+                            cancel_confirm = view1.findViewById(R.id.cancel_confirm);
+                            cancel_cancel = view1.findViewById(R.id.cancel_cancel);
+                            cancel_dialog.setView(view1);
+                            final AlertDialog dia = cancel_dialog.create();
+                            dia.show();
+                            cancel_cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dia.dismiss();
+                                }
+                            });
+                            cancel_confirm.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Call<ResponseBody> cancel_call = RetrofitClient
+                                            .getInstance()
+                                            .getApi()
+                                            .cancel_delivery(client_id,dashboard_payload.get(position).getPayloadId());
+                                    cancel_call.enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                            try {
+                                                if (response.body().string().equals("{\"e\":0}")){
+                                                    Toasty.success(payload_contex, "Cancel done", Toast.LENGTH_LONG, true).show();
+                                                    dia.dismiss();
+                                                    Intent intent = new Intent(payload_contex, ClientDashboardActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    payload_contex.startActivity(intent);
+                                                }
+                                                else{
+                                                    Toasty.error(payload_contex, "failed", Toast.LENGTH_LONG, true).show();
+                                                    dia.dismiss();
+                                                }
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                            Toasty.error(payload_contex, "Try again!", Toast.LENGTH_LONG, true).show();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
                 }
             } catch (NullPointerException e) {
                 holder.bar.setVisibility(View.GONE);
                 holder.edit.setVisibility(View.GONE);
+                holder.bar1.setVisibility(View.GONE);
+                holder.cancel.setVisibility(View.GONE);
                 holder.tracking.setVisibility(View.VISIBLE);
             }
             holder.tracking.setOnClickListener(new View.OnClickListener() {
@@ -305,7 +366,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
     }
 
     public class PayloadViewHolder extends RecyclerView.ViewHolder {
-        TextView customer_name, date_time, order_no, bar, edit, tracking, label, amount;
+        TextView customer_name, date_time, order_no, bar, edit, tracking, label, amount, bar1, cancel;
         RatingBar rating;
 
         public PayloadViewHolder(@NonNull View itemView) {
@@ -319,6 +380,8 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             this.label = itemView.findViewById(R.id.item_label);
             this.amount = itemView.findViewById(R.id.item_amount);
             this.bar = itemView.findViewById(R.id.item_bar);
+            this.bar1 = itemView.findViewById(R.id.item_bar1);
+            this.cancel = itemView.findViewById(R.id.item_cancel);
         }
     }
 }

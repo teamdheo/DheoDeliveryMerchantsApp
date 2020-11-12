@@ -288,4 +288,11 @@ public interface Api {
             @Field("status") String status
 
     );
+    @FormUrlEncoded
+    @POST("cancel_delivery")
+    Call<ResponseBody> cancel_delivery(
+            @Field("client_id") Integer client_id,
+            @Field("payload_id") Integer payload_id
+
+    );
 }

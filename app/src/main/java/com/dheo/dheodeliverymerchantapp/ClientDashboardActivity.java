@@ -772,7 +772,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                     startActivity(i);
                 }
-                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name);
+                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name,clientId);
                 dashboard_payloads.setAdapter(adapter_payload);
             }
 
