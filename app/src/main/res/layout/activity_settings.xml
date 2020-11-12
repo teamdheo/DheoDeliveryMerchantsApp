@@ -722,99 +722,93 @@
 
 
         </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relative_layout1"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:scaleType="fitXY"
+            android:id="@+id/state_line_monthly1"
+            android:src="@drawable/dheo_octops_red"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout">
-
-            <ImageView
-                android:id="@+id/octopus_red_body"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/octopus_red_body"
-                android:translationX="120dp"
-                android:translationY="-30dp" />
-
+            android:orientation="vertical">
             <TextView
-                android:id="@+id/billing_my_delivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/link_section"
+                android:id="@+id/billing_my_delivery"
                 android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
                 android:text="My Deliveries"
                 android:textColor="#FFF"
-                android:textSize="20dp" />
-
+                android:background="@drawable/link_section"/>
             <TextView
-                android:id="@+id/billing_Billing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="65dp"
-                android:background="@drawable/link_section"
+                android:id="@+id/billing_Billing"
                 android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
                 android:text="Billing"
                 android:textColor="#FFF"
-                android:textSize="20dp" />
-
+                android:background="@drawable/link_section"/>
             <TextView
-                android:id="@+id/billing_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="120dp"
-                android:background="@drawable/link_section"
+                android:id="@+id/billing_settings"
                 android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
                 android:text="Settings"
                 android:textColor="#FFF"
-                android:textSize="20dp" />
-
+                android:background="@drawable/link_section"/>
             <TextView
-                android:id="@+id/billing_user_manual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="175dp"
-                android:background="@drawable/link_section"
+                android:id="@+id/billing_user_manual"
                 android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
                 android:text="User Manual"
                 android:textColor="#FFF"
-                android:textSize="20dp" />
-
+                android:background="@drawable/link_section"/>
             <TextView
-                android:id="@+id/billing_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="230dp"
-                android:background="@drawable/link_section"
+                android:id="@+id/billing_logout"
                 android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
                 android:text="Logout"
                 android:textColor="#FFF"
-                android:textSize="20dp" />
+                android:background="@drawable/link_section"/>
 
+        </LinearLayout>
 
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/state_line_monthly1"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginTop="4dp"
-            android:background="#CC3533"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout1" />
+<!--        <View-->
+<!--            android:id="@+id/state_line_monthly1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="5dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:background="#CC3533"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/relative_layout1" />-->
 
         <RelativeLayout
             android:id="@+id/relative_layout2"
             android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
             android:layout_height="170dp"
             android:background="#CC3533"
             app:layout_constraintEnd_toEndOf="parent"
