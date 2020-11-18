@@ -31,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ClientDashboardBillingActivity extends AppCompatActivity {
-    private String name_client,photourl;
+    private String name_client,photourl, pro_pic_url;
     private int balance_client, client_id, page_number = 1, remaining_receipt;
     private TextView client_name_billing, total_balance_billing,payment_pref, valued_date,  phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
     private ImageView profile_photo_billing;
@@ -84,21 +84,24 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         see_older.setVisibility(View.INVISIBLE);
         see_newer.setVisibility(View.INVISIBLE);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            name_client = extras.getString("name_c");
+            balance_client = extras.getInt("balance_c");
+            pro_pic_url = extras.getString("url");
+        }
+
         try {
             if (helper.getPhoto_Url().equals("default.svg")) {
                 profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
             } else {
                 profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
-                photourl = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + helper.getPhoto_Url();
+                photourl = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + pro_pic_url;
                 Picasso.get().load(photourl).into(profile_photo_billing);
             }
         } catch (SQLException e) {
         }
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            name_client = extras.getString("name_c");
-            balance_client = extras.getInt("balance_c");
-        }
+
         client_name_billing.setText(name_client);
         total_balance_billing.setText(balance_client + "TK");
         getSupportActionBar().setElevation(0);//remove actionbar shadow

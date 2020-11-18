@@ -15,6 +15,9 @@ public class M {
     @SerializedName("oob_ux")
     @Expose
     private Boolean oobUx;
+    @SerializedName("pro_pic")
+    @Expose
+    private String proPic;
 
     public String getName() {
         return name;
@@ -40,4 +43,11 @@ public class M {
         this.oobUx = oobUx;
     }
 
+    public String getProPic() {
+        return proPic;
+    }
+
+    public void setProPic(String proPic) {
+        this.proPic = proPic;
+    }
 }

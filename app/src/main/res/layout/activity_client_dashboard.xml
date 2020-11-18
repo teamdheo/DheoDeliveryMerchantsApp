@@ -41,6 +41,18 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cover" />
+
+<!--        <ImageView-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:id="@+id/upload_pro_pic"-->
+<!--            android:layout_marginTop="290dp"-->
+<!--            android:src="@drawable/call_image"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.660"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
         <ImageView
             android:layout_width="75dp"
             android:layout_height="75dp"
@@ -212,6 +224,36 @@
                 android:background="@drawable/search_button"
                 android:id="@+id/payload_search_btn"
                 android:text="Search"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/active_layout"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="left"
+            android:background="#EFEFEF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/blog_update_layout"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Active"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="You have no active deliveries. Request a pickup!"
+                android:background="#FFE6E6"
+                android:textColor="#000000"/>
 
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
@@ -466,6 +508,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/monthly_billing_activity_bar2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/monthly_text"
+            android:layout_margin="5dp"
+            android:gravity="left"
+            app:layout_constraintTop_toBottomOf="@id/recycler_monthly_payload_records"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="You don't have any monthly statements yet."
+            android:textColor="#666"/>
 <!--        <ProgressBar-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
@@ -479,7 +532,7 @@
             android:layout_marginTop="20dp"
             android:id="@+id/relative_layout2"
             android:background="#CC3533"
-            app:layout_constraintTop_toBottomOf="@id/recycler_monthly_payload_records"
+            app:layout_constraintTop_toBottomOf="@id/monthly_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
             <TextView

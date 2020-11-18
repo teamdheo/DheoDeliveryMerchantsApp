@@ -1028,7 +1028,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog_text.dismiss();
                                     Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();

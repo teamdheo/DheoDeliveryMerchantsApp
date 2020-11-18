@@ -100,7 +100,7 @@ public class LogInActivity extends AppCompatActivity {
                                     }
                                     startActivity(intent);
                                 }else{
-                                    Toasty.error(getApplicationContext(), "wrong credential", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(getApplicationContext(), "Wrong Credential", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
                                     startActivity(intent);
                                 }
@@ -112,12 +112,16 @@ public class LogInActivity extends AppCompatActivity {
                         }
                         @Override
                         public void onFailure(Call<ClientInfo> call, Throwable t) {
-                            Toasty.error(getApplicationContext(), "Try again !", Toast.LENGTH_LONG, true).show();
+                            Toasty.error(getApplicationContext(), "Try Again !", Toast.LENGTH_LONG, true).show();
                             Intent i = new Intent(getApplicationContext(), LogInActivity.class);
                             startActivity(i);
                             progressDialog.dismiss();
                         }
                     });
+                }
+                else{
+                    Toasty.error(getApplicationContext(), "Incorrect Password !", Toast.LENGTH_LONG, true).show();
+                    progressDialog.dismiss();
                 }
             }
         });

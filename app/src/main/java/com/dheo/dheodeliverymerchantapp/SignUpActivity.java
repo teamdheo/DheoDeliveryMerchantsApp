@@ -65,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
 
                                 if (s.getE() == 0) {
-                                    Toasty.success(getApplicationContext(), s.getM().getId()+"", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "Welcome To Dheo!", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                                     intent.putExtra("PHONE", phoneNo.getText().toString());
                                     intent.putExtra("PASS", pass.getText().toString());
@@ -77,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     progressDialog.dismiss();
                                 }else{
-                                    Toasty.error(getApplicationContext(), "fail to get the response!", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(getApplicationContext(), "The server failed to response!", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                                     startActivity(intent);
                                     progressDialog.dismiss();
@@ -91,12 +91,16 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<SignupClientInfo> call, Throwable t) {
-                            Toasty.error(getApplicationContext(), "Try again !", Toast.LENGTH_LONG, true).show();
+                            Toasty.error(getApplicationContext(), "Try Again !", Toast.LENGTH_LONG, true).show();
                             Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
                             startActivity(i);
                             progressDialog.dismiss();
                         }
                     });
+                }
+                else{
+                    Toasty.error(getApplicationContext(), "Fill Properly!", Toast.LENGTH_LONG, true).show();
+                    progressDialog.dismiss();
                 }
             }
         });
