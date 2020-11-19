@@ -296,8 +296,8 @@ public interface Api {
 
     );
     @FormUrlEncoded
-    @POST("Client_profile_photo_upload")
-    Call<ResponseBody> Client_profile_photo_upload(
+    @POST("client_profile_photo_upload")
+    Call<ResponseBody> client_profile_photo_upload(
             @Field("client_id") Integer client_id,
             @Field("pro_pic") String pro_pic
     );

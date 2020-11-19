@@ -44,6 +44,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dheo.dheodeliverymerchantapp.ModelClassBankBranches.BankBranches;
 import com.dheo.dheodeliverymerchantapp.ModelClassBanksAndBranches.BanksAndBranches;
 import com.dheo.dheodeliverymerchantapp.ModelClassBanksAndBranches.M;
+import com.dheo.dheodeliverymerchantapp.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.PickupAddresses;
 import com.squareup.picasso.Picasso;
@@ -149,22 +150,9 @@ public class SettingsActivity extends AppCompatActivity {
         meet_the_team = findViewById(R.id.billing_meet_team);
         privacy_policy = findViewById(R.id.billing_policy);
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            name_client = extras.getString("name_c");
-        }
-
-        setting_name.setText(name_client);
-        try {
-            if (helper.getPhoto_Url().equals("default.svg")) {
-                setting_dp = findViewById(R.id.setting_profile_photo);
-            } else {
-                setting_dp = findViewById(R.id.setting_profile_photo);
-                photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + helper.getPhoto_Url();
-                Picasso.get().load(photo_url).into(setting_dp);
-            }
-        } catch (SQLException e) {
-
-        }
+//        if (extras != null) {
+//            name_client = extras.getString("name_c");
+//        }
         client_id = helper.getClientId();
         go_back.setText("< Go Back");
         bank_name = new ArrayList<>();
@@ -193,6 +181,37 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(intent);
+            }
+        });
+        Call<ClientBasicInfo> call_basic_info = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_basic_info(client_id);
+        call_basic_info.enqueue(new Callback<ClientBasicInfo>() {
+            @Override
+            public void onResponse(Call<ClientBasicInfo> call, Response<ClientBasicInfo> response) {
+                final ClientBasicInfo s = response.body();
+                if (s.getE() == 0) {
+                    try {
+                        setting_name.setText(s.getM().getName());
+                        try {
+                            if (helper.getPhoto_Url().equals("default.svg")) {
+                                setting_dp = findViewById(R.id.setting_profile_photo);
+                            } else {
+                                setting_dp = findViewById(R.id.setting_profile_photo);
+                                photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
+                                Picasso.get().load(photo_url).into(setting_dp);
+                            }
+                        } catch (NullPointerException e) {
+
+                        }
+                    }catch (NullPointerException e){}
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClientBasicInfo> call, Throwable t) {
+
             }
         });
         //
@@ -427,13 +446,13 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     }
                 } catch (NullPointerException e) {
-                    Toasty.error(getApplicationContext(), "null", Toast.LENGTH_LONG, true).show();
+                    //Toasty.error(getApplicationContext(), "null", Toast.LENGTH_LONG, true).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ClientPrefInfoAccountSetting> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "unable to response", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
             }
         });
 
@@ -498,7 +517,7 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        Toast.makeText(getApplicationContext(), "Response failed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "The server filed to response.", Toast.LENGTH_LONG).show();
                     }
                 } catch (NullPointerException e) {
                 }
@@ -532,23 +551,23 @@ public class SettingsActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog_text.dismiss();
-                                    Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                     startActivity(intent);
 
                                 } else {
-                                    Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(getApplicationContext(), "The server failed to response", Toast.LENGTH_LONG, true).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
                             }
                         });
                     }
                     else {
-                        Toasty.error(getApplicationContext(), "Fill account name & number properly ", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(getApplicationContext(), "Fill account name & number properly! ", Toast.LENGTH_LONG, true).show();
                         dialog_text.dismiss();
                     }
                 }
@@ -570,24 +589,24 @@ public class SettingsActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog_text.dismiss();
-                                    Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                     startActivity(intent);
 
                                 } else {
-                                    Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
                                     dialog_text.dismiss();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
                             }
                         });
                     }
                     else{
-                        Toasty.error(getApplicationContext(), "Bkash number should be 11 disit", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(getApplicationContext(), "Bkash number should be 11 disit!", Toast.LENGTH_LONG, true).show();
                         dialog_text.dismiss();
                     }
                 }
@@ -609,24 +628,24 @@ public class SettingsActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog_text.dismiss();
-                                    Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                     startActivity(intent);
 
                                 } else {
-                                    Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
                                     dialog_text.dismiss();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
                             }
                         });
                     }
                     else{
-                        Toasty.error(getApplicationContext(), "Nagad number should be 11 disit", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(getApplicationContext(), "Nagad number should be 11 disit!", Toast.LENGTH_LONG, true).show();
                         dialog_text.dismiss();
                     }
 
@@ -648,24 +667,24 @@ public class SettingsActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                             if (s.equals("{\"e\":0}")) {
                                 dialog_text.dismiss();
-                                Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
                                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                 startActivity(intent);
 
                             } else {
-                                Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
                                 dialog_text.dismiss();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                            Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
                         }
                     });
                 }
                 else{
-                    Toasty.error(getApplicationContext(), "You didn't choose a option", Toast.LENGTH_LONG, true).show();
+                    Toasty.error(getApplicationContext(), "You didn't choose a option!", Toast.LENGTH_LONG, true).show();
                     dialog_text.dismiss();
                 }
                 //Toasty.error(getApplicationContext(), bank_name_show.getSelectedItem().toString(), Toast.LENGTH_LONG, true).show();
@@ -685,7 +704,7 @@ public class SettingsActivity extends AppCompatActivity {
                         all_add_settings = pickupAddresses.getM();
                     } catch (NullPointerException e) {
                         e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                     adapter = new AdapterSettingsAllAddresses(all_add_settings, getApplicationContext());
                     all_address.setAdapter(adapter);
@@ -694,7 +713,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
             }
         });
 
@@ -719,24 +738,24 @@ public class SettingsActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                             if (s.equals("{\"e\":0}")) {
                                 dialog_text.dismiss();
-                                Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
                                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                 startActivity(intent);
 
                             } else {
-                                Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                            Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
 
                         }
                     });
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Fill properly", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Fill Properly!", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -762,18 +781,18 @@ public class SettingsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")) {
                             dialog_text.dismiss();
-                            Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                            Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                             startActivity(intent);
 
                         } else {
-                            Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                            Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
                     }
                 });
             }
@@ -819,26 +838,26 @@ public class SettingsActivity extends AppCompatActivity {
                                     if (s.equals("{\"e\":0}")) {
                                         dialog_text.dismiss();
                                         dialog_num.dismiss();
-                                        Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                        Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
                                         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                         startActivity(intent);
 
                                     } else {
-                                        Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                        Toasty.error(getApplicationContext(), "The server failed to response", Toast.LENGTH_LONG, true).show();
                                         dialog_num.dismiss();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Toasty.error(getApplicationContext(), "slow internet, try again", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
                                     dialog_num.dismiss();
                                 }
                             });
 
                         }
                         else {
-                            Toasty.error(getApplicationContext(), "Incorrect number", Toast.LENGTH_LONG, true).show();
+                            Toasty.error(getApplicationContext(), "Incorrect Number", Toast.LENGTH_LONG, true).show();
                             dialog_num.dismiss();
                         }
                     }
@@ -1031,24 +1050,24 @@ public class SettingsActivity extends AppCompatActivity {
                                 //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog_text.dismiss();
-                                    Toasty.success(getApplicationContext(), "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                     startActivity(intent);
 
                                 } else {
-                                    Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(getApplicationContext(), "The server failed to response", Toast.LENGTH_LONG, true).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
+                                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
                             }
                         });
                     }
 
                 } catch (NullPointerException e) {
-                    Toast.makeText(getApplicationContext(), "no image found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "No Image Found!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -1063,7 +1082,7 @@ public class SettingsActivity extends AppCompatActivity {
         {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Camera Permission Granted", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent.resolveActivity(getPackageManager()) != null) {
@@ -1085,7 +1104,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Camera Permission Denied", Toast.LENGTH_LONG).show();
             }
         }
     }

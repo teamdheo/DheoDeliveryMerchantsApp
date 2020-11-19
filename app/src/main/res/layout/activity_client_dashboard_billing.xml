@@ -138,6 +138,37 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/state_line2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/free_delivery"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:background="#E7FEFB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bank_info"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.85"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                android:paddingLeft="10dp"
+                android:text="ফেসবুকে ট্যাগ করলেই ৩টি ফ্রী ডেলিভারি! যতো খুশি ততো বার!"
+                android:id="@+id/payload_search_editText"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:textColor="#CC3533"
+                android:id="@+id/see_free_delivery"
+                android:text="See>"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/activity_bar"
@@ -150,7 +181,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bank_info" />
+            app:layout_constraintTop_toBottomOf="@id/free_delivery" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_account_activity"
@@ -169,6 +200,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_bar" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="You don't have any account activity yet!"
+            android:background="#FFE6E6"
+            android:id="@+id/no_latest_activity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_account_activity"/>
 
         <View
             android:id="@+id/state_line1"
@@ -180,7 +222,7 @@
             android:background="#DDD"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_account_activity" />
+            app:layout_constraintTop_toBottomOf="@id/no_latest_activity" />
 
         <TextView
             android:id="@+id/activity_bar1"
@@ -224,6 +266,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_bar2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="You don't have any payment statements yet."
+            android:background="#FFE6E6"
+            android:id="@+id/no_daily_payment_recept"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_payment_receipt"/>
         <Button
             android:id="@+id/show_older"
             android:layout_width="70dp"
@@ -236,7 +289,7 @@
             android:text="Older"
             android:textColor="#FFF"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_payment_receipt"
+            app:layout_constraintTop_toBottomOf="@+id/no_daily_payment_recept"
             android:layout_gravity="start"/>
         <Button
             android:id="@+id/show_newer"
@@ -244,7 +297,7 @@
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_payment_receipt"
+            app:layout_constraintTop_toBottomOf="@+id/no_daily_payment_recept"
             app:layout_constraintEnd_toEndOf="parent"
             android:textSize="10dp"
             android:background="@drawable/rounded_signup"
@@ -306,6 +359,17 @@
         <!--            app:layout_constraintEnd_toEndOf="parent"-->
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toBottomOf="@+id/monthly_billing_activity_bar2" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#666"
+            android:text="You don't have any monthly statements yet."
+            android:id="@+id/no_monthly_payment_recept"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_monthly_payment_receipt"/>
         <RelativeLayout
             android:id="@+id/relative_layout"
             android:layout_width="match_parent"
@@ -314,7 +378,7 @@
             android:background="#282827"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_monthly_payment_receipt">
+            app:layout_constraintTop_toBottomOf="@id/no_monthly_payment_recept">
 
             <ImageView
                 android:id="@+id/help_lagbe_1"
@@ -555,7 +619,7 @@
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginLeft="130dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/ecab_new_logo" />
         </RelativeLayout>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dheo.dheodeliverymerchantapp.modelClassAvaiablePickupSlot.AvailablePickupSlot;
@@ -30,6 +31,7 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
     private ProgressBar progressBar;
     Helper helper = new Helper(this);
     private int client_id;
+    private TextView multiple_text;
 
 
     @Override
@@ -41,9 +43,11 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
         pickup_slot_view = (RecyclerView) findViewById(R.id.multiple_address_slot) ;
         back_to_dashboard = (Button) findViewById(R.id.back_to_dashboard);
         progressBar = findViewById(R.id.multiple_address_slot_progress);
+        multiple_text = findViewById(R.id.multiple_text);
         pickup_slot_view.setHasFixedSize(true);
         pickup_slot_view.setLayoutManager(new LinearLayoutManager(this));
         back_to_dashboard.setVisibility(View.INVISIBLE);
+        multiple_text.setVisibility(View.GONE);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             address_id_get = extras.getString("address_id");
@@ -64,6 +68,7 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
                         AvailablePickupSlot s = response.body();
                         client_pickup_slots = s.getM();
                         back_to_dashboard.setVisibility(View.VISIBLE);
+                        multiple_text.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
 
                     } catch (NullPointerException e) {

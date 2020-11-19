@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dheo.dheodeliverymerchantapp.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPaymentPerfInfo.ClientPaymentPerfInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
@@ -33,7 +34,7 @@ import retrofit2.Response;
 public class ClientDashboardBillingActivity extends AppCompatActivity {
     private String name_client,photourl, pro_pic_url;
     private int balance_client, client_id, page_number = 1, remaining_receipt;
-    private TextView client_name_billing, total_balance_billing,payment_pref, valued_date,  phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
+    private TextView client_name_billing, total_balance_billing,see_free_delivery,no_monthly_payment_recept,no_latest_activity,no_daily_payment_recept,payment_pref, valued_date,  phone_call, facebook, my_delivery,dashboard_billing,settings, user_manual,log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
     private ImageView profile_photo_billing;
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
     private RecyclerView latest_activity, payment_receipt_pdf, monthly_statement_pdf;
@@ -74,6 +75,10 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         the_user_manual = findViewById(R.id.billing_The_manual);
         meet_the_team = findViewById(R.id.billing_meet_team);
         privacy_policy = findViewById(R.id.billing_policy);
+        no_latest_activity = findViewById(R.id.no_latest_activity);
+        no_daily_payment_recept = findViewById(R.id.no_daily_payment_recept);
+        no_monthly_payment_recept = findViewById(R.id.no_monthly_payment_recept);
+        see_free_delivery = findViewById(R.id.see_free_delivery);
 
         layoutManager = new LinearLayoutManager(this);
         latest_activity.setLayoutManager(layoutManager);
@@ -83,30 +88,51 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         monthly_statement_pdf.setLayoutManager(layoutManager2);
         see_older.setVisibility(View.INVISIBLE);
         see_newer.setVisibility(View.INVISIBLE);
+        no_latest_activity.setVisibility(View.GONE);
+        no_daily_payment_recept.setVisibility(View.GONE);
+        no_monthly_payment_recept.setVisibility(View.GONE);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            name_client = extras.getString("name_c");
-            balance_client = extras.getInt("balance_c");
-            pro_pic_url = extras.getString("url");
-        }
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            name_client = extras.getString("name_c");
+//            balance_client = extras.getInt("balance_c");
+//            pro_pic_url = extras.getString("url");
+//        }
 
-        try {
-            if (helper.getPhoto_Url().equals("default.svg")) {
-                profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
-            } else {
-                profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
-                photourl = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + pro_pic_url;
-                Picasso.get().load(photourl).into(profile_photo_billing);
-            }
-        } catch (SQLException e) {
-        }
 
-        client_name_billing.setText(name_client);
-        total_balance_billing.setText(balance_client + "TK");
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Billing Dashboard");
         client_id = helper.getClientId();
+
+        Call<ClientBasicInfo> call1 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_basic_info(client_id);
+        call1.enqueue(new Callback<ClientBasicInfo>() {
+            @Override
+            public void onResponse(Call<ClientBasicInfo> call, Response<ClientBasicInfo> response) {
+                final ClientBasicInfo s = response.body();
+                if (s.getE() == 0) {
+                    client_name_billing.setText(s.getM().getName());
+                    total_balance_billing.setText(s.getM().getBalance() + "TK");
+                    try {
+                        if (helper.getPhoto_Url().equals("default.svg")) {
+                            profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
+                        } else {
+                            profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
+                            photourl = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
+                            Picasso.get().load(photourl).into(profile_photo_billing);
+                        }
+                    } catch (NullPointerException e) {
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClientBasicInfo> call, Throwable t) {
+
+            }
+        });
 
         loadPaymentReceipt();
 
@@ -237,18 +263,19 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                     }catch (NullPointerException e) {
                         e.printStackTrace();
                         activity_progressbar.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                        no_latest_activity.setVisibility(View.VISIBLE);
+                        //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
                 adapter = new AdapterClassLatestPaymentActivity(latest_payment_activity,getApplicationContext(), name_client);
                 latest_activity.setAdapter(adapter);
+                activity_progressbar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<LatestAccountActivity> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
-                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(i);
+                no_latest_activity.setVisibility(View.VISIBLE);
+//
             }
         });
 
@@ -266,17 +293,21 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                             monthly_billing_pdf = clientMonthlyStatementDate.getM();
                         }catch (NullPointerException e) {
                             e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                            no_monthly_payment_recept.setVisibility(View.VISIBLE);
+                            //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                         }
                     }
-                }catch (NullPointerException | IndexOutOfBoundsException e){}
+                }catch (NullPointerException | IndexOutOfBoundsException e){
+                    no_monthly_payment_recept.setVisibility(View.VISIBLE);
+                }
 
                 monthly_billing_adapter = new AdapterClassMonthlyBillingPDF(monthly_billing_pdf, getApplicationContext(), client_id);
                 monthly_statement_pdf.setAdapter(monthly_billing_adapter);
             }
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "wrong here!", Toast.LENGTH_LONG, true).show();
+                no_monthly_payment_recept.setVisibility(View.VISIBLE);
+                //Toasty.error(getApplicationContext(), "wrong here!", Toast.LENGTH_LONG, true).show();
 //                Intent i = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
 //                startActivity(i);
             }
@@ -382,6 +413,16 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        see_free_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://rocket.dheo.com/notice";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
     }
 
     public void loadPaymentReceipt(){
@@ -413,18 +454,22 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                             if(pdf_receipt.get(8).getRecordsRemaining() == 0){
                                 see_older.setVisibility(View.INVISIBLE);
                             }
+                            if(pdf_receipt.size()<2){
+                                no_daily_payment_recept.setVisibility(View.VISIBLE);
+                            }
                             //Toast.makeText(getApplicationContext(), remaining_receipt+"", Toast.LENGTH_LONG).show();
                         }catch (IndexOutOfBoundsException e){
-                            Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
                             see_older.setVisibility(View.GONE);
+                            no_daily_payment_recept.setVisibility(View.VISIBLE);
                         }
                     }catch (NullPointerException | IndexOutOfBoundsException e) {
                         e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "no information", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "no information", Toast.LENGTH_LONG).show();
                     see_older.setVisibility(View.GONE);
                 }
                 adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext(), client_id);
@@ -433,9 +478,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ClientPaymentReceiptPDF> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
-                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(i);
+                //no_daily_payment_recept.setVisibility(View.VISIBLE);
             }
         });
     }

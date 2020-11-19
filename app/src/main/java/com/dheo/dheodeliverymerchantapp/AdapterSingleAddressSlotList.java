@@ -139,7 +139,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
             @Override
             public void onClick(View view) {
                 //Toasty.success(context, holder.id.getText()+"", Toast.LENGTH_LONG, true).show();
-                Toasty.success(context, "done", Toast.LENGTH_LONG, true).show();
+                //Toasty.success(context, "done", Toast.LENGTH_LONG, true).show();
                 holder.book.setVisibility(View.INVISIBLE);
                 holder.booked.setVisibility(View.VISIBLE);
                 holder.booked.setText("Booked! ❎");
@@ -157,13 +157,13 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
 
                             }
                         }catch (NullPointerException e){
-                            Toasty.success(context, "Try again", Toast.LENGTH_LONG, true).show();
+                            //Toasty.success(context, "Try Again", Toast.LENGTH_LONG, true).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toasty.success(context, "server not connected", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(context, "The server failed to response!", Toast.LENGTH_LONG, true).show();
                     }
                 });
 
@@ -172,7 +172,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         holder.booked.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Toasty.success(context, "Cancel done", Toast.LENGTH_LONG, true).show();
+                 //Toasty.success(context, "Cancel done", Toast.LENGTH_LONG, true).show();
                  holder.booked.setVisibility(View.INVISIBLE);
                  holder.book.setVisibility(View.VISIBLE);
                  holder.book.setText("Book");
@@ -236,20 +236,22 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(context, s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog.dismiss();
-                                    Toasty.error(context, "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(context, "Successfully Updated", Toast.LENGTH_LONG, true).show();
 
 
                                 } else {
-                                    Toasty.error(context, "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    dialog.dismiss();
+                                    Toasty.error(context, "First Book A Pickup Slot.", Toast.LENGTH_LONG, true).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-                                Toasty.error(context, "try Again!", Toast.LENGTH_LONG, true).show();
+                                dialog.dismiss();
+                                Toasty.error(context, "First Book A Pickup Slot.", Toast.LENGTH_LONG, true).show();
                             }
                         });
                     }
@@ -324,20 +326,20 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         start+=6;
         if (start > 12) {
             start = start - 12;
-            holder.time.setText( " (" + start + ":00 pm ");
+            holder.time.setText(  start + ":00 pm ");
         } else if (start == 12) {
-            holder.time.setText( " (" + start + ":00 pm ");
+            holder.time.setText(  start + ":00 pm ");
         } else {
-            holder.time.setText( " (" + start + ":00 am ");
+            holder.time.setText(   start + ":00 am ");
         }
         end+=6;
         if (end > 12) {
             end = end - 12;
-            holder.time.append(" -  " + end + ":00 pm)");
+            holder.time.append(" -  " + end + ":00 pm");
         } else if (end == 12) {
-            holder.time.append(" -  " + end + ":00 pm)");
+            holder.time.append(" -  " + end + ":00 pm");
         } else {
-            holder.time.append(" - " + end + ":00 am)");
+            holder.time.append(" - " + end + ":00 am");
         }
 
 
