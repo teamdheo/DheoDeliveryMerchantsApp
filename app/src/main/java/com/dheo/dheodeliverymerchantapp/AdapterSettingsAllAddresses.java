@@ -74,14 +74,14 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                         Toast.makeText(mycontex, s, Toast.LENGTH_LONG).show();
                         if (s.equals("{\"e\":0}")){
                            // progressDialog.dismiss();
-                            Toasty.error(mycontex, "successfully removed", Toast.LENGTH_LONG, true).show();
+                            Toasty.success(mycontex, "Successfully Removed", Toast.LENGTH_LONG, true).show();
                             Intent intent = new Intent(mycontex, SettingsActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             mycontex.startActivity(intent);
 
                         }
                         else{
-                            Toasty.error(mycontex, "server failed to response", Toast.LENGTH_LONG, true).show();
+                            Toasty.error(mycontex, "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                         }
                     }
 
@@ -123,14 +123,14 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                                 Toast.makeText(mycontex, s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")){
                                     //progressDialog.dismiss();
-                                    Toasty.error(mycontex, "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(mycontex, "Successfully Updated", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(mycontex, SettingsActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     mycontex.startActivity(intent);
 
                                 }
                                 else{
-                                    Toasty.error(mycontex, "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(mycontex, "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                                 }
                             }
 
@@ -174,14 +174,14 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                                 Toast.makeText(mycontex, s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")){
                                    // progressDialog.dismiss();
-                                    Toasty.error(mycontex, "successfully updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(mycontex, "Successfully Updated", Toast.LENGTH_LONG, true).show();
                                     holder.save_address.setVisibility(View.INVISIBLE);
 //                                    Intent intent = new Intent(mycontex, SettingsActivity.class);
 //                                    mycontex.startActivity(intent);
 
                                 }
                                 else{
-                                    Toasty.error(mycontex, "server failed to response", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(mycontex, "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                                 }
                             }
 

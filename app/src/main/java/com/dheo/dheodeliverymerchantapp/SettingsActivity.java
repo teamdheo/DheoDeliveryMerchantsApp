@@ -923,8 +923,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
                 editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
+                editor.putBoolean("saveLogin", false);
+                editor.commit();
                 Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(intent);
             }

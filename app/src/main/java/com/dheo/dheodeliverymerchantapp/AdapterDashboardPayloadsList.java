@@ -37,14 +37,15 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
     Context payload_contex;
     EditText edit_phone, edit_amount;
     Button save_button, cancel_button, cancel_confirm, cancel_cancel;
-    private String client_name;
+    private String client_name, pro_pic_url;
     private int client_id;
 
-    public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex, String client_name, int client_id) {
+    public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex, String client_name, int client_id, String pro_pic_url) {
         this.dashboard_payload = dashboard_payload;
         this.payload_contex = payload_contex;
         this.client_name = client_name;
         this.client_id = client_id;
+        this.pro_pic_url = pro_pic_url;
     }
 
     @NonNull
@@ -223,14 +224,14 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                                                 try {
                                                                     if (response.body().string().equals("{\"e\":0}")){
-                                                                        Toasty.success(payload_contex, "Data updated", Toast.LENGTH_LONG, true).show();
+                                                                        Toasty.success(payload_contex, "Data Updated", Toast.LENGTH_LONG, true).show();
                                                                         dialog.dismiss();
                                                                         Intent intent = new Intent(payload_contex, ClientDashboardActivity.class);
                                                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                         payload_contex.startActivity(intent);
                                                                     }
                                                                     else{
-                                                                        Toasty.error(payload_contex, "failed", Toast.LENGTH_LONG, true).show();
+                                                                        Toasty.error(payload_contex, "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                                                                         dialog.dismiss();
                                                                     }
                                                                 } catch (IOException e) {
@@ -240,12 +241,12 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
 
                                                             @Override
                                                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                                Toasty.error(payload_contex, "Try again", Toast.LENGTH_LONG, true).show();
+                                                                Toasty.error(payload_contex, "Try Again", Toast.LENGTH_LONG, true).show();
                                                             }
                                                         });
                                                     }
                                                     else{
-                                                        Toasty.error(payload_contex, "fill properly", Toast.LENGTH_LONG, true).show();
+                                                        Toasty.error(payload_contex, "Fill Properly!", Toast.LENGTH_LONG, true).show();
                                                     }
                                                     dialog.dismiss();
                                                 }
@@ -307,14 +308,14 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                             try {
                                                 if (response.body().string().equals("{\"e\":0}")){
-                                                    Toasty.success(payload_contex, "Cancel done", Toast.LENGTH_LONG, true).show();
+                                                    Toasty.success(payload_contex, "Cancel Done", Toast.LENGTH_LONG, true).show();
                                                     dia.dismiss();
                                                     Intent intent = new Intent(payload_contex, ClientDashboardActivity.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     payload_contex.startActivity(intent);
                                                 }
                                                 else{
-                                                    Toasty.error(payload_contex, "failed", Toast.LENGTH_LONG, true).show();
+                                                    Toasty.error(payload_contex, "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                                                     dia.dismiss();
                                                 }
                                             } catch (IOException e) {
@@ -324,7 +325,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
 
                                         @Override
                                         public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                            Toasty.error(payload_contex, "Try again!", Toast.LENGTH_LONG, true).show();
+                                            Toasty.error(payload_contex, "Try Again!", Toast.LENGTH_LONG, true).show();
                                         }
                                     });
                                 }
@@ -350,6 +351,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                     intent.putExtra("short_id", dashboard_payload.get(position).getShortId());
                     intent.putExtra("payload_id", dashboard_payload.get(position).getPayloadId());
                     intent.putExtra("client_name", client_name);
+                    intent.putExtra("image_url", pro_pic_url);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     payload_contex.startActivity(intent);
                 }

@@ -61,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/phone"
+                android:inputType="number"
                 android:hint="eg: 01916210901"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"/>

@@ -21,7 +21,6 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.dheo.dheodeliverymerchantapp.OrderTrackerActivity"></activity>
         <activity android:name="com.dheo.dheodeliverymerchantapp.SettingsActivity" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.AllPayloadsActivity" />
         <activity android:name="com.dheo.dheodeliverymerchantapp.ListActivityMultiplePickupAddressSlots" />
         <activity android:name="com.dheo.dheodeliverymerchantapp.ClientDashboardBillingActivity" />
         <activity android:name="com.dheo.dheodeliverymerchantapp.SingleAddressPickupSlotActivity" />

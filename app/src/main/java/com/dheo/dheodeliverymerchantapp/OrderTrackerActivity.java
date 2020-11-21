@@ -39,7 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderTrackerActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private String short_id, client_name, photo_url,label_image_url;
+    private String short_id, client_name, photo_url,label_image_url,pro_pic_url;
     private Button call_courier;
     private int payload_id,day;
     private TextView track_client_name,order_no,friday_note, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,track_courier, customer_name, customer_phone, courier_name, courier_phone,review,name_rating,customer_review,phone_call, facebook;
@@ -94,6 +94,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
             short_id = extras.getString("short_id");
             payload_id = extras.getInt("payload_id");
             client_name = extras.getString("client_name");
+            pro_pic_url = extras.getString("image_url");
         }
         review.setVisibility(View.GONE);
         customer_review_sec.setVisibility(View.GONE);
@@ -110,10 +111,10 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
                 track_client_image = (ImageView) findViewById(R.id.tracker_profile_photo);
             } else {
                 track_client_image = (ImageView) findViewById(R.id.tracker_profile_photo);
-                photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + helper.getPhoto_Url();
+                photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + pro_pic_url;
                 Picasso.get().load(photo_url).into(track_client_image);
             }
-        } catch (SQLException e) {
+        } catch (NullPointerException e) {
 
         }
         try {

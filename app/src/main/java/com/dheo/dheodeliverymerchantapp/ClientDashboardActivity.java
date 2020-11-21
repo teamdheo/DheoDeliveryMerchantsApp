@@ -2,6 +2,8 @@ package com.dheo.dheodeliverymerchantapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -18,6 +20,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.format.DateUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -85,6 +88,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private String currentImagePath, client_profile_pic;
     File imageFile;
     private int session = 0;
+    private boolean saveLogin;
     private String phone;
     private String photoUrl, scooter_url, pro_pic_url;
     boolean doubleBackToExitPressedOnce = false;
@@ -714,8 +718,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             public void onClick(View view) {
                 sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
                 editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
+                editor.putBoolean("saveLogin", false);
+                editor.commit();
+//                editor.clear();
+//                editor.apply();
                 Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(intent);
             }
@@ -861,7 +867,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     //Toasty.error(getApplicationContext(), "You have no payload!", Toast.LENGTH_LONG, true).show();
                     search_layout.setVisibility(View.GONE);
                 }
-                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name,clientId);
+                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name,clientId,pro_pic_url);
                 dashboard_payloads.setAdapter(adapter_payload);
             }
 
@@ -1054,6 +1060,15 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             if (s.equals("{\"e\":0}")) {
                                 //dialog_text.dismiss();
                                 Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
+                                //clearAppData();
+                                File cacheDir = getApplicationContext().getCacheDir();
+
+                                File[] files = cacheDir.listFiles();
+
+                                if (files != null) {
+                                    for (File file : files)
+                                        file.delete();
+                                }
                                 Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                                 startActivity(intent);
 
@@ -1105,6 +1120,15 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     if (s.equals("{\"e\":0}")) {
                         //dialog_text.dismiss();
                         Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
+                        //clearAppData();
+                        File cacheDir = getApplicationContext().getCacheDir();
+
+                        File[] files = cacheDir.listFiles();
+
+                        if (files != null) {
+                            for (File file : files)
+                                file.delete();
+                        }
                         Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                         startActivity(intent);
 
@@ -1137,4 +1161,21 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         }, 2000);
     }
+
+//    public void clearAppData() {
+//        try {
+//            // clearing app data
+//            if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
+//                ((ActivityManager)getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData(); // note: it has a return value!
+//            } else {
+//                String packageName = getApplicationContext().getPackageName();
+//                Runtime runtime = Runtime.getRuntime();
+//                runtime.exec("pm clear "+packageName);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }

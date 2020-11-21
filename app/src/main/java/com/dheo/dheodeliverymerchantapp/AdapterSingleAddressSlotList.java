@@ -163,7 +163,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toasty.error(context, "The server failed to response!", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(context, "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                     }
                 });
 
@@ -195,7 +195,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
 
                      @Override
                      public void onFailure(Call<ResponseBody> call, Throwable t) {
-                         Toasty.success(context, "server not connected", Toast.LENGTH_LONG, true).show();
+                         Toasty.success(context, "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                      }
                  });
              }

@@ -15,7 +15,7 @@
             android:id="@+id/cover"
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:src="@drawable/reset_cover"
+            android:src="@drawable/cover_package_logo"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,16 +41,21 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cover" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.650" />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/upload_pro_pic"
             android:layout_marginTop="290dp"
-            android:src="@drawable/call_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.660"
-            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/camera"
+            app:layout_constraintEnd_toEndOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
