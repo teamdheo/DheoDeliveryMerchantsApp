@@ -107,7 +107,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         }
         //Toast.makeText(getApplicationContext(), payload_id+"", Toast.LENGTH_LONG).show();
         try {
-            if (helper.getPhoto_Url().equals("default.svg")) {
+            if (pro_pic_url.equals("default.svg")) {
                 track_client_image = (ImageView) findViewById(R.id.tracker_profile_photo);
             } else {
                 track_client_image = (ImageView) findViewById(R.id.tracker_profile_photo);

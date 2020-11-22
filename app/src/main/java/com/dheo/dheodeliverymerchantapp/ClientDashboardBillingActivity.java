@@ -11,7 +11,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +26,11 @@ import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.LatestAc
 import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.M;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,10 +47,12 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private List<com.dheo.dheodeliverymerchantapp.ModelClassClientMonthlyStatementDate.M> monthly_billing_pdf;
     private RecyclerView.Adapter adapter, monthly_billing_adapter;
     private ProgressBar activity_progressbar, daily_receipt_progressbar, monthly_received_progressbar;
-    private Button see_older, see_newer;
+    private Button see_older, see_newer,save_client_payment;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
+    LinearLayout payment_by_client;
+    private EditText payable_amount,transaction_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,10 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         no_daily_payment_recept = findViewById(R.id.no_daily_payment_recept);
         no_monthly_payment_recept = findViewById(R.id.no_monthly_payment_recept);
         see_free_delivery = findViewById(R.id.see_free_delivery);
+        payment_by_client = findViewById(R.id.payment_by_client);
+        payable_amount = findViewById(R.id.payable_amount);
+        transaction_id = findViewById(R.id.transaction_id);
+        save_client_payment = findViewById(R.id.save_client_payment);
 
         layoutManager = new LinearLayoutManager(this);
         latest_activity.setLayoutManager(layoutManager);
@@ -91,6 +101,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         no_latest_activity.setVisibility(View.GONE);
         no_daily_payment_recept.setVisibility(View.GONE);
         no_monthly_payment_recept.setVisibility(View.GONE);
+        payment_by_client.setVisibility(View.GONE);
 
 //        Bundle extras = getIntent().getExtras();
 //        if (extras != null) {
@@ -115,8 +126,21 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 if (s.getE() == 0) {
                     client_name_billing.setText(s.getM().getName());
                     total_balance_billing.setText(s.getM().getBalance() + "TK");
+                    balance_client = s.getM().getBalance();
+                    pro_pic_url = s.getM().getProPic();
+                    if(balance_client < 0){
+                        int b = balance_client * -1;
+                        String a = String.valueOf(b);
+                        payable_amount.setText(a);
+                    }
+
                     try {
-                        if (helper.getPhoto_Url().equals("default.svg")) {
+                        if(balance_client == 0){
+                            payment_pref.setText("If some entries are not here, it means they are being processed by our finance team (usually within 1 working day).");
+                        }
+                    }catch (NullPointerException e){}
+                    try {
+                        if (s.getM().getProPic().equals("default.svg")) {
                             profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
                         } else {
                             profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
@@ -224,15 +248,11 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         try{
                             if(s.getM().getNegativeBalance()){
                                 payment_pref.setText("Please pay your balance through bKash. Our bkash number is 01734440871 (merchant account). Please use the 'payment option' and put " +helper.getPhone_number()+ " as the reference number. ");
+                                payment_by_client.setVisibility(View.VISIBLE);
                             }
                         }catch (NullPointerException e){
 
                         }
-                        try {
-                            if(balance_client == 0){
-                                payment_pref.setText("If some entries are not here, it means they are being processed by our finance team (usually within 1 working day).");
-                            }
-                        }catch (NullPointerException e){}
                     }
                 }catch (NullPointerException e){
 
@@ -267,7 +287,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 }
-                adapter = new AdapterClassLatestPaymentActivity(latest_payment_activity,getApplicationContext(), name_client);
+                adapter = new AdapterClassLatestPaymentActivity(latest_payment_activity,getApplicationContext(), name_client,pro_pic_url);
                 latest_activity.setAdapter(adapter);
                 activity_progressbar.setVisibility(View.GONE);
             }
@@ -310,6 +330,41 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 //Toasty.error(getApplicationContext(), "wrong here!", Toast.LENGTH_LONG, true).show();
 //                Intent i = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
 //                startActivity(i);
+            }
+        });
+
+        save_client_payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<ResponseBody> payment_call = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .client_bill_payment(client_id,payable_amount.getText().toString(),transaction_id.getText().toString());
+                payment_call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        String s = null;
+                        try {
+                            s = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (s.equals("{\"e\":0}")){
+                            Toasty.success(getApplicationContext(), "Thank You", Toast.LENGTH_LONG, true).show();
+                            Intent i = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                            startActivity(i);
+
+                        }
+                        else{
+                            Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
             }
         });
         phone_call.setOnClickListener(new View.OnClickListener() {

@@ -189,7 +189,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
 
                              }
                          }catch (NullPointerException e){
-                             Toasty.success(context, "Try again", Toast.LENGTH_LONG, true).show();
+                             Toasty.success(context, "Try Again", Toast.LENGTH_LONG, true).show();
                          }
                      }
 
@@ -239,7 +239,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
                                 //Toast.makeText(context, s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog.dismiss();
-                                    Toasty.success(context, "Successfully Updated", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(context, "Note Saved", Toast.LENGTH_LONG, true).show();
 
 
                                 } else {

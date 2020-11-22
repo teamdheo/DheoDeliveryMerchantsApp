@@ -171,7 +171,7 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                Toast.makeText(mycontex, s, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(mycontex, s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")){
                                    // progressDialog.dismiss();
                                     Toasty.success(mycontex, "Successfully Updated", Toast.LENGTH_LONG, true).show();

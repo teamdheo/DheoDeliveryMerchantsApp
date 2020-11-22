@@ -178,7 +178,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         go_back = findViewById(R.id.go_back);
         map_layout = findViewById(R.id.map_layout);
         cover = findViewById(R.id.cover);
-        upload_pro_pic = findViewById(R.id.upload_pro_pic);
+        //upload_pro_pic = findViewById(R.id.upload_pro_pic);
         blog_photo = findViewById(R.id.blog_photo);
         blog_title = findViewById(R.id.blog_title);
         blog_see_more = findViewById(R.id.blog_see_more);
@@ -766,60 +766,60 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
 
         //Toasty.success(getApplicationContext(), name+"", Toast.LENGTH_LONG, true).show();
-        upload_pro_pic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
-                builder.setCancelable(false);
-                final View customLayout = getLayoutInflater().inflate(R.layout.national_id_upload_dialog, null);
-                builder.setView(customLayout);
-                TextView take_a_photo = customLayout.findViewById(R.id.take_a_photo);
-                TextView gallery_upload = customLayout.findViewById(R.id.gallery_upload);
-                Button cancel_btn = customLayout.findViewById(R.id.cancel_btn);
-                final AlertDialog dialog = builder.create();
-                dialog.show();
-                cancel_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                gallery_upload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        try {
-                            if (ActivityCompat.checkSelfPermission(ClientDashboardActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(ClientDashboardActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, SELECT_PICTURE);
-                                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto, SELECT_PICTURE);
-                            } else {
-                                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto, SELECT_PICTURE);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                take_a_photo.setOnClickListener(new View.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public void onClick(View view) {
-                        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                        {
-                            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                        }
-                        else
-                        {
-                            captureImage(view);
-                        }
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });
-
+//        upload_pro_pic.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
+//                builder.setCancelable(false);
+//                final View customLayout = getLayoutInflater().inflate(R.layout.national_id_upload_dialog, null);
+//                builder.setView(customLayout);
+//                TextView take_a_photo = customLayout.findViewById(R.id.take_a_photo);
+//                TextView gallery_upload = customLayout.findViewById(R.id.gallery_upload);
+//                Button cancel_btn = customLayout.findViewById(R.id.cancel_btn);
+//                final AlertDialog dialog = builder.create();
+//                dialog.show();
+//                cancel_btn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                gallery_upload.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        try {
+//                            if (ActivityCompat.checkSelfPermission(ClientDashboardActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                                ActivityCompat.requestPermissions(ClientDashboardActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, SELECT_PICTURE);
+//                                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                                startActivityForResult(pickPhoto, SELECT_PICTURE);
+//                            } else {
+//                                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                                startActivityForResult(pickPhoto, SELECT_PICTURE);
+//                            }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                });
+//                take_a_photo.setOnClickListener(new View.OnClickListener() {
+//                    @RequiresApi(api = Build.VERSION_CODES.M)
+//                    @Override
+//                    public void onClick(View view) {
+//                        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+//                        {
+//                            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+//                        }
+//                        else
+//                        {
+//                            captureImage(view);
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                });
+//            }
+//        });
+//
     }
 
     public void loadDashboardPayload() {
@@ -938,213 +938,213 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         });
 
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE)
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    imageFile = null;
-                    try {
-                        imageFile = createImageFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (imageFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(this,
-                                "com.dheo.dheodeliverymerchantapp.fileprovider",
-                                imageFile);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(intent, CAMERA_REQUEST);
-                    }
-                }
-            }
-            else
-            {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    public void captureImage(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            imageFile = null;
-            try {
-                imageFile = createImageFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (imageFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.dheo.dheodeliverymerchantapp.fileprovider",
-                        imageFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//                intent.putExtra("image_path",currentImagePath);
-                startActivityForResult(intent, CAMERA_REQUEST);
-            }
-        }
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentImagePath = image.getAbsolutePath();
-        return image;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            if (selectedImage != null) {
-                Cursor cursor_image = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                if (cursor_image != null) {
-                    cursor_image.moveToFirst();
-
-                    int columnIndex = cursor_image.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor_image.getString(columnIndex);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-                    File file = new File(picturePath);
-                    String imageName = file.getName();
-//                    show_upload_image.setText(imageName);
-//                    show_upload_image.setTextSize(12);
-
-                    float aspectRatio = bitmap.getWidth() /
-                            (float) bitmap.getHeight();
-                    int width = 500;
-                    int height = Math.round(width / aspectRatio);
-                    bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] imageBytes = baos.toByteArray();
-                    //todo out of memory exception
-                    bitmap.recycle();
-                    client_profile_pic = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                    cursor_image.close();
-                    Call<ResponseBody> bodyCall = RetrofitClient
-                            .getInstance()
-                            .getApi()
-                            .client_profile_photo_upload(clientId, client_profile_pic);
-                    bodyCall.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            String s = null;
-                            try {
-                                s = response.body().string();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                            if (s.equals("{\"e\":0}")) {
-                                //dialog_text.dismiss();
-                                Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
-                                //clearAppData();
-                                File cacheDir = getApplicationContext().getCacheDir();
-
-                                File[] files = cacheDir.listFiles();
-
-                                if (files != null) {
-                                    for (File file : files)
-                                        file.delete();
-                                }
-                                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                                startActivity(intent);
-
-                            } else {
-                                Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            //Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
-                        }
-                    });
-                }
-            }
-
-        } else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
-            //imageView.setImageBitmap(bitmap);
-            File file = new File(currentImagePath);
-            String imageName = file.getName();
-//            show_upload_image.setText(imageName);
-//            show_upload_image.setTextSize(10);
-            float aspectRatio = bitmap.getWidth() /
-                    (float) bitmap.getHeight();
-            int width = 500;
-            int height = Math.round(width / aspectRatio);
-            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] imageBytes = baos.toByteArray();
-            //todo out of memory exception
-            bitmap.recycle();
-            client_profile_pic = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-            Call<ResponseBody> bodyCall = RetrofitClient
-                    .getInstance()
-                    .getApi()
-                    .client_profile_photo_upload(clientId, client_profile_pic);
-            bodyCall.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    String s = null;
-                    try {
-                        s = response.body().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                    if (s.equals("{\"e\":0}")) {
-                        //dialog_text.dismiss();
-                        Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
-                        //clearAppData();
-                        File cacheDir = getApplicationContext().getCacheDir();
-
-                        File[] files = cacheDir.listFiles();
-
-                        if (files != null) {
-                            for (File file : files)
-                                file.delete();
-                        }
-                        Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                        startActivity(intent);
-
-                    } else {
-                        Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    //Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
-                }
-            });
-
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+//    {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == MY_CAMERA_PERMISSION_CODE)
+//        {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//            {
+//                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+//
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    imageFile = null;
+//                    try {
+//                        imageFile = createImageFile();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    if (imageFile != null) {
+//                        Uri photoURI = FileProvider.getUriForFile(this,
+//                                "com.dheo.dheodeliverymerchantapp.fileprovider",
+//                                imageFile);
+//                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                        startActivityForResult(intent, CAMERA_REQUEST);
+//                    }
+//                }
+//            }
+//            else
+//            {
+//                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    }
+//
+//    public void captureImage(View view) {
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            imageFile = null;
+//            try {
+//                imageFile = createImageFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (imageFile != null) {
+//                Uri photoURI = FileProvider.getUriForFile(this,
+//                        "com.dheo.dheodeliverymerchantapp.fileprovider",
+//                        imageFile);
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+////                intent.putExtra("image_path",currentImagePath);
+//                startActivityForResult(intent, CAMERA_REQUEST);
+//            }
+//        }
+//    }
+//
+//    private File createImageFile() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//
+//        // Save a file: path for use with ACTION_VIEW intents
+//        currentImagePath = image.getAbsolutePath();
+//        return image;
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && data != null) {
+//            Uri selectedImage = data.getData();
+//            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//            if (selectedImage != null) {
+//                Cursor cursor_image = getContentResolver().query(selectedImage,
+//                        filePathColumn, null, null, null);
+//                if (cursor_image != null) {
+//                    cursor_image.moveToFirst();
+//
+//                    int columnIndex = cursor_image.getColumnIndex(filePathColumn[0]);
+//                    String picturePath = cursor_image.getString(columnIndex);
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+//                    File file = new File(picturePath);
+//                    String imageName = file.getName();
+////                    show_upload_image.setText(imageName);
+////                    show_upload_image.setTextSize(12);
+//
+//                    float aspectRatio = bitmap.getWidth() /
+//                            (float) bitmap.getHeight();
+//                    int width = 500;
+//                    int height = Math.round(width / aspectRatio);
+//                    bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//                    byte[] imageBytes = baos.toByteArray();
+//                    //todo out of memory exception
+//                    bitmap.recycle();
+//                    client_profile_pic = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//                    cursor_image.close();
+//                    Call<ResponseBody> bodyCall = RetrofitClient
+//                            .getInstance()
+//                            .getApi()
+//                            .client_profile_photo_upload(clientId, client_profile_pic);
+//                    bodyCall.enqueue(new Callback<ResponseBody>() {
+//                        @Override
+//                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                            String s = null;
+//                            try {
+//                                s = response.body().string();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                            //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+//                            if (s.equals("{\"e\":0}")) {
+//                                //dialog_text.dismiss();
+//                                Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
+//                                //clearAppData();
+//                                File cacheDir = getApplicationContext().getCacheDir();
+//
+//                                File[] files = cacheDir.listFiles();
+//
+//                                if (files != null) {
+//                                    for (File file : files)
+//                                        file.delete();
+//                                }
+//                                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+//                                startActivity(intent);
+//
+//                            } else {
+//                                Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                            //Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+//                        }
+//                    });
+//                }
+//            }
+//
+//        } else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+//            Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
+//            //imageView.setImageBitmap(bitmap);
+//            File file = new File(currentImagePath);
+//            String imageName = file.getName();
+////            show_upload_image.setText(imageName);
+////            show_upload_image.setTextSize(10);
+//            float aspectRatio = bitmap.getWidth() /
+//                    (float) bitmap.getHeight();
+//            int width = 500;
+//            int height = Math.round(width / aspectRatio);
+//            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true); //end
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//            byte[] imageBytes = baos.toByteArray();
+//            //todo out of memory exception
+//            bitmap.recycle();
+//            client_profile_pic = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+//            Call<ResponseBody> bodyCall = RetrofitClient
+//                    .getInstance()
+//                    .getApi()
+//                    .client_profile_photo_upload(clientId, client_profile_pic);
+//            bodyCall.enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    String s = null;
+//                    try {
+//                        s = response.body().string();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+//                    if (s.equals("{\"e\":0}")) {
+//                        //dialog_text.dismiss();
+//                        Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
+//                        //clearAppData();
+//                        File cacheDir = getApplicationContext().getCacheDir();
+//
+//                        File[] files = cacheDir.listFiles();
+//
+//                        if (files != null) {
+//                            for (File file : files)
+//                                file.delete();
+//                        }
+//                        Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+//                        startActivity(intent);
+//
+//                    } else {
+//                        Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    //Toasty.error(getApplicationContext(), "server failed to response", Toast.LENGTH_LONG, true).show();
+//                }
+//            });
+//
+//        }
+//    }
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {

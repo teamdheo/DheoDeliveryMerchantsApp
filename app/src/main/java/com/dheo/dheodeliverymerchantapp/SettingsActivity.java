@@ -195,7 +195,7 @@ public class SettingsActivity extends AppCompatActivity {
                     try {
                         setting_name.setText(s.getM().getName());
                         try {
-                            if (helper.getPhoto_Url().equals("default.svg")) {
+                            if (s.getM().getProPic().equals("default.svg")) {
                                 setting_dp = findViewById(R.id.setting_profile_photo);
                             } else {
                                 setting_dp = findViewById(R.id.setting_profile_photo);

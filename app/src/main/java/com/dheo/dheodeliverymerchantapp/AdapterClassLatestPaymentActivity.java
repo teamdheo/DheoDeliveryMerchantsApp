@@ -18,13 +18,14 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
     private List<M> latest_account_activity;
     Context activity_context;
     Helper helper;
-    private String client_name;
+    private String client_name,pro_pic_url;
     private int extensionRemoved;
 
-    public AdapterClassLatestPaymentActivity(List<M> latest_account_activity, Context activity_context, String client_name) {
+    public AdapterClassLatestPaymentActivity(List<M> latest_account_activity, Context activity_context, String client_name, String pro_pic_url) {
         this.latest_account_activity = latest_account_activity;
         this.activity_context = activity_context;
         this.client_name = client_name;
+        this.pro_pic_url = pro_pic_url;
         Helper helper = new Helper(activity_context);
     }
 
@@ -85,6 +86,7 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
                         intent.putExtra("short_id", latest_account_activity.get(position).getShortId());
                         intent.putExtra("payload_id",extensionRemoved);
                         intent.putExtra("client_name", client_name);
+                        intent.putExtra("image_url", pro_pic_url);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity_context.startActivity(intent);
                     }

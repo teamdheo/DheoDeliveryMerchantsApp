@@ -123,6 +123,76 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/payment_pref" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="#fff"
+            android:id="@+id/payment_by_client"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/state_line2">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rounded_edittext1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp"
+                    android:textColor="#000000"
+                    android:text="Please pay your bill through bKash. Our bkash number is 01734440871 (merchant account). Please use the 'payment option' and put in 01916210901 as the reference number."/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:padding="4dp"
+                    android:textColor="#CC3533"
+                    android:text="After completing your payment please enter the bkash transaction ID below and press save for confirming your payment."/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:layout_margin="4dp"
+                    android:editable="false"
+                    android:id="@+id/payable_amount"
+                    android:background="@drawable/client_payment_border"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="TK"
+                    android:textColor="#999"/>
+            </LinearLayout>
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:hint="Transaction ID"
+                android:layout_margin="4dp"
+                android:id="@+id/transaction_id"
+                android:background="@drawable/client_payment_border"/>
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_margin="4dp"
+                android:id="@+id/save_client_payment"
+                android:text="Save"
+                android:textColor="#FFF"
+                android:background="@drawable/rounded_signup"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/bank_info"
@@ -137,7 +207,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/state_line2" />
+            app:layout_constraintTop_toBottomOf="@id/payment_by_client" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -37,26 +37,26 @@
             android:src="@drawable/client_photo"
             app:civ_border_color="#FFF"
             app:civ_border_width="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/cover" />
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.650" />
+            app:layout_constraintGuide_percent="0.50" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/upload_pro_pic"
-            android:layout_marginTop="290dp"
-            android:src="@drawable/camera"
-            app:layout_constraintEnd_toEndOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <ImageView-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginLeft="60dp"-->
+<!--            android:id="@+id/upload_pro_pic"-->
+<!--            android:layout_marginTop="290dp"-->
+<!--            android:src="@drawable/camera"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/guideline"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/guideline"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <ImageView
             android:layout_width="75dp"

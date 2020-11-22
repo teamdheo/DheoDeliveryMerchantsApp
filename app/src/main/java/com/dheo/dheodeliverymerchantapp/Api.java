@@ -301,5 +301,12 @@ public interface Api {
             @Field("client_id") Integer client_id,
             @Field("pro_pic") String pro_pic
     );
+    @FormUrlEncoded
+    @POST("client_bill_payment")
+    Call<ResponseBody> client_bill_payment(
+            @Field("client_id") Integer client_id,
+            @Field("payment_amount") String payment_amount,
+            @Field("bkash_id") String bkash_id
+    );
 
 }
