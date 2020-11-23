@@ -122,6 +122,16 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 // holder.label.setVisibility(View.INVISIBLE);
             }
             try {
+                if (dashboard_payload.get(position).getReturnClaim()) {
+                    holder.item_claim.setVisibility(View.VISIBLE);
+                }
+                else{
+                    holder.item_claim.setVisibility(View.GONE);
+                }
+            } catch (NullPointerException e) {
+                holder.item_claim.setVisibility(View.GONE);
+            }
+            try {
                 if (dashboard_payload.get(position).getDeliveryStarted()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delivery Started");
@@ -368,7 +378,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
     }
 
     public class PayloadViewHolder extends RecyclerView.ViewHolder {
-        TextView customer_name, date_time, order_no, bar, edit, tracking, label, amount, bar1, cancel;
+        TextView customer_name, date_time, order_no, bar, edit, tracking, label, amount, bar1, cancel,item_claim;
         RatingBar rating;
 
         public PayloadViewHolder(@NonNull View itemView) {
@@ -384,6 +394,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             this.bar = itemView.findViewById(R.id.item_bar);
             this.bar1 = itemView.findViewById(R.id.item_bar1);
             this.cancel = itemView.findViewById(R.id.item_cancel);
+            this.item_claim = itemView.findViewById(R.id.item_claim);
         }
     }
 }

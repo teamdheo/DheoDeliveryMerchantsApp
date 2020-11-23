@@ -24,6 +24,9 @@ public class M {
     @SerializedName("courier_drop")
     @Expose
     private Boolean courierDrop;
+    @SerializedName("return_claim")
+    @Expose
+    private Boolean returnClaim;
     @SerializedName("has_review")
     @Expose
     private Boolean hasReview;
@@ -223,6 +226,14 @@ public class M {
 
     public void setDeliveryStarted(Boolean deliveryStarted) {
         this.deliveryStarted = deliveryStarted;
+    }
+
+    public Boolean getReturnClaim() {
+        return returnClaim;
+    }
+
+    public void setReturnClaim(Boolean returnClaim) {
+        this.returnClaim = returnClaim;
     }
 
     public String getRating() {

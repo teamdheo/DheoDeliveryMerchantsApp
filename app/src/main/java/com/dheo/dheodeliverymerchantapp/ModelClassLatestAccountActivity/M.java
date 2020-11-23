@@ -36,6 +36,12 @@ public class M {
     @SerializedName("has_tagged_entry")
     @Expose
     private Boolean hasTaggedEntry;
+    @SerializedName("has_painding")
+    @Expose
+    private Boolean hasPainding;
+    @SerializedName("has_rejected")
+    @Expose
+    private Boolean hasRejected;
 
     public Boolean getNegative() {
         return isNegative;
@@ -125,4 +131,19 @@ public class M {
         this.hasTaggedEntry = hasTaggedEntry;
     }
 
+    public Boolean getHasPainding() {
+        return hasPainding;
+    }
+
+    public void setHasPainding(Boolean hasPainding) {
+        this.hasPainding = hasPainding;
+    }
+
+    public Boolean getHasRejected() {
+        return hasRejected;
+    }
+
+    public void setHasRejected(Boolean hasRejected) {
+        this.hasRejected = hasRejected;
+    }
 }

@@ -79,6 +79,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/item_claim"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="3dp"
+            android:text="Something went wrong?"
+            android:textColor="#CC3533"
+            app:layout_constraintTop_toBottomOf="@id/item_label"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/item_bar"
             android:layout_marginTop="5dp"
             android:layout_marginRight="3dp"
@@ -137,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:padding="2dp"
             android:text="amount"

@@ -2,12 +2,14 @@ package com.dheo.dheodeliverymerchantapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.M;
@@ -54,9 +56,27 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
             try {
                 if (latest_account_activity.get(position).getHasTaggedEntry()) {
                     holder.paid_on.setText("paid on " + latest_account_activity.get(position).getTaggedAccountingEntry());
+                    holder.paid_on.setBackground(ContextCompat.getDrawable(activity_context, R.drawable.paid_on));
                 }
             } catch (NullPointerException e) {
-                holder.paid_on.setVisibility(View.GONE);
+                //holder.paid_on.setVisibility(View.GONE);
+            }
+            try {
+                if (latest_account_activity.get(position).getHasPainding()) {
+                    holder.paid_on.setText("Pending Confirmation");
+                    holder.paid_on.setBackground(ContextCompat.getDrawable(activity_context, R.drawable.delivery_delay));
+                    holder.paid_on.setTextColor(Color.rgb(0, 0, 0));
+                }
+            } catch (NullPointerException e) {
+                //holder.paid_on.setVisibility(View.GONE);
+            }
+            try {
+                if (latest_account_activity.get(position).getHasRejected()) {
+                    holder.paid_on.setText("Payment Failed");
+                    holder.paid_on.setBackground(ContextCompat.getDrawable(activity_context, R.drawable.delivery_cancel));
+                }
+            } catch (NullPointerException e) {
+                //holder.paid_on.setVisibility(View.GONE);
             }
             try {
                 if(latest_account_activity.get(position).getAmount() < 0){
