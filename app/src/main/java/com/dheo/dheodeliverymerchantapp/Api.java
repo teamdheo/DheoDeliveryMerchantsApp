@@ -309,4 +309,13 @@ public interface Api {
             @Field("bkash_id") String bkash_id
     );
 
+    @FormUrlEncoded
+    @POST("client_return_claim")
+    Call<ResponseBody> client_return_claim(
+            @Field("payload_id") Integer payload_id,
+            @Field("client_id") Integer client_id,
+            @Field("reason") String reason,
+            @Field("feedback") String feedback
+    );
+
 }

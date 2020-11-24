@@ -72,11 +72,11 @@ public class SettingsActivity extends AppCompatActivity {
     ArrayList<String> branches_name;
     private TextView setting_name, go_back, valid_from, nagad_hint, bkash_hint, verify_submit_date, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, image_upload, show_upload_image, reset_pass,bank_name_textview,branch_name_textview;
     private EditText bkash_or_nagad, edit_branch_name, edit_bank_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone;
-    ImageView setting_dp;
+    ImageView setting_dp,cash, bkash, nagad;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url, mode,name_client;
-    private Button bank, other_option, cash, bkash, nagad, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn, upload_image_to_server;
+    private Button bank, other_option, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn, upload_image_to_server;
     LinearLayout bank_layout, other_option_layout, bkash_option, address_sec_layout;
     private RecyclerView all_address;
     private RecyclerView.Adapter adapter;
@@ -226,9 +226,6 @@ public class SettingsActivity extends AppCompatActivity {
                 other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
                 other_option.setTextColor(Color.rgb(255, 255, 255));
                 bank.setTextColor(Color.rgb(0, 0, 0));
-                cash.setTextColor(Color.rgb(0, 0, 0));
-                bkash.setTextColor(Color.rgb(0, 0, 0));
-                nagad.setTextColor(Color.rgb(0, 0, 0));
                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
             }
         });
@@ -239,14 +236,11 @@ public class SettingsActivity extends AppCompatActivity {
                 bkash_option.setVisibility(View.GONE);
 //                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cash.getLayoutParams();
 //                        params.bottomMargin = 20;params.leftMargin = 100;
-                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                cash.setTextColor(Color.rgb(255, 255, 255));
+                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                bkash.setBackground(null);
+                nagad.setBackground(null);
                 bank.setTextColor(Color.rgb(0, 0, 0));
-                bkash.setTextColor(Color.rgb(0, 0, 0));
-                nagad.setTextColor(Color.rgb(0, 0, 0));
                 mode = "cash";
-                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
             }
         });
         bkash.setOnClickListener(new View.OnClickListener() {
@@ -259,13 +253,10 @@ public class SettingsActivity extends AppCompatActivity {
                 bkash_or_nagad.setVisibility(View.VISIBLE);
                 //
                 mode = "bkash";
-                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                bkash.setTextColor(Color.rgb(255, 255, 255));
+                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                cash.setBackground(null);
+                nagad.setBackground(null);
                 bank.setTextColor(Color.rgb(0, 0, 0));
-                cash.setTextColor(Color.rgb(0, 0, 0));
-                nagad.setTextColor(Color.rgb(0, 0, 0));
-                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
             }
         });
         nagad.setOnClickListener(new View.OnClickListener() {
@@ -279,13 +270,11 @@ public class SettingsActivity extends AppCompatActivity {
                 bkash_hint.setVisibility(View.GONE);
                 //
                 mode = "nagad";
-                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                nagad.setTextColor(Color.rgb(255, 255, 255));
+                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                bkash.setBackground(null);
+                cash.setBackground(null);
                 bank.setTextColor(Color.rgb(0, 0, 0));
-                cash.setTextColor(Color.rgb(0, 0, 0));
-                bkash.setTextColor(Color.rgb(0, 0, 0));
-                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+
             }
         });
 
@@ -369,10 +358,9 @@ public class SettingsActivity extends AppCompatActivity {
                                 bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
                                 bank.setTextColor(Color.rgb(0, 0, 0));
                                 bkash_option.setVisibility(View.GONE);
-                                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                                cash.setTextColor(Color.rgb(255, 255, 255));
-                                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                                bkash.setBackground(null);
+                                nagad.setBackground(null);
                             }
                         } catch (NullPointerException e) {
                         }
@@ -392,10 +380,9 @@ public class SettingsActivity extends AppCompatActivity {
                                 bkash_option.setVisibility(View.VISIBLE);
                                 edit_nagad_num.setVisibility(View.GONE);
                                 bkash_or_nagad.setVisibility(View.VISIBLE);
-                                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                                bkash.setTextColor(Color.rgb(255, 255, 255));
-                                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                                cash.setBackground(null);
+                                nagad.setBackground(null);
 
                             }
                         } catch (NullPointerException e) {
@@ -416,10 +403,9 @@ public class SettingsActivity extends AppCompatActivity {
                                 nagad_hint.setVisibility(View.VISIBLE);
                                 edit_nagad_num.setText(s.getM().getNumber());
                                 bkash_hint.setVisibility(View.GONE);
-                                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                                nagad.setTextColor(Color.rgb(255, 255, 255));
-                                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-                                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+                                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                                cash.setBackground(null);
+                                bkash.setBackground(null);
                             }
                         } catch (NullPointerException e) {
                         }
@@ -606,7 +592,7 @@ public class SettingsActivity extends AppCompatActivity {
                         });
                     }
                     else{
-                        Toasty.error(getApplicationContext(), "Bkash number should be 11 disit!", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(getApplicationContext(), "bkash number should be 11 disit!", Toast.LENGTH_LONG, true).show();
                         dialog_text.dismiss();
                     }
                 }

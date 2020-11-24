@@ -162,34 +162,45 @@
             android:id="@+id/linear_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/other_option">
 
-            <Button
+            <ImageView
                 android:id="@+id/cash"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="20dp"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:padding="5dp"
+                android:layout_weight="0.20"
+                android:src="@drawable/cash"
                 android:text="Cash" />
 
-            <Button
+            <ImageView
                 android:id="@+id/bkash"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:adjustViewBounds="true"
+                android:layout_weight="0.20"
+                android:src="@drawable/bkash"
                 android:text="Bkash" />
 
-            <Button
+            <ImageView
                 android:id="@+id/nagad"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:adjustViewBounds="true"
+                android:layout_weight="0.20"
+                android:src="@drawable/nagad"
                 android:text="Nagad" />
 
         </LinearLayout>

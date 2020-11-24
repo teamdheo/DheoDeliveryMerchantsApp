@@ -18,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:textSize="13dp"
         android:hint="Add a quick note for your pickup courier"
-        android:background="@drawable/rounded_edittext"
+        android:background="@drawable/rounded_edittext1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -43,6 +43,7 @@
         android:background="@drawable/rounded_signup"
         android:layout_marginRight="16dp"
         android:text="Save"
+        android:textColor="#FFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_note" />
 

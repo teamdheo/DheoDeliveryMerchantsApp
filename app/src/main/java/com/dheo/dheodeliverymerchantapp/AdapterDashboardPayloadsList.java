@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dheo.dheodeliverymerchantapp.ModelClassClientDashboardPayloads.M;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientEditPayload.ClientEditPayload;
+import com.google.gson.internal.$Gson$Preconditions;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -35,10 +40,12 @@ import retrofit2.Retrofit;
 public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDashboardPayloadsList.PayloadViewHolder> {
     private List<M> dashboard_payload;
     Context payload_contex;
-    EditText edit_phone, edit_amount;
-    Button save_button, cancel_button, cancel_confirm, cancel_cancel;
+    Spinner claim_type;
+    EditText claim_note,edit_phone, edit_amount;
+    Button save_button, cancel_button, cancel_confirm, cancel_cancel, save_claim, cancel_claim;
     private String client_name, pro_pic_url;
     private int client_id;
+    List<String> categories;
 
     public AdapterDashboardPayloadsList(List<M> dashboard_payload, Context payload_contex, String client_name, int client_id, String pro_pic_url) {
         this.dashboard_payload = dashboard_payload;
@@ -122,8 +129,104 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 // holder.label.setVisibility(View.INVISIBLE);
             }
             try {
+                if (dashboard_payload.get(position).getClaimPending()) {
+                    holder.label.setVisibility(View.VISIBLE);
+                    holder.label.setText("Claim Verifying");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_delay));
+                    holder.label.setTextColor(Color.rgb(0, 0, 0));
+                }
+            } catch (NullPointerException e) {
+                //holder.label.setVisibility(View.INVISIBLE);
+            }
+
+            try {
                 if (dashboard_payload.get(position).getReturnClaim()) {
                     holder.item_claim.setVisibility(View.VISIBLE);
+                    holder.item_claim.setText("Something went wrong?");
+                    holder.item_claim.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder claim_dialog = new AlertDialog.Builder(v.getRootView().getContext());
+                            claim_dialog.setCancelable(false);
+                            LayoutInflater li = (LayoutInflater) payload_contex.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View view = li.inflate(R.layout.dialog_raturn_claim, null);
+
+                            claim_type = view.findViewById(R.id.claim_option);
+                            claim_note = view.findViewById(R.id.claim_note_txt);
+                            save_claim = view.findViewById(R.id.save_claim);
+                            cancel_claim = view.findViewById(R.id.claim_cancel);
+
+                            categories = new ArrayList<String>();
+                            categories.add("Please select a type");
+                            categories.add("Damage");
+                            categories.add("Not Return Done");
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(payload_contex, android.R.layout.simple_spinner_item, categories);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            claim_type.setAdapter(dataAdapter);
+                            claim_dialog.setView(view);
+                            final AlertDialog dialog_claim = claim_dialog.create();
+                            dialog_claim.show();
+                            cancel_claim.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog_claim.dismiss();
+                                }
+                            });
+                            claim_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    String item = parent.getItemAtPosition(position).toString();
+                                    //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                            save_claim.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if(claim_type.getSelectedItem().toString().equals("Please select a type")){
+                                        Toast.makeText(payload_contex, "Please select a type", Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        Call<ResponseBody> claim_call = RetrofitClient
+                                                .getInstance()
+                                                .getApi()
+                                                .client_return_claim(dashboard_payload.get(position).getPayloadId(),client_id, claim_type.getSelectedItem().toString(),claim_note.getText().toString());
+                                        claim_call.enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                try {
+                                                    if (response.body().string().equals("{\"e\":0}")){
+                                                        Toasty.success(payload_contex, "Claim Accepted", Toast.LENGTH_LONG, true).show();
+                                                        dialog_claim.dismiss();
+                                                        Intent intent = new Intent(payload_contex, ClientDashboardActivity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        payload_contex.startActivity(intent);
+                                                    }
+                                                    else{
+                                                        Toasty.error(payload_contex, "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
+                                                        dialog_claim.dismiss();
+                                                    }
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                dialog_claim.dismiss();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+                        }
+
+                    });
                 }
                 else{
                     holder.item_claim.setVisibility(View.GONE);
@@ -372,6 +475,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
 
     }
 
+
     @Override
     public int getItemCount() {
         return dashboard_payload.size()-1;
@@ -397,4 +501,5 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             this.item_claim = itemView.findViewById(R.id.item_claim);
         }
     }
+
 }

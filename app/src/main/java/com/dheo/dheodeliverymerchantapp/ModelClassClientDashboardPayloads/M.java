@@ -33,6 +33,9 @@ public class M {
     @SerializedName("delayed")
     @Expose
     private Boolean delayed;
+    @SerializedName("claim_pending")
+    @Expose
+    private Boolean claimPending;
     @SerializedName("delivery_started")
     @Expose
     private Boolean deliveryStarted;
@@ -290,5 +293,13 @@ public class M {
 
     public void setOffset(Integer offset) {
         this.offset = offset;
+    }
+
+    public Boolean getClaimPending() {
+        return claimPending;
+    }
+
+    public void setClaimPending(Boolean claimPending) {
+        this.claimPending = claimPending;
     }
 }

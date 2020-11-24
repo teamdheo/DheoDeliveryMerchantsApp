@@ -72,7 +72,7 @@
             android:id="@+id/item_track"
             android:layout_marginTop="5dp"
             android:layout_marginRight="3dp"
-            android:text="Track"
+            android:text="Open"
             android:textColor="#CC3533"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -82,7 +82,7 @@
             android:id="@+id/item_claim"
             android:layout_marginTop="8dp"
             android:layout_marginRight="3dp"
-            android:text="Something went wrong?"
+            android:text=""
             android:textColor="#CC3533"
             app:layout_constraintTop_toBottomOf="@id/item_label"
             app:layout_constraintEnd_toEndOf="parent"/>

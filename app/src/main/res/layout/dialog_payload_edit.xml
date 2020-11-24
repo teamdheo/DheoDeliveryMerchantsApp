@@ -16,7 +16,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/rounded_edittext"
+        android:background="@drawable/rounded_edittext1"
         android:ems="10"
         android:hint="phone number"
         android:inputType="number"
@@ -35,7 +35,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:hint="cod amount"
-        android:background="@drawable/rounded_edittext"
+        android:background="@drawable/rounded_edittext1"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,6 +62,7 @@
         android:background="@drawable/rounded_signup"
         android:layout_marginRight="16dp"
         android:text="Save"
+        android:textColor="#FFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_amount" />
 
