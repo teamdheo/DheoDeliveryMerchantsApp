@@ -193,50 +193,57 @@
                 android:background="@drawable/rounded_signup"/>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/bank_info"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/bank_info"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="4dp"
             android:background="#DDD"
-            android:padding="3dp"
-            android:text="@string/bank_info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/payment_by_client" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/free_delivery"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:background="#E7FEFB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bank_info"
-            android:orientation="horizontal">
+            app:layout_constraintTop_toBottomOf="@id/payment_by_client"
+            android:orientation="vertical">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.85"
+                android:text="@string/bank_info"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:padding="3dp"
+                android:textColor="#000"
+                android:background="@drawable/rounded_edittext1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/free_delivery"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:textSize="12sp"
-                android:paddingLeft="10dp"
-                android:text="ফেসবুকে ট্যাগ করলেই ৩টি ফ্রী ডেলিভারি! যতো খুশি ততো বার!"
-                android:id="@+id/payload_search_editText"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
-                android:textColor="#CC3533"
-                android:id="@+id/see_free_delivery"
-                android:text="See>"/>
+                android:padding="3dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                android:background="#E7FEFB"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.90"
+                    android:textSize="12sp"
+                    android:text="ফেসবুকে ট্যাগ করলেই ৩টি ফ্রী ডেলিভারি! যতো খুশি ততো বার!"
+                    android:id="@+id/payload_search_editText"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.10"
+                    android:textColor="#CC3533"
+                    android:id="@+id/see_free_delivery"
+                    android:text="See>"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -251,7 +258,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/free_delivery" />
+            app:layout_constraintTop_toBottomOf="@id/bank_info" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_account_activity"
