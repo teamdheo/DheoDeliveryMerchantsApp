@@ -2,7 +2,6 @@ package com.dheo.dheodeliverymerchantapp;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.format.DateUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -41,7 +38,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,7 +50,6 @@ import com.dheo.dheodeliverymerchantapp.ModelClassClientPayloadSearch.ClientPayl
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupMapInfo.PickupMapInfo;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.M;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.PickupAddresses;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -62,6 +57,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -92,10 +88,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private String phone;
     private String photoUrl, scooter_url, pro_pic_url;
     boolean doubleBackToExitPressedOnce = false;
-    private int clientId,page_number = 1,payload_remaining;
+    private int clientId, page_number = 1, payload_remaining;
     private String password;
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic;
-    private TextView client_name,monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
+    private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
     private String photo_url, blog_url;
     private String name;
     private int balance;
@@ -118,7 +114,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    LinearLayout map_layout,search_layout,active_layout;
+    LinearLayout map_layout, search_layout, active_layout;
     Helper helper = new Helper(this);
     private GoogleMap mMap;
 
@@ -249,7 +245,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             } else {
                                 profile_photo = (ImageView) findViewById(R.id.profile_photo);
                                 photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
-                                Picasso.get().load(photo_url).into(profile_photo);
+                                Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(profile_photo);
                             }
                         } catch (NullPointerException e) {
 
@@ -461,7 +457,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<PickupMapInfo> call, Throwable t) {
-               // Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+                // Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
         });
 
@@ -515,7 +511,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         see_older.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if((payload_remaining - (payload_remaining/(page_number*8))) > 0) {
+                if ((payload_remaining - (payload_remaining / (page_number * 8))) > 0) {
                     page_number++;
                     loadDashboardPayload();
                 }
@@ -525,7 +521,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         see_newer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(page_number>1){
+                if (page_number > 1) {
                     page_number--;
                     loadDashboardPayload();
                 }
@@ -761,12 +757,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View view) {
-                        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                        {
+                        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                        }
-                        else
-                        {
+                        } else {
                             captureImage(view);
                         }
                         dialog.dismiss();
@@ -789,23 +782,23 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     ClientDashboardPayloads clientDashboardPayloads = response.body();
                     all_dashboard_payload = clientDashboardPayloads.getM();
                     try {
-                        if (all_dashboard_payload.size()> 8){
-                            if (all_dashboard_payload.get(8).getShowNext()){
+                        if (all_dashboard_payload.size() > 8) {
+                            if (all_dashboard_payload.get(8).getShowNext()) {
                                 see_older.setVisibility(View.VISIBLE);
                                 see_older.setText("<Older (" + all_dashboard_payload.get(8).getRecordsRemaining() + ")");
                                 payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
 //                            Toasty.error(getApplicationContext(), payload_remaining, Toast.LENGTH_LONG, true).show();
                             }
-                            if (all_dashboard_payload.get(8).getShowPrev()){
+                            if (all_dashboard_payload.get(8).getShowPrev()) {
                                 see_newer.setVisibility(View.VISIBLE);
-                                see_newer.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
+                                see_newer.setText("Newer (" + all_dashboard_payload.get(8).getOffset() + ")>");
                                 payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
                             }
                         }
-                        if(page_number == 1){
+                        if (page_number == 1) {
                             see_newer.setVisibility(View.INVISIBLE);
                         }
-                        if(all_dashboard_payload.size() < 2){
+                        if (all_dashboard_payload.size() < 2) {
                             search_layout.setVisibility(View.GONE);
                             active_layout.setVisibility(View.VISIBLE);
                         }
@@ -817,12 +810,11 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         e.printStackTrace();
                         //Toast.makeText(getApplicationContext(), "You don't have any payload", Toast.LENGTH_LONG).show();
                     }
-                }
-                else{
+                } else {
                     //Toasty.error(getApplicationContext(), "You have no payload!", Toast.LENGTH_LONG, true).show();
                     search_layout.setVisibility(View.GONE);
                 }
-                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name,clientId,pro_pic_url);
+                adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name, clientId, pro_pic_url);
                 dashboard_payloads.setAdapter(adapter_payload);
             }
 
@@ -893,15 +885,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         });
 
     }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE)
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent.resolveActivity(getPackageManager()) != null) {
@@ -920,10 +910,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         startActivityForResult(intent, CAMERA_REQUEST);
                     }
                 }
-            }
-            else
-            {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            } else {
+                //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -985,8 +973,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     profile_photo.setImageBitmap(bitmap);
                     File file = new File(picturePath);
                     String imageName = file.getName();
-//                    show_upload_image.setText(imageName);
-//                    show_upload_image.setTextSize(12);
 
                     float aspectRatio = bitmap.getWidth() /
                             (float) bitmap.getHeight();
@@ -1015,19 +1001,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                             if (s.equals("{\"e\":0}")) {
                                 //dialog_text.dismiss();
-                                Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
-                                //clearAppData();
-//                                File cacheDir = getApplicationContext().getCacheDir();
-//
-//                                File[] files = cacheDir.listFiles();
-//
-//                                if (files != null) {
-//                                    for (File file : files)
-//                                        file.delete();
-//                                }
-                                deleteCache(getApplicationContext());
-                                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                                startActivity(intent);
+                                Toasty.success(getApplicationContext(), "Successfully Uploaded", Toast.LENGTH_LONG, true).show();
+                                deleteCache(getBaseContext());
+                                File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                                deleteRecursive(storageDir);
 
                             } else {
                                 Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
@@ -1044,12 +1021,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
         } else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
-            //imageView.setImageBitmap(bitmap);
             File file = new File(currentImagePath);
             String imageName = file.getName();
             profile_photo.setImageBitmap(bitmap);
-//            show_upload_image.setText(imageName);
-//            show_upload_image.setTextSize(10);
             float aspectRatio = bitmap.getWidth() /
                     (float) bitmap.getHeight();
             int width = 500;
@@ -1077,19 +1051,11 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                     if (s.equals("{\"e\":0}")) {
                         //dialog_text.dismiss();
-                        Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
+                        Toasty.success(getApplicationContext(), "Successfully Uploaded", Toast.LENGTH_LONG, true).show();
+                        deleteCache(getBaseContext());
                         //clearAppData();
-//                        File cacheDir = getApplicationContext().getCacheDir();
-//
-//                        File[] files = cacheDir.listFiles();
-//
-//                        if (files != null) {
-//                            for (File file : files)
-//                                file.delete();
-//                        }
-                        deleteCache(getApplicationContext());
-                        Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                        startActivity(intent);
+                        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                        deleteRecursive(storageDir);
 
                     } else {
                         Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
@@ -1104,6 +1070,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
         }
     }
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -1120,12 +1087,15 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         }, 2000);
     }
+
     public static void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
             deleteDir(dir);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
+
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -1136,27 +1106,21 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 }
             }
             return dir.delete();
-        } else if(dir!= null && dir.isFile()) {
+        } else if (dir != null && dir.isFile()) {
             return dir.delete();
         } else {
             return false;
         }
     }
 
-//    public void clearAppData() {
-//        try {
-//            // clearing app data
-//            if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
-//                ((ActivityManager)getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData(); // note: it has a return value!
-//            } else {
-//                String packageName = getApplicationContext().getPackageName();
-//                Runtime runtime = Runtime.getRuntime();
-//                runtime.exec("pm clear "+packageName);
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory()) {
+            for (File child : fileOrDirectory.listFiles()) {
+                deleteRecursive(child);
+            }
+        }
+
+        fileOrDirectory.delete();
+    }
 
 }

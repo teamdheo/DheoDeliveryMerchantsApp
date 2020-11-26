@@ -24,6 +24,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassClientPaymentPerfInfo.ClientPa
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.LatestAccountActivity;
 import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.M;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -145,7 +146,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         } else {
                             profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
                             photourl = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
-                            Picasso.get().load(photourl).into(profile_photo_billing);
+                            Picasso.get().load(photourl).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(profile_photo_billing);
                         }
                     } catch (NullPointerException e) {
                     }

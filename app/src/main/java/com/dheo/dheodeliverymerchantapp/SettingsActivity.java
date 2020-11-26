@@ -47,6 +47,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassBanksAndBranches.M;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.PickupAddresses;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -200,7 +201,7 @@ public class SettingsActivity extends AppCompatActivity {
                             } else {
                                 setting_dp = findViewById(R.id.setting_profile_photo);
                                 photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
-                                Picasso.get().load(photo_url).into(setting_dp);
+                                Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(setting_dp);
                             }
                         } catch (NullPointerException e) {
 

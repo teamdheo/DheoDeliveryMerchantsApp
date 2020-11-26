@@ -28,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -112,7 +113,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
             } else {
                 track_client_image = (ImageView) findViewById(R.id.tracker_profile_photo);
                 photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + pro_pic_url;
-                Picasso.get().load(photo_url).into(track_client_image);
+                Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(track_client_image);
             }
         } catch (NullPointerException e) {
 
