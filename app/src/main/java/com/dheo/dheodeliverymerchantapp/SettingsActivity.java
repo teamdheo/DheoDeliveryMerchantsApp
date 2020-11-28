@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST = 2;
     private String currentImagePath, national_id;
+    private ProgressBar name_setting_progress;
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
     private TextView setting_name, go_back, valid_from, nagad_hint, bkash_hint, verify_submit_date, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, image_upload, show_upload_image, reset_pass,bank_name_textview,branch_name_textview;
@@ -115,6 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
         edit_nagad_num = findViewById(R.id.edit_nagad_num);
         branch_name_textview = findViewById(R.id.branch_name_textview);
         bank_name_textview = findViewById(R.id.bank_name_textview);
+        name_setting_progress = findViewById(R.id.name_setting_progress);
 
         nagad_hint = findViewById(R.id.nagd_hint);
         bkash_hint = findViewById(R.id.bkash_hint);
@@ -198,10 +201,12 @@ public class SettingsActivity extends AppCompatActivity {
                         try {
                             if (s.getM().getProPic().equals("default.svg")) {
                                 setting_dp = findViewById(R.id.setting_profile_photo);
+                                name_setting_progress.setVisibility(View.GONE);
                             } else {
                                 setting_dp = findViewById(R.id.setting_profile_photo);
                                 photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
                                 Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(setting_dp);
+                                name_setting_progress.setVisibility(View.GONE);
                             }
                         } catch (NullPointerException e) {
 
@@ -231,53 +236,65 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        cash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bkash_option.setVisibility(View.GONE);
+       try {
+           cash.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   bkash_option.setVisibility(View.GONE);
 //                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cash.getLayoutParams();
 //                        params.bottomMargin = 20;params.leftMargin = 100;
-                cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
-                bkash.setBackground(null);
-                nagad.setBackground(null);
-                bank.setTextColor(Color.rgb(0, 0, 0));
-                mode = "cash";
-            }
-        });
-        bkash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bkash_option.setVisibility(View.VISIBLE);
-                edit_nagad_num.setVisibility(View.GONE);
-                nagad_hint.setVisibility(View.GONE);
-                bkash_hint.setVisibility(View.VISIBLE);
-                bkash_or_nagad.setVisibility(View.VISIBLE);
-                //
-                mode = "bkash";
-                bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
-                cash.setBackground(null);
-                nagad.setBackground(null);
-                bank.setTextColor(Color.rgb(0, 0, 0));
-            }
-        });
-        nagad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bkash_option.setVisibility(View.VISIBLE);
-                //nagad_option.setVisibility(View.VISIBLE);
-                edit_nagad_num.setVisibility(View.VISIBLE);
-                bkash_or_nagad.setVisibility(View.GONE);
-                nagad_hint.setVisibility(View.VISIBLE);
-                bkash_hint.setVisibility(View.GONE);
-                //
-                mode = "nagad";
-                nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
-                bkash.setBackground(null);
-                cash.setBackground(null);
-                bank.setTextColor(Color.rgb(0, 0, 0));
+                   cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                   bkash.setBackground(null);
+                   nagad.setBackground(null);
+                   bank.setTextColor(Color.rgb(0, 0, 0));
+                   mode = "cash";
+               }
+           });
+       }catch (NullPointerException e){
+           mode = "cash";
+       }
+        try {
+            bkash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bkash_option.setVisibility(View.VISIBLE);
+                    edit_nagad_num.setVisibility(View.GONE);
+                    nagad_hint.setVisibility(View.GONE);
+                    bkash_hint.setVisibility(View.VISIBLE);
+                    bkash_or_nagad.setVisibility(View.VISIBLE);
+                    //
+                    mode = "bkash";
+                    bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                    cash.setBackground(null);
+                    nagad.setBackground(null);
+                    bank.setTextColor(Color.rgb(0, 0, 0));
+                }
+            });
+        }catch (NullPointerException e){
+            mode = "bkash";
+        }
+        try {
+            nagad.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bkash_option.setVisibility(View.VISIBLE);
+                    //nagad_option.setVisibility(View.VISIBLE);
+                    edit_nagad_num.setVisibility(View.VISIBLE);
+                    bkash_or_nagad.setVisibility(View.GONE);
+                    nagad_hint.setVisibility(View.VISIBLE);
+                    bkash_hint.setVisibility(View.GONE);
+                    //
+                    mode = "nagad";
+                    nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                    bkash.setBackground(null);
+                    cash.setBackground(null);
+                    bank.setTextColor(Color.rgb(0, 0, 0));
 
-            }
-        });
+                }
+            });
+        }catch (NullPointerException e){
+            mode = "nagad";
+        }
 
         bank.setOnClickListener(new View.OnClickListener() {
             @Override

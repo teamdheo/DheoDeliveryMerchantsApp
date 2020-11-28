@@ -317,5 +317,10 @@ public interface Api {
             @Field("reason") String reason,
             @Field("feedback") String feedback
     );
+    @FormUrlEncoded
+    @POST("version_check")
+    Call<ResponseBody> version_check(
+            @Field("version") String version
+    );
 
 }

@@ -47,7 +47,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private List<com.dheo.dheodeliverymerchantapp.ModelClassClientPaymentReceiptPDF.M> pdf_receipt;
     private List<com.dheo.dheodeliverymerchantapp.ModelClassClientMonthlyStatementDate.M> monthly_billing_pdf;
     private RecyclerView.Adapter adapter, monthly_billing_adapter;
-    private ProgressBar activity_progressbar, daily_receipt_progressbar, monthly_received_progressbar;
+    private ProgressBar activity_progressbar, daily_receipt_progressbar, monthly_received_progressbar,name_billing_progress;
     private Button see_older, see_newer,save_client_payment;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -90,6 +90,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         payable_amount = findViewById(R.id.payable_amount);
         transaction_id = findViewById(R.id.transaction_id);
         save_client_payment = findViewById(R.id.save_client_payment);
+        name_billing_progress = findViewById(R.id.name_billing_progress);
 
         layoutManager = new LinearLayoutManager(this);
         latest_activity.setLayoutManager(layoutManager);
@@ -143,10 +144,12 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                     try {
                         if (s.getM().getProPic().equals("default.svg")) {
                             profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
+                            name_billing_progress.setVisibility(View.GONE);
                         } else {
                             profile_photo_billing = (ImageView) findViewById(R.id.client_dp);
                             photourl = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
                             Picasso.get().load(photourl).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(profile_photo_billing);
+                            name_billing_progress.setVisibility(View.GONE);
                         }
                     } catch (NullPointerException e) {
                     }
@@ -248,7 +251,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         }catch (NullPointerException e){}
                         try{
                             if(s.getM().getNegativeBalance()){
-                                payment_pref.setText("Please pay your balance through bKash. Our bkash number is 01734440871 (merchant account). Please use the 'payment option' and put " +helper.getPhone_number()+ " as the reference number. ");
+                                //payment_pref.setText("Please pay your balance through bKash. Our bkash number is 01734440871 (merchant account). Please use the 'payment option' and put " +helper.getPhone_number()+ " as the reference number. ");
                                 payment_by_client.setVisibility(View.VISIBLE);
                             }
                         }catch (NullPointerException e){

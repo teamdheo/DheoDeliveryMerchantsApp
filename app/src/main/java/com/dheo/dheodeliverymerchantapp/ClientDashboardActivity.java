@@ -3,6 +3,7 @@ package com.dheo.dheodeliverymerchantapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -93,10 +94,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic;
     private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
     private String photo_url, blog_url;
-    private String name;
+    private String name, versionName;
     private int balance;
     private EditText payload_search_editText;
-    private ProgressBar payload_progressbar, monthly_record_progress_bar;
+    private ProgressBar payload_progressbar, monthly_record_progress_bar,name_dashboad_progress;
     private Button request_pickup, next_pickup, see_older, see_newer, payload_search_btn, go_back;
     private List<M> pickup_address_length;
     SupportMapFragment fm;
@@ -152,6 +153,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         recycler_search_payload = (RecyclerView) findViewById(R.id.recycler_search_payload);
         active_layout = findViewById(R.id.active_layout);
         //monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
+        name_dashboad_progress = findViewById(R.id.name_dashboad_progress);
         go_back = findViewById(R.id.go_back);
         map_layout = findViewById(R.id.map_layout);
         cover = findViewById(R.id.cover);
@@ -224,6 +226,59 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             startActivity(i);
         }
         query.close();
+        try {
+            versionName = getApplicationContext().getPackageManager()
+                    .getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
+            //Toast.makeText(getApplicationContext(),versionName +"" , Toast.LENGTH_LONG).show();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        Call<ResponseBody> version_call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .version_check(versionName);
+        version_call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String s = null;
+                try {
+                    s = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (s.equals("{\"e\":0}")) {
+
+                }
+                else{
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(ClientDashboardActivity.this);
+                    dialog.setTitle("You are useing old version!");
+                    dialog.setMessage("Update Now..");
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent openURL = new Intent(android.content.Intent.ACTION_VIEW);
+                            openURL.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
+                            startActivity(openURL);
+                        }
+                    });
+
+                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
         Call<ClientBasicInfo> call1 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -242,10 +297,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         try {
                             if (s.getM().getProPic().equals("default.svg")) {
                                 profile_photo = (ImageView) findViewById(R.id.profile_photo);
+                                name_dashboad_progress.setVisibility(View.GONE);
                             } else {
                                 profile_photo = (ImageView) findViewById(R.id.profile_photo);
                                 photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
                                 Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(profile_photo);
+                                name_dashboad_progress.setVisibility(View.GONE);
                             }
                         } catch (NullPointerException e) {
 
