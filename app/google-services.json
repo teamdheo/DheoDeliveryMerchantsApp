@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "802040525072",
+    "firebase_url": "https://dheodeliverymerchantsapp.firebaseio.com",
+    "project_id": "dheodeliverymerchantsapp",
+    "storage_bucket": "dheodeliverymerchantsapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802040525072:android:3a7573b8bcfa810196f595",
+        "android_client_info": {
+          "package_name": "com.dheo.dheodeliverymerchantapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802040525072-duaphi3kv8h39g3nvvuhrp9q134qgmmv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-t9A7mFkPEBJnH4Gnm44OHvDooTGhITI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802040525072-duaphi3kv8h39g3nvvuhrp9q134qgmmv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

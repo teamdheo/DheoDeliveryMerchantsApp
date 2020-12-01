@@ -322,5 +322,11 @@ public interface Api {
     Call<ResponseBody> version_check(
             @Field("version") String version
     );
+    @FormUrlEncoded
+    @POST("notification_token_update")
+    Call<ResponseBody> notification_token_update(
+            @Field("client_id") Integer client_id,
+            @Field("notification_token") String notification_token
+    );
 
 }

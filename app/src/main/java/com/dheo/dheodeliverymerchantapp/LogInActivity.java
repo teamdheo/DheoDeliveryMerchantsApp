@@ -1,4 +1,5 @@
 package com.dheo.dheodeliverymerchantapp;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -6,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -13,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.dheo.dheodeliverymerchantapp.modelClassClientInfo.ClientInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +71,7 @@ public class LogInActivity extends AppCompatActivity {
         }
         number.setText(phone_number);
         password.setText(passwords);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

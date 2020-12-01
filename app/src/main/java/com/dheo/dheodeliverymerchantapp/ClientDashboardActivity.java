@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.format.DateUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -58,6 +59,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -82,6 +87,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private static final int SELECT_PICTURE = 1;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST = 2;
+    public static final String TAG = "MyTag";
     private String currentImagePath, client_profile_pic;
     File imageFile;
     private int session = 0;
@@ -94,7 +100,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic;
     private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
     private String photo_url, blog_url;
-    private String name, versionName;
+    private String name, versionName, token;
     private int balance;
     private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar,name_dashboad_progress;
@@ -233,6 +239,49 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+
+                        if(task.isSuccessful()){
+                            //token=task.getResult().getToken();
+                            Call<ResponseBody> notification_call = RetrofitClient
+                                    .getInstance()
+                                    .getApi()
+                                    .notification_token_update(clientId,task.getResult().getToken());
+                            notification_call.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    String s = null;
+                                    try {
+                                        s = response.body().string();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if (s.equals("{\"e\":0}")) {
+                                        Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),"no token" , Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(getApplicationContext(),"faield" , Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }else{
+                            Toast.makeText(getApplicationContext(),"unsuccessful" , Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+
+
+
         Call<ResponseBody> version_call = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -252,7 +301,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 }
                 else{
                     AlertDialog.Builder dialog = new AlertDialog.Builder(ClientDashboardActivity.this);
-                    dialog.setTitle("You are useing old version!");
+                    dialog.setTitle("You are using old version!");
                     dialog.setMessage("Update Now..");
                     dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override

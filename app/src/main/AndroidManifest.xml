@@ -20,13 +20,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.dheo.dheodeliverymerchantapp.OrderTrackerActivity"></activity>
-        <activity android:name="com.dheo.dheodeliverymerchantapp.SettingsActivity" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.ListActivityMultiplePickupAddressSlots" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.ClientDashboardBillingActivity" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.SingleAddressPickupSlotActivity" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.ListActivityPickupAddress" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.PassResetDoneActivity">
+        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".OrderTrackerActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ListActivityMultiplePickupAddressSlots" />
+        <activity android:name=".ClientDashboardBillingActivity" />
+        <activity android:name=".SingleAddressPickupSlotActivity" />
+        <activity android:name=".ListActivityPickupAddress" />
+        <activity android:name=".PassResetDoneActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -51,10 +52,10 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name="com.dheo.dheodeliverymerchantapp.PasswordResetActivity" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.ClientDashboardActivity" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.SignUpActivity" />
-        <activity android:name="com.dheo.dheodeliverymerchantapp.LogInActivity">
+        <activity android:name=".PasswordResetActivity" />
+        <activity android:name=".ClientDashboardActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
