@@ -239,13 +239,15 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
 
                         if(task.isSuccessful()){
-                            //token=task.getResult().getToken();
+                            token=task.getResult().getToken();
+                            //Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
                             Call<ResponseBody> notification_call = RetrofitClient
                                     .getInstance()
                                     .getApi()
@@ -261,10 +263,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                     }
 
                                     if (s.equals("{\"e\":0}")) {
-                                        Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
                                     }
                                     else{
-                                        Toast.makeText(getApplicationContext(),"no token" , Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();
                                     }
                                 }
 
