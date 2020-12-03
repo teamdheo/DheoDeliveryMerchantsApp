@@ -283,7 +283,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 });
 
 
-
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                Object value = getIntent().getExtras().get(key);
+                Log.d("MainActivity: ", "Key: " + key + " Value: " + value);
+            }
+        }
         Call<ResponseBody> version_call = RetrofitClient
                 .getInstance()
                 .getApi()
