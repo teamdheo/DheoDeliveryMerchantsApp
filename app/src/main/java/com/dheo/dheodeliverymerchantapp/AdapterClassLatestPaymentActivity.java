@@ -121,7 +121,7 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
 
     @Override
     public int getItemCount() {
-        return latest_account_activity.size();
+        return latest_account_activity == null ? 0 : latest_account_activity.size();
     }
 
     public class MyviewHolder extends RecyclerView.ViewHolder {

@@ -56,7 +56,7 @@ public class AdapterPickupAddressList extends RecyclerView.Adapter<AdapterPickup
 
     @Override
     public int getItemCount() {
-        return pickup_address.size();
+        return pickup_address == null ? 0 : pickup_address.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

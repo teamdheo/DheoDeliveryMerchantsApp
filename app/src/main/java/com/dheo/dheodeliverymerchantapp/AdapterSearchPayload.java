@@ -174,7 +174,7 @@ public class AdapterSearchPayload extends RecyclerView.Adapter<AdapterSearchPayl
 
     @Override
     public int getItemCount() {
-        return search_payload.size();
+        return search_payload == null ? 0 : search_payload.size();
     }
 
     public class SearchPayloadHolder extends RecyclerView.ViewHolder {

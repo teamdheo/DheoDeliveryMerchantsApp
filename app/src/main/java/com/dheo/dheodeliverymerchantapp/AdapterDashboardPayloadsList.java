@@ -478,7 +478,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
 
     @Override
     public int getItemCount() {
-        return dashboard_payload.size()-1;
+        return dashboard_payload == null ? 0 : dashboard_payload.size()-1;
     }
 
     public class PayloadViewHolder extends RecyclerView.ViewHolder {

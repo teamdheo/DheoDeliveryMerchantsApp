@@ -79,7 +79,7 @@ public class AdapterClassPaymentReceiptPdf extends RecyclerView.Adapter<AdapterC
 
     @Override
     public int getItemCount() {
-        return payment_receipt_date_list.size()-1;
+        return payment_receipt_date_list == null ? 0 : payment_receipt_date_list.size()-1;
     }
 
     public class MyAdapter extends RecyclerView.ViewHolder {

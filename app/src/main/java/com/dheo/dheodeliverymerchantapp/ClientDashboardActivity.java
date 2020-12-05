@@ -63,6 +63,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -124,6 +125,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     LinearLayout map_layout, search_layout, active_layout;
     Helper helper = new Helper(this);
     private GoogleMap mMap;
+    MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,8 +208,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             clientId = extras.getInt("CLIENTId");
             session = extras.getInt("SESSION");
         }
-
-
+        myFirebaseMessagingService.createNotificationChannel();
         sqLiteDatabase = getBaseContext().openOrCreateDatabase("SQLite", MODE_PRIVATE, null);
         String sql = "CREATE TABLE IF NOT EXISTS ClientProfileInfo (_id Integer Primary Key,phone TEXT,image TEXT,clientId Integer,password TEXT);";
         sqLiteDatabase.execSQL(sql);
@@ -239,45 +240,44 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-
-                        if(task.isSuccessful()){
-                            token=task.getResult().getToken();
-                            //Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
-                            Call<ResponseBody> notification_call = RetrofitClient
-                                    .getInstance()
-                                    .getApi()
-                                    .notification_token_update(clientId,task.getResult().getToken());
-                            notification_call.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    String s = null;
-                                    try {
-                                        s = response.body().string();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    if (s.equals("{\"e\":0}")) {
-                                        //Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
-                                    }
-                                    else{
-                                        //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Toast.makeText(getApplicationContext(),"faield" , Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }else{
-                            Toast.makeText(getApplicationContext(),"unsuccessful" , Toast.LENGTH_LONG).show();
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
                         }
+
+                        // Get new FCM registration token
+                        final String token = task.getResult();
+                        Call<ResponseBody> notification_call = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .notification_token_update(clientId,task.getResult());
+                        notification_call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                String s = null;
+                                try {
+                                    s = response.body().string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if (s.equals("{\"e\":0}")) {
+                                    Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),"faield" , Toast.LENGTH_LONG).show();
+                            }
+                        });
 
                     }
                 });
@@ -661,10 +661,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     }
                 }
                 //Toast.makeText(getApplicationContext(),monthly_payload_all_record , Toast.LENGTH_LONG).show();
-                if (response.body().getM().size() < 1) {
-                    monthly_record_progress_bar.setVisibility(View.GONE);
-                    monthly_text.setVisibility(View.VISIBLE);
-                }
+                try{
+                    if (response.body().getM().size() < 1) {
+                        monthly_record_progress_bar.setVisibility(View.GONE);
+                        monthly_text.setVisibility(View.VISIBLE);
+                    }
+                }catch (NullPointerException e){}
 
                 adapter_record_payload = new AdapterClassMonthlyAllRecordPayload(monthly_payload_all_records, getApplicationContext(), clientId);
                 all_record_payload.setAdapter(adapter_record_payload);
@@ -1235,5 +1237,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
         fileOrDirectory.delete();
     }
+
 
 }

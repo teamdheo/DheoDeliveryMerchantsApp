@@ -199,7 +199,7 @@ public class AdapterSettingsAllAddresses extends RecyclerView.Adapter<AdapterSet
 
     @Override
     public int getItemCount() {
-        return pickup_address.size();
+        return pickup_address == null ? 0 : pickup_address.size();
     }
 
     public class AddressViewHolder extends RecyclerView.ViewHolder {

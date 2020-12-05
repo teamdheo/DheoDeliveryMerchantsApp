@@ -50,7 +50,7 @@ public class AdapterTrackerEvents extends RecyclerView.Adapter<AdapterTrackerEve
 
     @Override
     public int getItemCount() {
-        return event_list.size();
+        return event_list == null ? 0 : event_list.size();
     }
 
     public class MyEventViewHolder extends RecyclerView.ViewHolder {

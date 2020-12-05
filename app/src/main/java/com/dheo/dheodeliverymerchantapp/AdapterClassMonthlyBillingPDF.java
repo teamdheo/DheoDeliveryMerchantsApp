@@ -56,7 +56,7 @@ public class AdapterClassMonthlyBillingPDF extends RecyclerView.Adapter<AdapterC
 
     @Override
     public int getItemCount() {
-        return monthly_payment_all_date.size();
+        return monthly_payment_all_date == null ? 0 : monthly_payment_all_date.size();
     }
 
     public class MonthlyBillingholder extends RecyclerView.ViewHolder {

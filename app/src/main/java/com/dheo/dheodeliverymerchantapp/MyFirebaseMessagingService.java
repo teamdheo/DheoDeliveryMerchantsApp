@@ -11,7 +11,6 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -21,26 +20,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "Firebase_MSG";
     private static final String CHANNEL_ID ="default_channel_id" ;
 
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+    public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+    @Override
+    public void onNewToken(String s) {
+        super.onNewToken(s);
+        Log.d("NEW_TOKEN",s);
     }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO(developer): Handle FCM messages here.
-        sendNotification(remoteMessage.getNotification().getBody(),remoteMessage.getNotification().getTitle());
+        sendNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
     }

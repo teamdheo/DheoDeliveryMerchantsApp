@@ -50,7 +50,7 @@ public class AdapterClassMonthlyAllRecordPayload extends RecyclerView.Adapter<Ad
 
     @Override
     public int getItemCount() {
-        return all_monthly_records_payloads.size();
+        return all_monthly_records_payloads == null ? 0 : all_monthly_records_payloads.size();
     }
 
     public class RecordPayloadHolder extends RecyclerView.ViewHolder {

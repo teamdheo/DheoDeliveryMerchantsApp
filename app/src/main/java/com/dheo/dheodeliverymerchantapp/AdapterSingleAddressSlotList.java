@@ -347,7 +347,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
 
     @Override
     public int getItemCount() {
-        return pick_up_slots.size();
+        return pick_up_slots == null ? 0 : pick_up_slots.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
