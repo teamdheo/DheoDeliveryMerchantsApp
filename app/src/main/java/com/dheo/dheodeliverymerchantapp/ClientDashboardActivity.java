@@ -125,7 +125,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     LinearLayout map_layout, search_layout, active_layout;
     Helper helper = new Helper(this);
     private GoogleMap mMap;
-    MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
+    //MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +208,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             clientId = extras.getInt("CLIENTId");
             session = extras.getInt("SESSION");
         }
-        myFirebaseMessagingService.createNotificationChannel();
+        //myFirebaseMessagingService.createNotificationChannel();
         sqLiteDatabase = getBaseContext().openOrCreateDatabase("SQLite", MODE_PRIVATE, null);
         String sql = "CREATE TABLE IF NOT EXISTS ClientProfileInfo (_id Integer Primary Key,phone TEXT,image TEXT,clientId Integer,password TEXT);";
         sqLiteDatabase.execSQL(sql);
@@ -266,7 +266,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                 }
 
                                 if (s.equals("{\"e\":0}")) {
-                                    Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(getApplicationContext(),"token collected "+ token , Toast.LENGTH_LONG).show();
                                 }
                                 else{
                                     //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();
@@ -275,7 +275,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),"faield" , Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getApplicationContext(),"faield" , Toast.LENGTH_LONG).show();
                             }
                         });
 

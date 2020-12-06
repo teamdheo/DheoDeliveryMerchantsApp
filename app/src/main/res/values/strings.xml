@@ -9,5 +9,5 @@
     <string name="agriment_part2">\n<b>FRAGILE ITEMS:</b> We ask that you pack your fragile items carefully for pickup and mark it as fragile. We do not assume responsibility for damages.\n\n<b>DAMAGED PARCELS:</b> Our couriers are well trained to carry your parcels with care. We do not assume automatic responsibility for damages. However we will investigate the issue and offer damage compensation on a case-by-case basis.\n\n<b>INSIDE DHAKA DELIVERY:</b> We deliver to all metro areas in Dhaka. To know more about our delivery zones check out our Delivery Zones.\n\n<b>OUTSIDE DHAKA DELIVERY:</b> We deliver outside Dhaka through Sundarban National Courier, however, cash on delivery (COD) is NOT available for outside Dhaka deliveries.
     </string>
     <string name="channel_name">notification</string>
-    <string name="channel_description">notification channel</string>
+    <string name="channel_description">notification_channel</string>
 </resources>
