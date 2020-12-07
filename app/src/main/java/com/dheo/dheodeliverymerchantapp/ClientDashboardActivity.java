@@ -16,7 +16,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.format.DateUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -61,8 +63,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -131,6 +132,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     protected void onCreate(Bundle savedInstanceState) {
         helper.checkInternetConnection();
         super.onCreate(savedInstanceState);
+        battery_optimization();
         setContentView(R.layout.activity_client_dashboard);
         client_name = (TextView) findViewById(R.id.name);
         total_balance = (TextView) findViewById(R.id.amount);
@@ -1236,6 +1238,30 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         }
 
         fileOrDirectory.delete();
+    }
+    public void battery_optimization(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final Intent intent = new Intent();
+            final String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                final android.app.AlertDialog ad= new android.app.AlertDialog.Builder(this).setTitle("IMPORTANT").setMessage("For The Proper Working Of The App,Please Disable Battery Optimization For This App").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + packageName));
+                        startActivity(intent);
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.exit(0);
+                    }
+                }).create();
+                ad.show();
+            }
+        }
     }
 
 
