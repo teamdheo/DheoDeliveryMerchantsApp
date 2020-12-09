@@ -513,14 +513,15 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                             if(pdf_receipt.get(8).getRecordsRemaining() == 0){
                                 see_older.setVisibility(View.INVISIBLE);
                             }
-                            if(pdf_receipt.size()<2){
+                            if(pdf_receipt.get(8).getCount() == 0){
                                 no_daily_payment_recept.setVisibility(View.VISIBLE);
                             }
+
                             //Toast.makeText(getApplicationContext(), remaining_receipt+"", Toast.LENGTH_LONG).show();
                         }catch (IndexOutOfBoundsException e){
                             //Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
                             see_older.setVisibility(View.GONE);
-                            no_daily_payment_recept.setVisibility(View.VISIBLE);
+                            //no_daily_payment_recept.setVisibility(View.VISIBLE);
                         }
                     }catch (NullPointerException | IndexOutOfBoundsException e) {
                         e.printStackTrace();

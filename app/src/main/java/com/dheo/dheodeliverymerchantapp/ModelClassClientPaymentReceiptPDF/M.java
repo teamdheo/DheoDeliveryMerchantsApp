@@ -30,6 +30,9 @@ public class M {
     @SerializedName("offset")
     @Expose
     private Integer offset;
+    @SerializedName("count")
+    @Expose
+    private Integer count;
 
     public String getTime() {
         return time;
@@ -94,4 +97,11 @@ public class M {
         this.offset = offset;
     }
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 }

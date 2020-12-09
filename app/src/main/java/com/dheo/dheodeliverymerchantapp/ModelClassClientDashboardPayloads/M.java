@@ -87,6 +87,9 @@ public class M {
     @SerializedName("offset")
     @Expose
     private Integer offset;
+    @SerializedName("count")
+    @Expose
+    private Integer count;
 
     public Boolean getCourierMemoAdded() {
         return courierMemoAdded;
@@ -301,5 +304,13 @@ public class M {
 
     public void setClaimPending(Boolean claimPending) {
         this.claimPending = claimPending;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

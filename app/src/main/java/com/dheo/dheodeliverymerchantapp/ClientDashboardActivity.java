@@ -102,7 +102,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic;
     private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
     private String photo_url, blog_url;
-    private String name, versionName, token;
+    private String name, versionName;
     private int balance;
     private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar,name_dashboad_progress;
@@ -132,7 +132,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     protected void onCreate(Bundle savedInstanceState) {
         helper.checkInternetConnection();
         super.onCreate(savedInstanceState);
-        battery_optimization();
+        //battery_optimization();
         setContentView(R.layout.activity_client_dashboard);
         client_name = (TextView) findViewById(R.id.name);
         total_balance = (TextView) findViewById(R.id.amount);
@@ -896,40 +896,53 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
                 if (response.body() != null) {
-                    ClientDashboardPayloads clientDashboardPayloads = response.body();
-                    all_dashboard_payload = clientDashboardPayloads.getM();
-                    try {
-                        if (all_dashboard_payload.size() > 8) {
-                            if (all_dashboard_payload.get(8).getShowNext()) {
+                    payload_progressbar.setVisibility(View.GONE);
+                    try{
+                        ClientDashboardPayloads clientDashboardPayloads = response.body();
+                        all_dashboard_payload = clientDashboardPayloads.getM();
+                        try {
+                            if(all_dashboard_payload.get(8).getShowNext()){
                                 see_older.setVisibility(View.VISIBLE);
-                                see_older.setText("<Older (" + all_dashboard_payload.get(8).getRecordsRemaining() + ")");
+                                see_older.setText("< Older (" + all_dashboard_payload.get(8).getRecordsRemaining() +")");
                                 payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
-//                            Toasty.error(getApplicationContext(), payload_remaining, Toast.LENGTH_LONG, true).show();
                             }
-                            if (all_dashboard_payload.get(8).getShowPrev()) {
+                            else{
+                                see_newer.setVisibility(View.INVISIBLE);
+                            }
+                            if (all_dashboard_payload.get(8).getShowPrev()){
                                 see_newer.setVisibility(View.VISIBLE);
-                                see_newer.setText("Newer (" + all_dashboard_payload.get(8).getOffset() + ")>");
-                                payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
+                                see_newer.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
                             }
+                            else{
+                                see_newer.setVisibility(View.INVISIBLE);
+                            }
+//                            if(page_number == 1){
+//                                see_newer.setVisibility(View.INVISIBLE);
+//                            }
+//                            if(all_dashboard_payload.get(8).getRecordsRemaining() == 0){
+//                                see_older.setVisibility(View.INVISIBLE);
+//                            }
+                            if(all_dashboard_payload.get(8).getCount() == 0){
+                                dashboard_payloads.setVisibility(View.GONE);
+                                payload_progressbar.setVisibility(View.GONE);
+                                search_layout.setVisibility(View.GONE);
+                                active_layout.setVisibility(View.VISIBLE);
+                            }
+                            payload_progressbar.setVisibility(View.GONE);
+                        } catch (IndexOutOfBoundsException e) {
+                            see_older.setVisibility(View.INVISIBLE);
+                            e.printStackTrace();
+
                         }
-                        if (page_number == 1) {
-                            see_newer.setVisibility(View.INVISIBLE);
-                        }
-                        if (all_dashboard_payload.size() < 2) {
-                            search_layout.setVisibility(View.GONE);
-                            active_layout.setVisibility(View.VISIBLE);
-                        }
-                        payload_progressbar.setVisibility(View.GONE);
-                    } catch (NullPointerException | IndexOutOfBoundsException e) {
-                        dashboard_payloads.setVisibility(View.GONE);
-                        payload_progressbar.setVisibility(View.GONE);
-                        search_layout.setVisibility(View.GONE);
+                    }catch (NullPointerException | IndexOutOfBoundsException e) {
+
                         e.printStackTrace();
-                        //Toast.makeText(getApplicationContext(), "You don't have any payload", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     //Toasty.error(getApplicationContext(), "You have no payload!", Toast.LENGTH_LONG, true).show();
                     search_layout.setVisibility(View.GONE);
+                    see_older.setVisibility(View.GONE);
                 }
                 adapter_payload = new AdapterDashboardPayloadsList(all_dashboard_payload, getApplicationContext(), name, clientId, pro_pic_url);
                 dashboard_payloads.setAdapter(adapter_payload);
