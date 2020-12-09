@@ -315,10 +315,13 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         try {
                             ClientMonthlyStatementDate clientMonthlyStatementDate = response.body();
                             monthly_billing_pdf = clientMonthlyStatementDate.getM();
+                            if(monthly_billing_pdf.size()<1){
+                                no_monthly_payment_recept.setVisibility(View.VISIBLE);
+                            }
                         }catch (NullPointerException e) {
                             e.printStackTrace();
                             no_monthly_payment_recept.setVisibility(View.VISIBLE);
-                            //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+
                         }
                     }
                 }catch (NullPointerException | IndexOutOfBoundsException e){
@@ -330,10 +333,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
-                no_monthly_payment_recept.setVisibility(View.VISIBLE);
-                //Toasty.error(getApplicationContext(), "wrong here!", Toast.LENGTH_LONG, true).show();
-//                Intent i = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
-//                startActivity(i);
+
             }
         });
 
@@ -482,6 +482,29 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        Call<ClientPaymentReceiptPDF> call_null_check = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_payment_receipt_pdf(client_id, page_number);
+        call_null_check.enqueue(new Callback<ClientPaymentReceiptPDF>() {
+            @Override
+            public void onResponse(Call<ClientPaymentReceiptPDF> call, Response<ClientPaymentReceiptPDF> response) {
+                if(response.body()!=null){
+                    try {
+                        if(response.body().getM().size()<2){
+                            no_daily_payment_recept.setVisibility(View.VISIBLE);
+                        }
+                    }catch (NullPointerException | IndexOutOfBoundsException e){
+                        no_daily_payment_recept.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClientPaymentReceiptPDF> call, Throwable t) {
+
+            }
+        });
     }
 
     public void loadPaymentReceipt(){
@@ -521,7 +544,6 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         }catch (IndexOutOfBoundsException e){
                             //Toast.makeText(getApplicationContext(), "you have no information", Toast.LENGTH_LONG).show();
                             see_older.setVisibility(View.GONE);
-                            //no_daily_payment_recept.setVisibility(View.VISIBLE);
                         }
                     }catch (NullPointerException | IndexOutOfBoundsException e) {
                         e.printStackTrace();
@@ -529,7 +551,6 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    //Toast.makeText(getApplicationContext(), "no information", Toast.LENGTH_LONG).show();
                     see_older.setVisibility(View.GONE);
                 }
                 adapter = new AdapterClassPaymentReceiptPdf(pdf_receipt,getApplicationContext(), client_id);

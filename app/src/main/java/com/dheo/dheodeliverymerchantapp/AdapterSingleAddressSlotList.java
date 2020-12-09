@@ -244,7 +244,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
 
                                 } else {
                                     dialog.dismiss();
-                                    Toasty.error(context, "First Book A Pickup Slot.", Toast.LENGTH_LONG, true).show();
+                                    Toasty.error(context, "Please Book Pickup First!", Toast.LENGTH_LONG, true).show();
                                 }
                             }
 

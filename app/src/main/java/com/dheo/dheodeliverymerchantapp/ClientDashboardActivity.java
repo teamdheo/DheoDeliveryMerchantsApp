@@ -655,6 +655,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     try {
                         ClientMonthlyStatementDate clientMonthlyStatementDate1 = response.body();
                         monthly_payload_all_records = clientMonthlyStatementDate1.getM();
+                        if(monthly_payload_all_records.size()<1){
+                            monthly_text.setVisibility(View.VISIBLE);
+                        }
                     } catch (NullPointerException e) {
                         all_record_payload.setVisibility(View.GONE);
                         monthly_text.setVisibility(View.VISIBLE);
@@ -663,12 +666,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     }
                 }
                 //Toast.makeText(getApplicationContext(),monthly_payload_all_record , Toast.LENGTH_LONG).show();
-                try{
-                    if (response.body().getM().size() < 1) {
-                        monthly_record_progress_bar.setVisibility(View.GONE);
-                        monthly_text.setVisibility(View.VISIBLE);
-                    }
-                }catch (NullPointerException e){}
 
                 adapter_record_payload = new AdapterClassMonthlyAllRecordPayload(monthly_payload_all_records, getApplicationContext(), clientId);
                 all_record_payload.setAdapter(adapter_record_payload);
@@ -676,8 +673,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<ClientMonthlyStatementDate> call, Throwable t) {
-                monthly_text.setVisibility(View.VISIBLE);
-                //Toasty.error(getApplicationContext(), "You don't have any statement!", Toast.LENGTH_LONG, true).show();
             }
         });
         payload_search_btn.setOnClickListener(new View.OnClickListener() {
@@ -884,8 +879,46 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 });
             }
         });
+        Call<ClientDashboardPayloads> call_null_cleck = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_dashboard_payloads(clientId, page_number);
+        call_null_cleck.enqueue(new Callback<ClientDashboardPayloads>() {
+            @Override
+            public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
+                if(response.body() != null){
+                    try {
+                        if(response.body().getM().size()<2){
+                            dashboard_payloads.setVisibility(View.GONE);
+                            payload_progressbar.setVisibility(View.GONE);
+                            search_layout.setVisibility(View.GONE);
+                            active_layout.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }catch (NullPointerException | IndexOutOfBoundsException e){
+                        dashboard_payloads.setVisibility(View.GONE);
+                        payload_progressbar.setVisibility(View.GONE);
+                        search_layout.setVisibility(View.GONE);
+                        active_layout.setVisibility(View.VISIBLE);
+
+                    }
+                }
+
+
+
+            }
+
+
+
+            @Override
+            public void onFailure(Call<ClientDashboardPayloads> call, Throwable t) {
+
+            }
+        });
 
     }
+
 
     public void loadDashboardPayload() {
         Call<ClientDashboardPayloads> call2 = RetrofitClient
@@ -906,28 +939,16 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                 see_older.setText("< Older (" + all_dashboard_payload.get(8).getRecordsRemaining() +")");
                                 payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
                             }
-                            else{
-                                see_newer.setVisibility(View.INVISIBLE);
-                            }
+//
                             if (all_dashboard_payload.get(8).getShowPrev()){
                                 see_newer.setVisibility(View.VISIBLE);
                                 see_newer.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
                             }
-                            else{
+//
+                            if(page_number == 1){
                                 see_newer.setVisibility(View.INVISIBLE);
                             }
-//                            if(page_number == 1){
-//                                see_newer.setVisibility(View.INVISIBLE);
-//                            }
-//                            if(all_dashboard_payload.get(8).getRecordsRemaining() == 0){
-//                                see_older.setVisibility(View.INVISIBLE);
-//                            }
-                            if(all_dashboard_payload.get(8).getCount() == 0){
-                                dashboard_payloads.setVisibility(View.GONE);
-                                payload_progressbar.setVisibility(View.GONE);
-                                search_layout.setVisibility(View.GONE);
-                                active_layout.setVisibility(View.VISIBLE);
-                            }
+//
                             payload_progressbar.setVisibility(View.GONE);
                         } catch (IndexOutOfBoundsException e) {
                             see_older.setVisibility(View.INVISIBLE);

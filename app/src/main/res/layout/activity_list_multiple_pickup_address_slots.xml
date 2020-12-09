@@ -9,16 +9,28 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/multiple_text"
             android:layout_margin="5dp"
-            android:textColor="#000000"
-            android:text="আপনি এখন থেকে একাধিক পিকাপ এড্রেস যুক্ত করতে পারবেন এবং একাধিক পিকাপ এড্রেস থেকে একই দিনের একাধিক পিকাপ রিকুয়েস্ট দিতে পারবেন । Settings এ ক্লিক করে আপনার একাধিক পিকাপ এড্রেস যুক্ত করূন , ধন্যবাদ।"
+            android:background="#EFEFEF"
+            android:id="@+id/linear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/multiple_text"
+                android:layout_margin="10dp"
+                android:textColor="#000000"
+                android:padding="4dp"
+                android:background="@drawable/rounded_edittext1"
+                android:text="আপনি এখন থেকে একাধিক পিকাপ এড্রেস যুক্ত করতে পারবেন এবং একাধিক পিকাপ এড্রেস থেকে একই দিনের একাধিক পিকাপ রিকুয়েস্ট দিতে পারবেন । Settings এ ক্লিক করে আপনার একাধিক পিকাপ এড্রেস যুক্ত করূন , ধন্যবাদ।" />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/multiple_address_slot"
             android:layout_width="match_parent"
@@ -28,14 +40,15 @@
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/multiple_text" />
+            app:layout_constraintTop_toBottomOf="@+id/linear_text" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/multiple_address_slot_progress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/linear_text"
+            app:layout_constraintBottom_toBottomOf="@+id/multiple_address_slot"/>
 
         <Button
             android:layout_width="70dp"
