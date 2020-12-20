@@ -34,9 +34,6 @@ public class LogInActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Boolean saveLogin;
-    private String name;
-    private  int balance;
-    SQLiteDatabase sqLiteDatabase;
     Helper helper = new Helper(this);
 
     @Override
