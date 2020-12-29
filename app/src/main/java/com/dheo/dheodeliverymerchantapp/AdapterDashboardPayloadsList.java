@@ -158,8 +158,8 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
 
                             categories = new ArrayList<String>();
                             categories.add("Please select a type");
-                            categories.add("Damage");
-                            categories.add("Not Return Done");
+                            categories.add("Damaged parcel");
+                            categories.add("Not received");
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(payload_contex, android.R.layout.simple_spinner_item, categories);
                             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             claim_type.setAdapter(dataAdapter);
@@ -265,6 +265,16 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 if (dashboard_payload.get(position).getReturnStarted()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Return Started");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
+
+                }
+            } catch (NullPointerException e) {
+                //holder.label.setVisibility(View.INVISIBLE);
+            }
+            try {
+                if (dashboard_payload.get(position).getClaimReceived()) {
+                    holder.label.setVisibility(View.VISIBLE);
+                    holder.label.setText("Claim Received");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
 
                 }

@@ -36,6 +36,9 @@ public class M {
     @SerializedName("claim_pending")
     @Expose
     private Boolean claimPending;
+    @SerializedName("claim_received")
+    @Expose
+    private Boolean claimReceived;
     @SerializedName("delivery_started")
     @Expose
     private Boolean deliveryStarted;
@@ -240,6 +243,14 @@ public class M {
 
     public void setReturnClaim(Boolean returnClaim) {
         this.returnClaim = returnClaim;
+    }
+
+    public Boolean getClaimReceived() {
+        return claimReceived;
+    }
+
+    public void setClaimReceived(Boolean claimReceived) {
+        this.claimReceived = claimReceived;
     }
 
     public String getRating() {

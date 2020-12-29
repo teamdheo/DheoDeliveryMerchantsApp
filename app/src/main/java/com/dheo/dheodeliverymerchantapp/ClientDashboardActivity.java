@@ -557,17 +557,20 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         call6.enqueue(new Callback<PickupMapInfo>() {
             @Override
             public void onResponse(Call<PickupMapInfo> call, Response<PickupMapInfo> response) {
-                PickupMapInfo info = response.body();
-                if (info.getE() == 0) {
-                    try {
-                        if (info.getM().getCourierPingMap().getAgents().size() > 0) {
-                            map_layout.setVisibility(View.VISIBLE);
-                            next_pickup.setVisibility(View.GONE);
-                            scooter.setVisibility(View.GONE);
+                try{
+                    PickupMapInfo info = response.body();
+                    if (info.getE() == 0) {
+                        try {
+                            if (info.getM().getCourierPingMap().getAgents().size() > 0) {
+                                map_layout.setVisibility(View.VISIBLE);
+                                next_pickup.setVisibility(View.GONE);
+                                scooter.setVisibility(View.GONE);
+                            }
+                        } catch (NullPointerException e) {
                         }
-                    } catch (NullPointerException e) {
                     }
-                }
+
+                }catch (NullPointerException e){}
             }
 
             @Override

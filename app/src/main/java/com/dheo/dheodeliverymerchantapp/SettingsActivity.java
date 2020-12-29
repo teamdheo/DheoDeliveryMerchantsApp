@@ -251,7 +251,7 @@ public class SettingsActivity extends AppCompatActivity {
                }
            });
        }catch (NullPointerException e){
-           mode = "cash";
+
        }
         try {
             bkash.setOnClickListener(new View.OnClickListener() {
@@ -271,7 +271,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
         }catch (NullPointerException e){
-            mode = "bkash";
+
         }
         try {
             nagad.setOnClickListener(new View.OnClickListener() {
@@ -293,7 +293,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
         }catch (NullPointerException e){
-            mode = "nagad";
+
         }
 
         bank.setOnClickListener(new View.OnClickListener() {
@@ -537,8 +537,125 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog_text.show();
-                if(mode == "bank"){
-                    if(edit_account_name.getText().toString().length() !=0 && edit_account_num.getText().toString().length()!=0){
+                try{
+                    if(mode == "bank"){
+                        if(edit_account_name.getText().toString().length() !=0 && edit_account_num.getText().toString().length()!=0){
+                            Call<ResponseBody> call3 = RetrofitClient
+                                    .getInstance()
+                                    .getApi()
+                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                            call3.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    String s = null;
+                                    try {
+                                        s = response.body().string();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                    if (s.equals("{\"e\":0}")) {
+                                        dialog_text.dismiss();
+                                        Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
+                                        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                        startActivity(intent);
+
+                                    } else {
+                                        Toasty.error(getApplicationContext(), "The server failed to response", Toast.LENGTH_LONG, true).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
+                                }
+                            });
+                        }
+                        else {
+                            Toasty.error(getApplicationContext(), "Fill account name & number properly! ", Toast.LENGTH_LONG, true).show();
+                            dialog_text.dismiss();
+                        }
+                    }
+                    else if(mode == "bkash"){
+                        if(bkash_or_nagad.getText().toString().length() == 11){
+                            Call<ResponseBody> call3 = RetrofitClient
+                                    .getInstance()
+                                    .getApi()
+                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                            call3.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    String s = null;
+                                    try {
+                                        s = response.body().string();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                    if (s.equals("{\"e\":0}")) {
+                                        dialog_text.dismiss();
+                                        Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
+                                        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                        startActivity(intent);
+
+                                    } else {
+                                        Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
+                                        dialog_text.dismiss();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
+                                }
+                            });
+                        }
+                        else{
+                            Toasty.error(getApplicationContext(), "bkash number should be 11 disit!", Toast.LENGTH_LONG, true).show();
+                            dialog_text.dismiss();
+                        }
+                    }
+                    else if(mode == "nagad"){
+                        if(edit_nagad_num.getText().toString().length() == 11){
+                            Call<ResponseBody> call3 = RetrofitClient
+                                    .getInstance()
+                                    .getApi()
+                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                            call3.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    String s = null;
+                                    try {
+                                        s = response.body().string();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                    if (s.equals("{\"e\":0}")) {
+                                        dialog_text.dismiss();
+                                        Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
+                                        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                                        startActivity(intent);
+
+                                    } else {
+                                        Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
+                                        dialog_text.dismiss();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
+                                }
+                            });
+                        }
+                        else{
+                            Toasty.error(getApplicationContext(), "Nagad number should be 11 disit!", Toast.LENGTH_LONG, true).show();
+                            dialog_text.dismiss();
+                        }
+
+                    }
+                    else if(mode == "cash"){
                         Call<ResponseBody> call3 = RetrofitClient
                                 .getInstance()
                                 .getApi()
@@ -555,45 +672,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                 if (s.equals("{\"e\":0}")) {
                                     dialog_text.dismiss();
-                                    Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
-                                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                                    startActivity(intent);
-
-                                } else {
-                                    Toasty.error(getApplicationContext(), "The server failed to response", Toast.LENGTH_LONG, true).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
-                            }
-                        });
-                    }
-                    else {
-                        Toasty.error(getApplicationContext(), "Fill account name & number properly! ", Toast.LENGTH_LONG, true).show();
-                        dialog_text.dismiss();
-                    }
-                }
-                else if(mode == "bkash"){
-                    if(bkash_or_nagad.getText().toString().length() == 11){
-                        Call<ResponseBody> call3 = RetrofitClient
-                                .getInstance()
-                                .getApi()
-                                .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
-                        call3.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                String s = null;
-                                try {
-                                    s = response.body().string();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                                if (s.equals("{\"e\":0}")) {
-                                    dialog_text.dismiss();
-                                    Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
+                                    Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
                                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                     startActivity(intent);
 
@@ -605,92 +684,18 @@ public class SettingsActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
+                                Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
                             }
                         });
                     }
                     else{
-                        Toasty.error(getApplicationContext(), "bkash number should be 11 disit!", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(getApplicationContext(), "You didn't choose a option!", Toast.LENGTH_LONG, true).show();
                         dialog_text.dismiss();
                     }
-                }
-                else if(mode == "nagad"){
-                    if(edit_nagad_num.getText().toString().length() == 11){
-                        Call<ResponseBody> call3 = RetrofitClient
-                                .getInstance()
-                                .getApi()
-                                .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
-                        call3.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                String s = null;
-                                try {
-                                    s = response.body().string();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                                if (s.equals("{\"e\":0}")) {
-                                    dialog_text.dismiss();
-                                    Toasty.success(getApplicationContext(), "Successfully Updated.", Toast.LENGTH_LONG, true).show();
-                                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                                    startActivity(intent);
-
-                                } else {
-                                    Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
-                                    dialog_text.dismiss();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
-                            }
-                        });
-                    }
-                    else{
-                        Toasty.error(getApplicationContext(), "Nagad number should be 11 disit!", Toast.LENGTH_LONG, true).show();
-                        dialog_text.dismiss();
-                    }
-
-                }
-                else if(mode == "cash"){
-                    Call<ResponseBody> call3 = RetrofitClient
-                            .getInstance()
-                            .getApi()
-                            .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
-                    call3.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            String s = null;
-                            try {
-                                s = response.body().string();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                            if (s.equals("{\"e\":0}")) {
-                                dialog_text.dismiss();
-                                Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
-                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                                startActivity(intent);
-
-                            } else {
-                                Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
-                                dialog_text.dismiss();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
-                        }
-                    });
-                }
-                else{
-                    Toasty.error(getApplicationContext(), "You didn't choose a option!", Toast.LENGTH_LONG, true).show();
+                }catch (NullPointerException e){
                     dialog_text.dismiss();
                 }
+
                 //Toasty.error(getApplicationContext(), bank_name_show.getSelectedItem().toString(), Toast.LENGTH_LONG, true).show();
             }
         });
