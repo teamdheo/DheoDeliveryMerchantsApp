@@ -129,6 +129,24 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 // holder.label.setVisibility(View.INVISIBLE);
             }
             try {
+                if (dashboard_payload.get(position).getDonePayment()) {
+                    holder.label.setVisibility(View.VISIBLE);
+                    holder.label.setText("Cash Payment Done");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.paid_on));
+                }
+            } catch (NullPointerException e) {
+                // holder.label.setVisibility(View.INVISIBLE);
+            }
+            try {
+                if (dashboard_payload.get(position).getStartpaymentDone()) {
+                    holder.label.setVisibility(View.VISIBLE);
+                    holder.label.setText("Cash Payment Done");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.paid_on));
+                }
+            } catch (NullPointerException e) {
+                // holder.label.setVisibility(View.INVISIBLE);
+            }
+            try {
                 if (dashboard_payload.get(position).getClaimPending()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Claim Pending");
@@ -248,6 +266,24 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delivery Canceled");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_cancel));
+                }
+            } catch (NullPointerException e) {
+                //holder.label.setVisibility(View.INVISIBLE);
+            }
+            try {
+                if (dashboard_payload.get(position).getClaimRejected()) {
+                    holder.item_claim.setVisibility(View.VISIBLE);
+                    holder.item_claim.setText("Claim Rejected");
+                    //holder.item_claim.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_cancel));
+                }
+            } catch (NullPointerException e) {
+                //holder.label.setVisibility(View.INVISIBLE);
+            }
+            try {
+                if (dashboard_payload.get(position).getClaimAccepted()) {
+                    holder.item_claim.setVisibility(View.VISIBLE);
+                    holder.item_claim.setText("Claim Accepted");
+                    //holder.item_claim.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.paid_on));
                 }
             } catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);

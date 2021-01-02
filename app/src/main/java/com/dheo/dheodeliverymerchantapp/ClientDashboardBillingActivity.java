@@ -375,7 +375,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel: +8801301377181"));
+                intent.setData(Uri.parse("tel: 09613533533"));
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

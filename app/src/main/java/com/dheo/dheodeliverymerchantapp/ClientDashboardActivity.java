@@ -27,11 +27,14 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +76,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -93,6 +97,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private String currentImagePath, client_profile_pic;
     File imageFile;
     private int session = 0;
+    private Spinner payload_mode;
+    private List<String> categories = new ArrayList<String>();
+    private String mode;
     private boolean saveLogin;
     private String phone;
     private String photoUrl, scooter_url, pro_pic_url;
@@ -172,6 +179,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         blog_title = findViewById(R.id.blog_title);
         blog_see_more = findViewById(R.id.blog_see_more);
         search_layout = findViewById(R.id.search_layout);
+        payload_mode = findViewById(R.id.payload_mode);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -624,7 +632,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
         });
 
-        loadDashboardPayload();
+        //loadDashboardPayload();
 
         see_older.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -885,7 +893,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         Call<ClientDashboardPayloads> call_null_cleck = RetrofitClient
                 .getInstance()
                 .getApi()
-                .client_dashboard_payloads(clientId, page_number);
+                .client_dashboard_payloads(clientId, page_number,mode);
         call_null_cleck.enqueue(new Callback<ClientDashboardPayloads>() {
             @Override
             public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
@@ -895,6 +903,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             dashboard_payloads.setVisibility(View.GONE);
                             payload_progressbar.setVisibility(View.GONE);
                             search_layout.setVisibility(View.GONE);
+                            payload_mode.setVisibility(View.GONE);
                             active_layout.setVisibility(View.VISIBLE);
 
                         }
@@ -902,6 +911,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     }catch (NullPointerException | IndexOutOfBoundsException e){
                         dashboard_payloads.setVisibility(View.GONE);
                         payload_progressbar.setVisibility(View.GONE);
+                        payload_mode.setVisibility(View.GONE);
                         search_layout.setVisibility(View.GONE);
                         active_layout.setVisibility(View.VISIBLE);
 
@@ -911,23 +921,39 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
 
             }
-
-
-
             @Override
             public void onFailure(Call<ClientDashboardPayloads> call, Throwable t) {
 
             }
         });
+        categories.add("All");
+        categories.add("Active");
+        categories.add("Completed");
+        categories.add("Cancelled");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        payload_mode.setAdapter(dataAdapter);
+        payload_mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mode = parent.getItemAtPosition(position).toString();
+                page_number = 1;
+                loadDashboardPayload();
+                //Toast.makeText(getApplicationContext(), ""+mode, Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
-
 
     public void loadDashboardPayload() {
         Call<ClientDashboardPayloads> call2 = RetrofitClient
                 .getInstance()
                 .getApi()
-                .client_dashboard_payloads(clientId, page_number);
+                .client_dashboard_payloads(clientId, page_number,mode);
         call2.enqueue(new Callback<ClientDashboardPayloads>() {
             @Override
             public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {

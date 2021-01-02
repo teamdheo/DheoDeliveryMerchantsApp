@@ -57,6 +57,18 @@ public class M {
     @SerializedName("return_done")
     @Expose
     private Boolean returnDone;
+    @SerializedName("done_payment")
+    @Expose
+    private Boolean donePayment;
+    @SerializedName("start_payment_done")
+    @Expose
+    private Boolean startpaymentDone;
+    @SerializedName("claim_rejected")
+    @Expose
+    private Boolean claimRejected;
+    @SerializedName("claim_accepted")
+    @Expose
+    private Boolean claimAccepted;
     @SerializedName("on_hold")
     @Expose
     private Boolean onHold;
@@ -323,5 +335,37 @@ public class M {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public Boolean getDonePayment() {
+        return donePayment;
+    }
+
+    public void setDonePayment(Boolean donePayment) {
+        this.donePayment = donePayment;
+    }
+
+    public Boolean getStartpaymentDone() {
+        return startpaymentDone;
+    }
+
+    public void setStartpaymentDone(Boolean startpaymentDone) {
+        this.startpaymentDone = startpaymentDone;
+    }
+
+    public Boolean getClaimRejected() {
+        return claimRejected;
+    }
+
+    public void setClaimRejected(Boolean claimRejected) {
+        this.claimRejected = claimRejected;
+    }
+
+    public Boolean getClaimAccepted() {
+        return claimAccepted;
+    }
+
+    public void setClaimAccepted(Boolean claimAccepted) {
+        this.claimAccepted = claimAccepted;
     }
 }

@@ -129,7 +129,8 @@ public interface Api {
     @POST("client_dashboard_payloads")
     Call<ClientDashboardPayloads> client_dashboard_payloads(
             @Field("client_id") Integer client_id,
-            @Field("page_number") Integer page_number
+            @Field("page_number") Integer page_number,
+            @Field("mode") String mode
     );
 
     @FormUrlEncoded
