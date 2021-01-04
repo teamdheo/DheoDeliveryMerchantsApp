@@ -15,6 +15,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassClientPrefInfoAccountSetting.C
 import com.dheo.dheodeliverymerchantapp.ModelClassDeliveryMapInfo.DeliveryMapInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.LatestAccountActivity;
 import com.dheo.dheodeliverymerchantapp.ModelClassOrderStatusPageInfo.OrderStatusPageInfo;
+import com.dheo.dheodeliverymerchantapp.ModelClassPickupHistory.PickupHistory;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupMapInfo.PickupMapInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassTrackerLogEntry.TrackerLogEntry;
 import com.dheo.dheodeliverymerchantapp.modelClassAvaiablePickupSlot.AvailablePickupSlot;
@@ -140,7 +141,12 @@ public interface Api {
             @Query("page") int page,
             @Query("limit") int limit
     );
-
+    @FormUrlEncoded
+    @POST("pickup_history")
+    Call<PickupHistory> pickup_history(
+            @Field("client_id") Integer client_id,
+            @Field("page") Integer page
+    );
     @FormUrlEncoded
     @POST("client_payment_statement_date")
     Call<ClientMonthlyStatementDate> client_payment_statement_date(

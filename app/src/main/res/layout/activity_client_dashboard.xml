@@ -215,6 +215,7 @@
                 android:id="@+id/blog_see_more"
                 android:layout_margin="5dp"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -356,16 +357,73 @@
             android:text="Newer"
             android:layout_gravity="end"
             android:textColor="#FFF"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pickup_history_layout"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_older"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pickup History"
+                android:textColor="#000000"
+                android:textSize="20dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/picup_history_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:scrollbars="vertical"
+                android:background="#ffffff"/>
+
+        </LinearLayout>
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/old_pickup"
+            android:gravity="center"
+            android:text=""
+            android:textSize="10dp"
+            android:padding="2dp"
+            android:textColor="#FFF"
+            android:layout_gravity="left"
+            android:background="@drawable/rounded_signup"
+            app:layout_constraintTop_toBottomOf="@id/pickup_history_layout"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/new_pickup"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:text=""
+            android:textSize="10dp"
+            android:padding="2dp"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_signup"
+            app:layout_constraintTop_toBottomOf="@id/pickup_history_layout"
+            app:layout_constraintStart_toEndOf="parent"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="#282827"
             android:id="@+id/relative_layout"
-            app:layout_constraintTop_toBottomOf="@id/recycler_dashboard_payloads"
+            app:layout_constraintTop_toBottomOf="@id/old_pickup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="55dp">
+            android:layout_marginTop="10dp">
 
             <ImageView
                 android:id="@+id/help_lagbe_1"

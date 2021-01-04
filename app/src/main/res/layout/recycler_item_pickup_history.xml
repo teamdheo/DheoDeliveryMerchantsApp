@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="8dp"
+    android:orientation="horizontal"
+    app:cardElevation="3dp"
+    android:focusable="true">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pickup_history_agent_photo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/client_photo"
+        app:civ_border_color="#FFF"
+        app:civ_border_width="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/pickup_history_date"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="date"
+        app:layout_constraintStart_toEndOf="@+id/pickup_history_agent_photo"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="5dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pickup_history_agent_name"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="name"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/pickup_history_agent_photo"
+        app:layout_constraintTop_toBottomOf="@+id/pickup_history_date"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/pickup_history_number"
+        android:textColor="#000000"
+        android:text="you have 15 pickups"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pickup_history_agent_photo"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

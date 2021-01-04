@@ -149,7 +149,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             try {
                 if (dashboard_payload.get(position).getClaimPending()) {
                     holder.label.setVisibility(View.VISIBLE);
-                    holder.label.setText("Claim Pending");
+                    holder.label.setText("Pending Return Issue");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_delay));
                     holder.label.setTextColor(Color.rgb(0, 0, 0));
                 }
@@ -273,7 +273,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             try {
                 if (dashboard_payload.get(position).getClaimRejected()) {
                     holder.item_claim.setVisibility(View.VISIBLE);
-                    holder.item_claim.setText("Claim Rejected");
+                    holder.item_claim.setText("Return Issue Rejected");
                     //holder.item_claim.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_cancel));
                 }
             } catch (NullPointerException e) {
@@ -310,7 +310,7 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             try {
                 if (dashboard_payload.get(position).getClaimReceived()) {
                     holder.label.setVisibility(View.VISIBLE);
-                    holder.label.setText("Claim Received");
+                    holder.label.setText("Return Issue Received");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
 
                 }

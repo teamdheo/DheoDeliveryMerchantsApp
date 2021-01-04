@@ -54,6 +54,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassClientBasicInfo.ClientBasicInf
 import com.dheo.dheodeliverymerchantapp.ModelClassClientDashboardPayloads.ClientDashboardPayloads;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientMonthlyStatementDate.ClientMonthlyStatementDate;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPayloadSearch.ClientPayloadSearch;
+import com.dheo.dheodeliverymerchantapp.ModelClassPickupHistory.PickupHistory;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupMapInfo.PickupMapInfo;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.M;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.PickupAddresses;
@@ -104,16 +105,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private String phone;
     private String photoUrl, scooter_url, pro_pic_url;
     boolean doubleBackToExitPressedOnce = false;
-    private int clientId, page_number = 1, payload_remaining;
-    private String password;
+    private int clientId,balance, page_number = 1, payload_remaining,pickup_page_number = 1,pickup_remaining;
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic;
     private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
-    private String photo_url, blog_url;
-    private String name, versionName;
-    private int balance;
+    private String photo_url, blog_url,password,name, versionName;
     private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar,name_dashboad_progress;
-    private Button request_pickup, next_pickup, see_older, see_newer, payload_search_btn, go_back;
+    private Button request_pickup, next_pickup, see_older, see_newer, payload_search_btn, go_back,pickup_new,pickup_old;
     private List<M> pickup_address_length;
     SupportMapFragment fm;
     private double latitude;
@@ -125,12 +123,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private List<com.dheo.dheodeliverymerchantapp.ModelClassClientMonthlyStatementDate.M> monthly_payload_all_records;
     private List<com.dheo.dheodeliverymerchantapp.ModelClassClientPayloadSearch.M> payload_search;
     private List<com.dheo.dheodeliverymerchantapp.ModelClassPickupMapInfo.M> map_info;
-    private RecyclerView pickup_list, dashboard_payloads, all_record_payload, recycler_search_payload;
-    private RecyclerView.Adapter adapter, adapter_payload, adapter_record_payload, adapter_serch_payload;
-    private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
+    private List<com.dheo.dheodeliverymerchantapp.ModelClassPickupHistory.M> pickup_history_list;
+    private RecyclerView pickup_list, dashboard_payloads, all_record_payload, recycler_search_payload,picup_history_view;
+    private RecyclerView.Adapter adapter, adapter_payload, adapter_record_payload, adapter_serch_payload,pickup_history_adapter;
+    private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2,layoutManager3;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    LinearLayout map_layout, search_layout, active_layout;
+    LinearLayout map_layout, search_layout, active_layout,pickup_history_layout;
     Helper helper = new Helper(this);
     private GoogleMap mMap;
     //MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
@@ -180,6 +179,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         blog_see_more = findViewById(R.id.blog_see_more);
         search_layout = findViewById(R.id.search_layout);
         payload_mode = findViewById(R.id.payload_mode);
+        pickup_history_layout = findViewById(R.id.pickup_history_layout);
+        picup_history_view = findViewById(R.id.picup_history_view);
+        pickup_new = findViewById(R.id.new_pickup);
+        pickup_old = findViewById(R.id.old_pickup);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -188,8 +191,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         all_record_payload.setLayoutManager(layoutManager1);
         layoutManager2 = new LinearLayoutManager(this);
         recycler_search_payload.setLayoutManager(layoutManager2);
+        layoutManager3 = new LinearLayoutManager(this);
+        picup_history_view.setLayoutManager(layoutManager3);
         see_older.setVisibility(View.INVISIBLE);
         see_newer.setVisibility(View.INVISIBLE);
+        pickup_old.setVisibility(View.INVISIBLE);
+        pickup_new.setVisibility(View.INVISIBLE);
         next_pickup.setVisibility(View.GONE);
         scooter.setVisibility(View.GONE);
         recycler_search_payload.setVisibility(View.GONE);
@@ -655,6 +662,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+
         Call<ClientMonthlyStatementDate> record_call = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -947,6 +955,29 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             }
         });
+        pickup_old.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((pickup_remaining - (pickup_remaining / (pickup_page_number*3))) > 0){
+                    pickup_page_number++;
+                    loadPickupHistory();
+                }
+//                if(pickup_remaining > 0){
+//                    pickup_page_number++;
+//                    loadPickupHistory();
+//                }
+            }
+        });
+        pickup_new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pickup_page_number > 1){
+                    pickup_page_number--;
+                    loadPickupHistory();
+                }
+            }
+        });
+        loadPickupHistory();
     }
 
     public void loadDashboardPayload() {
@@ -1006,6 +1037,50 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+    }
+    public void loadPickupHistory() {
+        Call<PickupHistory> pickupHistoryCall = RetrofitClient
+                .getInstance()
+                .getApi()
+                .pickup_history(clientId, pickup_page_number);
+        pickupHistoryCall.enqueue(new Callback<PickupHistory>() {
+            @Override
+            public void onResponse(Call<PickupHistory> call, Response<PickupHistory> response) {
+                if(response.body() != null){
+                    try{
+                        pickup_history_list = response.body().getM();
+                        pickup_history_adapter = new AdapterClassPickupHistory(pickup_history_list,getApplicationContext());
+                        picup_history_view.setAdapter(pickup_history_adapter);
+
+                        if(pickup_history_list.get(3).getShowNext()){
+                            pickup_old.setVisibility(View.VISIBLE);
+                            pickup_old.setText("<Older ("+pickup_history_list.get(3).getRecordsRemaining()+")");
+                            pickup_remaining = pickup_history_list.get(3).getRecordsRemaining();
+                            Toast.makeText(getApplicationContext(), ""+pickup_remaining+","+pickup_page_number, Toast.LENGTH_LONG).show();
+                        };
+                        if(pickup_history_list.get(3).getShowPrev()){
+                            pickup_new.setVisibility(View.VISIBLE);
+                            pickup_new.setText("Newer ("+pickup_history_list.get(3).getOffset()+")");
+                        }
+                        if(pickup_page_number == 1){
+                            pickup_new.setVisibility(View.INVISIBLE);
+                        }
+                    }catch (NullPointerException | IndexOutOfBoundsException e) {
+
+                        e.printStackTrace();
+                        //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PickupHistory> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
