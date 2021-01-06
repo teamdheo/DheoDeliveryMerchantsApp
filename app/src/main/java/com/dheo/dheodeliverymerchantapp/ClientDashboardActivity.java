@@ -662,6 +662,27 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+        loadPickupHistory();
+
+        pickup_old.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((pickup_remaining - (pickup_remaining / (pickup_page_number*3))) > 0){
+                    pickup_page_number++;
+                    loadPickupHistory();
+                }
+            }
+        });
+        pickup_new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pickup_page_number > 1){
+                    pickup_page_number--;
+                    loadPickupHistory();
+                }
+            }
+        });
+
 
         Call<ClientMonthlyStatementDate> record_call = RetrofitClient
                 .getInstance()
@@ -955,29 +976,38 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             }
         });
-        pickup_old.setOnClickListener(new View.OnClickListener() {
+
+        Call<PickupHistory> pickupHistoryCall = RetrofitClient
+                .getInstance()
+                .getApi()
+                .pickup_history(clientId, pickup_page_number);
+        pickupHistoryCall.enqueue(new Callback<PickupHistory>() {
             @Override
-            public void onClick(View v) {
-                if((pickup_remaining - (pickup_remaining / (pickup_page_number*3))) > 0){
-                    pickup_page_number++;
-                    loadPickupHistory();
+            public void onResponse(Call<PickupHistory> call, Response<PickupHistory> response) {
+                if(response.body() != null){
+                    try{
+                        if(response.body().getM().size()<2){
+                            pickup_history_layout.setVisibility(View.GONE);
+                        }
+                    }catch (NullPointerException | IndexOutOfBoundsException e) {
+
+                        e.printStackTrace();
+                        //Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                    }
                 }
-//                if(pickup_remaining > 0){
-//                    pickup_page_number++;
-//                    loadPickupHistory();
-//                }
+                else{
+                    Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<PickupHistory> call, Throwable t) {
+
             }
         });
-        pickup_new.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pickup_page_number > 1){
-                    pickup_page_number--;
-                    loadPickupHistory();
-                }
-            }
-        });
-        loadPickupHistory();
+
+
     }
 
     public void loadDashboardPayload() {
@@ -994,19 +1024,22 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         ClientDashboardPayloads clientDashboardPayloads = response.body();
                         all_dashboard_payload = clientDashboardPayloads.getM();
                         try {
-                            if(all_dashboard_payload.get(8).getShowNext()){
+                            if(all_dashboard_payload.get(all_dashboard_payload.size()-1).getShowNext()){
                                 see_older.setVisibility(View.VISIBLE);
-                                see_older.setText("< Older (" + all_dashboard_payload.get(8).getRecordsRemaining() +")");
-                                payload_remaining = all_dashboard_payload.get(8).getRecordsRemaining();
+                                see_older.setText("< Older (" + all_dashboard_payload.get(all_dashboard_payload.size()-1).getRecordsRemaining() +")");
+                                payload_remaining = all_dashboard_payload.get(all_dashboard_payload.size()-1).getRecordsRemaining();
                             }
 //
-                            if (all_dashboard_payload.get(8).getShowPrev()){
+                            if (all_dashboard_payload.get(all_dashboard_payload.size()-1).getShowPrev()){
                                 see_newer.setVisibility(View.VISIBLE);
-                                see_newer.setText("Newer ("+all_dashboard_payload.get(8).getOffset()+")>");
+                                see_newer.setText("Newer ("+all_dashboard_payload.get(all_dashboard_payload.size()-1).getOffset()+")>");
                             }
 //
                             if(page_number == 1){
                                 see_newer.setVisibility(View.INVISIBLE);
+                            }
+                            if(all_dashboard_payload.get(all_dashboard_payload.size()-1).getRecordsRemaining() == 0){
+                                see_older.setVisibility(View.INVISIBLE);
                             }
 //
                             payload_progressbar.setVisibility(View.GONE);
@@ -1043,28 +1076,30 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 .getInstance()
                 .getApi()
                 .pickup_history(clientId, pickup_page_number);
+        //Toast.makeText(getApplicationContext(), ""+pickup_remaining+","+pickup_page_number, Toast.LENGTH_LONG).show();
         pickupHistoryCall.enqueue(new Callback<PickupHistory>() {
             @Override
             public void onResponse(Call<PickupHistory> call, Response<PickupHistory> response) {
                 if(response.body() != null){
                     try{
                         pickup_history_list = response.body().getM();
-                        pickup_history_adapter = new AdapterClassPickupHistory(pickup_history_list,getApplicationContext());
-                        picup_history_view.setAdapter(pickup_history_adapter);
 
-                        if(pickup_history_list.get(3).getShowNext()){
+                        if(pickup_history_list.get(pickup_history_list.size()-1).getShowNext()){
                             pickup_old.setVisibility(View.VISIBLE);
-                            pickup_old.setText("<Older ("+pickup_history_list.get(3).getRecordsRemaining()+")");
-                            pickup_remaining = pickup_history_list.get(3).getRecordsRemaining();
-                            Toast.makeText(getApplicationContext(), ""+pickup_remaining+","+pickup_page_number, Toast.LENGTH_LONG).show();
-                        };
-                        if(pickup_history_list.get(3).getShowPrev()){
-                            pickup_new.setVisibility(View.VISIBLE);
-                            pickup_new.setText("Newer ("+pickup_history_list.get(3).getOffset()+")");
+                            pickup_old.setText("<Older ("+pickup_history_list.get(pickup_history_list.size()-1).getRecordsRemaining()+")");
+                            pickup_remaining = pickup_history_list.get(pickup_history_list.size()-1).getRecordsRemaining();
                         }
+
+                        if(pickup_history_list.get(pickup_history_list.size()-1).getRecordsRemaining() == 0){
+                            pickup_old.setVisibility(View.INVISIBLE);
+                        }
+                        if(pickup_history_list.get(pickup_history_list.size()-1).getShowPrev()){
+                            pickup_new.setVisibility(View.VISIBLE);
+                            pickup_new.setText("Newer ("+pickup_history_list.get(pickup_history_list.size()-1).getOffset()+")");
+                        };
                         if(pickup_page_number == 1){
                             pickup_new.setVisibility(View.INVISIBLE);
-                        }
+                        };
                     }catch (NullPointerException | IndexOutOfBoundsException e) {
 
                         e.printStackTrace();
@@ -1074,6 +1109,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 else{
                     Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
                 }
+                pickup_history_adapter = new AdapterClassPickupHistory(pickup_history_list,getApplicationContext());
+                picup_history_view.setAdapter(pickup_history_adapter);
             }
 
             @Override

@@ -521,22 +521,22 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
                         pdf_receipt = clientPaymentReceiptPDF.getM();
                         daily_receipt_progressbar.setVisibility(View.GONE);
                         try {
-                            if(pdf_receipt.get(8).getShowNext()){
+                            if(pdf_receipt.get(pdf_receipt.size() - 1).getShowNext()){
                                 see_older.setVisibility(View.VISIBLE);
-                                see_older.setText("< Older (" + pdf_receipt.get(8).getRecordsRemaining() +")");
-                                remaining_receipt = pdf_receipt.get(8).getRecordsRemaining();
+                                see_older.setText("< Older (" + pdf_receipt.get(pdf_receipt.size() - 1).getRecordsRemaining() +")");
+                                remaining_receipt = pdf_receipt.get(pdf_receipt.size() - 1).getRecordsRemaining();
                             }
-                            if (pdf_receipt.get(8).getShowPrev()){
+                            if (pdf_receipt.get(pdf_receipt.size() - 1).getShowPrev()){
                                 see_newer.setVisibility(View.VISIBLE);
-                                see_newer.setText("Newer ("+pdf_receipt.get(8).getOffset()+")>");
+                                see_newer.setText("Newer ("+pdf_receipt.get(pdf_receipt.size() - 1).getOffset()+")>");
                             }
                             if(page_number == 1){
                                 see_newer.setVisibility(View.INVISIBLE);
                             }
-                            if(pdf_receipt.get(8).getRecordsRemaining() == 0){
+                            if(pdf_receipt.get(pdf_receipt.size() - 1).getRecordsRemaining() == 0){
                                 see_older.setVisibility(View.INVISIBLE);
                             }
-                            if(pdf_receipt.get(8).getCount() == 0){
+                            if(pdf_receipt.get(pdf_receipt.size() - 1).getCount() == 0){
                                 no_daily_payment_recept.setVisibility(View.VISIBLE);
                             }
 

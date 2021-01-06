@@ -50,7 +50,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
     private RatingBar customer_rating;
     private RecyclerView.LayoutManager layoutManager;
     private List<M> all_log_entries;
-    LinearLayout delivery_map_layout;
+    LinearLayout delivery_map_layout,customer_info,cash_payment_layout,label_image_layout;
     RelativeLayout customer_review_sec;
     SupportMapFragment fm;
     private double latitude;
@@ -90,6 +90,10 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         customer_review = findViewById(R.id.customer_review);
         phone_call = findViewById(R.id.tracking_phone);
         facebook = findViewById(R.id.tracking_fb);
+        customer_info = findViewById(R.id.customer_info);
+        label_image = findViewById(R.id.label_image);
+        cash_payment_layout = findViewById(R.id.cash_payment_layout);
+        label_image_layout = findViewById(R.id.label_image_layout);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             short_id = extras.getString("short_id");
@@ -118,14 +122,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         } catch (NullPointerException e) {
 
         }
-        try {
-            label_image = findViewById(R.id.label_image);
-            label_image_url = "https://dheo-static.s3.ap-south-1.amazonaws.com/img/intakes/" +short_id + ".jpg";
-            Picasso.get().load(label_image_url).into(label_image);
 
-        } catch (NullPointerException e) {
-
-        }
         fm = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.delivery_map);
         fm.getMapAsync(this);
@@ -167,22 +164,40 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
                try {
                    final OrderStatusPageInfo s = response.body();
                    if(s.getE() == 0){
+                       try{
+                           if (s.getM().getCashPayment()){
+                               customer_info.setVisibility(View.GONE);
+                               label_image_layout.setVisibility(View.GONE);
+                           }
+                       }catch (NullPointerException e){
+                           label_image_layout.setVisibility(View.VISIBLE);
+                           try {
+                               label_image_url = "https://dheo-static.s3.ap-south-1.amazonaws.com/img/intakes/" +short_id + ".jpg";
+                               Picasso.get().load(label_image_url).into(label_image);
+                               cash_payment_layout.setVisibility(View.VISIBLE);
+
+                           } catch (NullPointerException ef) {
+
+                           }
+                           customer_name.setText("Name: " + s.getM().getCustomerName());
+                           customer_phone.setText("Phone: "+ s.getM().getCustomerPhone());
+                           customer_phone.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View arg0) {
+                                   Intent intent = new Intent(Intent.ACTION_DIAL);
+                                   intent.setData(Uri.parse("tel: +88"+s.getM().getCustomerPhone()));
+                                   //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                   startActivity(intent);
+                               }
+                           });
+                           cash_payment_layout.setVisibility(View.GONE);
+                       }
                        //Toast.makeText(getApplicationContext(), s.getM().getCustomerPhone()+"", Toast.LENGTH_LONG).show();
-                       customer_name.setText("Name: " + s.getM().getCustomerName());
-                       customer_phone.setText("Phone: "+ s.getM().getCustomerPhone());
                        courier_name.setText(s.getM().getCourierName());
                        courier_phone.setText(s.getM().getCourierPhone());
                        String courier_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getCourierPhoto() ;
                        Picasso.get().load(courier_url).into(courier_photo);
-                       customer_phone.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View arg0) {
-                               Intent intent = new Intent(Intent.ACTION_DIAL);
-                               intent.setData(Uri.parse("tel: +88"+s.getM().getCustomerPhone()));
-                               //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                               startActivity(intent);
-                           }
-                       });
+
                        call_courier.setOnClickListener(new View.OnClickListener() {
                            @Override
                            public void onClick(View arg0) {

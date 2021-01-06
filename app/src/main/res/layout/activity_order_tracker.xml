@@ -52,6 +52,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tracker_profile_photo" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cash_payment_layout"
+            android:layout_margin="5dp"
+            app:layout_constraintTop_toBottomOf="@id/tracking_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="You have a new cash payment!"
+                android:textColor="#000000"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:text="Amount: 4500TK"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+        </LinearLayout>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -62,9 +84,10 @@
             android:text="আজ শুক্রবার, সাপ্তাহিক ছুটির দিন। সকল ডেলিভারি কার্যক্রম স্থগিত রয়েছে!"
             android:background="#CC3533"
             android:textColor="#FFF"
-            app:layout_constraintTop_toBottomOf="@id/tracking_name"
+            app:layout_constraintTop_toBottomOf="@id/cash_payment_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"

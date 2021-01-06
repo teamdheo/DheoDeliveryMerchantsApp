@@ -413,7 +413,7 @@
             android:textColor="#FFF"
             android:background="@drawable/rounded_signup"
             app:layout_constraintTop_toBottomOf="@id/pickup_history_layout"
-            app:layout_constraintStart_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

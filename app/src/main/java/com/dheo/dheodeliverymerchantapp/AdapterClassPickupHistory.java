@@ -47,7 +47,7 @@ public class AdapterClassPickupHistory extends RecyclerView.Adapter<AdapterClass
             holder.pickup_history_date.setText(history_pickup.get(position).getPickupDate());
         }catch (NullPointerException e){}
         try{
-            holder.pickup_history_number.setText("you have "+history_pickup.get(position).getTotalPickup()+" pickup");
+            holder.pickup_history_number.setText(history_pickup.get(position).getTotalPickup()+" percels were picked up from "+ history_pickup.get(position).getPickupAddress());
         }catch (NullPointerException e){}
 
     }

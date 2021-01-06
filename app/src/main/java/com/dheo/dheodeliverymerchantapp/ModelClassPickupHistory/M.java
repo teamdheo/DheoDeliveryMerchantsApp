@@ -15,6 +15,9 @@ public class M {
     @SerializedName("agent_name")
     @Expose
     private String agentName;
+    @SerializedName("pickup_address")
+    @Expose
+    private String pickupAddress;
     @SerializedName("agent_photo")
     @Expose
     private String agentPhoto;
@@ -117,4 +120,11 @@ public class M {
         this.offset = offset;
     }
 
+    public String getPickupAddress() {
+        return pickupAddress;
+    }
+
+    public void setPickupAddress(String pickupAddress) {
+        this.pickupAddress = pickupAddress;
+    }
 }

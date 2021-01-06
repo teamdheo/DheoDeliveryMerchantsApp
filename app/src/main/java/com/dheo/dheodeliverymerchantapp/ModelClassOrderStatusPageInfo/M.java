@@ -24,6 +24,9 @@ public class M {
     @SerializedName("has_review")
     @Expose
     private Boolean hasReview;
+    @SerializedName("cash_payment")
+    @Expose
+    private Boolean cashPayment;
     @SerializedName("customer_review")
     @Expose
     private String customerReview;
@@ -95,4 +98,11 @@ public class M {
         this.customerRating = customerRating;
     }
 
+    public Boolean getCashPayment() {
+        return cashPayment;
+    }
+
+    public void setCashPayment(Boolean cashPayment) {
+        this.cashPayment = cashPayment;
+    }
 }

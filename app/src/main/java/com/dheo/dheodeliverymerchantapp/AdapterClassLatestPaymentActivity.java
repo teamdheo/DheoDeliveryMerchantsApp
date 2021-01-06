@@ -112,7 +112,7 @@ public class AdapterClassLatestPaymentActivity extends RecyclerView.Adapter<Adap
                     }
                 });
             } catch (NullPointerException e) {
-                holder.payload_id.setVisibility(View.GONE);
+                holder.payload_id.setVisibility(View.GONE); 
             }
 
         }catch (NullPointerException e){}
