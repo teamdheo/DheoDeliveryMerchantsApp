@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollViewParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".PickupEntryActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:id="@+id/order_create_btn"
+            android:background="@drawable/request_picup"
+            android:text="Create A New Pickup Entry"
+            android:textColor="#FFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_entry_layout"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/order_create_btn"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/entry_customer_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:hint="Customer's Name"
+                android:background="@drawable/rounded_edittext1"
+                android:ems="10"/>
+            <EditText
+                android:id="@+id/entry_customer_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:paddingLeft="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:hint="Customer's Address"
+                android:background="@drawable/rounded_edittext1"
+                android:ems="10"/>
+            <EditText
+                android:id="@+id/entry_customer_phone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:hint="Phone No(Eg: 01916210901)"
+                android:inputType="number"
+                android:background="@drawable/rounded_edittext1"
+                android:ems="10"/>
+            <EditText
+                android:id="@+id/entry_customer_cod"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:inputType="number"
+                android:hint="COD Amount(TK)"
+                android:background="@drawable/rounded_edittext1"
+                android:ems="10"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:text="Pickup date:"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+            <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/entry_datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner" />
+            <Button
+                android:id="@+id/save_entry_btn"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:textSize="10dp"
+                android:background="@drawable/rounded_signup"
+                android:padding="2dp"
+                android:layout_marginLeft="16dp"
+                android:text="Save"
+                android:textColor="#FFF"/>
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/friday_note"
+            android:text="N.B: Don't forget to book a pickup on your pickup entry date and write the product id on your product label."
+            android:background="#CC3533"
+            android:textColor="#FFF"
+            app:layout_constraintTop_toBottomOf="@id/order_entry_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

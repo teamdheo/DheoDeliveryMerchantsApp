@@ -336,4 +336,15 @@ public interface Api {
             @Field("notification_token") String notification_token
     );
 
+    @FormUrlEncoded
+    @POST("pickup_self_entry")
+    Call<ResponseBody> pickup_self_entry(
+            @Field("client_id") Integer client_id,
+            @Field("customer_name") String customer_name,
+            @Field("customer_address") String customer_address,
+            @Field("customer_phone") String customer_phone,
+            @Field("customer_cod") String customer_cod,
+            @Field("pickup_date") String pickup_date
+    );
+
 }
