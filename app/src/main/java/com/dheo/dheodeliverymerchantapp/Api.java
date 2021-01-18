@@ -17,6 +17,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.LatestAc
 import com.dheo.dheodeliverymerchantapp.ModelClassOrderStatusPageInfo.OrderStatusPageInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupHistory.PickupHistory;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupMapInfo.PickupMapInfo;
+import com.dheo.dheodeliverymerchantapp.ModelClassPickupOrders.PickupOrders;
 import com.dheo.dheodeliverymerchantapp.ModelClassTrackerLogEntry.TrackerLogEntry;
 import com.dheo.dheodeliverymerchantapp.modelClassAvaiablePickupSlot.AvailablePickupSlot;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.PickupAddresses;
@@ -345,6 +346,14 @@ public interface Api {
             @Field("customer_phone") String customer_phone,
             @Field("customer_cod") String customer_cod,
             @Field("pickup_date") String pickup_date
+    );
+
+    @FormUrlEncoded
+    @POST("load_pickup_orders")
+    Call<PickupOrders> load_pickup_orders(
+            @Field("client_id") Integer client_id,
+            @Field("page_number") Integer page_number
+
     );
 
 }

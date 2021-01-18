@@ -18,7 +18,7 @@
             android:paddingRight="5dp"
             android:id="@+id/order_create_btn"
             android:background="@drawable/request_picup"
-            android:text="Create A New Pickup Entry"
+            android:text="Create An Order"
             android:textColor="#FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,34 +103,107 @@
                 android:layout_height="wrap_content"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner" />
-            <Button
-                android:id="@+id/save_entry_btn"
-                android:layout_width="70dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="10dp"
-                android:textSize="10dp"
-                android:background="@drawable/rounded_signup"
-                android:padding="2dp"
-                android:layout_marginLeft="16dp"
-                android:text="Save"
-                android:textColor="#FFF"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/save_entry_btn"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="10dp"
+                    android:background="@drawable/rounded_signup"
+                    android:padding="2dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="Save"
+                    android:textColor="#FFF"/>
+                <Button
+                    android:id="@+id/cancel_entry_btn"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="10dp"
+                    android:background="@drawable/defult_button"
+                    android:padding="2dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="Cancel"
+                    android:textColor="#000000"/>
+
+            </LinearLayout>
 
 
         </LinearLayout>
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/recycle_layout_view"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
-            android:paddingLeft="5dp"
             android:layout_marginRight="5dp"
-            android:id="@+id/friday_note"
-            android:text="N.B: Don't forget to book a pickup on your pickup entry date and write the product id on your product label."
-            android:background="#CC3533"
-            android:textColor="#FFF"
-            app:layout_constraintTop_toBottomOf="@id/order_entry_layout"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/order_entry_layout"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:id="@+id/notice_note"
+                android:text="N.B: Don't forget to book a pickup on your pickup entry date and write the product id on your product label."
+                android:background="#CC3533"
+                android:textColor="#FFF" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/recycle_hints"
+                android:text="Entry Pickups:"
+                android:textColor="#000000"
+                android:textSize="17dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/load_pickups_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:scrollbars="vertical"
+                android:background="#ffffff" />
+        </LinearLayout>
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/old_pickup"
+            android:gravity="center"
+            android:text=""
+            android:textSize="10dp"
+            android:padding="2dp"
+            android:textColor="#FFF"
+            android:layout_gravity="left"
+            android:background="@drawable/rounded_signup"
+            app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
             app:layout_constraintStart_toStartOf="parent"/>
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/new_pickup"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:text=""
+            android:textSize="10dp"
+            android:padding="2dp"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_signup"
+            app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
+            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
