@@ -153,7 +153,7 @@
                 android:paddingLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:id="@+id/notice_note"
-                android:text="N.B: Don't forget to book a pickup on your pickup entry date and write the product id on your product label."
+                android:text="@string/product_id"
                 android:background="#CC3533"
                 android:textColor="#FFF" />
             <TextView
@@ -204,6 +204,259 @@
             android:background="@drawable/rounded_signup"
             app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <RelativeLayout
+            android:id="@+id/relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="60dp"
+            android:background="#282827"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycle_layout_view">
+
+            <ImageView
+                android:id="@+id/help_lagbe_1"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="0dp"
+                android:src="@mipmap/help_lagbe" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_lagbe_bg"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="60dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/ph_white" />
+
+                <TextView
+                    android:id="@+id/billing_phone5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="09613-533533"
+                    android:textColor="#FFF"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="120dp"
+                android:background="@drawable/help_lagbe_bg"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="105dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/fb_white" />
+
+                <TextView
+                    android:id="@+id/billing_fb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="Dheolife"
+                    android:textColor="#FFF"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitXY"
+            android:id="@+id/state_line_monthly1"
+            android:src="@drawable/dheo_octops_red"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/billing_my_delivery"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:text="My Deliveries"
+                android:textColor="#FFF"
+                android:background="@drawable/link_section"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/billing_Billing"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:text="Billing"
+                android:textColor="#FFF"
+                android:background="@drawable/link_section"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/billing_settings"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:text="Settings"
+                android:textColor="#FFF"
+                android:background="@drawable/link_section"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/billing_user_manual"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:text="User Manual"
+                android:textColor="#FFF"
+                android:background="@drawable/link_section"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/billing_logout"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:text="Logout"
+                android:textColor="#FFF"
+                android:background="@drawable/link_section"/>
+
+        </LinearLayout>
+
+        <!--        <View-->
+        <!--            android:id="@+id/state_line_monthly1"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="5dp"-->
+        <!--            android:layout_marginTop="4dp"-->
+        <!--            android:background="#CC3533"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/relative_layout1" />-->
+
+        <RelativeLayout
+            android:id="@+id/relative_layout2"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="170dp"
+            android:background="#CC3533"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/state_line_monthly1">
+
+            <TextView
+                android:id="@+id/billing_dheo_delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Dheo Delivery"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/billing_The_manual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="50dp"
+                android:text="The User Manual"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/billing_meet_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="90dp"
+                android:text="Meet The Team"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/billing_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="130dp"
+                android:text="Privacy Policy"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/relative_layout2">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="80dp"
+                android:src="@mipmap/block_logo_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/footer"
+                android:textColor="#FFF"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="170dp"
+                android:text="© 2017-2020, DHEO LLC. All Rights Reserved."
+                android:textColor="#666"
+                android:textSize="11dp" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ecab_new_logo" />
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -10,4 +10,5 @@
     </string>
     <string name="channel_name">notification</string>
     <string name="channel_description">notification_channel</string>
+    <string name="product_id">"N.B: Don't forget to book a pickup on your pickup entry date and write the <B><u>Product ID</u></B> on your product label."</string>
 </resources>
