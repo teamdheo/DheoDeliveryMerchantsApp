@@ -42,6 +42,9 @@ public class M {
     @SerializedName("page_number")
     @Expose
     private Integer pageNumber;
+    @SerializedName("pickup_id")
+    @Expose
+    private Integer pickupId;
     @SerializedName("show_next")
     @Expose
     private Boolean showNext;
@@ -181,5 +184,13 @@ public class M {
 
     public void setIntakeDone(Boolean intakeDone) {
         this.intakeDone = intakeDone;
+    }
+
+    public Integer getPickupId() {
+        return pickupId;
+    }
+
+    public void setPickupId(Integer pickupId) {
+        this.pickupId = pickupId;
     }
 }

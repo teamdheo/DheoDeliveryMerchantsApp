@@ -109,6 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/edit_btn"
             android:text="Edit"
             android:textColor="#CC3533"/>
         <TextView
@@ -119,6 +120,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/delete_btn"
             android:text="Delete"
             android:textColor="#CC3533"/>
     </LinearLayout>

@@ -13,6 +13,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassClientPaymentPerfInfo.ClientPa
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPaymentReceiptPDF.ClientPaymentReceiptPDF;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.dheo.dheodeliverymerchantapp.ModelClassDeliveryMapInfo.DeliveryMapInfo;
+import com.dheo.dheodeliverymerchantapp.ModelClassEditablePickupOrder.EditablePickupOrder;
 import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.LatestAccountActivity;
 import com.dheo.dheodeliverymerchantapp.ModelClassOrderStatusPageInfo.OrderStatusPageInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupHistory.PickupHistory;
@@ -353,7 +354,30 @@ public interface Api {
     Call<PickupOrders> load_pickup_orders(
             @Field("client_id") Integer client_id,
             @Field("page_number") Integer page_number
-
     );
+
+    @FormUrlEncoded
+    @POST("editable_pickup_order")
+    Call<EditablePickupOrder> editable_pickup_order(
+            @Field("pickup_id") Integer pickup_id
+    );
+
+    @FormUrlEncoded
+    @POST("update_edited_order")
+    Call<ResponseBody> update_edited_order(
+            @Field("pickup_id") Integer pickup_id,
+            @Field("customer_name") String customer_name,
+            @Field("customer_address") String customer_address,
+            @Field("customer_phone") String customer_phone,
+            @Field("customer_cod") String customer_cod,
+            @Field("pickup_date") String pickup_date
+    );
+
+    @FormUrlEncoded
+    @POST("remove_order")
+    Call<ResponseBody> remove_order(
+            @Field("pickup_id") Integer pickup_id
+    );
+
 
 }
