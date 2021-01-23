@@ -19,6 +19,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassOrderStatusPageInfo.OrderStatu
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupHistory.PickupHistory;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupMapInfo.PickupMapInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupOrders.PickupOrders;
+import com.dheo.dheodeliverymerchantapp.ModelClassSearchPickupOrder.SearchPickupOrder;
 import com.dheo.dheodeliverymerchantapp.ModelClassTrackerLogEntry.TrackerLogEntry;
 import com.dheo.dheodeliverymerchantapp.modelClassAvaiablePickupSlot.AvailablePickupSlot;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.PickupAddresses;
@@ -379,5 +380,11 @@ public interface Api {
             @Field("pickup_id") Integer pickup_id
     );
 
+    @FormUrlEncoded
+    @POST("search_pickup_orders")
+    Call<SearchPickupOrder> search_pickup_orders(
+            @Field("client_id") Integer client_id,
+            @Field("search_date") String search_date
+    );
 
 }

@@ -26,8 +26,8 @@
 
         <LinearLayout
             android:id="@+id/order_entry_layout"
-            android:layout_width="386dp"
-            android:layout_height="164dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="5dp"
@@ -166,12 +166,58 @@
                 android:text="@string/product_id"
                 android:background="#CC3533"
                 android:textColor="#FFF" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:text="Search By Date :"
+                android:textColor="#000000"/>
             <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/search_datePicker"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner" />
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/search_btn"
+                android:gravity="center"
+                android:text="search"
+                android:textSize="10dp"
+                android:padding="2dp"
+                android:textColor="#FFF"
+                android:layout_gravity="left"
+                android:background="@drawable/rounded_signup"
+                app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:scrollbars="vertical"
+                android:background="#ffffff" />
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/back_btn"
+                android:gravity="center"
+                android:text="Back"
+                android:textSize="10dp"
+                android:padding="2dp"
+                android:textColor="#FFF"
+                android:layout_gravity="left"
+                android:background="@drawable/rounded_signup"
+                app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:layout_width="match_parent"

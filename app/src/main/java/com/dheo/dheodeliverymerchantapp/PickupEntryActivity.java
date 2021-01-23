@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupHistory.PickupHistory;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupOrders.M;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupOrders.PickupOrders;
+import com.dheo.dheodeliverymerchantapp.ModelClassSearchPickupOrder.SearchPickupOrder;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,16 +30,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PickupEntryActivity extends AppCompatActivity {
-    private Button order_create_btn,cancel_entry_btn,save_entry_btn,old_pickup,new_pickup;
-    private DatePicker entry_datePicker;
-    private TextView phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy;
+    private Button order_create_btn,cancel_entry_btn,save_entry_btn,old_pickup,new_pickup,search_btn,back_btn;
+    private DatePicker entry_datePicker,search_datePicker;
+    private TextView phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,recycle_hints;
     private EditText entry_customer_name,entry_customer_address,entry_customer_phone,entry_customer_cod;
-    private String month,date;
-    private int month_of_year, client_id, page_number =1, load_pickup_remaining;
-    private RecyclerView load_pickups_recycle;
-    private RecyclerView.Adapter load_pickup_adapter;
-    private RecyclerView.LayoutManager load_pickup_layout_manager;
+    private String month,date,search_date,search_month;
+    private int month_of_year, search_month_of_year, client_id, page_number =1, load_pickup_remaining;
+    private RecyclerView load_pickups_recycle,search_recycle;
+    private RecyclerView.Adapter load_pickup_adapter, search_adapter;
+    private RecyclerView.LayoutManager load_pickup_layout_manager, search_layout_manager;
     private List<M> all_list_of_orders;
+    private List<com.dheo.dheodeliverymerchantapp.ModelClassSearchPickupOrder.M> search_orders;
     LinearLayout order_entry_layout,recycle_layout_view;
     Helper helper = new Helper(this);
     private SharedPreferences sharedPreferences;
@@ -58,13 +60,24 @@ public class PickupEntryActivity extends AppCompatActivity {
         entry_customer_phone = findViewById(R.id.entry_customer_phone);
         entry_customer_cod = findViewById(R.id.entry_customer_cod);
         load_pickups_recycle = findViewById(R.id.load_pickups_recycle);
+        recycle_hints = findViewById(R.id.recycle_hints);
         old_pickup = findViewById(R.id.old_pickup);
         new_pickup = findViewById(R.id.new_pickup);
+        search_datePicker = findViewById(R.id.search_datePicker);
+        search_btn = findViewById(R.id.search_btn);
+        search_recycle = findViewById(R.id.search_recycle);
+        back_btn = findViewById(R.id.back_btn);
+
         order_entry_layout.setVisibility(View.GONE);
         load_pickup_layout_manager = new LinearLayoutManager(this);
         load_pickups_recycle.setLayoutManager(load_pickup_layout_manager);
+        search_layout_manager = new LinearLayoutManager(this);
+        search_recycle.setLayoutManager(search_layout_manager);
+
         old_pickup.setVisibility(View.GONE);
         new_pickup.setVisibility(View.GONE);
+        search_recycle.setVisibility(View.GONE);
+        back_btn.setVisibility(View.GONE);
 
         phone_call = findViewById(R.id.billing_phone5);
         facebook = findViewById(R.id.billing_fb);
@@ -113,6 +126,13 @@ public class PickupEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 order_entry_layout.setVisibility(View.GONE);
+            }
+        });
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+                startActivity(intent);
             }
         });
         save_entry_btn.setOnClickListener(new View.OnClickListener() {
@@ -197,6 +217,95 @@ public class PickupEntryActivity extends AppCompatActivity {
 
 //                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
 //                startActivity(intent);
+            }
+        });
+
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_month_of_year = search_datePicker.getMonth();
+                if(search_month_of_year == 0){
+                    search_month = "January";
+                }
+                else if(search_month_of_year == 1){
+                    search_month = "February";
+                }
+                else if(search_month_of_year == 2){
+                    search_month = "March";
+                }
+                else if(search_month_of_year == 3){
+                    search_month = "April";
+                }
+                else if(search_month_of_year == 4){
+                    search_month = "May";
+                }
+                else if(search_month_of_year == 5){
+                    search_month = "June";
+                }
+                else if(search_month_of_year == 6){
+                    search_month = "July";
+                }
+                else if(search_month_of_year == 7){
+                    search_month = "August";
+                }
+                else if(search_month_of_year == 8){
+                    search_month = "September";
+                }
+                else if(search_month_of_year == 9){
+                    search_month = "October";
+                }
+                else if(search_month_of_year == 10){
+                    search_month = "November";
+                }
+                else if(search_month_of_year == 11){
+                    search_month = "December";
+                }
+                search_date = String.valueOf(search_datePicker.getDayOfMonth()) +" " + search_month + " "+ String.valueOf(search_datePicker.getYear());
+                //Toast.makeText(getApplicationContext(), search_month_of_year +" "+search_month, Toast.LENGTH_LONG).show();
+                Call<SearchPickupOrder> search_call = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .search_pickup_orders(client_id,search_date);
+                search_call.enqueue(new Callback<SearchPickupOrder>() {
+                    @Override
+                    public void onResponse(Call<SearchPickupOrder> call, Response<SearchPickupOrder> response) {
+                        if(response.body() != null){
+                            SearchPickupOrder searchPickupOrder = response.body();
+                            search_orders = searchPickupOrder.getM();
+                            //Toast.makeText(getApplicationContext(), search_orders.get(0).getCodAmount(), Toast.LENGTH_LONG).show();
+                            if(response.body().getM().size()< 1){
+                                Toast.makeText(getApplicationContext(), "You don't have any pickup order on "+ search_date, Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+                                startActivity(intent);
+                            }
+                            else {
+                                try{
+                                    search_recycle.setVisibility(View.VISIBLE);
+                                    back_btn.setVisibility(View.VISIBLE);
+                                    load_pickups_recycle.setVisibility(View.GONE);
+                                    old_pickup.setVisibility(View.GONE);
+                                    new_pickup.setVisibility(View.GONE);
+                                    recycle_hints.setVisibility(View.GONE);
+
+                                }catch (NullPointerException e){
+
+                                }
+                            }
+                            search_adapter = new AdapterClassSearchPickupOrder(search_orders, getApplicationContext());
+                            search_recycle.setAdapter(search_adapter);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "You don't have any pickup order on "+ search_date, Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SearchPickupOrder> call, Throwable t) {
+
+                    }
+                });
             }
         });
 

@@ -41,7 +41,7 @@
                 android:background="@drawable/rounded_signup"
                 android:padding="2dp"
                 android:layout_marginLeft="16dp"
-                android:text="Save"
+                android:text="Confirm"
                 android:textColor="#FFF"/>
             <Button
                 android:id="@+id/delete_cancel"
