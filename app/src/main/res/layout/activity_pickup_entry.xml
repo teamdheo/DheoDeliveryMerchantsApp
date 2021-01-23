@@ -23,112 +23,122 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/order_entry_layout"
-            android:layout_marginTop="10dp"
+            android:layout_width="386dp"
+            android:layout_height="164dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="5dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/order_create_btn"
-            android:orientation="vertical">
+            app:layout_constraintTop_toBottomOf="@+id/order_create_btn">
+
             <EditText
                 android:id="@+id/entry_customer_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:paddingLeft="10dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:hint="Customer's Name"
                 android:background="@drawable/rounded_edittext1"
-                android:ems="10"/>
+                android:ems="10"
+                android:hint="Customer's Name"
+                android:paddingLeft="10dp" />
+
             <EditText
                 android:id="@+id/entry_customer_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="100dp"
-                android:paddingLeft="10dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:hint="Customer's Address"
                 android:background="@drawable/rounded_edittext1"
-                android:ems="10"/>
+                android:ems="10"
+                android:hint="Customer's Address"
+                android:minHeight="100dp"
+                android:paddingLeft="10dp" />
+
             <EditText
                 android:id="@+id/entry_customer_phone"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:paddingLeft="10dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_edittext1"
+                android:ems="10"
                 android:hint="Phone No(Eg: 01916210901)"
                 android:inputType="number"
-                android:background="@drawable/rounded_edittext1"
-                android:ems="10"/>
+                android:paddingLeft="10dp" />
+
             <EditText
                 android:id="@+id/entry_customer_cod"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:paddingLeft="10dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:inputType="number"
-                android:hint="COD Amount(TK)"
                 android:background="@drawable/rounded_edittext1"
-                android:ems="10"/>
+                android:ems="10"
+                android:hint="COD Amount(TK)"
+                android:inputType="number"
+                android:paddingLeft="10dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Pickup date:"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
             <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/entry_datePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/save_entry_btn"
                     android:layout_width="70dp"
                     android:layout_height="35dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="10dp"
-                    android:textSize="10dp"
                     android:background="@drawable/rounded_signup"
                     android:padding="2dp"
-                    android:layout_marginLeft="16dp"
                     android:text="Save"
-                    android:textColor="#FFF"/>
+                    android:textColor="#FFF"
+                    android:textSize="10dp" />
+
                 <Button
                     android:id="@+id/cancel_entry_btn"
                     android:layout_width="70dp"
                     android:layout_height="35dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="10dp"
-                    android:textSize="10dp"
                     android:background="@drawable/defult_button"
                     android:padding="2dp"
-                    android:layout_marginLeft="16dp"
                     android:text="Cancel"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="10dp" />
 
             </LinearLayout>
 
@@ -156,6 +166,13 @@
                 android:text="@string/product_id"
                 android:background="#CC3533"
                 android:textColor="#FFF" />
+            <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/search_datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
