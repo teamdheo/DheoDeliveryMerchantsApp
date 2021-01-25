@@ -262,6 +262,16 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
                 //holder.label.setVisibility(View.INVISIBLE);
             }
             try {
+                if (dashboard_payload.get(position).getMgxDrop()) {
+                    holder.label.setVisibility(View.VISIBLE);
+                    holder.label.setText("Left Dhaka");
+                    holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
+                }
+            } catch (NullPointerException e) {
+                //holder.label.setVisibility(View.INVISIBLE);
+            }
+
+            try {
                 if (dashboard_payload.get(position).getPayloadCancelled()) {
                     holder.label.setVisibility(View.VISIBLE);
                     holder.label.setText("Delivery Canceled");

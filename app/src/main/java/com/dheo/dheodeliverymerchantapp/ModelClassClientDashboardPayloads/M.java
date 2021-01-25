@@ -33,6 +33,9 @@ public class M {
     @SerializedName("delayed")
     @Expose
     private Boolean delayed;
+    @SerializedName("mgx_drop")
+    @Expose
+    private Boolean mgxDrop;
     @SerializedName("claim_pending")
     @Expose
     private Boolean claimPending;
@@ -367,5 +370,13 @@ public class M {
 
     public void setClaimAccepted(Boolean claimAccepted) {
         this.claimAccepted = claimAccepted;
+    }
+
+    public Boolean getMgxDrop() {
+        return mgxDrop;
+    }
+
+    public void setMgxDrop(Boolean mgxDrop) {
+        this.mgxDrop = mgxDrop;
     }
 }
