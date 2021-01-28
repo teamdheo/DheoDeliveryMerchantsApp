@@ -24,6 +24,9 @@ public class M {
     @SerializedName("account_number")
     @Expose
     private String accountNumber;
+    @SerializedName("routing_number")
+    @Expose
+    private String routingNumber;
     @SerializedName("prefers_cash")
     @Expose
     private Boolean prefersCash;
@@ -172,4 +175,11 @@ public class M {
         this.prefersNagad = prefersNagad;
     }
 
+    public String getRoutingNumber() {
+        return routingNumber;
+    }
+
+    public void setRoutingNumber(String routingNumber) {
+        this.routingNumber = routingNumber;
+    }
 }

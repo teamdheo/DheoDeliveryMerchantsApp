@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassPickupOrders.PickupOrders;
 import com.dheo.dheodeliverymerchantapp.ModelClassSearchPickupOrder.SearchPickupOrder;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -41,6 +43,7 @@ public class PickupEntryActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager load_pickup_layout_manager, search_layout_manager;
     private List<M> all_list_of_orders;
     private List<com.dheo.dheodeliverymerchantapp.ModelClassSearchPickupOrder.M> search_orders;
+    Calendar calendar;
     LinearLayout order_entry_layout,recycle_layout_view;
     Helper helper = new Helper(this);
     private SharedPreferences sharedPreferences;
@@ -138,6 +141,7 @@ public class PickupEntryActivity extends AppCompatActivity {
         save_entry_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                entry_datePicker.updateDate(calendar.YEAR, calendar.MONTH, calendar.DAY_OF_MONTH+1);
                 month_of_year = entry_datePicker.getMonth();
                 if(month_of_year == 0){
                     month = "January";

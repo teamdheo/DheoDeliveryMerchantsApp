@@ -74,7 +74,7 @@ public class SettingsActivity extends AppCompatActivity {
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
     private TextView setting_name, go_back, valid_from, nagad_hint, bkash_hint, verify_submit_date, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, image_upload, show_upload_image, reset_pass,bank_name_textview,branch_name_textview;
-    private EditText bkash_or_nagad, edit_branch_name, edit_bank_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone;
+    private EditText bkash_or_nagad, edit_branch_name, edit_bank_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone,edit_routing_number;
     ImageView setting_dp,cash, bkash, nagad;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
@@ -113,6 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
         edit_branch_name = findViewById(R.id.edit_bank_branch);
         edit_account_name = findViewById(R.id.edit_account_name);
         edit_account_num = findViewById(R.id.edit_account_number);
+        edit_routing_number = findViewById(R.id.edit_routing_number);
         bkash_or_nagad = findViewById(R.id.edit_bkash_num);
         edit_nagad_num = findViewById(R.id.edit_nagad_num);
         branch_name_textview = findViewById(R.id.branch_name_textview);
@@ -444,6 +445,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 edit_branch_name.setText(s.getM().getBranchName());
                                 edit_account_name.setText(s.getM().getAccountName());
                                 edit_account_num.setText(s.getM().getAccountNumber());
+                                edit_routing_number.setText(s.getM().getRoutingNumber());
                             }
                         } catch (NullPointerException e) {
 
@@ -543,7 +545,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Call<ResponseBody> call3 = RetrofitClient
                                     .getInstance()
                                     .getApi()
-                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), edit_routing_number.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
                             call3.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -581,7 +583,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Call<ResponseBody> call3 = RetrofitClient
                                     .getInstance()
                                     .getApi()
-                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), edit_routing_number.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
                             call3.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -620,7 +622,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Call<ResponseBody> call3 = RetrofitClient
                                     .getInstance()
                                     .getApi()
-                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), edit_routing_number.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
                             call3.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -659,7 +661,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Call<ResponseBody> call3 = RetrofitClient
                                 .getInstance()
                                 .getApi()
-                                .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                                .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_routing_number.getText().toString(), edit_nagad_num.getText().toString());
                         call3.enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

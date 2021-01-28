@@ -195,6 +195,7 @@ public interface Api {
             @Field("bank_branch") String bank_branch,
             @Field("account_name") String account_name,
             @Field("account_number") String account_number,
+            @Field("routing_number") String routing_number,
             @Field("bkash_number") String bkash_number,
             @Field("nagad_num") String nagad_num
     );

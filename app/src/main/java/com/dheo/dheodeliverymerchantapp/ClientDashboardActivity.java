@@ -832,7 +832,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         dhep_delivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+                Intent intent = new Intent(getApplicationContext(),ClientDashboardActivity.class);
                 startActivity(intent);
             }
         });

@@ -357,6 +357,23 @@
                 android:hint="Add an account number e.g. 208 154 14983"
                 android:textSize="16dp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="BRANCH ROUTING NUMBER"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_routing_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="4yueR32"
+                android:textSize="16dp" />
+
         </LinearLayout>
 
         <Button
