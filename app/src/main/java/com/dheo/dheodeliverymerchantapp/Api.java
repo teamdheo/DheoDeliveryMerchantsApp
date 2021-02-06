@@ -14,6 +14,8 @@ import com.dheo.dheodeliverymerchantapp.ModelClassClientPaymentReceiptPDF.Client
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.dheo.dheodeliverymerchantapp.ModelClassDeliveryMapInfo.DeliveryMapInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassEditablePickupOrder.EditablePickupOrder;
+import com.dheo.dheodeliverymerchantapp.ModelClassGrowthPerDay.GrowthPerDay;
+import com.dheo.dheodeliverymerchantapp.ModelClassGrowthPerMonth.GrowthPerMonth;
 import com.dheo.dheodeliverymerchantapp.ModelClassLatestAccountActivity.LatestAccountActivity;
 import com.dheo.dheodeliverymerchantapp.ModelClassOrderStatusPageInfo.OrderStatusPageInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupHistory.PickupHistory;
@@ -386,6 +388,17 @@ public interface Api {
     Call<SearchPickupOrder> search_pickup_orders(
             @Field("client_id") Integer client_id,
             @Field("search_date") String search_date
+    );
+
+    @FormUrlEncoded
+    @POST("get_growth_graph")
+    Call<GrowthPerMonth> get_growth_graph(
+            @Field("client_id") Integer client_id
+    );
+    @FormUrlEncoded
+    @POST("growth_per_day")
+    Call<GrowthPerDay> growth_per_day(
+            @Field("client_id") Integer client_id
     );
 
 }

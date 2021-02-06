@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PickupEntryActivity"></activity>
+        <activity android:name=".GraphActivity"></activity>
+        <activity android:name=".PickupEntryActivity" />
         <activity android:name=".OrderTrackerActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ListActivityMultiplePickupAddressSlots" />
