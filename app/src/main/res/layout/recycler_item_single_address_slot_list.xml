@@ -64,7 +64,6 @@
             android:id="@+id/delivery_day"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/rounded_nextday"
             android:layout_marginBottom="5dp"
             android:textColor="#FFF"
             android:padding="5dp"

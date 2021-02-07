@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dheo.dheodeliverymerchantapp.modelClassAvaiablePickupSlot.M;
@@ -65,6 +66,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         try{
             if(pick_up_slots.get(position).getNextDay()){
                 holder.delivery_day.setText("Delivery: Next day");
+                holder.delivery_day.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_nextday));
                 holder.book.setText("Book");
                 holder.booked.setVisibility(View.INVISIBLE);
             }
@@ -74,6 +76,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         try{
             if(pick_up_slots.get(position).getSameDay()){
                 holder.delivery_day.setText("Delivery: Today");
+                holder.delivery_day.setBackground(ContextCompat.getDrawable(context, R.drawable.paid_on));
                 holder.book.setText("Book");
                 holder.booked.setVisibility(View.INVISIBLE);
             }
