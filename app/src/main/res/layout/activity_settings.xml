@@ -760,18 +760,20 @@
 
 
         </RelativeLayout>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:scaleType="fitXY"
-            android:id="@+id/state_line_monthly1"
-            android:src="@drawable/dheo_octops_red"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:id="@+id/state_line_monthly1"-->
+<!--            android:src="@drawable/dheo_octops_red"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/relative_layout"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="360dp"
+            android:id="@+id/state_line_monthly1"
+            android:background="@drawable/dheo_octops_red"
             app:layout_constraintTop_toBottomOf="@id/relative_layout"
             app:layout_constraintStart_toStartOf="parent"
             android:orientation="vertical">
@@ -817,6 +819,17 @@
                 android:layout_marginLeft="10dp"
                 android:textSize="20dp"
                 android:text="User Manual"
+                android:textColor="#FFF"
+                android:background="@drawable/link_section"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/settings_graph"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:text="Performance"
                 android:textColor="#FFF"
                 android:background="@drawable/link_section"/>
             <TextView

@@ -2,11 +2,14 @@ package com.dheo.dheodeliverymerchantapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,23 +47,37 @@ public class GraphActivity extends AppCompatActivity {
     ArrayList<BarEntry> year_growth;
     ArrayList<String> month_name;
     int client_id;
+    LinearLayout graph_layout;
+    private Button back_graph_to_db;
     Helper helper = new Helper(this);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setTitle("Performance Graph");
         client_id = helper.getClientId();
         setContentView(R.layout.activity_graph);
         growth_month_show = findViewById(R.id.growth_year);
         growth_per_month = findViewById(R.id.growth_per_month);
         final LineChart lineChart = findViewById(R.id.lineChart);
         final BarChart growth_bar_chart = findViewById(R.id.growth_bar_chart);
+        graph_layout = findViewById(R.id.graph_layout);
+        back_graph_to_db = findViewById(R.id.back_graph_to_db);
 
         growth_bar_chart.setNoDataText("");
         year_growth = new ArrayList<>();
         month_name = new ArrayList<>();
         month_name.add("");
+        back_graph_to_db.setText("<Back");
+        back_graph_to_db.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ClientDashboardActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         entry_list = new ArrayList<Entry>();
@@ -68,7 +85,7 @@ public class GraphActivity extends AppCompatActivity {
         Call<GrowthPerDay> growthPerMonthCall = RetrofitClient
                 .getInstance()
                 .getApi()
-                .growth_per_day(2094);
+                .growth_per_day(client_id);
         growthPerMonthCall.enqueue(new Callback<GrowthPerDay>() {
             @Override
             public void onResponse(Call<GrowthPerDay> call, Response<GrowthPerDay> response) {
@@ -89,11 +106,12 @@ public class GraphActivity extends AppCompatActivity {
                         set1.setValueTextColor(ColorTemplate.getHoloBlue());
                         set1.setLineWidth(1.5f);
                         set1.setDrawCircles(true);
-                        set1.setDrawValues(true);
+                        set1.setDrawValues(false);
                         set1.setFillAlpha(110);
                         set1.setColor(Color.RED);
                         set1.setCircleColor(Color.RED);
-                        set1.setValueTextColor(Color.GREEN);
+                        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                        //set1.setValueTextColor(Color.GREEN);
                         //set1.setFillColor(ColorTemplate.getHoloBlue());
                         //set1.setHighLightColor(Color.rgb(244, 117, 117));
                         set1.setDrawCircleHole(true);
@@ -107,6 +125,8 @@ public class GraphActivity extends AppCompatActivity {
                         lineChart.getLegend().setEnabled(false);
                         lineChart.setDragEnabled(true);
                         lineChart.setScaleEnabled(true);
+                        lineChart.getXAxis().setDrawGridLines(false);
+                        lineChart.getAxisRight().setEnabled(false);
                         // create a data object with the datasets
                         final LineData data = new LineData(set1);
                         data.setValueTextColor(Color.GREEN);
@@ -128,7 +148,7 @@ public class GraphActivity extends AppCompatActivity {
         Call<GrowthPerMonth> monthCall = RetrofitClient
                 .getInstance()
                 .getApi()
-                .get_growth_graph(479);
+                .get_growth_graph(client_id);
         monthCall.enqueue(new Callback<GrowthPerMonth>() {
             @Override
             public void onResponse(Call<GrowthPerMonth> call, Response<GrowthPerMonth> response) {
@@ -149,6 +169,7 @@ public class GraphActivity extends AppCompatActivity {
                         BarData data = new BarData(bardataset);
                         bardataset.setColors(ColorTemplate.MATERIAL_COLORS);
                         growth_bar_chart.setData(data);
+                        bardataset.setDrawValues(false);
 
                         XAxis xAxis = growth_bar_chart.getXAxis();
                         xAxis.setLabelCount(month_name.size());

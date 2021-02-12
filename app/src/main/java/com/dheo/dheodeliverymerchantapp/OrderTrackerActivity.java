@@ -63,7 +63,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
-        setTitle("Order tracker page");
+        setTitle("Order Tracker Page");
         setContentView(R.layout.activity_order_tracker);
         tracker_events = findViewById(R.id.tracker_events);
         track_client_name = findViewById(R.id.tracking_name);
@@ -164,12 +164,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
                try {
                    final OrderStatusPageInfo s = response.body();
                    if(s.getE() == 0){
-                       try{
-                           if (s.getM().getCashPayment()){
-                               customer_info.setVisibility(View.GONE);
-                               label_image_layout.setVisibility(View.GONE);
-                           }
-                       }catch (NullPointerException e){
+                       try {
                            label_image_layout.setVisibility(View.VISIBLE);
                            try {
                                label_image_url = "https://dheo-static.s3.ap-south-1.amazonaws.com/img/intakes/" +short_id + ".jpg";
@@ -191,31 +186,83 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
                                }
                            });
                            cash_payment_layout.setVisibility(View.GONE);
-                       }
-                       //Toast.makeText(getApplicationContext(), s.getM().getCustomerPhone()+"", Toast.LENGTH_LONG).show();
-                       courier_name.setText(s.getM().getCourierName());
-                       courier_phone.setText(s.getM().getCourierPhone());
-                       String courier_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getCourierPhoto() ;
-                       Picasso.get().load(courier_url).into(courier_photo);
+                           courier_name.setText(s.getM().getCourierName());
+                           courier_phone.setText(s.getM().getCourierPhone());
+                           String courier_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getCourierPhoto() ;
+                           Picasso.get().load(courier_url).into(courier_photo);
 
-                       call_courier.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View arg0) {
-                               Intent intent = new Intent(Intent.ACTION_DIAL);
-                               intent.setData(Uri.parse("tel: +88"+s.getM().getCourierPhone()));
-                               //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                               startActivity(intent);
-                           }
-                       });
-                      try {
-                          if(s.getM().getHasReview()){
-                              review.setVisibility(View.VISIBLE);
-                              customer_review_sec.setVisibility(View.VISIBLE);
-                              name_rating.setText(s.getM().getCustomerName() +"'s review: ");
-                              customer_rating.setRating(s.getM().getCustomerRating());
-                              customer_review.setText(s.getM().getCustomerReview());
-                          }
-                      }catch (NullPointerException e){}
+                           call_courier.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View arg0) {
+                                   Intent intent = new Intent(Intent.ACTION_DIAL);
+                                   intent.setData(Uri.parse("tel: +88"+s.getM().getCourierPhone()));
+                                   //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                   startActivity(intent);
+                               }
+                           });
+                           try {
+                               if(s.getM().getHasReview()){
+                                   review.setVisibility(View.VISIBLE);
+                                   customer_review_sec.setVisibility(View.VISIBLE);
+                                   name_rating.setText(s.getM().getCustomerName() +"'s review: ");
+                                   customer_rating.setRating(s.getM().getCustomerRating());
+                                   customer_review.setText(s.getM().getCustomerReview());
+                               }
+                           }catch (NullPointerException e){}
+
+                       }catch (NullPointerException e){}
+//                       try{
+//                           if (s.getM().getCashPayment()){
+//                               customer_info.setVisibility(View.VISIBLE);
+//                               label_image_layout.setVisibility(View.VISIBLE);
+//                           }
+//                       }catch (NullPointerException e){
+//                           label_image_layout.setVisibility(View.VISIBLE);
+//                           try {
+//                               label_image_url = "https://dheo-static.s3.ap-south-1.amazonaws.com/img/intakes/" +short_id + ".jpg";
+//                               Picasso.get().load(label_image_url).into(label_image);
+//                               cash_payment_layout.setVisibility(View.VISIBLE);
+//
+//                           } catch (NullPointerException ef) {
+//
+//                           }
+//                           customer_name.setText("Name: " + s.getM().getCustomerName());
+//                           customer_phone.setText("Phone: "+ s.getM().getCustomerPhone());
+//                           customer_phone.setOnClickListener(new View.OnClickListener() {
+//                               @Override
+//                               public void onClick(View arg0) {
+//                                   Intent intent = new Intent(Intent.ACTION_DIAL);
+//                                   intent.setData(Uri.parse("tel: +88"+s.getM().getCustomerPhone()));
+//                                   //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                   startActivity(intent);
+//                               }
+//                           });
+//                           cash_payment_layout.setVisibility(View.GONE);
+//                       }
+//                       //Toast.makeText(getApplicationContext(), s.getM().getCustomerPhone()+"", Toast.LENGTH_LONG).show();
+//                       courier_name.setText(s.getM().getCourierName());
+//                       courier_phone.setText(s.getM().getCourierPhone());
+//                       String courier_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getCourierPhoto() ;
+//                       Picasso.get().load(courier_url).into(courier_photo);
+//
+//                       call_courier.setOnClickListener(new View.OnClickListener() {
+//                           @Override
+//                           public void onClick(View arg0) {
+//                               Intent intent = new Intent(Intent.ACTION_DIAL);
+//                               intent.setData(Uri.parse("tel: +88"+s.getM().getCourierPhone()));
+//                               //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                               startActivity(intent);
+//                           }
+//                       });
+//                      try {
+//                          if(s.getM().getHasReview()){
+//                              review.setVisibility(View.VISIBLE);
+//                              customer_review_sec.setVisibility(View.VISIBLE);
+//                              name_rating.setText(s.getM().getCustomerName() +"'s review: ");
+//                              customer_rating.setRating(s.getM().getCustomerRating());
+//                              customer_review.setText(s.getM().getCustomerReview());
+//                          }
+//                      }catch (NullPointerException e){}
                    }
                }catch (NullPointerException e){}
             }

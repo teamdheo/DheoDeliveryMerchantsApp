@@ -107,7 +107,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     boolean doubleBackToExitPressedOnce = false;
     private int clientId,balance, page_number = 1, payload_remaining,pickup_page_number = 1,pickup_remaining;
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic;
-    private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
+    private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing,dashboard_performance, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
     private String photo_url, blog_url,password,name, versionName;
     private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar,name_dashboad_progress;
@@ -157,6 +157,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         dashboard_billing = findViewById(R.id.dashboard_Billing);
         settings = findViewById(R.id.dashboard_settings);
         user_manual = findViewById(R.id.dashboard_user_manual);
+        dashboard_performance = findViewById(R.id.dashboard_performance);
         log_out = findViewById(R.id.dashboard_logout);
         monthly_text = findViewById(R.id.monthly_text);
         dhep_delivery = findViewById(R.id.dashboard_dheo_delivery);
@@ -804,6 +805,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 startActivity(intent);
             }
         });
+        dashboard_performance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+                startActivity(intent);
+            }
+        });
 
         user_manual.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1414,30 +1422,30 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
         fileOrDirectory.delete();
     }
-    public void battery_optimization(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            final Intent intent = new Intent();
-            final String packageName = getPackageName();
-            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                final android.app.AlertDialog ad= new android.app.AlertDialog.Builder(this).setTitle("IMPORTANT").setMessage("For The Proper Working Of The App,Please Disable Battery Optimization For This App").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:" + packageName));
-                        startActivity(intent);
-
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.exit(0);
-                    }
-                }).create();
-                ad.show();
-            }
-        }
-    }
+//    public void battery_optimization(){
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            final Intent intent = new Intent();
+//            final String packageName = getPackageName();
+//            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+//            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+//                final android.app.AlertDialog ad= new android.app.AlertDialog.Builder(this).setTitle("IMPORTANT").setMessage("For The Proper Working Of The App,Please Disable Battery Optimization For This App").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+//                        intent.setData(Uri.parse("package:" + packageName));
+//                        startActivity(intent);
+//
+//                    }
+//                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        System.exit(0);
+//                    }
+//                }).create();
+//                ad.show();
+//            }
+//        }
+//    }
 
 
 }
