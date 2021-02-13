@@ -93,7 +93,7 @@ public class GraphActivity extends AppCompatActivity {
                     if(response.body() != null){
                         GrowthPerDay growthPerDay = response.body();
                         per_day_growth = growthPerDay.getM();
-                        growth_month_show.setText("The growth graph of Month "+ per_day_growth.get(0).getMonth());
+                        growth_month_show.setText("The Performance Of Month "+ per_day_growth.get(0).getMonth());
                         //Toast.makeText(getApplicationContext(), response.body().getM().get(0).getPrettyMonth(), Toast.LENGTH_LONG).show();
                         int i = 0;
                         for(com.dheo.dheodeliverymerchantapp.ModelClassGrowthPerDay.M graph : per_day_growth){
@@ -155,7 +155,7 @@ public class GraphActivity extends AppCompatActivity {
                 try {
                     if (response.body() != null) {
                         List<M> s = response.body().getM();
-                        growth_per_month.setText("The growth graph of year "+ s.get(0).getYear());
+                        growth_per_month.setText("The Performance Of Year "+ s.get(0).getYear());
                         int i = 1;
                         for (M month : s) {
                             year_growth.add(new BarEntry(i++, month.getTotal()));
