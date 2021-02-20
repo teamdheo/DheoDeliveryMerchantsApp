@@ -74,12 +74,12 @@ public class SettingsActivity extends AppCompatActivity {
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
     private TextView setting_name, go_back, valid_from, nagad_hint, bkash_hint, verify_submit_date,settings_graph, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, image_upload, show_upload_image, reset_pass,bank_name_textview,branch_name_textview;
-    private EditText bkash_or_nagad, edit_branch_name, edit_bank_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone,edit_routing_number;
+    private EditText bkash_or_nagad, edit_branch_name, edit_bank_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone,edit_routing_number,edit_business_name;
     ImageView setting_dp,cash, bkash, nagad;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
     private String photo_url, mode,bank_name_view, branch_name_view;
-    private Button bank, other_option, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn, upload_image_to_server;
+    private Button bank, other_option, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn, upload_image_to_server,business_name_change_btn;
     LinearLayout bank_layout, other_option_layout, bkash_option, address_sec_layout;
     private RecyclerView all_address;
     private RecyclerView.Adapter adapter;
@@ -131,6 +131,8 @@ public class SettingsActivity extends AppCompatActivity {
         add_new_phone = findViewById(R.id.add_new_phone);
         save_new_address = findViewById(R.id.save_new_address);
         cancel_new_add = findViewById(R.id.cancel_new_address);
+        edit_business_name = findViewById(R.id.edit_business_name);
+        business_name_change_btn = findViewById(R.id.business_name_change_btn);
         edit_web_link = findViewById(R.id.edit_web_link);
         add_web_address_btn = findViewById(R.id.add_web_address_btn);
         change_account_phone = findViewById(R.id.change_account_phone);
@@ -200,6 +202,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (s.getE() == 0) {
                     try {
                         setting_name.setText(s.getM().getName());
+                        edit_business_name.setText(s.getM().getName());
                         try {
                             if (s.getM().getProPic().equals("default.svg")) {
                                 setting_dp = findViewById(R.id.setting_profile_photo);
@@ -477,13 +480,6 @@ public class SettingsActivity extends AppCompatActivity {
                         final List<M> s = response.body().getM();
                         for (int i = 0; i < s.size(); i++) {
                             bank_name.add(s.get(i).getBankName());
-                            if(!bank_name_view.equals(null)){
-                                if(bank_name_view == s.get(i).getBankName()){
-                                    Toasty.error(getApplicationContext(),"true", Toast.LENGTH_LONG, true).show();
-
-                                    bank_branches_show.setSelection(i);
-                                }
-                            }
 
                         }
                         setBankNameAdapter();
@@ -814,6 +810,41 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
+                    }
+                });
+            }
+        });
+
+        business_name_change_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<ResponseBody> call_name_change = RetrofitClient
+                        .getInstance()
+                        .getApi()
+                        .change_business_name(client_id,edit_business_name.getText().toString());
+                call_name_change.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        String s = null;
+                        try {
+                            s = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                        if (s.equals("{\"e\":0}")) {
+                            Toasty.success(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG, true).show();
+                            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                            startActivity(intent);
+
+                        } else {
+                            Toasty.error(getApplicationContext(), "The server failed to response.", Toast.LENGTH_LONG, true).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
                     }
                 });
             }

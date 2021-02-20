@@ -499,6 +499,43 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <TextView
+                android:id="@+id/fb_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Business Name"
+                android:textColor="#000"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_business"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Do you want to change your business name ?"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/edit_business_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="e.g. Blaze Shoes"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/business_name_change_btn"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_signup"
+                android:text="Save"
+                android:textColor="#FFF" />
 
             <TextView
                 android:id="@+id/fb_link"
@@ -563,7 +600,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="e.g. https://www.facebook.com/shopdheo"
+                android:hint="e.g. 01916210901"
                 android:textSize="16dp" />
 
             <Button

@@ -395,10 +395,18 @@ public interface Api {
     Call<GrowthPerMonth> get_growth_graph(
             @Field("client_id") Integer client_id
     );
+
     @FormUrlEncoded
     @POST("growth_per_day")
     Call<GrowthPerDay> growth_per_day(
             @Field("client_id") Integer client_id
+    );
+
+    @FormUrlEncoded
+    @POST("change_business_name")
+    Call<ResponseBody> change_business_name(
+            @Field("client_id") Integer client_id,
+            @Field("new_name") String new_name
     );
 
 }
