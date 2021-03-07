@@ -38,7 +38,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
     private boolean is_booked = false;
     Date todays_date = new Date();
     private String address_id;
-    private  String slot_id;
+    private  String slot_id, type;
     private int client_id;
     private String  v;
     private EditText edit_note;
@@ -66,6 +66,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         try{
             if(pick_up_slots.get(position).getNextDay()){
                 holder.delivery_day.setText("Delivery: Next day");
+                type = "next_day";
                 holder.delivery_day.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_nextday));
                 holder.book.setText("Book");
                 holder.booked.setVisibility(View.INVISIBLE);
@@ -76,6 +77,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         try{
             if(pick_up_slots.get(position).getSameDay()){
                 holder.delivery_day.setText("Delivery: Today");
+                type = "same_day";
                 holder.delivery_day.setBackground(ContextCompat.getDrawable(context, R.drawable.paid_on));
                 holder.book.setText("Book");
                 holder.booked.setVisibility(View.INVISIBLE);
@@ -86,6 +88,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
         try{
             if(pick_up_slots.get(position).getSecondDay()){
                 holder.delivery_day.setText("Delivery: Second Day");
+                type = "second_day";
                 holder.book.setText("Book");
                 holder.booked.setVisibility(View.INVISIBLE);
             }
@@ -150,7 +153,7 @@ public class AdapterSingleAddressSlotList extends RecyclerView.Adapter<AdapterSi
                 Call<ResponseBody> call = RetrofitClient
                         .getInstance()
                         .getApi()
-                        .book_address_pickup(client_id,address_id, holder.id.getText().toString());
+                        .book_address_pickup(client_id,address_id, holder.id.getText().toString(),type);
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

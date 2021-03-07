@@ -23,6 +23,8 @@ import android.text.format.DateUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -138,6 +140,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     protected void onCreate(Bundle savedInstanceState) {
         helper.checkInternetConnection();
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_stat_name);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
         //battery_optimization();
         setContentView(R.layout.activity_client_dashboard);
         client_name = (TextView) findViewById(R.id.name);
@@ -1016,6 +1021,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         });
 
 
+
     }
 
     public void loadDashboardPayload() {
@@ -1422,6 +1428,51 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
         fileOrDirectory.delete();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.three_dot_menu, menu);
+        // Associate searchable configuration with the SearchView
+
+//        SearchManager searchManager =
+//                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView =
+//                (SearchView) menu.findItem(R.id.search).getActionView();
+//        searchView.setSearchableInfo(
+//                searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setSubmitButtonEnabled(true);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            editor.putBoolean("saveLogin", false);
+            editor.commit();
+//                editor.clear();
+//                editor.apply();
+            Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.condition) {
+            String url = "https://dheo.com/privacy";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        }
+        else if (item.getItemId() == R.id.settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        else if(item.getItemId()  == R.id.performance){
+            Intent intent = new Intent(this, GraphActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    } //end//3 dot overflow menu
 //    public void battery_optimization(){
 //        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            final Intent intent = new Intent();

@@ -66,13 +66,6 @@
                 android:layout_height="match_parent"
                 android:text="You have a new cash payment!"
                 android:textColor="#000000"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:text="Amount: 4500TK"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
         </LinearLayout>
         <TextView
             android:layout_width="0dp"

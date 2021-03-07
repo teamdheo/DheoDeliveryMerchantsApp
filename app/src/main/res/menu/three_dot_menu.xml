@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/logout" android:title="Logout"></item>
+    <item android:id="@+id/condition" android:title="Terms &amp; Conditions / Privacy"></item>
+    <item android:id="@+id/settings" android:title="Settings"></item>
+    <item android:id="@+id/performance" android:title="Performance"></item>
+
+<!--    <item android:id="@+id/qr"-->
+<!--        android:icon="@drawable/ic_stat_name"-->
+<!--        android:title="Notify"-->
+<!--        app:showAsAction="ifRoom" />-->
+
+</menu>

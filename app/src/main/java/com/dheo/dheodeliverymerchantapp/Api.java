@@ -96,7 +96,8 @@ public interface Api {
     Call<ResponseBody> book_address_pickup(
             @Field("client_id") Integer client_id,
             @Field("address_id") String address_id,
-            @Field("slot_id") String slot_id
+            @Field("slot_id") String slot_id,
+            @Field("type") String type
     );
 
     @FormUrlEncoded
