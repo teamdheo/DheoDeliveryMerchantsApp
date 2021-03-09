@@ -11,6 +11,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,11 +22,14 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.SpannableString;
 import android.text.format.DateUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -162,8 +168,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         dashboard_billing = findViewById(R.id.dashboard_Billing);
         settings = findViewById(R.id.dashboard_settings);
         user_manual = findViewById(R.id.dashboard_user_manual);
-        dashboard_performance = findViewById(R.id.dashboard_performance);
-        log_out = findViewById(R.id.dashboard_logout);
+//        dashboard_performance = findViewById(R.id.dashboard_performance);
+//        log_out = findViewById(R.id.dashboard_logout);
         monthly_text = findViewById(R.id.monthly_text);
         dhep_delivery = findViewById(R.id.dashboard_dheo_delivery);
         the_user_manual = findViewById(R.id.dashboard_The_manual);
@@ -810,13 +816,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 startActivity(intent);
             }
         });
-        dashboard_performance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
-                startActivity(intent);
-            }
-        });
+//        dashboard_performance.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         user_manual.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -829,19 +835,19 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         });
 
-        log_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-                editor = sharedPreferences.edit();
-                editor.putBoolean("saveLogin", false);
-                editor.commit();
-//                editor.clear();
-//                editor.apply();
-                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-                startActivity(intent);
-            }
-        });
+//        log_out.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+//                editor = sharedPreferences.edit();
+//                editor.putBoolean("saveLogin", false);
+//                editor.commit();
+////                editor.clear();
+////                editor.apply();
+//                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         dhep_delivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1440,8 +1446,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 //        searchView.setSearchableInfo(
 //                searchManager.getSearchableInfo(getComponentName()));
 //        searchView.setSubmitButtonEnabled(true);
-
-
+        for(int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
+            spanString.setSpan(new ForegroundColorSpan(Color.WHITE), 0,     spanString.length(), 0); //fix the color to white
+            item.setTitle(spanString);
+        }
         return true;
     }
 
