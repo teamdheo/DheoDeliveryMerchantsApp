@@ -612,7 +612,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
-        else if(item.getItemId()  == R.id.performance){
+        else if(item.getItemId()  == R.id.user_manual){
             Intent intent = new Intent(this, GraphActivity.class);
             startActivity(intent);
         }

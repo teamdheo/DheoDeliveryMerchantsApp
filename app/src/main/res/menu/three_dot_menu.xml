@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ClientDashboardActivity">
-    <item android:id="@+id/logout" android:title="Logout"></item>
-    <item android:id="@+id/condition" android:title="Terms &amp; Conditions / Privacy"></item>
+    <item android:id="@+id/user_manual" android:title="User Manual"></item>
+    <item android:id="@+id/condition" android:title="Privacy Privacy"></item>
     <item android:id="@+id/settings" android:title="Settings"></item>
-    <item android:id="@+id/performance" android:title="Performance"></item>
+    <item android:id="@+id/logout" android:title="Logout"></item>
 
 <!--    <item android:id="@+id/qr"-->
 <!--        android:icon="@drawable/ic_stat_name"-->

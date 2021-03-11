@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".PassResetDoneActivity">
+    tools:context="com.dheo.dheodeliverymerchantapp.PassResetDoneActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

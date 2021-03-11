@@ -49,10 +49,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -76,6 +80,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -141,14 +146,17 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     Helper helper = new Helper(this);
     private GoogleMap mMap;
     //MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         helper.checkInternetConnection();
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_stat_name);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setLogo(R.drawable.ic_stat_name);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
         //battery_optimization();
         setContentView(R.layout.activity_client_dashboard);
         client_name = (TextView) findViewById(R.id.name);
@@ -162,19 +170,19 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
         all_record_payload = (RecyclerView) findViewById(R.id.recycler_monthly_payload_records);
         octopus_red_body = (ImageView) findViewById(R.id.octopus_red_body);
-        phone_call = findViewById(R.id.dashboard_phone);
-        facebook = findViewById(R.id.dashboard_fb);
-        my_delivery = findViewById(R.id.dashboard_my_delivery);
-        dashboard_billing = findViewById(R.id.dashboard_Billing);
-        settings = findViewById(R.id.dashboard_settings);
-        user_manual = findViewById(R.id.dashboard_user_manual);
+//        phone_call = findViewById(R.id.dashboard_phone);
+//        facebook = findViewById(R.id.dashboard_fb);
+//        my_delivery = findViewById(R.id.dashboard_my_delivery);
+//        dashboard_billing = findViewById(R.id.dashboard_Billing);
+//        settings = findViewById(R.id.dashboard_settings);
+//        user_manual = findViewById(R.id.dashboard_user_manual);
 //        dashboard_performance = findViewById(R.id.dashboard_performance);
 //        log_out = findViewById(R.id.dashboard_logout);
         monthly_text = findViewById(R.id.monthly_text);
-        dhep_delivery = findViewById(R.id.dashboard_dheo_delivery);
-        the_user_manual = findViewById(R.id.dashboard_The_manual);
-        meet_the_team = findViewById(R.id.dashboard_meet_team);
-        privacy_policy = findViewById(R.id.dashboard_policy);
+//        dhep_delivery = findViewById(R.id.dashboard_dheo_delivery);
+//        the_user_manual = findViewById(R.id.dashboard_The_manual);
+//        meet_the_team = findViewById(R.id.dashboard_meet_team);
+//        privacy_policy = findViewById(R.id.dashboard_policy);
         payload_progressbar = findViewById(R.id.dashboard_payload_progressbar);
         payload_search_editText = findViewById(R.id.payload_search_editText);
         payload_search_btn = findViewById(R.id.payload_search_btn);
@@ -220,8 +228,17 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         map_layout.setVisibility(View.GONE);
         active_layout.setVisibility(View.GONE);
         monthly_text.setVisibility(View.GONE);
+        Toolbar toolbar = findViewById(R.id.color_toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
 
-        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        setSupportActionBar(toolbar);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toggle.syncState();
+
+//        getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
         final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
         builder.setCancelable(false);
@@ -374,9 +391,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 try {
                     final ClientBasicInfo s = response.body();
                     if (s.getE() == 0) {
+                        View hView =  navigationView.getHeaderView(0);
+                        TextView nav_name = hView.findViewById(R.id.nav_name);
+                        ImageView nav_photo = hView.findViewById(R.id.nav_photo);
                         client_name.setText(s.getM().getName());
                         total_balance.setText(" " + s.getM().getBalance() + "TK");
                         name = s.getM().getName();
+                        nav_name.setText(s.getM().getName());
                         balance = s.getM().getBalance();
                         pro_pic_url = s.getM().getProPic();
                         try {
@@ -388,6 +409,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                 photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
                                 Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(profile_photo);
                                 name_dashboad_progress.setVisibility(View.GONE);
+
+                                Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(nav_photo);
                             }
                         } catch (NullPointerException e) {
 
@@ -781,41 +804,41 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 }
             }
         });
-        phone_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel: 09613533533"));
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
-        facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://m.me/dheolife";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        });
-        my_delivery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(intent);
-            }
-        });
-        dashboard_billing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
-                intent.putExtra("name_c", name);
-                intent.putExtra("balance_c", balance);
-                startActivity(intent);
-            }
-        });
+//        phone_call.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                Intent intent = new Intent(Intent.ACTION_DIAL);
+//                intent.setData(Uri.parse("tel: 09613533533"));
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//            }
+//        });
+//        facebook.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String url = "https://m.me/dheolife";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+//            }
+//        });
+//        my_delivery.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        dashboard_billing.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+//                intent.putExtra("name_c", name);
+//                intent.putExtra("balance_c", balance);
+//                startActivity(intent);
+//            }
+//        });
 //        dashboard_performance.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -824,16 +847,16 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 //            }
 //        });
 
-        user_manual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://rocket.dheo.com/user-manual";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        });
+//        user_manual.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String url = "https://rocket.dheo.com/user-manual";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+//            }
+//        });
 
 //        log_out.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -848,41 +871,150 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 //                startActivity(intent);
 //            }
 //        });
-        dhep_delivery.setOnClickListener(new View.OnClickListener() {
+//        dhep_delivery.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(),ClientDashboardActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        the_user_manual.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String url = "https://rocket.dheo.com/user-manual";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+//            }
+//        });
+//        meet_the_team.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String url = "https://team.dheo.com";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+//            }
+//        });
+//        privacy_policy.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String url = "https://dheo.com/privacy";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+//            }
+//        });
+
+        MenuItem dashboardItem = navigationView.getMenu().findItem(R.id.nav_dashboard);
+        dashboardItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ClientDashboardActivity.class);
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
                 startActivity(intent);
+                return true;
             }
         });
-        the_user_manual.setOnClickListener(new View.OnClickListener() {
+
+        MenuItem billingItem = navigationView.getMenu().findItem(R.id.nav_billing);
+        billingItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                intent.putExtra("name_c", name);
+                intent.putExtra("balance_c", balance);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem settingsItem = navigationView.getMenu().findItem(R.id.nav_setting);
+        settingsItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem performanceItem = navigationView.getMenu().findItem(R.id.nav_graph);
+        performanceItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem callItem = navigationView.getMenu().findItem(R.id.nav_call);
+        callItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel: 09613533533"));
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem messageItem = navigationView.getMenu().findItem(R.id.nav_text);
+        messageItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                String url = "https://m.me/dheolife";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                return true;
+            }
+        });
+
+        MenuItem manualeItem = navigationView.getMenu().findItem(R.id.nav_userManual);
+        manualeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
                 String url = "https://rocket.dheo.com/user-manual";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+                return true;
             }
         });
-        meet_the_team.setOnClickListener(new View.OnClickListener() {
+
+        MenuItem meetTeamItem = navigationView.getMenu().findItem(R.id.nav_team);
+        meetTeamItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem item) {
                 String url = "https://team.dheo.com";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+                return true;
             }
         });
-        privacy_policy.setOnClickListener(new View.OnClickListener() {
+
+        MenuItem logOutItem = navigationView.getMenu().findItem(R.id.nav_logout);
+        logOutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                String url = "https://dheo.com/privacy";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+            public boolean onMenuItemClick(MenuItem item) {
+                sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                editor = sharedPreferences.edit();
+                editor.putBoolean("saveLogin", false);
+                editor.commit();
+//                editor.clear();
+//                editor.apply();
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(intent);
+                return true;
             }
         });
 
@@ -1025,8 +1157,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             }
         });
-
-
 
     }
 
@@ -1385,10 +1515,15 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
     @Override
     public void onBackPressed() {
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START);
+//        }
+//        else {
+//            super.onBackPressed();
+//        };
         if (doubleBackToExitPressedOnce) {
             finishAffinity();
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
 
@@ -1398,6 +1533,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
+
     }
 
     public static void deleteCache(Context context) {
@@ -1452,6 +1588,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             spanString.setSpan(new ForegroundColorSpan(Color.WHITE), 0,     spanString.length(), 0); //fix the color to white
             item.setTitle(spanString);
         }
+
         return true;
     }
 
@@ -1477,9 +1614,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
-        else if(item.getItemId()  == R.id.performance){
-            Intent intent = new Intent(this, GraphActivity.class);
-            startActivity(intent);
+        else if(item.getItemId()  == R.id.user_manual){
+            String url = "https://rocket.dheo.com/user-manual";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     } //end//3 dot overflow menu
