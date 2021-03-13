@@ -17,8 +17,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Base64;
 import android.view.ContextThemeWrapper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,11 +38,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,6 +56,7 @@ import com.dheo.dheodeliverymerchantapp.ModelClassBanksAndBranches.M;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientPrefInfoAccountSetting.ClientPrefInfoAccountSetting;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.PickupAddresses;
+import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -90,11 +99,16 @@ public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     Helper helper = new Helper(this);
 
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        //getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("Account Settings");
         setContentView(R.layout.activity_settings);
         setting_name = findViewById(R.id.setting_name);
@@ -156,11 +170,16 @@ public class SettingsActivity extends AppCompatActivity {
         the_user_manual = findViewById(R.id.billing_The_manual);
         meet_the_team = findViewById(R.id.billing_meet_team);
         privacy_policy = findViewById(R.id.billing_policy);
-        settings_graph = findViewById(R.id.settings_graph);
-        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            name_client = extras.getString("name_c");
-//        }
+
+        Toolbar toolbar = findViewById(R.id.color_toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        setSupportActionBar(toolbar);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toggle.syncState();
+
         client_id = helper.getClientId();
         go_back.setText("< Go Back");
         bank_name = new ArrayList<>();
@@ -200,9 +219,13 @@ public class SettingsActivity extends AppCompatActivity {
             public void onResponse(Call<ClientBasicInfo> call, Response<ClientBasicInfo> response) {
                 final ClientBasicInfo s = response.body();
                 if (s.getE() == 0) {
+                    View hView =  navigationView.getHeaderView(0);
+                    TextView nav_name = hView.findViewById(R.id.nav_name);
+                    ImageView nav_photo = hView.findViewById(R.id.nav_photo);
                     try {
                         setting_name.setText(s.getM().getName());
                         edit_business_name.setText(s.getM().getName());
+                        nav_name.setText(s.getM().getName());
                         try {
                             if (s.getM().getProPic().equals("default.svg")) {
                                 setting_dp = findViewById(R.id.setting_profile_photo);
@@ -212,6 +235,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
                                 Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(setting_dp);
                                 name_setting_progress.setVisibility(View.GONE);
+                                Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(nav_photo);
                             }
                         } catch (NullPointerException e) {
 
@@ -241,23 +265,23 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-       try {
-           cash.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   bkash_option.setVisibility(View.GONE);
+        try {
+            cash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bkash_option.setVisibility(View.GONE);
 //                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cash.getLayoutParams();
 //                        params.bottomMargin = 20;params.leftMargin = 100;
-                   cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
-                   bkash.setBackground(null);
-                   nagad.setBackground(null);
-                   bank.setTextColor(Color.rgb(0, 0, 0));
-                   mode = "cash";
-               }
-           });
-       }catch (NullPointerException e){
+                    cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                    bkash.setBackground(null);
+                    nagad.setBackground(null);
+                    bank.setTextColor(Color.rgb(0, 0, 0));
+                    mode = "cash";
+                }
+            });
+        }catch (NullPointerException e){
 
-       }
+        }
         try {
             bkash.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -918,112 +942,117 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        phone_call.setOnClickListener(new View.OnClickListener() {
+        MenuItem dashboardItem = navigationView.getMenu().findItem(R.id.nav_dashboard);
+        dashboardItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem billingItem = navigationView.getMenu().findItem(R.id.nav_billing);
+        billingItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem settingsItem = navigationView.getMenu().findItem(R.id.nav_setting);
+        settingsItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem performanceItem = navigationView.getMenu().findItem(R.id.nav_graph);
+        performanceItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem callItem = navigationView.getMenu().findItem(R.id.nav_call);
+        callItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel: 09613533533"));
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                return true;
             }
         });
-        facebook.setOnClickListener(new View.OnClickListener() {
+
+        MenuItem messageItem = navigationView.getMenu().findItem(R.id.nav_text);
+        messageItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem item) {
                 String url = "https://m.me/dheolife";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+                return true;
             }
         });
 
-        my_delivery.setOnClickListener(new View.OnClickListener() {
+        MenuItem manualeItem = navigationView.getMenu().findItem(R.id.nav_userManual);
+        manualeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+            public boolean onMenuItemClick(MenuItem item) {
+                String url = "http://rocket.dheo.com/user-manual";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+                intent.putExtra("url", url);
                 startActivity(intent);
-            }
-        });
-        dashboard_billing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
-                startActivity(intent);
-            }
-        });
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-        user_manual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://rocket.dheo.com/user-manual";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                return true;
             }
         });
 
-        settings_graph.setOnClickListener(new View.OnClickListener() {
+        MenuItem meetTeamItem = navigationView.getMenu().findItem(R.id.nav_team);
+        meetTeamItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+            public boolean onMenuItemClick(MenuItem item) {
+                String url = "https://team.dheo.com";
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(url));
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+//                return true;
+                Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+                intent.putExtra("url", url);
                 startActivity(intent);
+                return true;
             }
         });
 
-        log_out.setOnClickListener(new View.OnClickListener() {
+        MenuItem logOutItem = navigationView.getMenu().findItem(R.id.nav_logout);
+        logOutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem item) {
                 sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
                 editor = sharedPreferences.edit();
                 editor.putBoolean("saveLogin", false);
                 editor.commit();
+//                editor.clear();
+//                editor.apply();
                 Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(intent);
-            }
-        });
-        dhep_delivery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(intent);
-            }
-        });
-        the_user_manual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://rocket.dheo.com/user-manual";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        });
-        meet_the_team.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://team.dheo.com";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        });
-        privacy_policy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://dheo.com/privacy";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                return true;
             }
         });
         reset_pass.setOnClickListener(new View.OnClickListener() {
@@ -1274,5 +1303,69 @@ public class SettingsActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, bank_name);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bank_name_show.setAdapter(dataAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.three_dot_menu, menu);
+        // Associate searchable configuration with the SearchView
+
+//        SearchManager searchManager =
+//                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView =
+//                (SearchView) menu.findItem(R.id.search).getActionView();
+//        searchView.setSearchableInfo(
+//                searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setSubmitButtonEnabled(true);
+        for(int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
+            spanString.setSpan(new ForegroundColorSpan(Color.WHITE), 0,     spanString.length(), 0); //fix the color to white
+            item.setTitle(spanString);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            editor.putBoolean("saveLogin", false);
+            editor.commit();
+//                editor.clear();
+//                editor.apply();
+            Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.condition) {
+            String url = "https://dheo.com/privacy";
+            Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
+            return true;
+        }
+        else if (item.getItemId() == R.id.settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        else if(item.getItemId()  == R.id.user_manual){
+            String url = "https://rocket.dheo.com/user-manual";
+            Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    } //end//3 dot overflow menu
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        };
+
+
     }
 }

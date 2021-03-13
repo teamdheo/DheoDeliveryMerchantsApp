@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.dheo.dheodeliverymerchantapp">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,7 +11,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <application
@@ -20,12 +22,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GraphActivity"></activity>
+        <activity android:name=".UserManualActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".GraphActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".PickupEntryActivity" />
-        <activity android:name=".OrderTrackerActivity" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".OrderTrackerActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ListActivityMultiplePickupAddressSlots" />
-        <activity android:name=".ClientDashboardBillingActivity" />
+        <activity android:name=".ClientDashboardBillingActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SingleAddressPickupSlotActivity" />
         <activity android:name=".ListActivityPickupAddress" />
         <activity android:name=".PassResetDoneActivity">
@@ -54,7 +62,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".PasswordResetActivity" />
-        <activity android:name=".ClientDashboardActivity" />
+        <activity
+            android:name=".ClientDashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LogInActivity">
             <intent-filter>
