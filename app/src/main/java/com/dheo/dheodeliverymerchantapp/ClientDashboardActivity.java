@@ -402,7 +402,10 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         settings.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+//                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+//                                startActivity(intent);
+
+                                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
                                 startActivity(intent);
                             }
                         });
@@ -1474,8 +1477,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             startActivity(i);
         }
         else if (item.getItemId() == R.id.settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+//            Intent intent = new Intent(this, SettingsActivity.class);
+//            startActivity(intent);
+
+            Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
             startActivity(intent);
+
         }
         else if(item.getItemId()  == R.id.performance){
             Intent intent = new Intent(this, GraphActivity.class);
