@@ -981,10 +981,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String url = "https://rocket.dheo.com/user-manual";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+                intent.putExtra("url", url);
+                startActivity(intent);
                 return true;
             }
         });
@@ -994,10 +993,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String url = "https://team.dheo.com";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+                intent.putExtra("url", url);
+                startActivity(intent);
                 return true;
             }
         });
@@ -1605,10 +1603,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             startActivity(intent);
         } else if (item.getItemId() == R.id.condition) {
             String url = "https://dheo.com/privacy";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
+            Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
         }
         else if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
@@ -1616,10 +1613,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         }
         else if(item.getItemId()  == R.id.user_manual){
             String url = "https://rocket.dheo.com/user-manual";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
+            Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     } //end//3 dot overflow menu
