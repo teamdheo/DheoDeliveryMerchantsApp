@@ -1,150 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="10dp"
-    android:elevation="10dp"
     android:layout_margin="8dp"
-    app:cardCornerRadius="5dp"
-    android:focusable="true"
     android:background="@color/cardview_light_background"
-    >
+    android:elevation="10dp"
+    android:focusable="true"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
         android:orientation="horizontal"
-        android:padding="5dp"
-        android:focusable="true">
+        android:padding="5dp">
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/entry_name"
-        android:text="Robi"
-        android:textColor="#000000"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:id="@+id/entry_order_id"
-        android:text="Uttara dhaka, bangladesh"
-        android:background="@drawable/delivery_cancel"
-        android:textColor="#FFF"
-        app:layout_constraintTop_toBottomOf="@+id/entry_name"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/entry_cod"
-        android:text="Uttara dhaka, bangladesh"
-        android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/entry_order_id"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/entry_pickup_date"
-        android:text="Uttara dhaka, bangladesh"
-        android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/entry_cod"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/entry_phone"
-        android:text="Uttara dhaka, bangladesh"
-        android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/entry_pickup_date"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:id="@+id/entry_address"
-        android:text="Uttara dhaka, bangladesh"
-        android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/entry_phone"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:id="@+id/entry_created_on"
-        android:text="Robi"
-        android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/entry_address"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/entry_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Robi"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/state_line2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="4dp"
-        android:background="#7E7C73"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/entry_created_on" />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/entry_edit_layout"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
         <TextView
+            android:id="@+id/entry_order_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/delivery_cancel"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text="Uttara dhaka, bangladesh"
+            android:textColor="#FFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entry_name" />
+
+        <TextView
+            android:id="@+id/entry_cod"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Uttara dhaka, bangladesh"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entry_order_id" />
+
+        <TextView
+            android:id="@+id/entry_pickup_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Uttara dhaka, bangladesh"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entry_cod" />
+
+        <TextView
+            android:id="@+id/entry_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Uttara dhaka, bangladesh"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entry_pickup_date" />
+
+        <TextView
+            android:id="@+id/entry_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Uttara dhaka, bangladesh"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entry_phone" />
+
+        <TextView
+            android:id="@+id/entry_created_on"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Robi"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entry_address" />
+
+        <View
+            android:id="@+id/state_line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="4dp"
+            android:background="#7E7C73"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/entry_created_on" />
+
+        <LinearLayout
+            android:id="@+id/entry_edit_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/edit_btn"
-            android:text="Edit"
-            android:textColor="#CC3533"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:textColor="#CC3533" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" | "
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textColor="#CC3533" />
+        </LinearLayout>
+
         <TextView
+            android:id="@+id/entry_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" | "
-            android:textColor="#000000"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/delete_btn"
-            android:text="Delete"
-            android:textColor="#CC3533"/>
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/entry_label"
-        android:textColor="#FFF"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:text=""
-        app:layout_constraintTop_toBottomOf="@+id/entry_edit_layout"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text=""
+            android:textColor="#FFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entry_edit_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
