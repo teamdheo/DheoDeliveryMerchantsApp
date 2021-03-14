@@ -60,7 +60,7 @@ public class AdapterClassLoadPickups extends RecyclerView.Adapter<AdapterClassLo
             holder.entry_phone.setText("Phone: "+ pickup_orders.get(position).getCustomerPhone());
         }catch (NullPointerException e){}
         try {
-            holder.entry_cod.setText("amount: "+ pickup_orders.get(position).getCodAmount()+" TK");
+            holder.entry_cod.setText("Amount: "+ pickup_orders.get(position).getCodAmount()+" TK");
         }catch (NullPointerException e){}
         try {
             holder.entry_order_id.setText("Product ID: "+ pickup_orders.get(position).getProductId());
