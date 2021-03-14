@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -474,6 +475,7 @@ public class PickupEntryActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
                 }
                 load_pickup_adapter = new AdapterClassLoadPickups(all_list_of_orders, getApplicationContext());
+                Log.d("Data", "onResponse: "+all_list_of_orders.get(0).getCustomerAddress());
                 load_pickups_recycle.setAdapter(load_pickup_adapter);
             }
 
