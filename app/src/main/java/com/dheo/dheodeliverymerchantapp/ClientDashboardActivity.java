@@ -425,10 +425,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         settings.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-//                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-//                                startActivity(intent);
-
-                                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                 startActivity(intent);
                             }
                         });
@@ -1611,12 +1608,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             startActivity(intent);
         }
         else if (item.getItemId() == R.id.settings) {
-//            Intent intent = new Intent(this, SettingsActivity.class);
-//            startActivity(intent);
-
-            Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-
         }
         else if(item.getItemId()  == R.id.user_manual){
             String url = "https://rocket.dheo.com/user-manual";
