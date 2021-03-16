@@ -1012,10 +1012,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String url = "http://rocket.dheo.com/user-manual";
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(url));
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(i);
                 Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
                 intent.putExtra("url", url);
                 startActivity(intent);
@@ -1028,11 +1024,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String url = "https://team.dheo.com";
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(url));
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(i);
-//                return true;
                 Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
                 intent.putExtra("url", url);
                 startActivity(intent);

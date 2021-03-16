@@ -149,15 +149,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private boolean obx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         helper.checkInternetConnection();
         super.onCreate(savedInstanceState);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setLogo(R.drawable.ic_stat_name);
-//        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        //battery_optimization();
         setContentView(R.layout.activity_client_dashboard);
         client_name = (TextView) findViewById(R.id.name);
         total_balance = (TextView) findViewById(R.id.amount);
@@ -238,7 +235,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle.syncState();
 
-//        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Dashboard");
         final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
         builder.setCancelable(false);
@@ -429,129 +426,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                 startActivity(intent);
                             }
                         });
-
-                        request_pickup.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                try {
-                                    if (s.getM().getOobUx()) {
-                                        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
-                                        builder.setCancelable(false);
-                                        final View customLayout = getLayoutInflater().inflate(R.layout.client_agriment_layput, null);
-                                        builder.setView(customLayout);
-                                        Button i_accept = customLayout.findViewById(R.id.i_accept);
-                                        Button cancel_ag = customLayout.findViewById(R.id.cancel_accept);
-                                        final AlertDialog dialog = builder.create();
-                                        dialog.show();
-                                        cancel_ag.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                        i_accept.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                Call<ResponseBody> agreement_call = RetrofitClient
-                                                        .getInstance()
-                                                        .getApi()
-                                                        .user_agreement(clientId, "true");
-                                                agreement_call.enqueue(new Callback<ResponseBody>() {
-                                                    @Override
-                                                    public void onResponse(Call<ResponseBody> a_call, Response<ResponseBody> a_response) {
-                                                        String s = null;
-                                                        try {
-                                                            s = a_response.body().string();
-                                                        } catch (IOException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                                                        if (s.equals("{\"e\":0}")) {
-                                                            dialog.dismiss();
-                                                            Toasty.success(getApplicationContext(), "Agreement Accepted", Toast.LENGTH_LONG, true).show();
-                                                            Call<PickupAddresses> call = RetrofitClient
-                                                                    .getInstance()
-                                                                    .getApi()
-                                                                    .get_pickup_address(clientId);
-
-                                                            call.enqueue(new Callback<PickupAddresses>() {
-                                                                @Override
-                                                                public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
-                                                                    try {
-                                                                        PickupAddresses pickup = response.body();
-                                                                        pickup_address_length = pickup.getM();
-                                                                        if (pickup_address_length.size() < 2) {
-                                                                            Intent i = new Intent(ClientDashboardActivity.this, SingleAddressPickupSlotActivity.class);
-                                                                            i.putExtra("address_id", pickup.getM().get(0).getAddress_id());
-                                                                            startActivity(i);
-                                                                        } else {
-                                                                            Intent i = new Intent(ClientDashboardActivity.this, ListActivityPickupAddress.class);
-                                                                            startActivity(i);
-                                                                        }
-                                                                    } catch (NullPointerException e) {
-                                                                        e.printStackTrace();
-                                                                        Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
-                                                                    }
-                                                                }
-
-                                                                @Override
-                                                                public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                                                                    Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
-                                                                    Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                                                                    startActivity(i);
-                                                                }
-
-                                                            });
-
-                                                        } else {
-                                                            Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(Call<ResponseBody> a_call, Throwable t) {
-                                                        //Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-
-                                } catch (NullPointerException e) {
-                                    Call<PickupAddresses> call = RetrofitClient
-                                            .getInstance()
-                                            .getApi()
-                                            .get_pickup_address(clientId);
-
-                                    call.enqueue(new Callback<PickupAddresses>() {
-                                        @Override
-                                        public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
-                                            try {
-                                                PickupAddresses pickup = response.body();
-                                                pickup_address_length = pickup.getM();
-                                                if (pickup_address_length.size() < 2) {
-                                                    Intent i = new Intent(ClientDashboardActivity.this, SingleAddressPickupSlotActivity.class);
-                                                    i.putExtra("address_id", pickup.getM().get(0).getAddress_id());
-                                                    startActivity(i);
-                                                } else {
-                                                    Intent i = new Intent(ClientDashboardActivity.this, ListActivityPickupAddress.class);
-                                                    startActivity(i);
-                                                }
-                                            } catch (NullPointerException e) {
-                                                e.printStackTrace();
-                                                Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                                            //Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
-                                        }
-
-                                    });
-                                }
-                            }
-                        });
+                        obx = s.getM().getOobUx();
 
                     }
                 } catch (NullPointerException e) {
@@ -561,6 +436,131 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onFailure(Call<ClientBasicInfo> call, Throwable t) {
                 //Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+            }
+        });
+        request_pickup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (obx) {
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
+                        builder.setCancelable(false);
+                        final View customLayout = getLayoutInflater().inflate(R.layout.client_agriment_layput, null);
+                        builder.setView(customLayout);
+                        Button i_accept = customLayout.findViewById(R.id.i_accept);
+                        Button cancel_ag = customLayout.findViewById(R.id.cancel_accept);
+                        final AlertDialog dialog = builder.create();
+                        dialog.show();
+                        cancel_ag.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        i_accept.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Call<ResponseBody> agreement_call = RetrofitClient
+                                        .getInstance()
+                                        .getApi()
+                                        .user_agreement(clientId, "true");
+                                agreement_call.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> a_call, Response<ResponseBody> a_response) {
+                                        String s = null;
+                                        try {
+                                            s = a_response.body().string();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                        if (s.equals("{\"e\":0}")) {
+                                            dialog.dismiss();
+                                            Toasty.success(getApplicationContext(), "Agreement Accepted", Toast.LENGTH_LONG, true).show();
+                                            Call<PickupAddresses> call = RetrofitClient
+                                                    .getInstance()
+                                                    .getApi()
+                                                    .get_pickup_address(clientId);
+
+                                            call.enqueue(new Callback<PickupAddresses>() {
+                                                @Override
+                                                public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                                                    try {
+                                                        PickupAddresses pickup = response.body();
+                                                        pickup_address_length = pickup.getM();
+                                                        if (pickup_address_length.size() < 2) {
+                                                            Intent i = new Intent(ClientDashboardActivity.this, SingleAddressPickupSlotActivity.class);
+                                                            i.putExtra("address_id", pickup.getM().get(0).getAddress_id());
+                                                            startActivity(i);
+                                                        } else {
+                                                            Intent i = new Intent(ClientDashboardActivity.this, ListActivityPickupAddress.class);
+                                                            startActivity(i);
+                                                        }
+                                                    } catch (NullPointerException e) {
+                                                        e.printStackTrace();
+                                                        Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<PickupAddresses> call, Throwable t) {
+                                                    Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+                                                    Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                                                    startActivity(i);
+                                                }
+
+                                            });
+
+                                        } else {
+                                            Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> a_call, Throwable t) {
+                                        //Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else{
+                        Call<PickupAddresses> call = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .get_pickup_address(clientId);
+
+                        call.enqueue(new Callback<PickupAddresses>() {
+                            @Override
+                            public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                                try {
+                                    PickupAddresses pickup = response.body();
+                                    pickup_address_length = pickup.getM();
+                                    if (pickup_address_length.size() < 2) {
+                                        Intent i = new Intent(ClientDashboardActivity.this, SingleAddressPickupSlotActivity.class);
+                                        i.putExtra("address_id", pickup.getM().get(0).getAddress_id());
+                                        startActivity(i);
+                                    } else {
+                                        Intent i = new Intent(ClientDashboardActivity.this, ListActivityPickupAddress.class);
+                                        startActivity(i);
+                                    }
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<PickupAddresses> call, Throwable t) {
+                                //Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+                            }
+
+                        });
+                    }
+
+                } catch (NullPointerException e) {
+
+                }
             }
         });
 
@@ -584,10 +584,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                             @Override
                             public void onClick(View view) {
                                 String url = "https://rocket.dheo.com/updates";
-                                Intent i = new Intent(Intent.ACTION_VIEW);
-                                i.setData(Uri.parse(url));
-                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(i);
+                                Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+                                intent.putExtra("url", url);
+                                startActivity(intent);
                             }
                         });
                     }
@@ -804,110 +803,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 }
             }
         });
-//        phone_call.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//                Intent intent = new Intent(Intent.ACTION_DIAL);
-//                intent.setData(Uri.parse("tel: 09613533533"));
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//            }
-//        });
-//        facebook.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String url = "https://m.me/dheolife";
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(url));
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(i);
-//            }
-//        });
-//        my_delivery.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        dashboard_billing.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
-//                intent.putExtra("name_c", name);
-//                intent.putExtra("balance_c", balance);
-//                startActivity(intent);
-//            }
-//        });
-//        dashboard_performance.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-//        user_manual.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String url = "https://rocket.dheo.com/user-manual";
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(url));
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(i);
-//            }
-//        });
-
-//        log_out.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-//                editor = sharedPreferences.edit();
-//                editor.putBoolean("saveLogin", false);
-//                editor.commit();
-////                editor.clear();
-////                editor.apply();
-//                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        dhep_delivery.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(),ClientDashboardActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        the_user_manual.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String url = "https://rocket.dheo.com/user-manual";
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(url));
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(i);
-//            }
-//        });
-//        meet_the_team.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String url = "https://team.dheo.com";
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(url));
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(i);
-//            }
-//        });
-//        privacy_policy.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String url = "https://dheo.com/privacy";
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(url));
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(i);
-//            }
-//        });
+//
 
         MenuItem dashboardItem = navigationView.getMenu().findItem(R.id.nav_dashboard);
         dashboardItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -946,6 +842,16 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_graph);
+        orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
                 startActivity(intent);
                 return true;
             }
@@ -1513,24 +1419,25 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
     @Override
     public void onBackPressed() {
-//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.closeDrawer(GravityCompat.START);
-//        }
-//        else {
-//            super.onBackPressed();
-//        };
-        if (doubleBackToExitPressedOnce) {
-            finishAffinity();
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+           // super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                finishAffinity();
             }
-        }, 2000);
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
 
     }
 
@@ -1619,30 +1526,5 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         }
         return super.onOptionsItemSelected(item);
     } //end//3 dot overflow menu
-//    public void battery_optimization(){
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            final Intent intent = new Intent();
-//            final String packageName = getPackageName();
-//            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-//            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-//                final android.app.AlertDialog ad= new android.app.AlertDialog.Builder(this).setTitle("IMPORTANT").setMessage("For The Proper Working Of The App,Please Disable Battery Optimization For This App").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-//                        intent.setData(Uri.parse("package:" + packageName));
-//                        startActivity(intent);
 //
-//                    }
-//                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        System.exit(0);
-//                    }
-//                }).create();
-//                ad.show();
-//            }
-//        }
-//    }
-
-
 }

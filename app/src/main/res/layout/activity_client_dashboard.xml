@@ -21,7 +21,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:elevation="4dp"/>
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,6 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:id="@+id/pickup_request"
+                    android:onClick="true"
                     android:background="@drawable/request_picup"
                     android:text="Request Pickup"
                     android:textColor="#FFF"
@@ -609,63 +610,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="You don't have any monthly statements yet."
                     android:textColor="#666"/>
-                <!--        <ProgressBar-->
-                <!--            android:layout_width="wrap_content"-->
-                <!--            android:layout_height="wrap_content"-->
-                <!--            android:id="@+id/monthly_record_payload_progressbar"-->
-                <!--            app:layout_constraintEnd_toEndOf="parent"-->
-                <!--            app:layout_constraintStart_toStartOf="parent"-->
-                <!--            app:layout_constraintTop_toBottomOf="@+id/monthly_billing_activity_bar2"/>-->
-<!--                <RelativeLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="170dp"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:id="@+id/relative_layout2"-->
-<!--                    android:background="#CC3533"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/monthly_text"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent">-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:id="@+id/dashboard_dheo_delivery"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:layout_marginTop="10dp"-->
-<!--                        android:text="Dheo delivery"-->
-<!--                        android:textSize="18dp"-->
-<!--                        android:textColor="#FFF"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:id="@+id/dashboard_The_manual"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:layout_marginTop="50dp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:text="The User Manual"-->
-<!--                        android:textSize="18dp"-->
-<!--                        android:textColor="#FFF"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:id="@+id/dashboard_meet_team"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:layout_marginTop="90dp"-->
-<!--                        android:text="Meet The Team"-->
-<!--                        android:textSize="18dp"-->
-<!--                        android:textColor="#FFF"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:id="@+id/dashboard_policy"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:layout_marginTop="130dp"-->
-<!--                        android:text="Privacy Policy"-->
-<!--                        android:textSize="18dp"-->
-<!--                        android:textColor="#FFF"/>-->
-<!--                </RelativeLayout>-->
                 <View
                     android:id="@+id/state_line"
                     android:layout_width="match_parent"
@@ -735,7 +679,7 @@
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
