@@ -159,7 +159,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:id="@+id/pickup_request"
-                    android:onClick="true"
                     android:background="@drawable/request_picup"
                     android:text="Request Pickup"
                     android:textColor="#FFF"

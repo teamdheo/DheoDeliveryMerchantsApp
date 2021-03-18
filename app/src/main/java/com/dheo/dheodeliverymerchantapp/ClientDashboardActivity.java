@@ -504,9 +504,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
                                                 @Override
                                                 public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                                                    Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
-                                                    Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                                                    startActivity(i);
+
                                                 }
 
                                             });
@@ -847,7 +845,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         });
 
-        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_graph);
+        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_order);
         orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

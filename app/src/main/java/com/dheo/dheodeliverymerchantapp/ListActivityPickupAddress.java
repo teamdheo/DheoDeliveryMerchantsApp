@@ -35,8 +35,6 @@ public class ListActivityPickupAddress extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("Select a address");
-        getSupportActionBar().setElevation(0);//remove actionbar shadow
-        setTitle("Select an address");
         setContentView(R.layout.activity_list_pickup_address);
         pickup_list = (RecyclerView) findViewById(R.id.recycler_pickup);
         add_or_change_address = findViewById(R.id.add_or_change_address);
@@ -78,8 +76,6 @@ public class ListActivityPickupAddress extends AppCompatActivity {
             @Override
             public void onFailure(Call<PickupAddresses> call, Throwable t) {
                 Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
-                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(i);
             }
 
         });
