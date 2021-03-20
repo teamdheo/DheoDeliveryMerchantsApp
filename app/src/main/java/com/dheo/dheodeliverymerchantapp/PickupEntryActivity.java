@@ -1,30 +1,45 @@
 package com.dheo.dheodeliverymerchantapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.dheo.dheodeliverymerchantapp.ModelClassClientBasicInfo.ClientBasicInfo;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupOrders.M;
 import com.dheo.dheodeliverymerchantapp.ModelClassPickupOrders.PickupOrders;
 import com.dheo.dheodeliverymerchantapp.ModelClassSearchPickupOrder.SearchPickupOrder;
 import com.dheo.dheodeliverymerchantapp.modelClassPickupAddresses.PickupAddresses;
+import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.Date;
@@ -39,7 +54,7 @@ import retrofit2.Response;
 public class PickupEntryActivity extends AppCompatActivity {
     private Button order_create_btn,cancel_entry_btn,save_entry_btn,old_pickup,new_pickup,search_btn,back_btn;
     private DatePicker entry_datePicker,search_datePicker;
-    private TextView phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,recycle_hints;
+    private TextView recycle_hints;
     private EditText entry_customer_name,entry_customer_address,entry_customer_phone,entry_customer_cod;
     private String month,date,search_date,search_month;
     private int month_of_year, search_month_of_year, client_id, page_number =1, load_pickup_remaining;
@@ -54,6 +69,10 @@ public class PickupEntryActivity extends AppCompatActivity {
     Helper helper = new Helper(this);
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private Boolean obx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,21 +107,59 @@ public class PickupEntryActivity extends AppCompatActivity {
         search_recycle.setVisibility(View.GONE);
         back_btn.setVisibility(View.GONE);
 
-        phone_call = findViewById(R.id.billing_phone5);
-        facebook = findViewById(R.id.billing_fb);
-        my_delivery = findViewById(R.id.billing_my_delivery);
-        dashboard_billing = findViewById(R.id.billing_Billing);
-        settings = findViewById(R.id.billing_settings);
-        user_manual = findViewById(R.id.billing_user_manual);
-        log_out = findViewById(R.id.billing_logout);
-        dhep_delivery = findViewById(R.id.billing_dheo_delivery);
-        the_user_manual = findViewById(R.id.billing_The_manual);
-        meet_the_team = findViewById(R.id.billing_meet_team);
-        privacy_policy = findViewById(R.id.billing_policy);
 
-        getSupportActionBar().setElevation(0);//remove actionbar shadow
+        //getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Pickup Orders");
+
+        Toolbar toolbar = findViewById(R.id.color_toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+
+        setSupportActionBar(toolbar);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toggle.syncState();
+
         client_id = helper.getClientId();
+
+        Call<ClientBasicInfo> call1 = RetrofitClient
+                .getInstance()
+                .getApi()
+                .client_basic_info(helper.getClientId());
+        call1.enqueue(new Callback<ClientBasicInfo>() {
+            @Override
+            public void onResponse(Call<ClientBasicInfo> call, Response<ClientBasicInfo> response) {
+                try {
+                    ClientBasicInfo s = response.body();
+                    if(s.getE() == 0){
+                        View hView =  navigationView.getHeaderView(0);
+                        TextView nav_name = hView.findViewById(R.id.nav_name);
+                        ImageView nav_photo = hView.findViewById(R.id.nav_photo);
+                        nav_name.setText(s.getM().getName());
+                        obx = s.getM().getOobUx();
+                        try {
+                            if (s.getM().getProPic().equals("default.svg")) {
+
+                            } else {
+
+                                String photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + s.getM().getProPic();
+                                Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(nav_photo);
+                            }
+                        } catch (NullPointerException e) {
+
+                        }
+                    }
+                }catch (NullPointerException e){
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClientBasicInfo> call, Throwable t) {
+
+            }
+        });
         order_create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,113 +244,279 @@ public class PickupEntryActivity extends AppCompatActivity {
                 }
                 date = String.valueOf(entry_datePicker.getDayOfMonth()) +" " + month + " "+ String.valueOf(entry_datePicker.getYear());
                 if(entry_customer_name.getText().length() > 0 && entry_customer_address.getText().length() > 0 && entry_customer_phone.getText().length() == 11 && entry_customer_cod.getText().length() > 0){
-                    //Toast.makeText(getApplicationContext(), date, Toast.LENGTH_LONG).show();
-                    Call<PickupAddresses> call = RetrofitClient
-                            .getInstance()
-                            .getApi()
-                            .get_pickup_address(client_id);
-
-                    call.enqueue(new Callback<PickupAddresses>() {
-                        @Override
-                        public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
-                            try {
-                                PickupAddresses pickup = response.body();
-                                //pickup_entry_address_length = pickup.getM();
-                                if (pickup.getM().size() < 2) {
-                                    Call<ResponseBody> entryCall = RetrofitClient
+                    //Toast.makeText(getApplicationContext(), obx.compareTo(true), Toast.LENGTH_LONG).show();
+                    try{
+                        if(obx){
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(PickupEntryActivity.this, R.style.AppTheme));
+                            builder.setCancelable(false);
+                            final View customLayout = getLayoutInflater().inflate(R.layout.client_agriment_layput, null);
+                            builder.setView(customLayout);
+                            Button i_accept = customLayout.findViewById(R.id.i_accept);
+                            Button cancel_ag = customLayout.findViewById(R.id.cancel_accept);
+                            final AlertDialog dialog = builder.create();
+                            dialog.show();
+                            cancel_ag.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            i_accept.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Call<ResponseBody> agreement_call = RetrofitClient
                                             .getInstance()
                                             .getApi()
-                                            .pickup_self_entry(client_id, entry_customer_name.getText().toString(), entry_customer_address.getText().toString(), entry_customer_phone.getText().toString(), entry_customer_cod.getText().toString(),date, pickup.getM().get(0).getAddress_id());
-                                    entryCall.enqueue(new Callback<ResponseBody>() {
+                                            .user_agreement(client_id, "true");
+                                    agreement_call.enqueue(new Callback<ResponseBody>() {
                                         @Override
-                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        public void onResponse(Call<ResponseBody> a_call, Response<ResponseBody> a_response) {
                                             String s = null;
                                             try {
-                                                s = response.body().string();
+                                                s = a_response.body().string();
                                             } catch (IOException e) {
                                                 e.printStackTrace();
                                             }
-
                                             if (s.equals("{\"e\":0}")) {
-                                                entry_customer_name.getText().clear();
-                                                entry_customer_address.getText().clear();
-                                                entry_customer_cod.getText().clear();
-                                                entry_customer_phone.getText().clear();
-                                                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
-                                                startActivity(intent);
+                                                dialog.dismiss();
+                                                Toasty.success(getApplicationContext(), "Agreement Accepted", Toast.LENGTH_LONG, true).show();
+                                                Call<PickupAddresses> call = RetrofitClient
+                                                        .getInstance()
+                                                        .getApi()
+                                                        .get_pickup_address(client_id);
+
+                                                call.enqueue(new Callback<PickupAddresses>() {
+                                                    @Override
+                                                    public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                                                        try {
+                                                            PickupAddresses pickup = response.body();
+                                                            //pickup_entry_address_length = pickup.getM();
+                                                            if (pickup.getM().size() < 2) {
+                                                                Call<ResponseBody> entryCall = RetrofitClient
+                                                                        .getInstance()
+                                                                        .getApi()
+                                                                        .pickup_self_entry(client_id, entry_customer_name.getText().toString(), entry_customer_address.getText().toString(), entry_customer_phone.getText().toString(), entry_customer_cod.getText().toString(),date, pickup.getM().get(0).getAddress_id());
+                                                                entryCall.enqueue(new Callback<ResponseBody>() {
+                                                                    @Override
+                                                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                                        String s = null;
+                                                                        try {
+                                                                            s = response.body().string();
+                                                                        } catch (IOException e) {
+                                                                            e.printStackTrace();
+                                                                        }
+
+                                                                        if (s.equals("{\"e\":0}")) {
+                                                                            entry_customer_name.getText().clear();
+                                                                            entry_customer_address.getText().clear();
+                                                                            entry_customer_cod.getText().clear();
+                                                                            entry_customer_phone.getText().clear();
+                                                                            Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+                                                                            startActivity(intent);
+                                                                        }
+                                                                        else if (s.equals("{\"e\":2}")) {
+                                                                            Toasty.error(getApplicationContext(), "Today's pickup time is over. please contact to our customer service for details.", Toast.LENGTH_LONG, true).show();
+                                                                        }
+                                                                        else{
+                                                                            //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                                                    }
+                                                                });
+
+
+                                                            } else {
+                                                                final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(PickupEntryActivity.this, R.style.AppTheme));
+                                                                builder.setCancelable(false);
+                                                                final View customLayout = getLayoutInflater().inflate(R.layout.self_entry_multiple_address_dialog, null);
+                                                                builder.setView(customLayout);
+                                                                final RecyclerView recycler_pickup_entry_address = customLayout.findViewById(R.id.recycler_pickup_entry_address);
+                                                                Button cancel_pickup_entry = customLayout.findViewById(R.id.cancel_pickup_entry);
+                                                                final RecyclerView.Adapter[] adapter = new RecyclerView.Adapter[1];
+                                                                recycler_pickup_entry_address.setHasFixedSize(true);
+                                                                recycler_pickup_entry_address.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                                                final AlertDialog dialog = builder.create();
+                                                                dialog.show();
+                                                                cancel_pickup_entry.setOnClickListener(new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View v) {
+                                                                        dialog.dismiss();
+                                                                    }
+                                                                });
+
+                                                                Call<PickupAddresses> call1 = RetrofitClient
+                                                                        .getInstance()
+                                                                        .getApi()
+                                                                        .get_pickup_address(client_id);
+
+                                                                call1.enqueue(new Callback<PickupAddresses>() {
+                                                                    @Override
+                                                                    public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                                                                        if(response.body() != null){
+                                                                            try {
+                                                                                PickupAddresses pickup = response.body();
+                                                                                pickup_entry_address_length = pickup.getM();
+                                                                            } catch (NullPointerException e) {
+                                                                                e.printStackTrace();
+                                                                                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                                                                            }
+                                                                        }
+                                                                        adapter[0] = new AdapterClassSelfEntryAddresses(pickup_entry_address_length, getApplicationContext(),client_id, entry_customer_name.getText().toString(), entry_customer_address.getText().toString(), entry_customer_phone.getText().toString(), entry_customer_cod.getText().toString(),date);
+                                                                        recycler_pickup_entry_address.setAdapter(adapter[0]);
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onFailure(Call<PickupAddresses> call, Throwable t) {
+                                                                        Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                                                                    }
+
+                                                                });
+                                                            }
+                                                        } catch (NullPointerException e) {
+                                                            e.printStackTrace();
+                                                            Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<PickupAddresses> call, Throwable t) {
+
+                                                    }
+
+                                                });
+
+
+
+                                            } else {
+                                                Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                                             }
-                                            else{
-                                                //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();
-                                            }
                                         }
 
                                         @Override
-                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                                        public void onFailure(Call<ResponseBody> a_call, Throwable t) {
+                                            //Toasty.error(getApplicationContext(), "Try again!", Toast.LENGTH_LONG, true).show();
                                         }
-                                    });
-
-
-                                } else {
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(PickupEntryActivity.this, R.style.AppTheme));
-                                    builder.setCancelable(false);
-                                    final View customLayout = getLayoutInflater().inflate(R.layout.self_entry_multiple_address_dialog, null);
-                                    builder.setView(customLayout);
-                                    final RecyclerView recycler_pickup_entry_address = customLayout.findViewById(R.id.recycler_pickup_entry_address);
-                                    Button cancel_pickup_entry = customLayout.findViewById(R.id.cancel_pickup_entry);
-                                    final RecyclerView.Adapter[] adapter = new RecyclerView.Adapter[1];
-                                    recycler_pickup_entry_address.setHasFixedSize(true);
-                                    recycler_pickup_entry_address.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                    final AlertDialog dialog = builder.create();
-                                    dialog.show();
-                                    cancel_pickup_entry.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-
-                                    Call<PickupAddresses> call1 = RetrofitClient
-                                            .getInstance()
-                                            .getApi()
-                                            .get_pickup_address(client_id);
-
-                                    call1.enqueue(new Callback<PickupAddresses>() {
-                                        @Override
-                                        public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
-                                            if(response.body() != null){
-                                                try {
-                                                    PickupAddresses pickup = response.body();
-                                                    pickup_entry_address_length = pickup.getM();
-                                                } catch (NullPointerException e) {
-                                                    e.printStackTrace();
-                                                    Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                            adapter[0] = new AdapterPickupAddressList(pickup_entry_address_length, getApplicationContext());
-                                            recycler_pickup_entry_address.setAdapter(adapter[0]);
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                                            Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
-                                        }
-
                                     });
                                 }
-                            } catch (NullPointerException e) {
-                                e.printStackTrace();
-                                Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
+                            });
+                        }
+
+                    }catch (NullPointerException e){
+                        Call<PickupAddresses> call = RetrofitClient
+                                .getInstance()
+                                .getApi()
+                                .get_pickup_address(client_id);
+
+                        call.enqueue(new Callback<PickupAddresses>() {
+                            @Override
+                            public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                                try {
+                                    PickupAddresses pickup = response.body();
+                                    //pickup_entry_address_length = pickup.getM();
+                                    if (pickup.getM().size() < 2) {
+                                        Call<ResponseBody> entryCall = RetrofitClient
+                                                .getInstance()
+                                                .getApi()
+                                                .pickup_self_entry(client_id, entry_customer_name.getText().toString(), entry_customer_address.getText().toString(), entry_customer_phone.getText().toString(), entry_customer_cod.getText().toString(),date, pickup.getM().get(0).getAddress_id());
+                                        entryCall.enqueue(new Callback<ResponseBody>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                String s = null;
+                                                try {
+                                                    s = response.body().string();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                if (s.equals("{\"e\":0}")) {
+                                                    entry_customer_name.getText().clear();
+                                                    entry_customer_address.getText().clear();
+                                                    entry_customer_cod.getText().clear();
+                                                    entry_customer_phone.getText().clear();
+                                                    Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+                                                    startActivity(intent);
+                                                }
+                                                else if (s.equals("{\"e\":2}")) {
+                                                    Toasty.error(getApplicationContext(), "Today's pickup time is over. please contact to our customer service for details.", Toast.LENGTH_LONG, true).show();
+                                                }
+                                                else{
+                                                    //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                            }
+                                        });
+
+
+                                    } else {
+                                        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(PickupEntryActivity.this, R.style.AppTheme));
+                                        builder.setCancelable(false);
+                                        final View customLayout = getLayoutInflater().inflate(R.layout.self_entry_multiple_address_dialog, null);
+                                        builder.setView(customLayout);
+                                        final RecyclerView recycler_pickup_entry_address = customLayout.findViewById(R.id.recycler_pickup_entry_address);
+                                        Button cancel_pickup_entry = customLayout.findViewById(R.id.cancel_pickup_entry);
+                                        final RecyclerView.Adapter[] adapter = new RecyclerView.Adapter[1];
+                                        recycler_pickup_entry_address.setHasFixedSize(true);
+                                        recycler_pickup_entry_address.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                        final AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                        cancel_pickup_entry.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                        Call<PickupAddresses> call1 = RetrofitClient
+                                                .getInstance()
+                                                .getApi()
+                                                .get_pickup_address(client_id);
+
+                                        call1.enqueue(new Callback<PickupAddresses>() {
+                                            @Override
+                                            public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
+                                                if(response.body() != null){
+                                                    try {
+                                                        PickupAddresses pickup = response.body();
+                                                        pickup_entry_address_length = pickup.getM();
+                                                    } catch (NullPointerException e) {
+                                                        e.printStackTrace();
+                                                        Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                                adapter[0] = new AdapterClassSelfEntryAddresses(pickup_entry_address_length, getApplicationContext(),client_id, entry_customer_name.getText().toString(), entry_customer_address.getText().toString(), entry_customer_phone.getText().toString(), entry_customer_cod.getText().toString(),date);
+                                                recycler_pickup_entry_address.setAdapter(adapter[0]);
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<PickupAddresses> call, Throwable t) {
+                                                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                                            }
+
+                                        });
+                                    }
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<PickupAddresses> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<PickupAddresses> call, Throwable t) {
 
-                        }
+                            }
 
-                    });
+                        });
 
+
+                    }
 
                 }
                 else{
@@ -413,107 +636,121 @@ public class PickupEntryActivity extends AppCompatActivity {
 
             }
         });
-        phone_call.setOnClickListener(new View.OnClickListener() {
+
+        MenuItem dashboardItem = navigationView.getMenu().findItem(R.id.nav_dashboard);
+        dashboardItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem billingItem = navigationView.getMenu().findItem(R.id.nav_billing);
+        billingItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem settingsItem = navigationView.getMenu().findItem(R.id.nav_setting);
+        settingsItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem performanceItem = navigationView.getMenu().findItem(R.id.nav_graph);
+        performanceItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_order);
+        orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem callItem = navigationView.getMenu().findItem(R.id.nav_call);
+        callItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel: 09613533533"));
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                return true;
             }
         });
-        facebook.setOnClickListener(new View.OnClickListener() {
+
+        MenuItem messageItem = navigationView.getMenu().findItem(R.id.nav_text);
+        messageItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem item) {
                 String url = "https://m.me/dheolife";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+                return true;
             }
         });
 
-        my_delivery.setOnClickListener(new View.OnClickListener() {
+        MenuItem manualeItem = navigationView.getMenu().findItem(R.id.nav_userManual);
+        manualeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(intent);
-            }
-        });
-        dashboard_billing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
-                startActivity(intent);
-            }
-        });
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-        user_manual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem item) {
                 String url = "https://rocket.dheo.com/user-manual";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+                intent.putExtra("url", url);
+                startActivity(intent);
+                return true;
             }
         });
 
-        log_out.setOnClickListener(new View.OnClickListener() {
+        MenuItem meetTeamItem = navigationView.getMenu().findItem(R.id.nav_team);
+        meetTeamItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem item) {
+                String url = "https://team.dheo.com";
+                Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+                intent.putExtra("url", url);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        MenuItem logOutItem = navigationView.getMenu().findItem(R.id.nav_logout);
+        logOutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
                 sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
                 editor = sharedPreferences.edit();
                 editor.putBoolean("saveLogin", false);
                 editor.commit();
+//                editor.clear();
+//                editor.apply();
                 Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(intent);
+                return true;
             }
         });
-        dhep_delivery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(intent);
-            }
-        });
-        the_user_manual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://rocket.dheo.com/user-manual";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        });
-        meet_the_team.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://team.dheo.com";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        });
-        privacy_policy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://dheo.com/privacy";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        });
-
 
     }
 
@@ -564,5 +801,69 @@ public class PickupEntryActivity extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.three_dot_menu, menu);
+        // Associate searchable configuration with the SearchView
+
+//        SearchManager searchManager =
+//                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView =
+//                (SearchView) menu.findItem(R.id.search).getActionView();
+//        searchView.setSearchableInfo(
+//                searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setSubmitButtonEnabled(true);
+        for(int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
+            spanString.setSpan(new ForegroundColorSpan(Color.WHITE), 0,     spanString.length(), 0); //fix the color to white
+            item.setTitle(spanString);
+        }
+
+        return true;
+    }
+    //
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            editor.putBoolean("saveLogin", false);
+            editor.commit();
+//                editor.clear();
+//                editor.apply();
+            Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.condition) {
+            String url = "https://dheo.com/privacy";
+            Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
+            return true;
+        }
+        else if (item.getItemId() == R.id.settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        else if(item.getItemId()  == R.id.user_manual){
+            String url = "https://rocket.dheo.com/user-manual";
+            Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    } //end//3 dot overflow menu
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        };
+
+
     }
 }

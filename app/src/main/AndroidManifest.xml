@@ -26,7 +26,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".GraphActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".PickupEntryActivity" />
+        <activity android:name=".PickupEntryActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".OrderTrackerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SettingsActivity"

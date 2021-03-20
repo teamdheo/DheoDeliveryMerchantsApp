@@ -82,7 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ProgressBar name_setting_progress;
     ArrayList<String> bank_name;
     ArrayList<String> branches_name;
-    private TextView setting_name, go_back, valid_from, nagad_hint, bkash_hint, verify_submit_date,settings_graph, phone_call, facebook, my_delivery, dashboard_billing, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, image_upload, show_upload_image, reset_pass,bank_name_textview,branch_name_textview;
+    private TextView setting_name, go_back, valid_from, nagad_hint, bkash_hint, verify_submit_date, image_upload, show_upload_image, reset_pass,bank_name_textview,branch_name_textview;
     private EditText bkash_or_nagad, edit_branch_name, edit_bank_name, edit_account_name, edit_account_num, edit_nagad_num, add_new_add, add_new_phone, edit_web_link, change_account_phone,edit_routing_number,edit_business_name;
     ImageView setting_dp,cash, bkash, nagad;
     private int client_id;
@@ -159,17 +159,6 @@ public class SettingsActivity extends AppCompatActivity {
         upload_image_to_server = findViewById(R.id.upload_image_to_server);
         save_payment_method = findViewById(R.id.save_payment_method);
 
-        phone_call = findViewById(R.id.billing_phone5);
-        facebook = findViewById(R.id.billing_fb);
-        my_delivery = findViewById(R.id.billing_my_delivery);
-        dashboard_billing = findViewById(R.id.billing_Billing);
-        settings = findViewById(R.id.billing_settings);
-        user_manual = findViewById(R.id.billing_user_manual);
-        log_out = findViewById(R.id.billing_logout);
-        dhep_delivery = findViewById(R.id.billing_dheo_delivery);
-        the_user_manual = findViewById(R.id.billing_The_manual);
-        meet_the_team = findViewById(R.id.billing_meet_team);
-        privacy_policy = findViewById(R.id.billing_policy);
 
         Toolbar toolbar = findViewById(R.id.color_toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);

@@ -90,6 +90,7 @@ public class AdapterClassLoadPickups extends RecyclerView.Adapter<AdapterClassLo
             if(pickup_orders.get(position).getIntakeDone()){
                 holder.entry_label.setText("Intake Done");
                 holder.entry_label.setBackground(ContextCompat.getDrawable(order_context, R.drawable.paid_on));
+                holder.entry_edit_layout.setVisibility(View.GONE);
             }
         }catch (NullPointerException e){}
 

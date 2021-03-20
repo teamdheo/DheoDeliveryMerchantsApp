@@ -64,7 +64,6 @@ public class GraphActivity extends AppCompatActivity {
     ArrayList<String> month_name;
     int client_id;
     LinearLayout graph_layout;
-    private Button back_graph_to_db;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -132,14 +131,8 @@ public class GraphActivity extends AppCompatActivity {
                         set1.setColor(Color.RED);
                         set1.setCircleColor(Color.RED);
                         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                        //set1.setValueTextColor(Color.GREEN);
-                        //set1.setFillColor(ColorTemplate.getHoloBlue());
-                        //set1.setHighLightColor(Color.rgb(244, 117, 117));
                         set1.setDrawCircleHole(true);
                         XAxis xAxis = lineChart.getXAxis();
-                        //xAxis.setLabelCount(months.size());
-                        //xAxis.setValueFormatter(new IndexAxisValueFormatter(months));
-                        //xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
                         set1.setDrawFilled(false);
                         lineChart.getDescription().setEnabled(false);

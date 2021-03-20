@@ -5,12 +5,14 @@
     android:id="@+id/recycler_address"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginRight="8dp"
-    android:orientation="horizontal"
-    app:cardElevation="3dp"
-    android:focusable="true">
+    android:layout_marginTop="10dp"
+    android:elevation="12dp"
+    app:cardCornerRadius="20dp"
+    android:shape="ring"
+    app:cardBackgroundColor="#ADD8E6"
+    android:layout_gravity="center_horizontal"
+    android:innerRadius="40dp"
+    android:thicknessRatio="4">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,6 +24,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="Uttara, Dhaka"
+            android:gravity="center_horizontal"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +46,7 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:paddingBottom="8dp"
-            android:text="id"
+            android:text=""
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@id/show_pickup_address"
             app:layout_constraintStart_toStartOf="parent"

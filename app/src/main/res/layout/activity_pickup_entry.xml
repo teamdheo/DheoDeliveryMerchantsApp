@@ -1,546 +1,370 @@
-<?xml version="1.0" encoding="utf-8"?>
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollViewParent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context="com.dheo.dheodeliverymerchantapp.PickupEntryActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    tools:context="com.dheo.dheodeliverymerchantapp.PickupEntryActivity"
+    tools:openDrawer="start">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:id="@+id/order_create_btn"
-            android:background="@drawable/request_picup"
-            android:text="Create An Order"
-            android:textSize="20dp"
-            android:textColor="#FFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/order_entry_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/order_create_btn">
-
-            <EditText
-                android:id="@+id/entry_customer_name"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/rounded_edittext1"
-                android:ems="10"
-                android:hint="Customer's Name"
-                android:paddingLeft="10dp" />
-
-            <EditText
-                android:id="@+id/entry_customer_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/rounded_edittext1"
-                android:ems="10"
-                android:hint="Customer's Address"
-                android:minHeight="100dp"
-                android:paddingLeft="10dp" />
-
-            <EditText
-                android:id="@+id/entry_customer_phone"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/rounded_edittext1"
-                android:ems="10"
-                android:hint="Phone No(Eg: 01916210901)"
-                android:inputType="number"
-                android:paddingLeft="10dp" />
-
-            <EditText
-                android:id="@+id/entry_customer_cod"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/rounded_edittext1"
-                android:ems="10"
-                android:hint="COD Amount(TK)"
-                android:inputType="number"
-                android:paddingLeft="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:text="Pickup date:"
-                android:textColor="#000000"
-                android:textStyle="bold" />
-
-            <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/entry_datePicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:calendarViewShown="false"
-                android:datePickerMode="spinner" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/save_entry_btn"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/rounded_signup"
-                    android:padding="2dp"
-                    android:text="Save"
-                    android:textColor="#FFF"
-                    android:textSize="10dp" />
-
-                <Button
-                    android:id="@+id/cancel_entry_btn"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/defult_button"
-                    android:padding="2dp"
-                    android:text="Cancel"
-                    android:textColor="#000000"
-                    android:textSize="10dp" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recycle_layout_view"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/order_entry_layout"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:paddingLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:id="@+id/notice_note"
-                android:text="@string/product_id"
-                android:background="#CC3533"
-                android:textColor="#FFF" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:text="Search By Date :"
-                android:textColor="#000000"/>
-            <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/search_datePicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:calendarViewShown="false"
-                android:datePickerMode="spinner" />
-
-            <Button
-                android:id="@+id/search_btn"
-                android:layout_width="70dp"
-                android:layout_height="24dp"
-                android:layout_gravity="left"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_signup"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="search"
-                android:textColor="#FFF"
-                android:textSize="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycle_layout_view" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_recycle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="8dp"
-                android:scrollbars="vertical"
-                android:background="#ffffff" />
-            <Button
-                android:layout_width="70dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/back_btn"
-                android:gravity="center"
-                android:text="Back"
-                android:textSize="10dp"
-                android:padding="2dp"
-                android:textColor="#FFF"
-                android:layout_gravity="left"
-                android:background="@drawable/rounded_signup"
-                app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/recycle_hints"
-                android:text="Entry Pickups:"
-                android:textColor="#000000"
-                android:textSize="17dp"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/load_pickups_recycle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="8dp"
-                android:scrollbars="vertical"
-                android:background="#ffffff" />
-        </LinearLayout>
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/old_pickup"
-            android:gravity="center"
-            android:text=""
-            android:textSize="10dp"
-            android:padding="2dp"
-            android:textColor="#FFF"
-            android:layout_gravity="left"
-            android:background="@drawable/rounded_signup"
-            app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
-            app:layout_constraintStart_toStartOf="parent"/>
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:id="@+id/new_pickup"
-            android:gravity="center"
-            android:layout_gravity="right"
-            android:text=""
-            android:textSize="10dp"
-            android:padding="2dp"
-            android:textColor="#FFF"
-            android:background="@drawable/rounded_signup"
-            app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
-            app:layout_constraintEnd_toEndOf="parent"/>
-        <RelativeLayout
-            android:id="@+id/relative_layout"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="60dp"
-            android:background="#282827"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycle_layout_view">
-
-            <ImageView
-                android:id="@+id/help_lagbe_1"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="0dp"
-                android:src="@mipmap/help_lagbe" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="170dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/help_lagbe_bg"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="60dp"
-                android:paddingBottom="10dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@mipmap/ph_white" />
-
-                <TextView
-                    android:id="@+id/billing_phone5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:text="09613-533533"
-                    android:textColor="#FFF"
-                    android:textStyle="italic" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="170dp"
-                android:layout_marginTop="120dp"
-                android:background="@drawable/help_lagbe_bg"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="105dp"
-                android:paddingBottom="10dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@mipmap/fb_white" />
-
-                <TextView
-                    android:id="@+id/billing_fb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:text="Dheolife"
-                    android:textColor="#FFF"
-                    android:textStyle="italic" />
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:scaleType="fitXY"
-            android:id="@+id/state_line_monthly1"
-            android:src="@drawable/dheo_octops_red"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/billing_my_delivery"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:text="My Deliveries"
-                android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/billing_Billing"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:text="Billing"
-                android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/billing_settings"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:text="Settings"
-                android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/billing_user_manual"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:text="User Manual"
-                android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/billing_logout"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:text="Logout"
-                android:textColor="#FFF"
-                android:background="@drawable/link_section"/>
-
-        </LinearLayout>
-
-        <!--        <View-->
-        <!--            android:id="@+id/state_line_monthly1"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="5dp"-->
-        <!--            android:layout_marginTop="4dp"-->
-        <!--            android:background="#CC3533"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/relative_layout1" />-->
-
-        <RelativeLayout
-            android:id="@+id/relative_layout2"
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="170dp"
+            android:layout_height="?attr/actionBarSize"
             android:background="#CC3533"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/state_line_monthly1">
-
-            <TextView
-                android:id="@+id/billing_dheo_delivery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Dheo Delivery"
-                android:textColor="#FFF"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/billing_The_manual"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="50dp"
-                android:text="The User Manual"
-                android:textColor="#FFF"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/billing_meet_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="90dp"
-                android:text="Meet The Team"
-                android:textColor="#FFF"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/billing_policy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="130dp"
-                android:text="Privacy Policy"
-                android:textColor="#FFF"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <LinearLayout
+            android:id="@+id/color_toolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:elevation="4dp"/>
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/footer_layout"
-            android:background="#000"
-            app:layout_constraintTop_toBottomOf="@id/relative_layout2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_weight="0.33"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/block_logo_black"/>
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_weight="0.33"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/ecab_new_logo"/>
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_weight="0.33"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/csab"/>
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:id="@+id/order_create_btn"
+                    android:background="@drawable/request_picup"
+                    android:text="Create An Order"
+                    android:textSize="20dp"
+                    android:textColor="#FFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/order_entry_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/order_create_btn">
+
+                    <EditText
+                        android:id="@+id/entry_customer_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/rounded_edittext1"
+                        android:ems="10"
+                        android:hint="Customer's Name"
+                        android:paddingLeft="10dp" />
+
+                    <EditText
+                        android:id="@+id/entry_customer_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/rounded_edittext1"
+                        android:ems="10"
+                        android:hint="Customer's Address"
+                        android:minHeight="100dp"
+                        android:paddingLeft="10dp" />
+
+                    <EditText
+                        android:id="@+id/entry_customer_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/rounded_edittext1"
+                        android:ems="10"
+                        android:hint="Phone No(Eg: 01916210901)"
+                        android:inputType="number"
+                        android:paddingLeft="10dp" />
+
+                    <EditText
+                        android:id="@+id/entry_customer_cod"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/rounded_edittext1"
+                        android:ems="10"
+                        android:hint="COD Amount(TK)"
+                        android:inputType="number"
+                        android:paddingLeft="10dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Pickup date:"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+
+                    <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/entry_datePicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/save_entry_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/rounded_signup"
+                            android:padding="2dp"
+                            android:text="Save"
+                            android:textColor="#FFF"
+                            android:textSize="10dp" />
+
+                        <Button
+                            android:id="@+id/cancel_entry_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/defult_button"
+                            android:padding="2dp"
+                            android:text="Cancel"
+                            android:textColor="#000000"
+                            android:textSize="10dp" />
+
+                    </LinearLayout>
 
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#000"
-            app:layout_constraintTop_toBottomOf="@id/footer_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFF"
-                android:layout_marginLeft="12dp"
-                android:textSize="12dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/footer"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:text="© 2017-2020, DHEO LLC. All Rights Reserved."
-                android:textSize="11dp"
-                android:textColor="#666"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recycle_layout_view"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/order_entry_layout"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:paddingLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:id="@+id/notice_note"
+                        android:text="@string/product_id"
+                        android:background="#CC3533"
+                        android:textColor="#FFF" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="Search By Date :"
+                        android:textColor="#000000"/>
+                    <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/search_datePicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner" />
 
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <Button
+                        android:id="@+id/search_btn"
+                        android:layout_width="70dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rounded_signup"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="search"
+                        android:textColor="#FFF"
+                        android:textSize="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recycle_layout_view" />
 
-</androidx.core.widget.NestedScrollView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/search_recycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:scrollbars="vertical"
+                        android:background="#ffffff" />
+                    <Button
+                        android:layout_width="70dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/back_btn"
+                        android:gravity="center"
+                        android:text="Back"
+                        android:textSize="10dp"
+                        android:padding="2dp"
+                        android:textColor="#FFF"
+                        android:layout_gravity="left"
+                        android:background="@drawable/rounded_signup"
+                        app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/recycle_hints"
+                        android:text="Entry Pickups:"
+                        android:textColor="#000000"
+                        android:textSize="17dp"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/load_pickups_recycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:scrollbars="vertical"
+                        android:background="#ffffff" />
+                </LinearLayout>
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/old_pickup"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="10dp"
+                    android:padding="2dp"
+                    android:textColor="#FFF"
+                    android:layout_gravity="left"
+                    android:background="@drawable/rounded_signup"
+                    app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/new_pickup"
+                    android:gravity="center"
+                    android:layout_gravity="right"
+                    android:text=""
+                    android:textSize="10dp"
+                    android:padding="2dp"
+                    android:textColor="#FFF"
+                    android:background="@drawable/rounded_signup"
+                    app:layout_constraintTop_toBottomOf="@id/recycle_layout_view"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+                <View
+                    android:id="@+id/state_line_foot"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#CC3533"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/old_pickup" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/footer_layout"
+                    android:background="#000"
+                    app:layout_constraintTop_toBottomOf="@id/state_line_foot"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_weight="0.33"
+                        android:layout_marginTop="20dp"
+                        android:src="@mipmap/block_logo_black"/>
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_weight="0.33"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ecab_new_logo"/>
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_weight="0.33"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/csab"/>
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#000"
+                    app:layout_constraintTop_toBottomOf="@id/footer_layout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFF"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="12dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/footer"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="© 2017-2020, DHEO LLC. All Rights Reserved."
+                        android:textSize="11dp"
+                        android:textColor="#666"/>
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_view"
+        android:layout_gravity ="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/navigation_drawer"/>
+</androidx.drawerlayout.widget.DrawerLayout>

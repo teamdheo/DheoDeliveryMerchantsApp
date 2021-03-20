@@ -40,7 +40,7 @@ public class AdapterPickupAddressList extends RecyclerView.Adapter<AdapterPickup
     public void onBindViewHolder(@NonNull final AdapterPickupAddressList.MyViewHolder holder, final int position) {
         holder.show_address.setText(pickup_address.get(position).getClientPickupAddress());
         holder.number.setText(pickup_address.get(position).getPhone_no());
-        holder.address_id.setText(pickup_address.get(position).getAddress_id());
+        //holder.address_id.setText(pickup_address.get(position).getAddress_id());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
