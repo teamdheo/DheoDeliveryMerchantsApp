@@ -5,9 +5,12 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@color/cardview_light_background"
-    android:elevation="10dp"
+    android:elevation="12dp"
+    app:cardCornerRadius="20dp"
+    android:shape="ring"
+    android:innerRadius="40dp"
+    android:thicknessRatio="4"
     android:focusable="true"
-    app:cardCornerRadius="5dp"
     app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

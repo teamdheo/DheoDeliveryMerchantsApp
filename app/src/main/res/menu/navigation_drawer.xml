@@ -5,11 +5,11 @@
 
     <item android:id="@+id/activities" android:title="My activities">
         <menu>
-            <item android:id="@+id/nav_dashboard" android:icon="@drawable/ic_dashboard" android:title="My Dashboard"/>
+            <item android:id="@+id/nav_dashboard" android:icon="@drawable/ic_dashboard" android:title="Dashboard"/>
             <item android:id="@+id/nav_billing" android:icon="@drawable/ic_billing" android:title="Billings"/>
             <item android:id="@+id/nav_setting" android:icon="@drawable/ic_setting" android:title="Settings"/>
-            <item android:id="@+id/nav_graph" android:icon="@drawable/ic_graph" android:title="My Performance"/>
-            <item android:id="@+id/nav_order" android:icon="@drawable/ic_graph" android:title="Create Pickup Order"/>
+            <item android:id="@+id/nav_graph" android:icon="@drawable/ic_graph" android:title="Performance"/>
+            <item android:id="@+id/nav_order" android:icon="@drawable/ic_self_entry" android:title="Create Pickup Order"/>
 
         </menu>
     </item>

@@ -76,7 +76,7 @@ public class AdapterClassSelfEntryAddresses extends RecyclerView.Adapter<Adapter
                             mycontex.startActivity(intent);
                         }
                         else if (s.equals("{\"e\":2}")) {
-                            Toasty.error(mycontex, "Today's pickup time is over. please contact to our customer service for details.", Toast.LENGTH_LONG, true).show();
+                            Toasty.info(mycontex, "Today's pickup time is over. please contact to our customer service for details.", Toast.LENGTH_LONG, true).show();
                         }
                         else{
                             //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();

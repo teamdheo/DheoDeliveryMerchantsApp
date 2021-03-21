@@ -315,7 +315,7 @@ public class PickupEntryActivity extends AppCompatActivity {
                                                                             startActivity(intent);
                                                                         }
                                                                         else if (s.equals("{\"e\":2}")) {
-                                                                            Toasty.error(getApplicationContext(), "Today's pickup time is over. please contact to our customer service for details.", Toast.LENGTH_LONG, true).show();
+                                                                            Toasty.info(getApplicationContext(), "Today's pickup time is over. please contact to our customer service for details.", Toast.LENGTH_LONG, true).show();
                                                                         }
                                                                         else{
                                                                             //Toast.makeText(getApplicationContext(),"no token"+ token , Toast.LENGTH_LONG).show();
@@ -371,14 +371,14 @@ public class PickupEntryActivity extends AppCompatActivity {
 
                                                                     @Override
                                                                     public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                                                                        Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                                                                        //Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
                                                                     }
 
                                                                 });
                                                             }
                                                         } catch (NullPointerException e) {
                                                             e.printStackTrace();
-                                                            Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
+                                                            //Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
                                                         }
                                                     }
 
@@ -392,7 +392,7 @@ public class PickupEntryActivity extends AppCompatActivity {
 
 
                                             } else {
-                                                Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
+                                                //Toasty.error(getApplicationContext(), "The Server Failed To Response", Toast.LENGTH_LONG, true).show();
                                             }
                                         }
 
@@ -497,14 +497,14 @@ public class PickupEntryActivity extends AppCompatActivity {
 
                                             @Override
                                             public void onFailure(Call<PickupAddresses> call, Throwable t) {
-                                                Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
+                                                //Toasty.error(getApplicationContext(), "স্লো ইন্টারনেটঃ আবার চেস্টা করুন!", Toast.LENGTH_LONG, true).show();
                                             }
 
                                         });
                                     }
                                 } catch (NullPointerException e) {
                                     e.printStackTrace();
-                                    Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
                                 }
                             }
 

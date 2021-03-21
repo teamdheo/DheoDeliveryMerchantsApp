@@ -120,7 +120,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     boolean doubleBackToExitPressedOnce = false;
     private int clientId,balance, page_number = 1, payload_remaining,pickup_page_number = 1,pickup_remaining;
     private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic;
-    private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing,dashboard_performance, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more, show_upload_image;
+    private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing,dashboard_performance, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more;
     private String photo_url, blog_url,password,name, versionName;
     private EditText payload_search_editText;
     private ProgressBar payload_progressbar, monthly_record_progress_bar,name_dashboad_progress;
@@ -149,7 +149,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-    private boolean obx;
+    private boolean obx_vx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,25 +167,12 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         dashboard_payloads = (RecyclerView) findViewById(R.id.recycler_dashboard_payloads);
         all_record_payload = (RecyclerView) findViewById(R.id.recycler_monthly_payload_records);
         octopus_red_body = (ImageView) findViewById(R.id.octopus_red_body);
-//        phone_call = findViewById(R.id.dashboard_phone);
-//        facebook = findViewById(R.id.dashboard_fb);
-//        my_delivery = findViewById(R.id.dashboard_my_delivery);
-//        dashboard_billing = findViewById(R.id.dashboard_Billing);
-//        settings = findViewById(R.id.dashboard_settings);
-//        user_manual = findViewById(R.id.dashboard_user_manual);
-//        dashboard_performance = findViewById(R.id.dashboard_performance);
-//        log_out = findViewById(R.id.dashboard_logout);
         monthly_text = findViewById(R.id.monthly_text);
-//        dhep_delivery = findViewById(R.id.dashboard_dheo_delivery);
-//        the_user_manual = findViewById(R.id.dashboard_The_manual);
-//        meet_the_team = findViewById(R.id.dashboard_meet_team);
-//        privacy_policy = findViewById(R.id.dashboard_policy);
         payload_progressbar = findViewById(R.id.dashboard_payload_progressbar);
         payload_search_editText = findViewById(R.id.payload_search_editText);
         payload_search_btn = findViewById(R.id.payload_search_btn);
         recycler_search_payload = (RecyclerView) findViewById(R.id.recycler_search_payload);
         active_layout = findViewById(R.id.active_layout);
-        //monthly_record_progress_bar = findViewById(R.id.monthly_record_payload_progressbar);
         name_dashboad_progress = findViewById(R.id.name_dashboad_progress);
         go_back = findViewById(R.id.go_back);
         map_layout = findViewById(R.id.map_layout);
@@ -391,6 +378,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         View hView =  navigationView.getHeaderView(0);
                         TextView nav_name = hView.findViewById(R.id.nav_name);
                         ImageView nav_photo = hView.findViewById(R.id.nav_photo);
+                        nav_name.setText(s.getM().getName());
                         client_name.setText(s.getM().getName());
                         total_balance.setText(" " + s.getM().getBalance() + "TK");
                         name = s.getM().getName();
@@ -412,6 +400,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         } catch (NullPointerException e) {
 
                         }
+                        obx_vx = s.getM().getOobUx();
                         total_balance.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -419,14 +408,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                 startActivity(intent);
                             }
                         });
-                        settings.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                        obx = s.getM().getOobUx();
+//                        settings.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+//                                startActivity(intent);
+//                            }
+//                        });
 
                     }
                 } catch (NullPointerException e) {
@@ -442,7 +430,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onClick(View view) {
                 try {
-                    if (obx) {
+                    if (obx_vx) {
                         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ClientDashboardActivity.this, R.style.AppTheme));
                         builder.setCancelable(false);
                         final View customLayout = getLayoutInflater().inflate(R.layout.client_agriment_layput, null);
@@ -498,7 +486,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                                                         }
                                                     } catch (NullPointerException e) {
                                                         e.printStackTrace();
-                                                        Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
+                                                        //Toast.makeText(getApplicationContext(), "The Server Failed To Response!", Toast.LENGTH_LONG).show();
                                                     }
                                                 }
 
@@ -666,7 +654,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<AssingedCourierInfoDashboard> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+                //Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
 
         });
@@ -792,7 +780,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
                         @Override
                         public void onFailure(Call<ClientPayloadSearch> call, Throwable t) {
-                            Toast.makeText(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
                     });
@@ -1116,9 +1104,9 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onFailure(Call<ClientDashboardPayloads> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
-                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(i);
+                //Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+                //Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
+                //startActivity(i);
             }
         });
 
