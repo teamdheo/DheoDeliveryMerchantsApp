@@ -78,8 +78,6 @@ public class SignUpActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                 }else{
                                     Toasty.error(getApplicationContext(), "The server failed to response!", Toast.LENGTH_LONG, true).show();
-                                    Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                                    startActivity(intent);
                                     progressDialog.dismiss();
                                 }
 

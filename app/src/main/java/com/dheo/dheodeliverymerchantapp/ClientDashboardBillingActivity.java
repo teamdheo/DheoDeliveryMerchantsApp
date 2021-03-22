@@ -1,5 +1,6 @@
 package com.dheo.dheodeliverymerchantapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -67,6 +68,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,8 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
         no_daily_payment_recept.setVisibility(View.GONE);
         no_monthly_payment_recept.setVisibility(View.GONE);
         payment_by_client.setVisibility(View.GONE);
+
+        progressDialog=new ProgressDialog(this);
 
         Toolbar toolbar = findViewById(R.id.color_toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -271,9 +275,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ClientPaymentPerfInfo> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Try Again", Toast.LENGTH_LONG, true).show();
-                Intent i = new Intent(getApplicationContext(), ClientDashboardActivity.class);
-                startActivity(i);
+
             }
         });
 
@@ -526,6 +528,8 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
     }
 
     public void loadPaymentReceipt(){
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         Call<ClientPaymentReceiptPDF> call2 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -534,6 +538,7 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ClientPaymentReceiptPDF> call, Response<ClientPaymentReceiptPDF> response) {
                 if (response.body() != null){
+                    progressDialog.dismiss();
                     try{
                         ClientPaymentReceiptPDF clientPaymentReceiptPDF = response.body();
                         pdf_receipt = clientPaymentReceiptPDF.getM();

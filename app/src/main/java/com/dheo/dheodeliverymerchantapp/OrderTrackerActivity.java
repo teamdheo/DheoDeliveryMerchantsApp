@@ -1,5 +1,6 @@
 package com.dheo.dheodeliverymerchantapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.SQLException;
@@ -55,7 +56,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
     private String short_id, client_name, photo_url,label_image_url,pro_pic_url;
     private Button call_courier;
     private int payload_id,day;
-    private TextView track_client_name,order_no,friday_note, dhep_delivery, the_user_manual, meet_the_team, privacy_policy,track_courier, customer_name, customer_phone, courier_name, courier_phone,review,name_rating,customer_review,phone_call, facebook;
+    private TextView track_client_name,order_no,friday_note,track_courier, customer_name, customer_phone, courier_name, courier_phone,review,name_rating,customer_review;
     private ImageView track_client_image,label_image, courier_photo;
     private RecyclerView tracker_events;
     private RecyclerView.Adapter adapter;
@@ -76,6 +77,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +89,6 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         track_client_name = findViewById(R.id.tracking_name);
         order_no = findViewById(R.id.order_no);
         friday_note = findViewById(R.id.friday_note);
-//        dhep_delivery = findViewById(R.id.billing_dheo_delivery);
-//        the_user_manual = findViewById(R.id.billing_The_manual);
-//        meet_the_team = findViewById(R.id.billing_meet_team);
-//        privacy_policy = findViewById(R.id.billing_policy);
         layoutManager = new LinearLayoutManager(this);
         tracker_events.setLayoutManager(layoutManager);
         delivery_map_layout = findViewById(R.id.delivery_map_layout);
@@ -110,6 +108,10 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         label_image = findViewById(R.id.label_image);
         cash_payment_layout = findViewById(R.id.cash_payment_layout);
         label_image_layout = findViewById(R.id.label_image_layout);
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             short_id = extras.getString("short_id");
@@ -136,6 +138,10 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         if (day == 6) {
             friday_note.setVisibility(View.VISIBLE);
         }
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_name = hView.findViewById(R.id.nav_name);
+        ImageView nav_photo = hView.findViewById(R.id.nav_photo);
+        nav_name.setText(client_name);
         //Toast.makeText(getApplicationContext(), payload_id+"", Toast.LENGTH_LONG).show();
         try {
             if (pro_pic_url.equals("default.svg")) {
@@ -144,6 +150,7 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
                 track_client_image = (ImageView) findViewById(R.id.tracker_profile_photo);
                 photo_url = "https://dheo-static-sg.s3-ap-southeast-1.amazonaws.com/img/rocket/clients/" + pro_pic_url;
                 Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(track_client_image);
+                Picasso.get().load(photo_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(nav_photo);
             }
         } catch (NullPointerException e) {
 
@@ -162,17 +169,20 @@ public class OrderTrackerActivity extends AppCompatActivity implements OnMapRead
         call.enqueue(new Callback<TrackerLogEntry>() {
             @Override
             public void onResponse(Call<TrackerLogEntry> call, Response<TrackerLogEntry> response) {
-                try {
-                    TrackerLogEntry trackerLogEntry = response.body();
-                    all_log_entries = trackerLogEntry.getM();
-                    if (trackerLogEntry.getM().size() < 1) {
-                        tracker_events.setVisibility(View.GONE);
-                    }
+               if(response.body() != null){
+                   progressDialog.dismiss();
+                   try {
+                       TrackerLogEntry trackerLogEntry = response.body();
+                       all_log_entries = trackerLogEntry.getM();
+                       if (trackerLogEntry.getM().size() < 1) {
+                           tracker_events.setVisibility(View.GONE);
+                       }
 
-                } catch (NullPointerException e) {
-                }
-                adapter = new AdapterTrackerEvents(all_log_entries, getApplicationContext());
-                tracker_events.setAdapter(adapter);
+                   } catch (NullPointerException e) {
+                   }
+                   adapter = new AdapterTrackerEvents(all_log_entries, getApplicationContext());
+                   tracker_events.setAdapter(adapter);
+               }
             }
 
             @Override

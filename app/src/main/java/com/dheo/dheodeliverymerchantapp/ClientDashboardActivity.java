@@ -2,6 +2,7 @@ package com.dheo.dheodeliverymerchantapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -150,6 +151,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private boolean obx_vx;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +217,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         Toolbar toolbar = findViewById(R.id.color_toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        progressDialog=new ProgressDialog(this);
 
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -401,20 +404,6 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
                         }
                         obx_vx = s.getM().getOobUx();
-                        total_balance.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-//                        settings.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-//                                startActivity(intent);
-//                            }
-//                        });
 
                     }
                 } catch (NullPointerException e) {
@@ -424,6 +413,13 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onFailure(Call<ClientBasicInfo> call, Throwable t) {
                 //Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
+            }
+        });
+        total_balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ClientDashboardBillingActivity.class);
+                startActivity(intent);
             }
         });
         request_pickup.setOnClickListener(new View.OnClickListener() {
@@ -738,6 +734,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         payload_search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                progressDialog.setMessage("Loading...");
+                progressDialog.show();
                 if (payload_search_editText.getText().toString().length() != 0) {
                     see_newer.setVisibility(View.INVISIBLE);
                     see_older.setVisibility(View.INVISIBLE);
@@ -750,6 +748,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                         @Override
                         public void onResponse(Call<ClientPayloadSearch> call, Response<ClientPayloadSearch> response) {
                             if (response.body() != null) {
+                                progressDialog.dismiss();
                                 try {
                                     ClientPayloadSearch clientPayloadSearch = response.body();
                                     payload_search = clientPayloadSearch.getM();
@@ -1051,6 +1050,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
     }
 
     public void loadDashboardPayload() {
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         Call<ClientDashboardPayloads> call2 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -1060,6 +1061,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             public void onResponse(Call<ClientDashboardPayloads> call, Response<ClientDashboardPayloads> response) {
                 if (response.body() != null) {
                     payload_progressbar.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                     try{
                         ClientDashboardPayloads clientDashboardPayloads = response.body();
                         all_dashboard_payload = clientDashboardPayloads.getM();
@@ -1112,6 +1114,8 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
 
     }
     public void loadPickupHistory() {
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         Call<PickupHistory> pickupHistoryCall = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -1121,6 +1125,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onResponse(Call<PickupHistory> call, Response<PickupHistory> response) {
                 if(response.body() != null){
+                    progressDialog.dismiss();
                     try{
                         pickup_history_list = response.body().getM();
 

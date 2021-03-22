@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -73,6 +74,7 @@ public class PickupEntryActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Boolean obx;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +109,7 @@ public class PickupEntryActivity extends AppCompatActivity {
         search_recycle.setVisibility(View.GONE);
         back_btn.setVisibility(View.GONE);
 
-
+        progressDialog=new ProgressDialog(this);
         //getSupportActionBar().setElevation(0);//remove actionbar shadow
         setTitle("My Pickup Orders");
 
@@ -264,6 +266,8 @@ public class PickupEntryActivity extends AppCompatActivity {
                             i_accept.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    progressDialog.setMessage("Loading...");
+                                    progressDialog.show();
                                     Call<ResponseBody> agreement_call = RetrofitClient
                                             .getInstance()
                                             .getApi()
@@ -279,6 +283,7 @@ public class PickupEntryActivity extends AppCompatActivity {
                                             }
                                             if (s.equals("{\"e\":0}")) {
                                                 dialog.dismiss();
+                                                progressDialog.dismiss();
                                                 Toasty.success(getApplicationContext(), "Agreement Accepted", Toast.LENGTH_LONG, true).show();
                                                 Call<PickupAddresses> call = RetrofitClient
                                                         .getInstance()
@@ -292,6 +297,8 @@ public class PickupEntryActivity extends AppCompatActivity {
                                                             PickupAddresses pickup = response.body();
                                                             //pickup_entry_address_length = pickup.getM();
                                                             if (pickup.getM().size() < 2) {
+                                                                progressDialog.setMessage("Saving...");
+                                                                progressDialog.show();
                                                                 Call<ResponseBody> entryCall = RetrofitClient
                                                                         .getInstance()
                                                                         .getApi()
@@ -307,6 +314,7 @@ public class PickupEntryActivity extends AppCompatActivity {
                                                                         }
 
                                                                         if (s.equals("{\"e\":0}")) {
+                                                                            progressDialog.dismiss();
                                                                             entry_customer_name.getText().clear();
                                                                             entry_customer_address.getText().clear();
                                                                             entry_customer_cod.getText().clear();
@@ -315,6 +323,7 @@ public class PickupEntryActivity extends AppCompatActivity {
                                                                             startActivity(intent);
                                                                         }
                                                                         else if (s.equals("{\"e\":2}")) {
+                                                                            progressDialog.dismiss();
                                                                             Toasty.info(getApplicationContext(), "Today's pickup time is over. please contact to our customer service for details.", Toast.LENGTH_LONG, true).show();
                                                                         }
                                                                         else{
@@ -330,6 +339,8 @@ public class PickupEntryActivity extends AppCompatActivity {
 
 
                                                             } else {
+                                                                progressDialog.setMessage("Loading...");
+                                                                progressDialog.show();
                                                                 final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(PickupEntryActivity.this, R.style.AppTheme));
                                                                 builder.setCancelable(false);
                                                                 final View customLayout = getLayoutInflater().inflate(R.layout.self_entry_multiple_address_dialog, null);
@@ -357,6 +368,7 @@ public class PickupEntryActivity extends AppCompatActivity {
                                                                     @Override
                                                                     public void onResponse(Call<PickupAddresses> call, Response<PickupAddresses> response) {
                                                                         if(response.body() != null){
+                                                                            progressDialog.dismiss();
                                                                             try {
                                                                                 PickupAddresses pickup = response.body();
                                                                                 pickup_entry_address_length = pickup.getM();
@@ -531,6 +543,8 @@ public class PickupEntryActivity extends AppCompatActivity {
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.setMessage("Loading...");
+                progressDialog.show();
                 search_month_of_year = search_datePicker.getMonth();
                 if(search_month_of_year == 0){
                     search_month = "January";
@@ -578,6 +592,7 @@ public class PickupEntryActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<SearchPickupOrder> call, Response<SearchPickupOrder> response) {
                         if(response.body() != null){
+                            progressDialog.dismiss();
                             SearchPickupOrder searchPickupOrder = response.body();
                             search_orders = searchPickupOrder.getM();
                             //Toast.makeText(getApplicationContext(), search_orders.get(0).getCodAmount(), Toast.LENGTH_LONG).show();
@@ -603,9 +618,9 @@ public class PickupEntryActivity extends AppCompatActivity {
                             search_recycle.setAdapter(search_adapter);
                         }
                         else{
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "You don't have any pickup order on "+ search_date, Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
-                            startActivity(intent);
+
                         }
                     }
 
@@ -755,6 +770,8 @@ public class PickupEntryActivity extends AppCompatActivity {
     }
 
     public void loadPickupEntry(){
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         Call<PickupOrders> ordersCall = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -763,6 +780,7 @@ public class PickupEntryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PickupOrders> call, Response<PickupOrders> response) {
                 if(response.body() != null){
+                    progressDialog.dismiss();
                     try {
                         PickupOrders pickupOrders = response.body();
                         all_list_of_orders = pickupOrders.getM();
