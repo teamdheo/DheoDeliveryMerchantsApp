@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dheo.dheodeliverymerchantapp.modelClassAvaiablePickupSlot.AvailablePickupSlot;
@@ -31,6 +32,7 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private int clientId;
     private String address_id_get;
+    private TextView create_order_text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,7 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_address_pickup_slot);
         pickup_slot_view =(RecyclerView) findViewById(R.id.recycler_pickup_slot);
         back_to_dashboard1 = (Button) findViewById(R.id.back_to_dashboard1);
+        create_order_text = findViewById(R.id.create_order_text);
         progressBar = findViewById(R.id.single_add_progress);
         pickup_slot_view.setHasFixedSize(true);
         pickup_slot_view.setLayoutManager(new LinearLayoutManager(this));
@@ -85,6 +88,13 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(SingleAddressPickupSlotActivity.this,ClientDashboardActivity.class);
+                startActivity(i);
+            }
+        });
+        create_order_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SingleAddressPickupSlotActivity.this,PickupEntryActivity.class);
                 startActivity(i);
             }
         });

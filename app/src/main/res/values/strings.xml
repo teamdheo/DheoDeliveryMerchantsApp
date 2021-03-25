@@ -13,4 +13,5 @@
     <string name="product_id">"N.B: Don't forget to book a pickup on your pickup entry date and write the <B><u>Product ID</u></B> on your product label."</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+    <string name="creat_order"><u>Click here to create an order</u></string>
 </resources>

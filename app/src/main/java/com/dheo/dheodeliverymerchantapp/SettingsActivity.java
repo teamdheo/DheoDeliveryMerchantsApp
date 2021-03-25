@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -239,99 +240,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         //
-        other_option.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                other_option_layout.setVisibility(View.VISIBLE);
-                bank_layout.setVisibility(View.GONE);
-
-                cash.setVisibility(View.VISIBLE);
-
-                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                other_option.setTextColor(Color.rgb(255, 255, 255));
-                bank.setTextColor(Color.rgb(0, 0, 0));
-                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-            }
-        });
-
-        try {
-            cash.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    bkash_option.setVisibility(View.GONE);
-//                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cash.getLayoutParams();
-//                        params.bottomMargin = 20;params.leftMargin = 100;
-                    cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
-                    bkash.setBackground(null);
-                    nagad.setBackground(null);
-                    bank.setTextColor(Color.rgb(0, 0, 0));
-                    mode = "cash";
-                }
-            });
-        }catch (NullPointerException e){
-
-        }
-        try {
-            bkash.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    bkash_option.setVisibility(View.VISIBLE);
-                    edit_nagad_num.setVisibility(View.GONE);
-                    nagad_hint.setVisibility(View.GONE);
-                    bkash_hint.setVisibility(View.VISIBLE);
-                    bkash_or_nagad.setVisibility(View.VISIBLE);
-                    //
-                    mode = "bkash";
-                    bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
-                    cash.setBackground(null);
-                    nagad.setBackground(null);
-                    bank.setTextColor(Color.rgb(0, 0, 0));
-                }
-            });
-        }catch (NullPointerException e){
-
-        }
-        try {
-            nagad.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    bkash_option.setVisibility(View.VISIBLE);
-                    //nagad_option.setVisibility(View.VISIBLE);
-                    edit_nagad_num.setVisibility(View.VISIBLE);
-                    bkash_or_nagad.setVisibility(View.GONE);
-                    nagad_hint.setVisibility(View.VISIBLE);
-                    bkash_hint.setVisibility(View.GONE);
-                    //
-                    mode = "nagad";
-                    nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
-                    bkash.setBackground(null);
-                    cash.setBackground(null);
-                    bank.setTextColor(Color.rgb(0, 0, 0));
-
-                }
-            });
-        }catch (NullPointerException e){
-
-        }
-
-        bank.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                other_option_layout.setVisibility(View.GONE);
-                bank_layout.setVisibility(View.VISIBLE);
-                bkash_option.setVisibility(View.GONE);
-                edit_bank_name.setVisibility(View.GONE);
-                edit_branch_name.setVisibility(View.GONE);
-                bank_name_textview.setVisibility(View.GONE);
-                branch_name_textview.setVisibility(View.GONE);
-                mode = "bank";
-                other_option.setTextColor(Color.rgb(0, 0, 0));
-                //nagad_option.setVisibility(View.GONE);
-                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
-                bank.setTextColor(Color.rgb(255, 255, 255));
-                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
-            }
-        });
         add_address_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -481,6 +389,97 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        other_option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                other_option_layout.setVisibility(View.VISIBLE);
+                bank_layout.setVisibility(View.GONE);
+                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                other_option.setTextColor(Color.rgb(255, 255, 255));
+                bank.setTextColor(Color.rgb(0, 0, 0));
+                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+            }
+        });
+
+        try {
+            cash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bkash_option.setVisibility(View.GONE);
+//                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cash.getLayoutParams();
+//                        params.bottomMargin = 20;params.leftMargin = 100;
+                    cash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                    bkash.setBackground(null);
+                    nagad.setBackground(null);
+                    bank.setTextColor(Color.rgb(0, 0, 0));
+                    mode = "cash";
+                }
+            });
+        }catch (NullPointerException e){
+
+        }
+        try {
+            bkash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bkash_option.setVisibility(View.VISIBLE);
+                    edit_nagad_num.setVisibility(View.GONE);
+                    nagad_hint.setVisibility(View.GONE);
+                    bkash_hint.setVisibility(View.VISIBLE);
+                    bkash_or_nagad.setVisibility(View.VISIBLE);
+                    //
+                    mode = "bkash";
+                    bkash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                    cash.setBackground(null);
+                    nagad.setBackground(null);
+                    bank.setTextColor(Color.rgb(0, 0, 0));
+                }
+            });
+        }catch (NullPointerException e){
+
+        }
+        try {
+            nagad.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bkash_option.setVisibility(View.VISIBLE);
+                    //nagad_option.setVisibility(View.VISIBLE);
+                    edit_nagad_num.setVisibility(View.VISIBLE);
+                    bkash_or_nagad.setVisibility(View.GONE);
+                    nagad_hint.setVisibility(View.VISIBLE);
+                    bkash_hint.setVisibility(View.GONE);
+                    //
+                    mode = "nagad";
+                    nagad.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_edittext));
+                    bkash.setBackground(null);
+                    cash.setBackground(null);
+                    bank.setTextColor(Color.rgb(0, 0, 0));
+
+                }
+            });
+        }catch (NullPointerException e){
+
+        }
+
+        bank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                other_option_layout.setVisibility(View.GONE);
+                bank_layout.setVisibility(View.VISIBLE);
+                bkash_option.setVisibility(View.GONE);
+                edit_bank_name.setVisibility(View.GONE);
+                edit_branch_name.setVisibility(View.GONE);
+                bank_name_textview.setVisibility(View.GONE);
+                branch_name_textview.setVisibility(View.GONE);
+                mode = "bank";
+                other_option.setTextColor(Color.rgb(0, 0, 0));
+                //nagad_option.setVisibility(View.GONE);
+                bank.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rounded_signup));
+                bank.setTextColor(Color.rgb(255, 255, 255));
+                other_option.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.defult_button));
+            }
+        });
+
         Call<BanksAndBranches> call = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -564,7 +563,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Call<ResponseBody> call3 = RetrofitClient
                                     .getInstance()
                                     .getApi()
-                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), edit_routing_number.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), edit_routing_number.getText().toString(), "", "");
                             call3.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -602,7 +601,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Call<ResponseBody> call3 = RetrofitClient
                                     .getInstance()
                                     .getApi()
-                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), edit_routing_number.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                                    .client_payment_settings_update(client_id, mode, "", "", "", "", "", bkash_or_nagad.getText().toString(), "");
                             call3.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -641,7 +640,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Call<ResponseBody> call3 = RetrofitClient
                                     .getInstance()
                                     .getApi()
-                                    .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), edit_routing_number.getText().toString(), bkash_or_nagad.getText().toString(), edit_nagad_num.getText().toString());
+                                    .client_payment_settings_update(client_id, mode, "", "", "", "","", "", edit_nagad_num.getText().toString());
                             call3.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -680,7 +679,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Call<ResponseBody> call3 = RetrofitClient
                                 .getInstance()
                                 .getApi()
-                                .client_payment_settings_update(client_id, mode, bank_name_show.getSelectedItem().toString(), bank_branches_show.getSelectedItem().toString(), edit_account_name.getText().toString(), edit_account_num.getText().toString(), bkash_or_nagad.getText().toString(), edit_routing_number.getText().toString(), edit_nagad_num.getText().toString());
+                                .client_payment_settings_update(client_id, mode, "", "", "", "", "", "", "");
                         call3.enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

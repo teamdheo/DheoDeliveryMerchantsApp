@@ -19,15 +19,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/multiple_text"
+                android:orientation="vertical"
                 android:layout_margin="10dp"
-                android:textColor="#000000"
-                android:padding="4dp"
-                android:background="@drawable/rounded_edittext1"
-                android:text="Next DAY ডেলিভারির সাফল্যের ধারাবাহিকতায় আমরা এখন শুরু করছি SAME DAY ডেলিভারি! যেদিন পিক, সেদিনই ডেলিভারি! অন্যথায় ফ্রী ডেলিভারি! (* শর্ত প্রযোজ্য) সার্ভিসটি এখন শুধুমাত্র মিরপুরের মার্চেন্টদের জন্য। পর্যায়ক্রমে পুরো ঢাকা শহরজুড়ে শুরু হবে ।" />
+                android:background="@drawable/rounded_edittext1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/multiple_text"
+                    android:layout_margin="10dp"
+                    android:textColor="#000000"
+                    android:padding="4dp"
+                    android:text="এখন থেকে সেলফ এন্ট্রি করতে পারবেন মার্চেন্টরা। Create Pickup Order অপশনটি সিলেক্ট করে আপনার কাস্টমার এর নাম, ঠিকানা, নম্বর, এবং COD চার্জ অ্যাড করুন এবং পিকআপ ডেট ঠিক করে Save অপশন টি ক্লিক  করুন। আপনার সেলফ এন্ট্রি কমপ্লিট! আপনার পিকআপের তারিখে পিকআপ রিকুয়েষ্টও বুক হয়ে যাবে! \n **অবশ্যই আপনার প্রোডাক্ট আইডি টি আপনার লেবেলে উল্লেখ করতে ভুলবেন না।" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/create_order_text"
+                    android:layout_margin="10dp"
+                    android:textColor="#CC3533"
+                    android:padding="4dp"
+                    android:text="@string/creat_order" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
