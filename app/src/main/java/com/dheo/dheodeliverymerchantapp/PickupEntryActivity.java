@@ -266,7 +266,7 @@ public class PickupEntryActivity extends AppCompatActivity {
                             i_accept.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    progressDialog.setMessage("Loading...");
+                                    progressDialog.setMessage("Updating...");
                                     progressDialog.show();
                                     Call<ResponseBody> agreement_call = RetrofitClient
                                             .getInstance()

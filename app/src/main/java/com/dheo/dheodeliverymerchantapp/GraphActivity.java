@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -69,6 +70,7 @@ public class GraphActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private ProgressDialog progressDialog;
     Helper helper = new Helper(this);
 
 
@@ -84,6 +86,8 @@ public class GraphActivity extends AppCompatActivity {
         final LineChart lineChart = findViewById(R.id.lineChart);
         final BarChart growth_bar_chart = findViewById(R.id.growth_bar_chart);
         graph_layout = findViewById(R.id.graph_layout);
+
+        progressDialog=new ProgressDialog(this);
 
         Toolbar toolbar = findViewById(R.id.color_toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -102,6 +106,8 @@ public class GraphActivity extends AppCompatActivity {
 
         entry_list = new ArrayList<Entry>();
         months = new ArrayList<String>();
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         Call<GrowthPerDay> growthPerMonthCall = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -111,6 +117,7 @@ public class GraphActivity extends AppCompatActivity {
             public void onResponse(Call<GrowthPerDay> call, Response<GrowthPerDay> response) {
                 try {
                     if(response.body() != null){
+                        progressDialog.dismiss();
                         GrowthPerDay growthPerDay = response.body();
                         per_day_growth = growthPerDay.getM();
                         growth_month_show.setText("The Performance Of Month "+ per_day_growth.get(0).getMonth());
@@ -139,6 +146,8 @@ public class GraphActivity extends AppCompatActivity {
                         lineChart.getLegend().setEnabled(false);
                         lineChart.setDragEnabled(true);
                         lineChart.setScaleEnabled(true);
+                        lineChart.invalidate();
+                        lineChart.setNoDataText("");
                         lineChart.getXAxis().setDrawGridLines(false);
                         lineChart.getAxisRight().setEnabled(false);
                         // create a data object with the datasets
@@ -155,7 +164,7 @@ public class GraphActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GrowthPerDay> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
 
