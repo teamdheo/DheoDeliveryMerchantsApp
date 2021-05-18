@@ -48,6 +48,9 @@ public class M {
     @SerializedName("customer_name")
     @Expose
     private String customerName;
+    @SerializedName("customer_phone")
+    @Expose
+    private String customerPhone;
     @SerializedName("payload_cancelled")
     @Expose
     private Boolean payloadCancelled;
@@ -108,6 +111,16 @@ public class M {
     @SerializedName("count")
     @Expose
     private Integer count;
+
+    public String getCustomerPhone()
+    {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone)
+    {
+        this.customerPhone = customerPhone;
+    }
 
     public Boolean getCourierMemoAdded() {
         return courierMemoAdded;

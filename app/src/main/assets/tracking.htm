@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+
+<head>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155721259-2"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-155721259-2');
+  </script>
+
+  <!-- Facebook Pixel Code -->
+  <script>
+  ! function(f, b, e, v, n, t, s) {
+    if (f.fbq) return;
+    n = f.fbq = function() {
+      n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = !0;
+    n.version = '2.0';
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = !0;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s)
+  }(window, document, 'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '269606174328231');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=269606174328231&ev=PageView&noscript=1" /></noscript>
+  <!-- End Facebook Pixel Code -->
+
+  <title>Paperfly - Strongest home delivery network of Bangladesh</title>
+  <meta name="description" content="Paperfly - Strongest home delivery network of Bangladesh"/>
+  <meta property="og:title" content="Paperfly - Strongest home delivery network of Bangladesh"/>
+  <meta property="og:description" content="Paperfly - Strongest home delivery network of Bangladesh"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="js/pfn.js"></script>
+
+  <link rel="stylesheet" href="css/pfn.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <!-- <title>পেপারফ্লাই - স্মার্ট লজিস্টিকস</title> -->
+</head>
+
+<body>
+  <div class="lang-sel">
+    <button id="blng" onclick="blng()"><img src="img/bangladesh.svg"> বাংলা</button>
+    <button id="elng" onclick="elng()">English <img src="img/worldwide.svg"></button>
+  </div>
+
+  <div class="mob-menu-btn">
+    <div class="burger"></div>
+  </div>
+
+  <div class="top-nav-spacer"></div>
+  <nav class="top-nav">
+    <a href="index.php" class="bng" id="logsb">লজিস্টিকস সলিউশনস</a>
+    <a href="index.php" class="eng" id="logse">Logistics Solutions</a>
+    <a class="bng" href="systemSol.php" id="syssb">সিস্টেমস সলিউশনস</a>
+    <a class="eng" href="systemSol.php" id="sysse">Systems Solutions</a>
+  </nav>
+
+
+  <nav class="side-pnl">
+    <div class="bng">
+      <div class="btn-side">
+        <img src="img/s-icon-lang.svg">
+        <p onclick="elng()">English</p>
+      </div>
+      <div class="btn-side">
+        <img src="img/s-icon-login.svg">
+        <a href="login.php">উইংস লগ-ইন</a>
+      </div>
+      <div class="btn-side">
+        <img src="img/s-icon-tracking.svg">
+        <a href="tracking.php">অর্ডার ট্র্যাকিং</a>
+      </div>
+      <div class="btn-side">
+        <img src="img/s-icon-guide.svg">
+        <a href="smartGuide.php">স্মার্ট গাইড</a>
+      </div>
+      <div class="btn-side">
+        <img src="img/s-icon-location.svg">
+        <a href="locations.php">পয়েন্ট লোকেশন</a>
+      </div>
+      <!-- <div class="btn-side">
+        <img src="img/s-icon-app.svg">
+        <a href="">অ্যাপ ডাউনলোড</a>
+      </div> -->
+    </div>
+
+    <div class="eng">
+      <div class="btn-side">
+        <img src="img/s-icon-lang.svg">
+        <p onclick="blng()">বাংলা</p>
+      </div>
+      <div class="btn-side">
+        <img src="img/s-icon-login.svg">
+        <a href="login.php">WINGS Login</a>
+      </div>
+      <div class="btn-side">
+        <img src="img/s-icon-tracking.svg">
+        <a href="tracking.php">Order Tracking</a>
+      </div>
+      <div class="btn-side">
+        <img src="img/s-icon-guide.svg">
+        <a href="smartGuide.php">Smart Guide</a>
+      </div>
+      <div class="btn-side">
+        <img src="img/s-icon-location.svg">
+        <a href="locations.php">Point Location</a>
+      </div>
+      <!-- <div class="btn-side">
+        <img src="img/s-icon-app.svg">
+        <a href="">App Download</a>
+      </div> -->
+    </div>
+  </nav>
+
+
+  <nav class="btm-nav">
+    <div class="bng">
+      <a class="menu-btn" href="index.php">হোমপেজ</a>
+      <a class="menu-btn" href="price.php">সার্ভিস চার্জ</a>
+      <a class="menu-btn" href="registration.php">রেজিস্টার করুন</a>
+      <a class="menu-btn" href="coverage.php">কভারেজ</a>
+      <a class="menu-btn" href="automation.php">অটোমেশন</a>
+      <a class="menu-btn" href="faq.php">প্রশ্ন-উত্তর</a>
+      <div class="cls" onclick="document.querySelector('.btm-nav').classList.toggle('mmenu-show')"></div>
+    </div>
+
+    <div class="eng">
+      <a class="menu-btn" href="index.php">Home</a>
+      <a class="menu-btn" href="price.php">Charges</a>
+      <a class="menu-btn" href="registration.php">Registration</a>
+      <a class="menu-btn" href="coverage.php">Coverage</a>
+      <a class="menu-btn" href="automation.php">Automation</a>
+      <a class="menu-btn" href="faq.php">FAQ</a>
+      <div class="cls" onclick="document.querySelector('.btm-nav').classList.toggle('mmenu-show')"></div>
+    </div>
+  </nav>
+<div class="bng">
+  <div class="top-vis">
+    <img src="img/bnr-tracking-B.png" alt="">
+  </div>
+  <div class="pg-body">
+    <div id="trackingForm">
+      <div class="trackingInputBlock">
+        <input type="text" name="orderID" id="orderid" placeholder="অর্ডার আই.ডি.">
+        <input type="tel" name="orderPh" id="phone" placeholder="অর্ডার ফোন নম্বর">
+      </div>
+      <div id="trackB" class="trackingButton">
+        <img src="img/trackingBtnImg.svg" alt="">
+        ট্র্যাক করুন
+
+      </div>
+    </div>
+    <div style="text-align: center;" id="errorResult"></div>
+    <div id="banglabody" class="trackingResponse">
+      <div class="orderDetailsBlock">
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">অর্ডার আই.ডিঃ</div>
+            <div id="order_id" class="trackingValue"></div>
+             <input type="hidden" id="order_id_input">
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">মার্চেন্ট অর্ডারঃ</div>
+            <div id="merOrderRef" class="trackingValue"></div>
+            <input type="hidden" id="merOrderRef_input">
+          </div>
+        </div>
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">অর্ডারের ধরনঃ</div>
+            <div id="ordertype" class="trackingValue"></div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">প্যাকেজের ধরনঃ</div>
+            <div class="trackingValue">ক্লোজড বক্স</div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">ডেলিভারির ধরনঃ</div>
+            <div class="trackingValue">হোম ডেলিভারি</div>
+          </div>
+        </div>
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">ডেলিভারির সম্ভাব্য তারিখঃ</div>
+            <div id="deliverydate" class="trackingValue"></div>
+          </div>
+        </div>
+      </div>
+      <div class="orderDetailsBlock">
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">কাস্টমারের নামঃ</div>
+            <div id="customername" class="trackingValue"></div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">মার্চেন্টের নামঃ</div>
+            <div id="merchantname" class="trackingValue"></div>
+          </div>
+        </div>
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">কাস্টমারের ঠিকানাঃ</div>
+            <div id="custaddress" class="trackingValue">
+
+            </div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">পণ্যঃ</div>
+            <div id="productbrief" class="trackingValue"></div>
+          </div>
+        </div>
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">কাস্টমারের ফোন</div>
+            <div id="custphone" class="trackingValue"></div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">মূল্যঃ</div>
+            <div id="price" class="trackingValue"> টাকা</div>
+          </div>
+        </div>
+      </div>
+      <div id="statusblock" class="statusBlock">
+        <div class="statusHeader">প্যাকেজ স্ট্যাটাস</div>
+
+        <!-- new modification for express start -->
+        <div id="expressData">
+          <div class="statusRow">
+            <span class="statusSlNumber">১</span>
+            <span class="statusLabel">গ্রাহক নিশ্চিত করেছেঃ</span>
+            <span class="statusValue"></span>
+          </div>
+
+          <div class="statusRow">
+            <span class="statusSlNumber">২</span>
+            <span class="statusLabel">মার্চেন্ট পরিপূর্ণ করেছেঃ</span>
+            <span class="statusValue"></span>
+          </div>
+
+          <div class="statusRow">
+            <span class="statusSlNumber">৩</span>
+            <span class="statusLabel">শিপিং এর জন্য তৈরি হয়েছেঃ</span>
+            <span id="shipment" class="statusValue"></span>
+          </div>
+        </div>
+        <!-- new modification for express end -->
+
+        <div class="statusRow">
+          <span id="forOne" class="statusSlNumber">১</span>
+          <span class="statusLabel">পেপারফ্লাই পিক করেছেঃ</span>
+          <span id="picktime" class="statusValue"></span>
+        </div>
+        <div id="extra_block">
+        <div class="statusRow">
+          <span id="forTwo" class="statusSlNumber">২</span>
+          <span class="statusLabel">সর্টিং এবং শিপিং হয়েছেঃ</span>
+          <span id="shuttletime" class="statusValue"></span>
+        </div>
+        <div class="statusRow">
+          <span id="forThree" class="statusSlNumber">৩</span>
+          <span class="statusLabel">নিকটবর্তি ডেলিভারি পয়েন্টে পৌঁছেছেঃ</span>
+          <div class="statusCol">
+            <span style="text-align: right;" id="dp2time" class="statusValue"></span>
+            <!-- <button class="stsBtn">পয়েন্ট থেকে পিক করতে চান?</button> -->
+          </div>
+        </div>
+        <div class="statusRow">
+          <span id="forFour" class="statusSlNumber">৪</span>
+          <span class="statusLabel">গন্তব্যের পথে রয়েছেঃ</span>
+          <div class="statusCol">
+            <span style="text-align: right;" id="pickdroptime" class="statusValue"> </span>
+
+            <div style="font-size: .7em;" class="statusValueSmall" id="pickdropdiv">
+              ডেলিভারি অফিসারের নামঃ <span id="deliveryofficername"></span><br>
+              ডেলিভারি অফিসারের ফোনঃ <span id="deliveryofficerphone"></span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+        <div class="statusRow">
+          <span id="forFive" class="statusSlNumber">৫</span>
+          <span class="statusLabel">কাস্টমারের কাছে পৌঁছেছেঃ</span>
+          <span id="cashtime" class="statusValue"></span>
+        </div>
+      </div>
+      <div class="finalStatusBlock" id="finalStatusBlock">
+        <!-- <h1>চূড়ান্ত স্ট্যাটাস</h1> -->
+        <div id="blockSuccess">
+          <div class="finalStatus">ডেলিভারি সফল হয়েছে।</div>
+          <div class="finalStatusExtraRow">পেমেন্ট-অন-ডেলিভারি সংগ্রহঃ <span id="cashamount"></span> </div>
+        </div>
+        <div id="blockOnHold">
+          <div class="finalStatus">অন-হোল্ডে রাখা হয়েছে।</div>
+          <div class="finalStatusExtraRow">অন-হল্ড এর কারণঃ <span id="onholdreason"></span></div>
+          <div class="finalStatusExtraRow">পুনরায় ডেলিভারির তারিখঃ <span id="onholdschedule"></span></div>
+        </div>
+        <div id="blockPartial">
+          <div class="finalStatus">আংশিক ডেলিভারি হয়েছে।</div>
+          <div class="finalStatusExtraRow">পেমেন্ট-অন-ডেলিভারি সংগ্রহঃ<span id="partialamount"></span> </div>
+          <div class="finalStatusExtraRow">মন্তব্যঃ <span id="partialcomment"></span></div>
+        </div>
+        <div id="blockReturn">
+          <div class="finalStatus">অর্ডারটি রিটার্ন করা হয়েছে।</div>
+          <div class="finalStatusExtraRow">রিটার্নের কারণঃ <span id="returnreason"></span></div>
+        </div>
+        <div id="blockPreReturn">
+          <div class="finalStatus">পণ্যটি প্রি-রিটার্ন অবস্থায় আছে।</div>
+          <div class="finalStatusExtraRow">রিটার্নের কারণঃ <span id="prereturnreason"></span></div>
+          <div class="finalStatusExtraRow">ডেলিভারির জন্য কল করা হয়েছিলোঃ <span id="prereturntime"></span> </div>
+          <div class="finalStatusExtraRow">
+            <button id="re_deliver" class="stsBtn">আবার ডেলিভারি করার অনুরোধ করুন</button></div>
+            <div id="re_deliver_response" class="finalStatusExtraRow">আপনার অর্ডারটি আবারও ডেলিভারি করার অনুরোধ করা হয়েছে।</div>
+        </div>
+      </div>
+      <div class="contactInfo">
+        আরও জানতে চান? কল করুনঃ 09678300900, 09613555556
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="eng">
+  <div class="top-vis">
+    <img src="img/bnr-tracking-E.png" alt="">
+  </div>
+  <div class="pg-body">
+    <div id="trackingForm">
+      <div class="trackingInputBlock">
+        <input type="text" name="orderID" id="orderidEng" placeholder="Order ID">
+        <input type="tel" name="orderPh" id="phoneEng" placeholder="Order Phone Number">
+      </div>
+      <div id="trackEng" class="trackingButton">
+        <img src="img/trackingBtnImg.svg" alt="">
+        Track Order
+      </div>
+    </div>
+    <div style="text-align: center;" id="errorResult_eng"></div>
+    <div id="englishbody" class="trackingResponse_eng">
+      <div class="orderDetailsBlock">
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Order ID:</div>
+            <div id="order_id_eng" class="trackingValue"></div>
+             <input type="hidden" id="order_id_input_eng">
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Merchant Order ID:</div>
+            <div id="merOrderRefeng" class="trackingValue"></div>
+             <input type="hidden" id="merOrderRef_input_eng">
+          </div>
+        </div>
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Order Type:</div>
+            <div id="ordertypeeng" class="trackingValue"></div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Package Type:</div>
+            <div class="trackingValue">Closed Box</div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Type of Delivery:</div>
+            <div id="deliverytype" class="trackingValue">Home Delivery</div>
+          </div>
+        </div>
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Tentative delivery date:</div>
+            <div id="deliverydate_eng" class="trackingValue"></div>
+          </div>
+        </div>
+      </div>
+      <div class="orderDetailsBlock">
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Customer name:</div>
+            <div id="customernameeng" class="trackingValue"></div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Merchant name:</div>
+            <div id="merchantnameeng" class="trackingValue"></div>
+          </div>
+        </div>
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Customer Address:</div>
+            <div id="custaddresseng" class="trackingValue"></div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Product:</div>
+            <div id="productbriefeng" class="trackingValue"></div>
+          </div>
+        </div>
+        <div class="orderDetailsRow">
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Customer Phone:</div>
+            <div id="custphoneeng" class="trackingValue"></div>
+          </div>
+          <div class="orderDetailsCol">
+            <div class="trackingLabel">Payment-on-delivery amount:</div>
+            <div id="priceeng" class="trackingValue">BDT 1,234</div>
+          </div>
+        </div>
+
+      </div>
+      <div id="statusblockeng" class="statusBlock">
+        <div class="statusHeader">Status</div>
+
+        <!-- new modification for express start -->
+        <div id="expressDataeng">
+          <div class="statusRow">
+            <span class="statusSlNumber">1</span>
+            <span class="statusLabel">Confirmed by Customer</span>
+            <span class="statusValue"></span>
+          </div>
+
+          <div class="statusRow">
+            <span class="statusSlNumber">2</span>
+            <span class="statusLabel">Fulfilled by Merchant</span>
+            <span class="statusValue"></span>
+          </div>
+
+          <div class="statusRow">
+            <span class="statusSlNumber">3</span>
+            <span class="statusLabel">Ready for Shipment</span>
+            <span id="shipment_eng" class="statusValue"></span>
+          </div>
+        </div>
+        <!-- new modification for express end -->
+        
+        <div class="statusRow">
+          <span id="forOneeng" class="statusSlNumber">1</span>
+          <span class="statusLabel">Pick by Paperfly</span>
+          <span id="picktimeeng" class="statusValue"></span>
+        </div>
+        <div id="extra_eng">
+        <div class="statusRow">
+          <span id="forTwoeng" class="statusSlNumber">2</span>
+          <span class="statusLabel">Sorted & Shipped</span>
+          <span id="shuttletimeeng" class="statusValue"></span>
+        </div>
+        <div class="statusRow">
+          <span id="forThreeeng" class="statusSlNumber">3</span>
+          <span class="statusLabel">Nearest delivery point</span>
+          <div class="statusCol">
+            <span style="text-align: right;" id="dp2timeeng" class="statusValue"></span>
+            <!-- <button class="stsBtn">Want to Pick it up?</button> -->
+          </div>
+        </div>
+        <div class="statusRow">
+          <span id="forFoureng" class="statusSlNumber">4</span>
+          <span class="statusLabel">On the way</span>
+
+          <div class="statusCol">
+            <span style="text-align: right;" id="pickdroptimeeng" class="statusValue"> </span>
+
+            <div style="font-size: .7em;" class="statusValueSmall" id="pickdropdiveng">Delivery Officer Name: <span
+                id="deliveryofficernameeng"></span>
+              <br>Delivery Officer Phone: <span id="deliveryofficerphoneeng"></span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+        <div class="statusRow">
+          <span id="forFiveeng" class="statusSlNumber">5</span>
+          <span class="statusLabel">Reached customer</span>
+          <span id="cashtimeeng" class="statusValue"></span>
+        </div>
+      </div>
+      <div class="finalStatusBlock" id="finalStatusBlockeng">
+        <!-- <h1>চূড়ান্ত স্ট্যাটাস</h1> -->
+        <div id="blockSuccesseng">
+          <div class="finalStatus">Successfully Delivered</div>
+          <div class="finalStatusExtraRow">Payment on delivery collection: <span id="cashamounteng"></span></div>
+        </div>
+        <div id="blockOnHoldeng">
+          <div class="finalStatus">On-hold</div>
+          <div class="finalStatusExtraRow">On-hold Reason: <span id="onholdreasoneng"></span></div>
+          <div class="finalStatusExtraRow">Re-attempt date: <span id="onholdscheduleeng"></span></div>
+        </div>
+        <div id="blockPartialeng">
+          <div class="finalStatus">Partially Delivered</div>
+          <div class="finalStatusExtraRow">Payment on delivery collection: <span id="partialamounteng"></span></div>
+          <div class="finalStatusExtraRow">Comments: <span id="partialcommenteng"></span></div>
+        </div>
+        <div id="blockReturneng">
+          <div class="finalStatus">Delivery Returned</div>
+          <div class="finalStatusExtraRow">Reason: <span id="returnreasoneng"></span></div>
+        </div>
+        <div id="blockPreReturneng">
+          <div class="finalStatus">Pre-return</div>
+          <div class="finalStatusExtraRow">Reason: <span id="prereturnreasoneng"></span></div>
+          <div class="finalStatusExtraRow">Delivery call log: <span id="prereturntimeeng"></span></div>
+
+          <div class="finalStatusExtraRow"><button id="re_deliver_eng" class="stsBtn">Request for Re-attempt</button>
+          </div>
+          <div id="re_deliver_response_eng" class="finalStatusExtraRow">Your order is in Re-attempt state</div>
+
+        </div>
+      </div>
+      <div class="contactInfo">
+        Any query? Please Call: 09678300900, 09613555556
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div id="goTop">
+  <a data-scroll href=""> <img class="goTopImg" src="./img/gotop.png" alt="go to top of page ^"> </a>
+</div> -->
+<div class="bng">
+<nav class="bottomNavbar" role="navigation">
+  <div class="bottomNavDiv">
+    <ul>
+      <li><a href="./career.php">ক্যারিয়ার</a></li>
+      <li><a href="./news.php">প্রেস কভারেজ</a></li>
+      <li><a href="./contact.php">যোগাযোগ</a></li>
+      <!-- <li><a href="./faq.php">Frequently Asked Questions</a></li> -->
+
+    </ul>
+    <ul>
+      <li>
+        <a class="media-item" href="https://www.linkedin.com/company/paperfly-ltd/" target="_blank">
+          <img class="media-item__img" src="img/linkedin-icon.png" alt="linkedin">
+        </a>
+      </li>
+      <li>
+        <a class="media-item" href="https://www.facebook.com/paperfly123/" target="_blank">
+          <img class="media-item__img" src="img/facebook-icon.png" alt="fb">
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="copyright"> 
+    কপিরাইট ©
+    2021 
+    <!-- <img src="./img/PFfavicon16.png">  -->
+    পেপারফ্লাই প্রাইভেট লিমিটেড সর্বস্বত্ব সংরক্ষণকারী।
+  </div>
+</nav>
+</div>
+
+<div class="eng">
+<nav class="bottomNavbar" role="navigation">
+  <div class="bottomNavDiv">
+    <ul>
+      <li><a href="./career.php">Career</a></li>
+      <li><a href="./news.php">News Room</a></li>
+      <li><a href="./contact.php">Contact</a></li>
+      <!-- <li><a href="./faq.php">Frequently Asked Questions</a></li> -->
+
+    </ul>
+    <ul>
+      <li>
+        <a class="media-item" href="https://www.linkedin.com/company/paperfly-ltd/" target="_blank">
+          <img class="media-item__img" src="img/linkedin-icon.png" alt="linkedin">
+        </a>
+      </li>
+      <li>
+        <a class="media-item" href="https://www.facebook.com/paperfly123/" target="_blank">
+          <img class="media-item__img" src="img/facebook-icon.png" alt="fb">
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="copyright"> 
+    Copyright ©
+    2021 
+    <!-- <img src="./img/PFfavicon16.png">  -->
+    Paperfly Private Ltd. All rights reserved.
+  </div>
+</nav>
+</div>
+<!-- <script>
+  var scroll = new SmoothScroll('a[href*="#"]');
+</script> -->
+</body>
+
+</html><script type="text/javascript">
+$(document).ready(function() {
+
+  document.getElementById("banglabody").style.display = "none";
+  document.getElementById("englishbody").style.display = "none";
+  document.getElementById("statusblock").style.display = "none";
+  document.getElementById("statusblockeng").style.display = "none";
+  document.getElementById("re_deliver_response").style.display = "none";
+  document.getElementById("re_deliver_response_eng").style.display = "none";
+   document.getElementById("re_deliver").disabled = false;
+    document.getElementById("re_deliver_eng").disabled = false;
+
+})
+
+$('#trackB').click(function() {
+  var orderid = $('#orderid').val();
+  var phone = $('#phone').val();
+
+  if ($('#orderid').val() != '' && $('#phone').val() != '') {
+    $.ajax({
+      type: 'post',
+      url: 'test_trackingapi.php',
+      data: {
+        orderid: orderid,
+        phone: phone,
+      },
+      success: function(data) {
+        
+        var str = data;
+        var n = str.search("error");
+        if (n < 0) {
+          document.getElementById("banglabody").style.display = "block";
+          document.getElementById("statusblock").style.display = "block";
+          document.getElementById("finalStatusBlock").style.display = "block";
+
+          document.getElementById("englishbody").style.display = "block";
+          document.getElementById("statusblockeng").style.display = "block";
+          document.getElementById("finalStatusBlockeng").style.display = "block";
+
+          $("#errorResult").html("");
+          $("#errorResult_eng").html("");
+
+          $('#customername').html('');
+          $('#customername').html(data);
+          $('#order_id_input').append(data);
+
+          document.getElementById("orderid").value = '';
+          document.getElementById("phone").value = '';
+          $('html,body').animate({
+              scrollTop: $(".trackingResponse").offset().top
+            },
+            'slow');
+
+
+        } else {
+          document.getElementById("banglabody").style.display = "none";
+          document.getElementById("englishbody").style.display = "none";
+
+          $("#errorResult").html("No Order Found");
+          $("#errorResult_eng").html("No Order Found");
+
+          document.getElementById("orderid").value = '';
+          document.getElementById("phone").value = '';
+        }
+      }
+
+    });
+  } else {
+    alert("Please provide refernce id and phone number");
+  }
+
+})
+
+
+// for english version
+$('#trackEng').click(function() {
+  var orderid = $('#orderidEng').val();
+  var phone = $('#phoneEng').val();
+  
+
+  if ($('#orderidEng').val() != '' && $('#phoneEng').val() != '') {
+    $.ajax({
+      type: 'post',
+      url: 'test_trackingapi.php',
+      data: {
+        orderid: orderid,
+        phone: phone,
+      },
+      success: function(data) {
+        //alert(data);
+        var str = data;
+        var n = str.search("error");
+        if (n < 0) {
+          // for english new code
+          document.getElementById("englishbody").style.display = "block";
+          document.getElementById("statusblockeng").style.display = "block";
+          document.getElementById("finalStatusBlockeng").style.display = "block";
+
+          document.getElementById("banglabody").style.display = "block";
+          document.getElementById("statusblock").style.display = "block";
+          document.getElementById("finalStatusBlock").style.display = "block";
+
+          $("#errorResult_eng").html("");
+          $("#errorResult").html("");
+
+          $('#customernameeng').html('');
+          $('#customernameeng').html(data);
+           $('#order_id_input_eng').append(data);
+          document.getElementById("orderidEng").value = '';
+          document.getElementById("phoneEng").value = '';
+          $('html,body').animate({
+              scrollTop: $(".trackingResponse_eng").offset().top
+            },
+            'slow');
+
+
+        } else {
+          // for english new code
+          document.getElementById("englishbody").style.display = "none";
+          document.getElementById("banglabody").style.display = "none";
+
+          $("#errorResult_eng").html("No Order Found");
+          $("#errorResult").html("No Order Found");
+
+          document.getElementById("orderidEng").value = '';
+          document.getElementById("phoneEng").value = '';
+        }
+      }
+
+    });
+  } else {
+    alert("Please provide refernce id and phone number");
+  }
+
+})
+
+$('#re_deliver').click(function() {
+      var merOrderRef = $('#merOrderRef_input').val();
+      var orderid = $('#order_id_input').val();
+      
+
+      $.ajax({
+      type: 'post',
+      url: 'redeliveryapi.php',
+      data: {
+        orderid: orderid,
+        merOrderRef: merOrderRef,
+      },
+      success: function(data) {
+       
+        var str = data;
+        var n = str.search("re_error");
+        if (n < 0) 
+        {
+
+        document.getElementById("re_deliver").disabled = true;
+         document.getElementById("re_deliver_eng").disabled = true;
+          document.getElementById("re_deliver_response").style.display = "block";
+           document.getElementById("re_deliver_response_eng").style.display = "block";
+           
+         
+           
+        } else 
+        {
+          document.getElementById("re_deliver_response").style.display = "none";
+            document.getElementById("re_deliver_response_eng").style.display = "none";
+
+        }
+      }
+
+    });
+})
+
+
+$('#re_deliver_eng').click(function() {
+      var merOrderRef = $('#merOrderRef_input_eng').val();
+      var orderid = $('#order_id_input_eng').val();
+      
+
+      $.ajax({
+      type: 'post',
+      url: 'redeliveryapi.php',
+      data: {
+        orderid: orderid,
+        merOrderRef: merOrderRef,
+      },
+      success: function(data) {
+       
+        var str = data;
+        var n = str.search("re_error");
+        if (n < 0) 
+        {
+
+          document.getElementById("re_deliver_response").style.display = "block";
+          document.getElementById("re_deliver_response_eng").style.display = "block";
+           document.getElementById("re_deliver_eng").disabled = true;
+           document.getElementById("re_deliver").disabled = true;
+         
+           
+        } else 
+        {
+          document.getElementById("re_deliver_response").style.display = "none";
+          document.getElementById("re_deliver_response_eng").style.display = "none";
+        }
+      }
+
+    });
+})
+</script>

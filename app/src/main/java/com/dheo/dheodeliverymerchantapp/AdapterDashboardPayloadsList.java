@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dheo.dheodeliverymerchantapp.ModelClassClientDashboardPayloads.M;
 import com.dheo.dheodeliverymerchantapp.ModelClassClientEditPayload.ClientEditPayload;
+import com.dheo.dheodeliverymerchantapp.OutsideDhakaThirdPartyUsing.PaperflyTrackActivity;
 import com.google.gson.internal.$Gson$Preconditions;
 
 
@@ -68,6 +69,17 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
         try {
             try {
                 holder.customer_name.setText(dashboard_payload.get(position).getCustomerName());
+
+//                if (dashboard_payload.get(position).getCustomerName().isEmpty())
+//                {
+//                    holder.customer_name.setText(dashboard_payload.get(position).getCustomerName());
+//
+//                }
+//                else
+//                {
+//                    holder.customer_name.setText("Name Not Entry");
+//
+//                }
             } catch (NullPointerException e) {
                 holder.customer_name.setVisibility(View.GONE);
             }
@@ -264,8 +276,22 @@ public class AdapterDashboardPayloadsList extends RecyclerView.Adapter<AdapterDa
             try {
                 if (dashboard_payload.get(position).getMgxDrop()) {
                     holder.label.setVisibility(View.VISIBLE);
-                    holder.label.setText("Left Dhaka");
+//                    holder.label.setText("Left Dhaka");
+                    holder.label.setText("Sent By 3rd Party");
                     holder.label.setBackground(ContextCompat.getDrawable(payload_contex, R.drawable.delivery_start));
+                    holder.label.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            String url = "https://www.paperfly.com.bd/tracking.php";
+                            Intent intent = new Intent(payload_contex, PaperflyTrackActivity.class);
+                            intent.putExtra("url", url);
+                            intent.putExtra("orderId",dashboard_payload.get(position).getOrderNo());
+                            intent.putExtra("orderPhone",dashboard_payload.get(position).getCustomerPhone());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            payload_contex.startActivity(intent);
+                        }
+                    });
                 }
             } catch (NullPointerException e) {
                 //holder.label.setVisibility(View.INVISIBLE);
