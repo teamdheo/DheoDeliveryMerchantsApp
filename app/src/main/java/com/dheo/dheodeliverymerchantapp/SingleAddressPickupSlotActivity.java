@@ -41,7 +41,7 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_address_pickup_slot);
         pickup_slot_view =(RecyclerView) findViewById(R.id.recycler_pickup_slot);
         back_to_dashboard1 = (Button) findViewById(R.id.back_to_dashboard1);
-        create_order_text = findViewById(R.id.create_order_text);
+        //create_order_text = findViewById(R.id.create_order_text);
         progressBar = findViewById(R.id.single_add_progress);
         pickup_slot_view.setHasFixedSize(true);
         pickup_slot_view.setLayoutManager(new LinearLayoutManager(this));
@@ -91,12 +91,12 @@ public class SingleAddressPickupSlotActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        create_order_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(SingleAddressPickupSlotActivity.this,PickupEntryActivity.class);
-                startActivity(i);
-            }
-        });
+//        create_order_text.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(SingleAddressPickupSlotActivity.this,PickupEntryActivity.class);
+//                startActivity(i);
+//            }
+//        });
     }
 }

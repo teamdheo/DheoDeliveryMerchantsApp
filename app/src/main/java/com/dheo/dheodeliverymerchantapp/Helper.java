@@ -10,11 +10,11 @@ import androidx.appcompat.app.AlertDialog;
 
 public class Helper {
     Context context;
-    private String phone_number;
+    private String phone_number, blog_tittle;
     private String client_pass;
-    private int clientId;
+    private int clientId, click;
     private String photo_Url;
-    SQLiteDatabase sqLiteDatabase;
+    SQLiteDatabase sqLiteDatabase, save_blog_to_database;
 
     public Helper(Context context) {
         this.context = context;
@@ -70,6 +70,27 @@ public class Helper {
         }
         sqLiteDatabase.close();
         return clientId;
+    }
+    public String getBlogTittle() {
+        //pin fetch from database
+        sqLiteDatabase = context.openOrCreateDatabase("SQLite", Context.MODE_PRIVATE, null);
+        Cursor query = sqLiteDatabase.rawQuery("SELECT * FROM BlogInfo", null);
+        if (query.moveToFirst()) {
+            blog_tittle = query.getString(1);
+        }
+        sqLiteDatabase.close();
+        return blog_tittle;
+    }
+
+    public int getClick() {
+        //pin fetch from database
+        sqLiteDatabase = context.openOrCreateDatabase("SQLite", Context.MODE_PRIVATE, null);
+        Cursor query = sqLiteDatabase.rawQuery("SELECT * FROM BlogInfo", null);
+        if (query.moveToFirst()) {
+            click = query.getInt(2);
+        }
+        sqLiteDatabase.close();
+        return click;
     }
 
 }

@@ -104,23 +104,23 @@ import retrofit2.Response;
 
 
 public class ClientDashboardActivity extends AppCompatActivity implements OnMapReadyCallback {
-    SQLiteDatabase sqLiteDatabase;
+    SQLiteDatabase sqLiteDatabase, blog_save_to_database;
     private static final int SELECT_PICTURE = 1;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST = 2;
     public static final String TAG = "MyTag";
     private String currentImagePath, client_profile_pic;
     File imageFile;
-    private int session = 0;
+    private int session = 0, click;
     private Spinner payload_mode;
     private List<String> categories = new ArrayList<String>();
     private String mode;
     private boolean saveLogin;
-    private String phone;
+    private String phone, blog_tittle;
     private String photoUrl, scooter_url, pro_pic_url;
     boolean doubleBackToExitPressedOnce = false;
     private int clientId,balance, page_number = 1, payload_remaining,pickup_page_number = 1,pickup_remaining;
-    private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic;
+    private ImageView profile_photo, scooter, octopus_red_body, cover, blog_photo, upload_pro_pic, blog_mail;
     private TextView client_name, monthly_text, total_balance, phone_call, facebook, my_delivery, dashboard_billing,dashboard_performance, settings, user_manual, log_out, dhep_delivery, the_user_manual, meet_the_team, privacy_policy, blog_title, blog_see_more;
     private String photo_url, blog_url,password,name, versionName;
     private EditText payload_search_editText;
@@ -189,6 +189,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
         picup_history_view = findViewById(R.id.picup_history_view);
         pickup_new = findViewById(R.id.new_pickup);
         pickup_old = findViewById(R.id.old_pickup);
+        blog_mail = findViewById(R.id.blog_mail);
         pickup_list.setHasFixedSize(true);
         pickup_list.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
@@ -558,19 +559,57 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                     if (s.getE() == 0) {
                         blog_url = "https://dheo-static-sg.s3.ap-southeast-1.amazonaws.com/img/community/team/" + s.getM().getPhoto();
                         Picasso.get().load(blog_url).into(blog_photo);
-                        String text = s.getM().getTitle();
+                        final String text = s.getM().getTitle();
                         String array[] = text.split(" ");
                         blog_title.setText(array[0] + " " + array[1] + " " + array[2] + "...");
                         blog_see_more.setText("See >");
+                        final String[] sqlite = {"CREATE TABLE IF NOT EXISTS BlogInfo (_id Integer Primary Key,blogTittle TEXT,click Integer);"};
+                        sqLiteDatabase.execSQL(sqlite[0]);
+                        if(!text.equals(helper.getBlogTittle())){
+                            sqlite[0] = "INSERT or REPLACE INTO BlogInfo VALUES ( 1,'" + text + "','" + 0 + "');";
+                            sqLiteDatabase.execSQL(sqlite[0]);
+                        }
+                        else if(session == 1){
+                            sqlite[0] = "INSERT or REPLACE INTO BlogInfo VALUES ( 1,'" + text + "','" + 0 + "');";
+                            sqLiteDatabase.execSQL(sqlite[0]);
+                        }
+                        Cursor query = sqLiteDatabase.rawQuery("SELECT * FROM BlogInfo", null);
+                        if (query.moveToFirst()) {
+                            try {
+                                blog_tittle = query.getString(1);
+                                click = query.getInt(2);
+
+                            } catch (IllegalStateException e) {
+                                //Toast.makeText(getApplicationContext(), "not has entry", Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+                        } else {
+
+                        }
+                        query.close();
                         blog_see_more.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                sqlite[0] = "INSERT or REPLACE INTO BlogInfo VALUES ( 1,'" + text + "','" + 1 + "');";
+                                sqLiteDatabase.execSQL(sqlite[0]);
                                 String url = "https://rocket.dheo.com/updates";
                                 Intent intent = new Intent(getApplicationContext(), UserManualActivity.class);
                                 intent.putExtra("url", url);
                                 startActivity(intent);
                             }
                         });
+
+                        if(helper.getClick() == 0){
+                            Animation animation = new AlphaAnimation((float) 0.5, 0);
+                            animation.setDuration(1000);
+                            animation.setInterpolator(new LinearInterpolator());
+                            animation.setRepeatCount(Animation.INFINITE);
+                            animation.setRepeatMode(Animation.REVERSE);
+                            blog_mail.startAnimation(animation);
+                        }
+                        else{
+                            blog_mail.setVisibility(View.GONE);
+                        }
                     }
                 } catch (NullPointerException e) {
                 }
@@ -581,6 +620,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
                 //Toasty.error(getApplicationContext(), "Try Again!", Toast.LENGTH_LONG, true).show();
             }
         });
+        //Toasty.error(getApplicationContext(), helper.getBlogTittle(), Toast.LENGTH_LONG, true).show();
         Call<PickupMapInfo> call6 = RetrofitClient
                 .getInstance()
                 .getApi()
@@ -654,6 +694,7 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
 
         });
+
 
         //loadDashboardPayload();
 
@@ -832,15 +873,15 @@ public class ClientDashboardActivity extends AppCompatActivity implements OnMapR
             }
         });
 
-        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_order);
-        orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
-                startActivity(intent);
-                return true;
-            }
-        });
+//        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_order);
+//        orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+//                startActivity(intent);
+//                return true;
+//            }
+//        });
 
         MenuItem callItem = navigationView.getMenu().findItem(R.id.nav_call);
         callItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {

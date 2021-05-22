@@ -451,15 +451,15 @@ public class ClientDashboardBillingActivity extends AppCompatActivity {
             }
         });
 
-        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_order);
-        orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
-                startActivity(intent);
-                return true;
-            }
-        });
+//        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_order);
+//        orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+//                startActivity(intent);
+//                return true;
+//            }
+//        });
 
         MenuItem callItem = navigationView.getMenu().findItem(R.id.nav_call);
         callItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
