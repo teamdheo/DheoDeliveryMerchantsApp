@@ -8,8 +8,8 @@ android {
         applicationId "com.dheo.dheodeliverymerchantapp"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 16
-        versionName "1.2.1"
+        versionCode 18
+        versionName "1.2.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

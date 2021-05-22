@@ -88,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
     ImageView setting_dp,cash, bkash, nagad;
     private int client_id;
     private Spinner bank_name_show, bank_branches_show;
-    private String photo_url, mode,bank_name_view, branch_name_view;
+    private String photo_url, mode,bank_name_view, branch_name_view, selected, spinner_item;
     private Button bank, other_option, save_payment_method, add_address_btn, save_new_address, cancel_new_add, add_web_address_btn, change_phone_btn, upload_image_to_server,business_name_change_btn;
     LinearLayout bank_layout, other_option_layout, bkash_option, address_sec_layout;
     private RecyclerView all_address;
@@ -268,9 +268,6 @@ public class SettingsActivity extends AppCompatActivity {
                     if (response.body() != null) {
                         ClientPrefInfoAccountSetting s = response.body();
                         try {
-//                            ArrayAdapter<String> adapter = (ArrayAdapter<String>) bank_name_show.getAdapter();
-//                            int position = adapter.getPosition(s.getM().getBankName());
-//                            bank_name_show.setSelection(position);
                             edit_bank_name.setText(s.getM().getBankName());
                         } catch (NullPointerException e) {
                         }
@@ -498,11 +495,13 @@ public class SettingsActivity extends AppCompatActivity {
                         bank_name_show.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                                 Integer item = s.get(position).getBankId();
+                                edit_bank_name.setText(bank_name_show.getSelectedItem().toString());
                                 Call<BankBranches> call1 = RetrofitClient
                                         .getInstance()
                                         .getApi()
                                         .branches(item);
                                 //Toasty.error(getApplicationContext(), item+"", Toast.LENGTH_LONG, true).show();
+
 
                                 call1.enqueue(new Callback<BankBranches>() {
                                     @Override
@@ -536,7 +535,6 @@ public class SettingsActivity extends AppCompatActivity {
                                     }
                                 });
                             }
-
                             public void onNothingSelected(AdapterView<?> parent) {
                             }
                         });
@@ -969,15 +967,15 @@ public class SettingsActivity extends AppCompatActivity {
                 return true;
             }
         });
-        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_order);
-        orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
-                startActivity(intent);
-                return true;
-            }
-        });
+//        MenuItem orderCreateItem = navigationView.getMenu().findItem(R.id.nav_order);
+//        orderCreateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                Intent intent = new Intent(getApplicationContext(), PickupEntryActivity.class);
+//                startActivity(intent);
+//                return true;
+//            }
+//        });
 
         MenuItem callItem = navigationView.getMenu().findItem(R.id.nav_call);
         callItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -1284,6 +1282,10 @@ public class SettingsActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, branches_name);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bank_branches_show.setAdapter(dataAdapter);
+        if(branch_name_view != null || branch_name_view != ""){
+            int selectionPosition= dataAdapter.getPosition(branch_name_view);
+            bank_branches_show.setSelection(selectionPosition);
+        }
     }
 
 
@@ -1291,6 +1293,10 @@ public class SettingsActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, bank_name);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bank_name_show.setAdapter(dataAdapter);
+        if(bank_name_view != null || bank_name_view != ""){
+            int selectionPosition= dataAdapter.getPosition(bank_name_view);
+            bank_name_show.setSelection(selectionPosition);
+        }
     }
 
     @Override

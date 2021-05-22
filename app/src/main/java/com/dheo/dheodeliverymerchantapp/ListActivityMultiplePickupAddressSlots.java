@@ -44,7 +44,7 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
         back_to_dashboard = (Button) findViewById(R.id.back_to_dashboard);
         progressBar = findViewById(R.id.multiple_address_slot_progress);
         multiple_text = findViewById(R.id.multiple_text);
-        create_order_text = findViewById(R.id.create_order_text);
+        //create_order_text = findViewById(R.id.create_order_text);
         pickup_slot_view.setHasFixedSize(true);
         pickup_slot_view.setLayoutManager(new LinearLayoutManager(this));
         back_to_dashboard.setVisibility(View.INVISIBLE);
@@ -99,13 +99,13 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        create_order_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ListActivityMultiplePickupAddressSlots.this,PickupEntryActivity.class);
-                startActivity(i);
-            }
-        });
+//        create_order_text.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(ListActivityMultiplePickupAddressSlots.this,PickupEntryActivity.class);
+//                startActivity(i);
+//            }
+//        });
     }
 
 }
