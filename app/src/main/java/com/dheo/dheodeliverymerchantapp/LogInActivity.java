@@ -143,8 +143,9 @@ public class LogInActivity extends AppCompatActivity {
         signUp1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LogInActivity.this,SignUpActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(LogInActivity.this,SignUpActivity.class);
+//                startActivity(i);
+                Toasty.info(getApplicationContext(), "We are not accepting new sign up at the moment!", Toast.LENGTH_LONG, true).show();
             }
         });
         phone_call.setOnClickListener(new View.OnClickListener() {

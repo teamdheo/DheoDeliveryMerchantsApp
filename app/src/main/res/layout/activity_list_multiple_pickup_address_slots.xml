@@ -26,19 +26,30 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/rounded_edittext1">
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="জরুরি বিজ্ঞপ্তি- আউট সাইড ঢাকা ডেলিভারি সম্পর্কিত"
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"
+                    android:background="#CC3533"
+                    android:textColor="#fff"
+                    android:padding="4dp"/>
+                <com.borjabravo.readmoretextview.ReadMoreTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/multiple_text"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
                     android:textColor="#000000"
                     android:padding="4dp"
-                    android:text="যেদিন পিক, সেদিনই ডেলিভারি!\n\nDheo Same Day Delivery তে যুক্ত হলো আরো কিছু এরিয়া।
-
-সার্ভিসটি এখন মিরপুর, উত্তরা, ধানমন্ডি, রমনা, মগবাজার, শান্তিনগর, ফার্মগেট, মালিবাগ মার্চেন্টদের জন্য। পর্যায়ক্রমে পুরো ঢাকা শহরজুড়ে শুরু হবে।\n
-
-পিকাপ এরিয়াঃ মিরপুর, উত্তরা, ধানমন্ডি, রমনা, মগবাজার, শান্তিনগর, ফার্মগেট, মালিবাগ \n
-
-ডেলিভারি এরিয়াঃ ঢাকা মেটরোপলিটন এরিয়া (Dhaka Metropolitan Area, All Over Dhaka)" />
+                    app:trimExpandedText="see more"
+                    app:trimCollapsedText="see less"
+                    app:trimMode="trimModeLength"
+                    app:trimLength="300"
+                    android:text="
+সম্মানিত মার্চেন্ট আপনারা অবগত আছেন যে আপনাদের আউট সাইড ঢাকার ডেলিভারি সহজতর করতে আমরা থার্ডপার্টি কুরিয়ার সার্ভিসের মাধ্যমে আউট সাইড ঢাকার ডেলিভারি সার্ভিসটি পরিচালনা করে আসছিলাম। কিন্তু আমরা অত্যন্ত দুঃখের সাথে পর্যবেক্ষণ করলাম যে থার্ডপার্টি ডেলিভারি সার্ভিস এর সেবা প্রদানকারী প্রতিষ্ঠানগুলোর সক্ষমতার অভাবে আউট সাইড ঢাকার ডেলিভারি সার্ভিস মানসম্মত ও আশানুরূপভাবে হচ্ছে না, যার দরুন সম্মানিত মার্চেন্টদের এবং আমাদের উভয় পক্ষকেই বিভিন্ন সমস্যার সম্মুখীন হতে হচ্ছে। যা আপনারা আমাদের বিভিন্ন সময় বিভিন্ন মাধ্যমে অবহিত করে আসছেন। আপনাদের এই অনাকাঙ্খিত দুর্ভোগের জন্য আমরা আন্তরিকভাবে দুঃখিত। এমতবস্থায় আউট সাইড ঢাকা সার্ভিসটির সন্তোষজনক মান নিশ্চিত না হওয়া পর্যন্ত আউট সাইড ঢাকার ডেলিভারির জন্য আগামী ২৫শে মে এর পর থেকে আর কোন পার্সেল পিকআপ করা হবে না এবং আউট সাইড ঢাকা সার্ভিসটি সম্পূর্ণভাবে বন্ধ থাকবে। সম্মানিত মার্চেন্টগণ, তাই আগামী ২৫শে মে এর পর আউট সাইড ঢাকার আর কোন পার্সেল না দেওয়ার জন্য আপনাদের সকলকে সবিনয় অনুরোধ জানানো হচ্ছে। আরো উল্লেখ্য যে, যে সব মার্চেন্ট তাদের পূর্বের পার্সেলগুলোর কোন তথ্য পাচ্ছেন না তাদের পার্সেলগুলো আমরা দ্রুত সংগ্রহ করে আপনাদের নিকট পৌঁছে দেবার জন্য সর্বদা চেষ্টা করে যাচ্ছি। আমরা সবসময় আপনাদের মান সম্পন্ন সেবা দিতে বদ্ধপরিকর এবং সেই চেষ্টায় আমরা সর্বদা সচেষ্ট। ডিএইচইও'র সাথে পথচলার জন্য আপনাদের সকলকে আন্তরিক ধন্যবাদ।"
+                    app:colorClickableText="#3F51B5"/>
 <!--                <TextView-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->

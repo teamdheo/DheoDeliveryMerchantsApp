@@ -55,8 +55,8 @@ public class ListActivityMultiplePickupAddressSlots extends AppCompatActivity {
 
         }
         client_id =helper.getClientId();
-
-
+        
+        //multiple_text.setSeeMoreText("ShowMore","ShowLess");
         Call<AvailablePickupSlot> call = RetrofitClient
                 .getInstance()
                 .getApi()
